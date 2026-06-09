@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L20: Visual Perception · COS344</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><a href="../index.html" style="color:inherit;text-decoration:none">COS344</a> <span>// Lecture Notes</span></div>
+    <div class="topnav-links">
+      <a href="../index.html">Home</a>
+      <a href="index.html" class="active">Notes</a>
+      <a href="../guides/index.html">Guides</a>
+      <a href="../guides/03_questions.html">Questions</a>
+      <a href="../guides/05_math.html">Math</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="index.html">Lecture Notes</a>
+      <span class="sep">›</span>
+      <span>L20</span>
+    </div>
+    <div class="hero-eyebrow">L20 · Ch 19</div>
+    <h1>Visual Perception</h1>
+    <div style="display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap;">
+      <span class="tag tag-shade">Perception</span>
+      <a href="../guides/03_questions.html#l20" class="tag tag-guide" style="cursor:pointer;text-decoration:none;">📝 Practice Questions</a>
+    </div>
+  </div>
+
+  <div class="content-body">
+    <p>Perception</p>
+<p>COS 344: L20 Chapter 19: Visual Perception</p>
+<p>Cobus Redelinghuys</p>
+<p>11/05/2026</p>
+
+<p>Perception Section19.2:VisualSensitivity</p>
+<ul>
+<li>Today we will start and end our “hand-wavy” discussion on</li>
+</ul>
+<p>visual perception.</p>
+<ul>
+<li>While covering the work, please think about how this can be</li>
+</ul>
+<p>applied to computer graphics rendering scenarios.</p>
+<ul>
+<li>This forms part of the human interaction component of</li>
+</ul>
+<p>computer graphics and is based on the study of vision science.</p>
+
+<ul>
+<li>In computer graphics, we strive for physical realism but it is</li>
+</ul>
+<p>not possible due to only looking through a 2D screen.</p>
+<ul>
+<li>The best we can hope for is “perceptually effective”.</li>
+</ul>
+<p>Perceptually effective</p>
+<p>The ability to have a displayed image perceived as intended.</p>
+<ul>
+<li>This chapter will focus on how humans visually perceive</li>
+</ul>
+<p>things, with regard to computer graphics.</p>
+<ul>
+<li>Why is it important that we study this?</li>
+</ul>
+<p>Chapter 19: Visual Perception</p>
+<ul>
+<li>During our discussion on Computer Animation, we discussed</li>
+</ul>
+<p>the importance of scene staging.</p>
+<ul>
+<li>Who can remember why it was important?</li>
+</ul>
+
+
+<p>Section 19.1: Visual Science</p>
+<ul>
+<li>Vision produces more useful information about the world than</li>
+</ul>
+<p>any other sense ∼Textbook</p>
+<ul>
+<li>This is due to the direct consequences of the physical</li>
+</ul>
+<p>properties of light:</p>
+<ul>
+<li>Light travels far</li>
+<li>Light travels at high speed</li>
+<li>Light travels in straight lines*</li>
+<li>Interacts with stuff</li>
+<li>Bounces off things</li>
+<li>Is produced in nature</li>
+<li>Has lots of energy</li>
+<li>In a test, you need to be able to explain how you can leverage</li>
+</ul>
+<p>each of these properties to create a scene.</p>
+
+<ul>
+<li>The textbook discusses a brief history of vision science, which</li>
+</ul>
+<p>you do not need to know.</p>
+<ul>
+<li>Just an interesting one:</li>
+<li>Computer science has been used recently to great success in</li>
+</ul>
+<p>building computational models of the different vision models</p>
+<p>which has led to the success of computer vision.</p>
+<p>Purpose of vision according to Vision Science</p>
+<p>The process of producing/gathering information about objects,</p>
+<p>locations and events in the world from viewed patterns of light</p>
+<p>reaching the viewer.</p>
+
+<p>Section 19.2: Visual Sensitivity</p>
+<ul>
+<li>The human vision system is predominantly used to identify</li>
+</ul>
+<p>patterns rather than pure light.</p>
+<ul>
+<li>Thus, the eye does not work as a photometer; instead, it</li>
+</ul>
+<p>detects and recognises patterns.</p>
+<ul>
+<li>Just focus on the introduction of this section, as the</li>
+</ul>
+<p>subsections go into detail that is outside the scope of COS344.</p>
+
+<ul>
+<li>The visual system has been described as inverse optics.</li>
+<li>Think about how we are rendering scenes so far.</li>
+<li>We describe the objects, their positions, colours, etc to form a</li>
+</ul>
+<p>scene.</p>
+<ul>
+<li>This is all geometric properties.</li>
+<li>Our vision system does the reverse.</li>
+<li>Takes in a scene and “produces” the geometric properties.</li>
+</ul>
+<p>GeometricProperties Examplesofcues</p>
+<p>Perception</p>
+<p>Section 19.3: Spatial Vision</p>
+<ul>
+<li>One of the critical operations performed by the visual system,</li>
+</ul>
+<p>is the estimation of geometric properties of the visible</p>
+<p>environment.</p>
+<ul>
+<li>What kind of properties are there?</li>
+</ul>
+
+<p>Perception</p>
+<p>environment.</p>
+<p>scene.</p>
+
+<ul>
+<li>Our eyes only see objects in the environment that have some</li>
+</ul>
+<p>level of light touching them.</p>
+<ul>
+<li>How does the brightness of a scene affect the visual</li>
+</ul>
+<p>perception of the scene?</p>
+<p>Surface layout</p>
+<p>The location and orientation of visible surfaces in the environment</p>
+<ul>
+<li>How is the surface layout used by humans in real life and</li>
+</ul>
+<p>when looking at computer rendering?</p>
+<ul>
+<li>In a computer rendering, how can visual cues be used to add</li>
+</ul>
+<p>context to the rendering?</p>
+<p>Perception</p>
+<ul>
+<li>What role does light play in this?</li>
+</ul>
+
+<p>Surface layout</p>
+<p>Perception</p>
+
+<p>Perception</p>
+<p>Surface layout</p>
+
+<p>Perception</p>
+<p>Surface layout</p>
+
+<p>Perception</p>
+<ul>
+<li>Visual cues are categorized into four categories:</li>
+</ul>
+<p>Ocularmotor cues</p>
+<p>Involves information about the position and focus of the eye.</p>
+<p>Disparity cues</p>
+<p>Involves information extracted from viewing the same surface point with</p>
+<p>two eyes, beyond that available just from the positioning of the eyes.</p>
+<p>Motion cues</p>
+<p>Provides information about the world that arises from either the</p>
+<p>movement of the observer, or the movement of objects.</p>
+<p>Pictorial cues</p>
+<p>The result of the process of projecting 3D surface shapes onto a 2D</p>
+<p>pattern of light that falls on the retina.</p>
+
+<ul>
+<li>Why is the measurement scale important, for example, in the</li>
+</ul>
+<p>homework assignment?</p>
+<ul>
+<li>Types of reference representations:</li>
+</ul>
+<p>Egocentric</p>
+<p>Defined with respect to the viewer’s body.</p>
+<p>Allocentric/exocentric</p>
+<p>Defined with respect to something external to the viewer</p>
+<ul>
+<li>The remaining subsections in Section 19.3 have an in-depth</li>
+</ul>
+<p>discussion of the different cues, which is again, outside of our</p>
+<p>scope as it tends toward the theory of visual sciences.</p>
+<p>Perception</p>
+<ul>
+<li>Why is it important to have a point of reference in your</li>
+</ul>
+<p>rendering?</p>
+
+<p>Egocentric</p>
+<p>Perception</p>
+<p>rendering?</p>
+<p>homework assignment?</p>
+
+<p>Perception</p>
+<p>rendering?</p>
+<p>homework assignment?</p>
+<p>Egocentric</p>
+
+<p>Perception</p>
+<p>Examples of cues - Ocularmotor cue</p>
+<ul>
+<li>Example is the motion parallax.</li>
+<li>Motion parallax is a depth cue where objects that are closer,</li>
+</ul>
+<p>appear to move faster than objects that are far away.</p>
+<ul>
+<li>https://www.youtube.com/watch?v=SlOxwtR-WV0</li>
+<li>This can also be an example of what other category of cue?</li>
+</ul>
+
+<p>Perception</p>
+<p>Examples of cues - Disparity cues</p>
+<ul>
+<li>Example is Virtual Reality (VR).</li>
+<li>VR systems use headsets with built-in displays for each eye.</li>
+</ul>
+<p>By tracking the user’s head movements and adjusting the</p>
+<p>images displayed to each eye accordingly, VR provides a</p>
+<p>realistic sense of depth and immersion.</p>
+
+<p>Perception</p>
+<p>Examples of cues - Pictorial cues</p>
+<ul>
+<li>Example is Perspective/Orthographic viewing.</li>
+</ul>
+<p>https:</p>
+<p>Lectures/Figures/Angel5EjpegChap05/AN05F03.jpg</p>
+
+<p>Perception</p>
+<p>Section 19.4: Objects, Locations, and Events</p>
+<ul>
+<li>In the field of vision science there is a big debate about how</li>
+</ul>
+<p>exactly this interpretation of the scene is done.</p>
+<ul>
+<li>Vision scientists know how the human brain perceives speed</li>
+</ul>
+<p>and heading when moving through the world but, little is</p>
+<p>known about the perception of events.</p>
+<ul>
+<li>Visual attention involves the perception of aspects of:</li>
+<li>Objects</li>
+<li>Locations</li>
+<li>Events</li>
+</ul>
+
+<p>Perception</p>
+<p>Section 19.4.1: Object Recognition</p>
+<p>Object Recognition</p>
+<p>Process that involves segregating an image into constituent parts</p>
+<p>corresponding to distinct physical entities and determining the</p>
+<p>identity of those entities.</p>
+<ul>
+<li>Object recognition consists of two distinct steps:</li>
+</ul>
+<p>1. Organizing the visual field into groupings likely to correspond</p>
+<p>to objects and surfaces.</p>
+<p>2. Interpretation of grouped objects.</p>
+<ul>
+<li>Let’s say for example we are rendering a house but each wall</li>
+</ul>
+<p>is about 5 m way from the joining wall. Given the two steps</p>
+<p>outlined above what could the possible problem be?</p>
+
+<ul>
+<li>Say, for example, you want to introduce a new important class</li>
+</ul>
+<p>of foreign objects in your render. How would you do it?</p>
+<p>Perception</p>
+<ul>
+<li>Our brain ”interprets” recognised objects into descriptions.</li>
+<li>Three general types of object descriptions are:</li>
+<li>Templates:</li>
+<li>Represents object classes in terms of example views of objects</li>
+</ul>
+<p>in each class.</p>
+<ul>
+<li>Structural descriptions:</li>
+<li>Represents object classes in terms of unique features of each</li>
+</ul>
+<p>class, which are likely to be easily detected in views of objects.</p>
+<ul>
+<li>Invariant features:</li>
+<li>Describe classes of objects in terms of more generic geometric</li>
+</ul>
+<p>properties, which are likely to be insensitive to different views</p>
+<p>of objects.</p>
+
+<p>Perception</p>
+<ul>
+<li>Templates:</li>
+</ul>
+<p>in each class.</p>
+<p>of objects.</p>
+
+<p>Perception</p>
+<p>Section 19.4.2: Size and Distance</p>
+<ul>
+<li>When there is a lack of a concrete depth scale, objects that</li>
+</ul>
+<p>are closer appear to be larger.</p>
+<ul>
+<li>This is called relative size.</li>
+<li>Another depth cue is familiar size,</li>
+</ul>
+<p>Familiar Size</p>
+<p>A depth cue which uses previous knowledge of objects to</p>
+<p>determine their size.</p>
+<ul>
+<li>Familiar size cues are often used in funhouses to create weird</li>
+</ul>
+<p>illusions.</p>
+
+<p>Perception</p>
+<p>Section 19.4.3 is skipped as it is outside the scope of COS344.</p>
+
+<p>Perception</p>
+<p>Section 19.5: Picture Perception</p>
+<ul>
+<li>Up until now, in our discussion of the chapter, we have only</li>
+</ul>
+<p>focused on the real world, but tried to apply it to computer</p>
+<p>graphics.</p>
+<ul>
+<li>In this section, we will look at how 2D pictures (from a</li>
+</ul>
+<p>screen) are depicted</p>
+<ul>
+<li>Looking at rendered images as opposed to the real-world has</li>
+</ul>
+<p>some perceptual implications.</p>
+<ul>
+<li>In theory, it should be possible to generate a computer</li>
+</ul>
+<p>graphics render that appears indistinguishable from the real</p>
+<p>world</p>
+<ul>
+<li>Basically, we are looking at the world through a glass window.</li>
+<li>Problem for computer graphics and other visual arts is that</li>
+</ul>
+<p>the real world cannot really be captured onto a flat surface.</p>
+
+<ul>
+<li>Visual, depth, and perspective cues are compressed, elongated</li>
+</ul>
+<p>or distorted.</p>
+<ul>
+<li>The human brain can account for this slightly:</li>
+<li>For example, sitting at different seats in a movie house, we still</li>
+</ul>
+<p>see the picture ”approximately” correctly.</p>
+<p>Perception</p>
+<ul>
+<li>If we render something using perspective projection the</li>
+</ul>
+<p>following is implied:</p>
+<ul>
+<li>There is a specific view-point specified as a position and</li>
+</ul>
+<p>direction in model space.</p>
+<ul>
+<li>There is a view frustum which is specified by:</li>
+<li>vertical field of view</li>
+<li>horizontal field of view</li>
+<li>several boundaries</li>
+<li>What would be the problem if we then don’t view the</li>
+</ul>
+<p>rendering from the specified viewpoint?</p>
+
+<p>Perception</p>
+<ul>
+<li>several boundaries</li>
+</ul>
+<p>or distorted.</p>
+
+<p>Perception</p>
+
+  </div>
+
+  <div class="page-nav">
+    <a href="L19.html"><span class="nav-label">← Previous</span><span class="nav-title">Animation</span></a>
+    <a href="L21.html" class="nav-next"><span class="nav-label">Next →</span><span class="nav-title">Physics-Based Rendering</span></a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span><a href="../index.html">COS344 Study Hub</a></span>
+    <span>Shirley &amp; Marschner, <em>Fundamentals of Computer Graphics</em></span>
+  </div>
+</footer>
+
+</body>
+</html>

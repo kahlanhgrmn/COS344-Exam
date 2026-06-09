@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L07: 2D Transformations · COS344</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><a href="../index.html" style="color:inherit;text-decoration:none">COS344</a> <span>// Lecture Notes</span></div>
+    <div class="topnav-links">
+      <a href="../index.html">Home</a>
+      <a href="index.html" class="active">Notes</a>
+      <a href="../guides/index.html">Guides</a>
+      <a href="../guides/03_questions.html">Questions</a>
+      <a href="../guides/05_math.html">Math</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="index.html">Lecture Notes</a>
+      <span class="sep">›</span>
+      <span>L07</span>
+    </div>
+    <div class="hero-eyebrow">L07 · Ch 7</div>
+    <h1>2D Transformations</h1>
+    <div style="display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap;">
+      <span class="tag tag-xform">Transforms</span>
+      <a href="../guides/03_questions.html#l07" class="tag tag-guide" style="cursor:pointer;text-decoration:none;">📝 Practice Questions</a>
+    </div>
+  </div>
+
+  <div class="content-body">
+    <p>COS 344: L7 Chapter 7: 2D Shapes and</p>
+<p>Transformations</p>
+<p>Cobus Redelinghuys</p>
+<p>02/03/2026</p>
+
+<ul>
+<li>Today, we will look at modelling and animations for 2D</li>
+</ul>
+<p>objects.</p>
+<ul>
+<li>After today’s lecture, you should be able to start planning</li>
+</ul>
+<p>your model for Practical 2.</p>
+<ul>
+<li>Today’s lecture contains a set of examples, which are posted</li>
+</ul>
+<p>on ClickUp.</p>
+<ul>
+<li>Not all of this week’s content is in the textbook!</li>
+</ul>
+
+<ul>
+<li>In order to achieve transformation, a transformation matrix is</li>
+</ul>
+<p>needed.</p>
+<ul>
+<li>Why a matrix and not just the formulae?</li>
+<li>For the moment, ignore how the matrix is created.</li>
+<li>This will be discussed later.</li>
+</ul>
+
+<p>Transformation application algorithm</p>
+<p>The pseudocode below describes how to apply the transformation</p>
+<p>matrix.</p>
+<p>Algorithm 1 Pseudo-code for applying a transformation matrix</p>
+<p>Require: Matrix T {Transformation matrix}</p>
+<p>Require: Object o {Object modeled by a set of vertices}</p>
+<p>List vertices = o.getVertices()</p>
+<p>for each vertex v in vertices do</p>
+<p>v’ = Tv; {Matrix multiplied with a vector}</p>
+<p>updatePoint(o, v, v’)</p>
+<p>end for</p>
+<p>draw(o.getVertices())</p>
+
+<p>An alternative pseudocode for applying the transformation matrix.</p>
+<p>Algorithm 2 Pseudo-code for applying a transformation matrix</p>
+<p>Require: Matrix T {Cumulative Transformation matrix}</p>
+<p>List updatedVertices = []</p>
+<p>append(updatedVertices, v’)</p>
+<p>end for</p>
+<p>draw(updatedVertices)</p>
+
+<p>Recall</p>
+<ul>
+<li>Going back to Chapter 6, we know the following:</li>
+</ul>
+<p>a a x a x +a y</p>
+<p>11 12 11 12</p>
+<p>a a y a x +a y</p>
+<p>21 22 21 22</p>
+<ul>
+<li>A linear transformation is when we take a 2D vector, apply</li>
+</ul>
+<p>some matrix multiplication, and get a 2D vector in return.</p>
+
+<p>Section 7.1.1: Scaling</p>
+<ul>
+<li>Scaling is the most basic transformation.</li>
+<li>Used to change the shape along coordinate axes.</li>
+</ul>
+
+<p>scale(s ,s ) = x</p>
+
+<ul>
+<li>Example: Calculate the resultant matrix with the vertex .</li>
+</ul>
+
+<p>s x 0 x s x x +0y s x x</p>
+<p>0 s y 0x +s y s y</p>
+<p>y y y</p>
+<ul>
+<li>If s == s , the object’s shape is maintained.</li>
+</ul>
+<ul>
+<li>If s ̸= s , the object is deformed.</li>
+</ul>
+<p>Look at Examples/2D/Transformations/Scale example</p>
+
+<p>Illustrations</p>
+
+<p>Section 7.1.2: Shearing</p>
+<ul>
+<li>Shearing causes the ”illusion” of pushing the object sideways</li>
+</ul>
+<p>like a deck of cards.</p>
+<ul>
+<li>The top card is further to the side while the bottom card is at</li>
+</ul>
+<p>the same position.</p>
+
+<p>1 s 1 0</p>
+<p>shear (s) = , shear (s) =</p>
+<p>x 0 1 y s 1</p>
+
+<ul>
+<li>Example: Calculate the resulting matrix with the vertex</li>
+</ul>
+<p>using shear .</p>
+
+<p>1 s x x +sy x +sy</p>
+<p>0 1 y 0x +y y</p>
+<p>Look at Examples/2D/Transformations/Shear example</p>
+
+<p>Alternative form of shearing</p>
+<ul>
+<li>An alternative way to express shearing:</li>
+<li>Is to just rotate the object by a single axis, instead of both like</li>
+</ul>
+<p>in standard rotations.</p>
+<p>1 tan(ϕ) 1 0</p>
+<p>shear (s) = , shear (ϕ) =</p>
+<p>ϕ 0 1 y tan(ϕ) 1</p>
+<ul>
+<li>shear (ϕ) tilts the object by an angle ϕ clockwise from the</li>
+</ul>
+<p>vertical axis.</p>
+<ul>
+<li>shear (ϕ) tilts the object by an angle ϕ counterclockwise from</li>
+</ul>
+<p>the horizontal axis.</p>
+
+<p>Section 7.1.4: Reflection</p>
+<ul>
+<li>Reflection about a coordinate axis by using the scaling matrix</li>
+</ul>
+<p>with a negative one scale factor (s or s ).</p>
+
+<p>−1 0 1 0</p>
+<p>reflect = , reflect =</p>
+<p>y 0 1 x 0 −1</p>
+
+<p>using reflect .</p>
+
+<p>−1 0 x −x +0y −x</p>
+<p>0 1 y 0x +y y</p>
+<p>Look at example</p>
+<p>Examples/2D/Transformations/Reflection</p>
+
+<p>Section 7.1.3: Rotations</p>
+<ul>
+<li>Suppose we want to rotate a by angle ϕ to form b.</li>
+<li>Suppose further that the angle between a and the x-axis is α,</li>
+</ul>
+
+<p>and a has a length r = x2+y2.</p>
+<p>Thus, we know</p>
+<ul>
+<li>x =rcos(α)</li>
+</ul>
+<ul>
+<li>y =rsin(α)</li>
+</ul>
+<ul>
+<li>As b is only a rotation of a,</li>
+</ul>
+<p>r remains the same.</p>
+<ul>
+<li>The angle between b and</li>
+</ul>
+<p>the x-axis: α+ϕ.</p>
+
+<p>x cos(ϕ)−y sin(ϕ) cos(ϕ) −sin(ϕ) x</p>
+<p>a a a</p>
+<p>y cos(ϕ)+x sin(ϕ) sin(ϕ) cos(ϕ) y</p>
+<p>a a a</p>
+
+<p>x cos(ϕ) −sin(ϕ) x</p>
+<p>y sin(ϕ) cos(ϕ) y</p>
+<p>Look at Examples/2D/Transformations/Rotation example</p>
+<ul>
+<li>Using the facts on the previous slide:</li>
+<li>x =rcos(α+ϕ)=rcos(α)cos(ϕ)−rsin(α)sin(ϕ)</li>
+</ul>
+<ul>
+<li>y =rsin(α+ϕ)=rsin(α)cos(ϕ)+rcos(α)sin(ϕ)</li>
+</ul>
+<ul>
+<li>We can substitute x = rcos(α) and y = rsin(α) which</li>
+</ul>
+<p>results:</p>
+<ul>
+<li>x b =x a cos(ϕ)−y a sin(ϕ)</li>
+<li>y =y cos(ϕ)+x sin(ϕ)</li>
+</ul>
+<p>b a a</p>
+<ul>
+<li>What does this look like?</li>
+</ul>
+
+<p>results:</p>
+<p>b a a</p>
+<p>a a a</p>
+<p>a a a</p>
+
+<p>x cos(ϕ) −sin(ϕ) x</p>
+<p>y sin(ϕ) cos(ϕ) y</p>
+
+<p>Section 7.3: Translation and Affine Transformations</p>
+<ul>
+<li>Say we would like to rotate an object around itself, which is</li>
+</ul>
+<p>not at the origin.</p>
+<ul>
+<li>Can the defined rotational matrices work?</li>
+<li>Look at</li>
+</ul>
+<p>Examples/2D/Transformations/OffCenterRotation</p>
+<p>example.</p>
+<ul>
+<li>How can the defined rotation matrix be used to rotate the</li>
+</ul>
+<p>object about itself, when the object is not at the center?</p>
+<p>1. Move the object such that the point of rotation is at the origin.</p>
+<p>2. Apply the rotation.</p>
+<p>3. Move the object back.</p>
+
+<p>Naive approach</p>
+<ul>
+<li>To apply translation using direction d, we can use:</li>
+</ul>
+<p>= x +d x</p>
+<p>= y +d y</p>
+<ul>
+<li>But this clashes with our current approach of using matrices</li>
+</ul>
+<p>to perform transformations.</p>
+<ul>
+<li>How can this be implemented using a matrix?</li>
+</ul>
+
+<ul>
+<li>To use matrices for transformations, we add an additional</li>
+</ul>
+<p>dimension to the transformation matrix.</p>
+<ul>
+<li>Thus, for 2D coordinate spaces, we use a 3×3 matrix.</li>
+</ul>
+<p>m m x</p>
+<p>11 12 t</p>
+<p>m 21 m 22 y t</p>
+<p>0 0 1</p>
+<ul>
+<li>These are known as homogeneous coordinates (adding an</li>
+</ul>
+<p>extra dimension to the matrix).</p>
+<ul>
+<li>We can express the translation as:</li>
+</ul>
+<p> x′ </p>
+<p>m m x</p>
+<p>m x +m y +x</p>
+<p>11 12 t 11 12 t</p>
+<p>y′  = m 21 m 22 y ty = m 21 x +m 22 y +y t</p>
+<p>1 0 0 1 1 1</p>
+<ul>
+<li>This allows a single matrix to apply a linear transformation</li>
+</ul>
+<p>followed by a translation!</p>
+
+<p>Translation matrix</p>
+<ul>
+<li>Using the homogeneous coordinates, we can create the</li>
+</ul>
+
+<p>following translation matrix in direction :</p>
+<p>1 0 x</p>
+<p>translation(x ,y ) = 0 1 y t</p>
+<p>0 0 1</p>
+<ul>
+<li>This can then achieve the following movement:</li>
+</ul>
+<p> x′   </p>
+<p>1 0 x x</p>
+<p>y′  = 0 1 y ty</p>
+<p>1 0 0 1 1</p>
+<ul>
+<li>Is the number represented by the 1 significant?</li>
+</ul>
+
+<p>Rule of thumb</p>
+<p>   </p>
+<p>y y</p>
+<p>is a location or point. is a direction.</p>
+<ul>
+<li>Exercise: Verify that when translating a direction, the</li>
+</ul>
+<p>direction remains the same.</p>
+<ul>
+<li>Examples/2D/Transformations/Translation example.</li>
+<li>Remainder of Chapter 7 will be discussed during our next</li>
+</ul>
+<p>lecture.</p>
+
+<p>Summary</p>
+<p>s x 0 0</p>
+<ul>
+<li>Homogeneous scaling matrix: 0 s 0</li>
+</ul>
+<p>0 0 1</p>
+<p>1 h 0</p>
+<ul>
+<li>Homogeneous shearing matrix: h 1 0</li>
+</ul>
+<p>0 0 1</p>
+<p>−1 0 0</p>
+<ul>
+<li>Homogeneous y-reflection matrix:  0 1 0</li>
+</ul>
+<p>0 0 1</p>
+<p>cos(ϕ) −sin(ϕ) 0</p>
+<ul>
+<li>Homogeneous rotational matrix: sin(ϕ) cos(ϕ) 0</li>
+</ul>
+<p>0 0 1</p>
+<p> 1 0 x </p>
+<ul>
+<li>Homogeneous translation matrix: 0 1 y t</li>
+</ul>
+<p>0 0 1</p>
+
+<ul>
+<li>One updates the object and swaps between transformation</li>
+</ul>
+<p>matrices.</p>
+<ul>
+<li>In the other, the transformation matrix is updated, and the</li>
+</ul>
+<p>object remains the same.</p>
+<ul>
+<li>You can use either of them depending on your preferred way</li>
+</ul>
+<p>of thinking.</p>
+<ul>
+<li>This difference will come into effect later in the semester.</li>
+</ul>
+<p>Differences between Algorithms</p>
+<ul>
+<li>What is the main difference between the two algorithms</li>
+</ul>
+<p>discussed earlier?</p>
+
+<p>discussed earlier?</p>
+<p>matrices.</p>
+<p>of thinking.</p>
+
+  </div>
+
+  <div class="page-nav">
+    <a href="L06.html"><span class="nav-label">← Previous</span><span class="nav-title">Graphical Hardware (Conclusion)</span></a>
+    <a href="L08.html" class="nav-next"><span class="nav-label">Next →</span><span class="nav-title">3D Transformations</span></a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span><a href="../index.html">COS344 Study Hub</a></span>
+    <span>Shirley &amp; Marschner, <em>Fundamentals of Computer Graphics</em></span>
+  </div>
+</footer>
+
+</body>
+</html>

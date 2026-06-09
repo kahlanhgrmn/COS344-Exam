@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L10: Graphical Data Structures · COS344</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><a href="../index.html" style="color:inherit;text-decoration:none">COS344</a> <span>// Lecture Notes</span></div>
+    <div class="topnav-links">
+      <a href="../index.html">Home</a>
+      <a href="index.html" class="active">Notes</a>
+      <a href="../guides/index.html">Guides</a>
+      <a href="../guides/03_questions.html">Questions</a>
+      <a href="../guides/05_math.html">Math</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="index.html">Lecture Notes</a>
+      <span class="sep">›</span>
+      <span>L10</span>
+    </div>
+    <div class="hero-eyebrow">L10 · Ch 12</div>
+    <h1>Graphical Data Structures</h1>
+    <div style="display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap;">
+      <span class="tag tag-pipe">Data Structures</span>
+      <a href="../guides/03_questions.html#l10" class="tag tag-guide" style="cursor:pointer;text-decoration:none;">📝 Practice Questions</a>
+    </div>
+  </div>
+
+  <div class="content-body">
+    <p>COS 344: L10 Chapter 12: The Graphics Pipeline</p>
+<p>Cobus Redelinghuys</p>
+<p>12/03/2026</p>
+
+<p>Recap:OpenGLPrimitiveDrawings</p>
+<p>Section12.1:Trianglemeshes Points</p>
+<p>Lines</p>
+<p>Section12.3:SpatialDataStructure Triangles</p>
+<p>Chapter 12: The Graphics Pipeline Introduction</p>
+<ul>
+<li>Data structures are extensively used in computer graphics.</li>
+<li>Today we will discuss the following data structures on a high</li>
+</ul>
+<p>level:</p>
+<ul>
+<li>Mesh data structures</li>
+<li>Spatial data structures</li>
+<li>Scene graphs</li>
+<li>Note this will be a very high level discussion on the data</li>
+</ul>
+<p>structures.</p>
+<ul>
+<li>You will only be expected to know where and how they can be</li>
+</ul>
+<p>used.</p>
+<ul>
+<li>You may use these data structures in your practicals and the</li>
+</ul>
+<p>homework assignment.</p>
+
+<p>Lines</p>
+<ul>
+<li>Before we get to the data structures, let us first discuss the</li>
+</ul>
+<p>different ways OpenGL can draw primitives.</p>
+<ul>
+<li>Note that not all of the methods are explicitly covered in the</li>
+</ul>
+<p>textbook, although Section 12.1.3 covers a part of this.</p>
+<ul>
+<li>OpenGL defined a set of primitive rendering modes, in which</li>
+</ul>
+<p>we can define how OpenGL must draw the vertices that are</p>
+<p>passed to it.</p>
+<ul>
+<li>The three main categories:</li>
+<li>Point</li>
+<li>Line</li>
+<li>Triangle</li>
+<li>GLStart/Tut3</li>
+<li>Some of these methods have been deprecated since OpenGL</li>
+</ul>
+<p>3.0 and removed since OpenGL 3.1.</p>
+
+<p>Points</p>
+<p>Lines</p>
+<p>Triangles</p>
+<p>Points</p>
+<ul>
+<li>All the vertices in the vertex array are rendered as points.</li>
+</ul>
+<p>b2/Glstart_tut3_4.jpg</p>
+
+<p>Lines</p>
+<p>Lines</p>
+<p>All the vertices in the vertex array are rendered as lines.</p>
+<ul>
+<li>GL Lines</li>
+<li>Each pair of vertices represents a line.</li>
+<li>Say a line is formed between points a and b, then the next line</li>
+</ul>
+<p>will be formed between c and d.</p>
+<ul>
+<li>GL Line Strip</li>
+<li>The vertices are connected to make a loop, excluding</li>
+</ul>
+<p>connecting the first and last vertex.</p>
+<ul>
+<li>GL Line Loop</li>
+<li>The vertices are connected to make a loop, including the first</li>
+</ul>
+<p>and last vertex.</p>
+
+<p>Lines</p>
+<p>Triangles</p>
+<p>All the vertices in the vertex array, are rendered as triangles.</p>
+<ul>
+<li>GL Triangles</li>
+<li>A tuple of vertices from the array is drawn as a triangle.</li>
+<li>Say a triangle is formed with points a, b, and c, then the next</li>
+</ul>
+<p>triangle will be formed using d, e, and f.</p>
+<ul>
+<li>GL Triangle Strip</li>
+<li>Triangles are formed in a strip.</li>
+</ul>
+<p>triangle will be formed using b, c, and d.</p>
+<ul>
+<li>GL Triangle Fan</li>
+<li>Triangles are formed in a fan.</li>
+</ul>
+<p>triangle will be formed using a, c, and d.</p>
+
+<p>Points</p>
+<p>Lines</p>
+<p>Triangles</p>
+
+<p>Section 12.1: Triangle meshes</p>
+<ul>
+<li>Triangle meshes:</li>
+<li>Complexes of triangles with a shared vertex.</li>
+<li>Other names:</li>
+<li>Triangular meshes</li>
+<li>Triangle meshes</li>
+<li>Trinagular irregular networks</li>
+<li>Triangle meshes are generally used to represent surfaces.</li>
+<li>Triangle meshes can also be handled more efficiently than a</li>
+</ul>
+<p>set of triangles.</p>
+<ul>
+<li>Each vertex can store a set of attributes, which is then</li>
+</ul>
+<p>interpolated as discussed in L9.</p>
+
+<p>Section 12.1.1: Mesh Topology</p>
+<ul>
+<li>Mesh topology:</li>
+<li>The way triangles connect together, without regard for the</li>
+</ul>
+<p>vertex positions.</p>
+<ul>
+<li>Manifold restriction</li>
+<li>The mesh should be water tight.</li>
+<li>i.e. there should be no gaps in the mesh.</li>
+<li>Simplest but most restrictive restriction.</li>
+<li>Following simplified properties, define the manifold restriction</li>
+</ul>
+<p>1. Every edge is shared by exactly two triangles.</p>
+<p>2. Every vertex has a single, complete loop of triangles around it.</p>
+<ul>
+<li>Note, you do not need to know the mathematical reason</li>
+</ul>
+<p>behind manifold.</p>
+
+<p>Here, (a) is non-manifold Here, (a) is non-manifold</p>
+<p>due to the “fin” sticking</p>
+<p>due to two triangle loops</p>
+<p>out, which violates</p>
+<p>for the centre vertex,</p>
+<p>property 1. which violates property 2.</p>
+
+<ul>
+<li>Manifold restriction can be relaxed to allow boundaries in the</li>
+</ul>
+<p>surface.</p>
+<ul>
+<li>Where would this be useful?</li>
+<li>Manifold’s restrictions are relaxed to the following:</li>
+</ul>
+<p>1. Every edge is used by either one or two triangles.</p>
+<p>2. Every vertex connects to a single edge-connected set of</p>
+<p>triangles.</p>
+<p>The last example is “bad”</p>
+<p>due to the centre vertex</p>
+<p>having two sets of</p>
+<p>triangles.</p>
+
+<ul>
+<li>Duplication as repeated vertices are stored numerous times.</li>
+<li>Solution?</li>
+<li>Store the unique vertices in one array.</li>
+<li>Store the indexes of the vertices used to create the triangle in</li>
+</ul>
+<p>another array.</p>
+<ul>
+<li>Storage calculation:</li>
+<li>If the mesh has n vertices and n triangles.</li>
+</ul>
+<ul>
+<li>Also assume that the storage size of the data types used to</li>
+</ul>
+<p>store the components of the vertices and the index for the</p>
+<p>triangles, are the same.</p>
+<p>triangles =9n unitsaaaaaaaaa indexedMesh=3n +3n units</p>
+<p>t v t</p>
+<p>Section 12.1.2: Indexed Mesh Storage</p>
+<ul>
+<li>Let us assume we store all the corners, of all of the triangles,</li>
+</ul>
+<p>in a triangular mesh, in an array. What could be the possible</p>
+<p>problem?</p>
+
+<p>another array.</p>
+<p>t v t</p>
+<p>problem?</p>
+<ul>
+<li>Solution?</li>
+</ul>
+
+<p>problem?</p>
+<ul>
+<li>Solution?</li>
+</ul>
+<p>another array.</p>
+<p>t v t</p>
+
+<ul>
+<li>Section 12.1.4 is left to the curious students who want to</li>
+</ul>
+<p>optimize their code.</p>
+
+<p>Section12.2SceneGraphs Motivation</p>
+<p>Section 12.2 Scene Graphs</p>
+<ul>
+<li>In larger scenes with many objects, it can become a pain to</li>
+</ul>
+<p>manage how different transformation matrices are applied.</p>
+<ul>
+<li>Most scenes have some hierarchical organization, and using</li>
+</ul>
+<p>this, we can apply transformations using a scene graph.</p>
+<ul>
+<li>As an example of how scene graphs can be used, consider the</li>
+</ul>
+<p>following hinged pendulum:</p>
+
+<ul>
+<li>The top pendulum is easy, as it is</li>
+</ul>
+<p>not dependant on anything else.</p>
+<ul>
+<li>The bottom pendulum, on the</li>
+</ul>
+<p>other hand, is a problem. Why?</p>
+<ul>
+<li>Using a scene graph data structure,</li>
+</ul>
+<p>we can easily keep track of point b,</p>
+<p>such that the lower hinge can be</p>
+<p>moved to the correct place.</p>
+<ul>
+<li>Figure 12.21 may be a good way to</li>
+</ul>
+<p>create objects for the practicals.</p>
+<p>The remainder of Chapter 12.2 is left to the curious students.</p>
+
+<ul>
+<li>Spacial data structures are used to organize objects in a space</li>
+</ul>
+<p>such that they can be efficiently found.</p>
+<ul>
+<li>Applications?</li>
+<li>Ray tracing for a light source</li>
+<li>Types of spacial data structures we will quickly discuss:</li>
+<li>Objects partitioning schemes</li>
+<li>Structures that group objects together into a hierarchy.</li>
+<li>Objects are divided into disjoint groups, but groups may</li>
+</ul>
+<p>overlap in a space.</p>
+<ul>
+<li>Space partitioning schemes</li>
+<li>Structures that divide space into disjoint regions.</li>
+<li>A space is divided into separate partitions, but one object may</li>
+</ul>
+<p>have to intersect more than one partition.</p>
+<ul>
+<li>Other</li>
+<li>Regular: Divide the space into predefined, uniformly shaped</li>
+</ul>
+<p>boxes.</p>
+<ul>
+<li>Irregular: The sizes of the boxes are dynamically shaped to</li>
+</ul>
+<p>accommodate the density of shapes.</p>
+
+<p>Section 12.3.1: Bounding Boxes</p>
+<ul>
+<li>Place a box around a set of objects and determine if a ray</li>
+</ul>
+<p>intersects the box or not.</p>
+<ul>
+<li>If it intersects the box, determine which object inside the box</li>
+</ul>
+<p>is intersected.</p>
+<ul>
+<li>If not, no shape inside the box needs to be considered.</li>
+<li>The remainder of the section describes how to determine if</li>
+</ul>
+<p>the ray intersects the bounding box.</p>
+
+<p>Section 12.3.2: Hierarchical Bounding Boxes</p>
+<ul>
+<li>Standard bounding boxes have two sides.</li>
+<li>They are computationally more expensive than the brute force</li>
+</ul>
+<p>tactic used in earlier chapters, only if the ray intersects the</p>
+<p>bounding box.</p>
+<ul>
+<li>They are computationally cheaper than the brute force tactic,</li>
+</ul>
+<p>when the ray does not intersect the bounding box.</p>
+<ul>
+<li>This can be solved by using a hierarchical bounding box.</li>
+<li>A bounding box for bounding boxes.</li>
+</ul>
+<p>Remainder of the</p>
+<p>chapter subsection</p>
+<p>is left to curious</p>
+<p>students.</p>
+
+<p>Section 12.3.3: Uniform Spatial Subdivision</p>
+<ul>
+<li>Idea is to divide the space into axis aligned cells.</li>
+<li>Each cell points to either a surface that is found in that cell,</li>
+</ul>
+<p>or null.</p>
+<ul>
+<li>The ray this is traced along its path in this multidimensional</li>
+</ul>
+<p>(2D/3D) array, until it goes into a cell that contains a surface.</p>
+<ul>
+<li>If the ray then intersects the surface, the ray stops(*), else it</li>
+</ul>
+<p>continues.</p>
+<ul>
+<li>Other previously discussed strategies can be used for cells that</li>
+</ul>
+<p>contain multiple surfaces.</p>
+
+<p>Remainder of chapter</p>
+<ul>
+<li>Section 12.3.4, Section 12.4, and Section 12.5 are skipped.</li>
+<li>Section 12.4 is an in-depth discussion on the Binary Space</li>
+</ul>
+<p>Partitioning Tree algorithm.</p>
+<ul>
+<li>This can be implemented for bonus marks for Practical 4.</li>
+<li>Section 12.5 uses Tiling MD Arrays, which exploit the idea of</li>
+</ul>
+<p>memory locality to achieve a speedup.</p>
+
+  </div>
+
+  <div class="page-nav">
+    <a href="L09.html"><span class="nav-label">← Previous</span><span class="nav-title">Graphics Pipeline</span></a>
+    <a href="L11.html" class="nav-next"><span class="nav-label">Next →</span><span class="nav-title">Viewing (Intro)</span></a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span><a href="../index.html">COS344 Study Hub</a></span>
+    <span>Shirley &amp; Marschner, <em>Fundamentals of Computer Graphics</em></span>
+  </div>
+</footer>
+
+</body>
+</html>

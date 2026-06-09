@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L11: Viewing (Intro) · COS344</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><a href="../index.html" style="color:inherit;text-decoration:none">COS344</a> <span>// Lecture Notes</span></div>
+    <div class="topnav-links">
+      <a href="../index.html">Home</a>
+      <a href="index.html" class="active">Notes</a>
+      <a href="../guides/index.html">Guides</a>
+      <a href="../guides/03_questions.html">Questions</a>
+      <a href="../guides/05_math.html">Math</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="index.html">Lecture Notes</a>
+      <span class="sep">›</span>
+      <span>L11</span>
+    </div>
+    <div class="hero-eyebrow">L11 · Ch 8</div>
+    <h1>Viewing (Intro)</h1>
+    <div style="display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap;">
+      <span class="tag tag-xform">Viewing</span>
+      <a href="../guides/03_questions.html#l11" class="tag tag-guide" style="cursor:pointer;text-decoration:none;">📝 Practice Questions</a>
+    </div>
+  </div>
+
+  <div class="content-body">
+    <p>COS 344: L11 Chapter 8: Viewing</p>
+<p>Cobus Redelinghuys</p>
+<p>23/03/2026</p>
+
+<ul>
+<li>Moving, deforming, and rotating geometric objects.</li>
+<li>Another use case is to deal with the moving of objects from</li>
+</ul>
+<p>the 3D world to 2D views.</p>
+<ul>
+<li>This 3D to 2D mapping is called viewing transformations.</li>
+<li>Used extensively in object order rendering.</li>
+<li>In chapter 4, we discussed the different types of projections</li>
+</ul>
+<p>and how to generate the viewing rays.</p>
+<ul>
+<li>In this chapter, we will do the reverse:</li>
+<li>Using transformation matrices to form parallel or perspective</li>
+</ul>
+<p>views.</p>
+<ul>
+<li>Ensure that you revise chapter 4 when studying for this</li>
+</ul>
+<p>chapter!</p>
+<ul>
+<li>Up till now, what have we used transformation matrices for?</li>
+</ul>
+
+<p>views.</p>
+<p>chapter!</p>
+
+<ul>
+<li>The transformations in this chapter will take 3D points (in</li>
+</ul>
+<p>world space) and project them onto 2D points (on the image</p>
+<p>plane).</p>
+<ul>
+<li>For the remaining discussion of this chapter assumes that we</li>
+</ul>
+<p>are working with a wireframe.</p>
+<ul>
+<li>i.e. a 3D line segment denoted by the 3D coordinates of the</li>
+</ul>
+<p>two end points.</p>
+
+<p>Section 8.1: Viewing Transformations</p>
+<p>The viewing transformations responsibility</p>
+<p>Mapping 3D locations (represented as 3D coordinates in canonical</p>
+<p>coordinate systems) to coordinates in the image (expressed in units</p>
+<p>of pixels).</p>
+<ul>
+<li>The following things affect the above mentioned mapping:</li>
+<li>Camera position</li>
+<li>Field of view</li>
+<li>Camera orientation</li>
+<li>Image resolution</li>
+<li>Projection type</li>
+<li>To overcome this list of considerations, we will break the</li>
+</ul>
+<p>transformation into a series of simpler transformations.</p>
+
+<p>Most graphics system do this by using a sequence of three</p>
+<p>transformations:</p>
+<p>Camera transformation (eye transformation)</p>
+<p>Definition: Rigid body transformation that places the camera at</p>
+<p>the origin in a convenient orientation.</p>
+<p>Dependency: Position and orientation of the camera.</p>
+<p>Input: Points in canonical coordinates (world space).</p>
+<p>Output: Points in camera coordinates (points in camera space).</p>
+<p>Rigid body transformations</p>
+<p>Transformations that preserve the shape and size of an object.</p>
+
+<p>transformations:</p>
+<p>Projection transformation</p>
+<p>Definition: Projects points from camera space, so that all visible</p>
+<p>points fall in the range [−1,1] for all x and y values.</p>
+<p>Dependency: Type of projection.</p>
+<p>Input: Points in camera space.</p>
+<p>Output: Points in canonical view volume.</p>
+<p>Canonical</p>
+<p>Something arbitrary chosen for the sake of convenience.</p>
+<p>For example, the unit circle could be called a canonical circle.</p>
+
+<p>transformations:</p>
+<p>Viewport transformation (window transformation)</p>
+<p>Definition: Maps this unit image rectangle to the desired</p>
+<p>rectangle in pixel coordinates.</p>
+<p>Dependency: Size and position of the output image.</p>
+<p>Input: Points in canonical view volume.</p>
+<p>Output: Points in screen space.</p>
+<p>Each transformation is relatively simple. We will focus on</p>
+<p>orthographic case in great detail and discuss later how to change</p>
+<p>them for perspective projection.</p>
+
+<p>Section 8.1.1: The Viewport Transformation</p>
+<ul>
+<li>Let us assume what we want to view is in the canonical view</li>
+</ul>
+<p>volume and we want to view it with an orthographic camera</p>
+<p>looking in the −z direction.</p>
+<ul>
+<li>Canonical view volume is a 3D cube whose Cartesian</li>
+</ul>
+<p>coordinates are defined as: (x,y,z) ∈ [−1,1]3.</p>
+<ul>
+<li>x = −1 is to the left of the screen and x = 1 is to the right.</li>
+<li>y = 1 is to the top of the screen and y = −1 is to the bottom.</li>
+<li>In Chapter 3 we discussed:</li>
+<li>A pixel “owns” a unit square centred at integer coordinates.</li>
+<li>Image boundaries have a half-unit overshoot from the pixel</li>
+</ul>
+<p>centres.</p>
+<ul>
+<li>Smallest pixel center coordinates are (0,0).</li>
+<li>The amount of pixels in the screen is defined by: n ×n .</li>
+</ul>
+
+<ul>
+<li>Using this, we need to map the square [−1,1]2 to the</li>
+</ul>
+<p>rectangle [−0.5,n −0.5]×[−0.5,n −0.5].</p>
+<ul>
+<li>For the sake of simplicity, we introduce the following</li>
+</ul>
+<p>restriction: All line segments are drawn inside the canonical</p>
+<p>view volume.</p>
+<ul>
+<li>Since the viewport transformation maps one axis-aligned</li>
+</ul>
+<p>rectangle to another, we obtain:</p>
+<p> x  nx 0 nx−1 x </p>
+<p>screen 2 2 canonical</p>
+<p>y screen = 0 n y ny −1 y canonical</p>
+<p>1 0 0 1 1</p>
+<ul>
+<li>Why do we ignore the z-value?</li>
+<li>The final form of the viewport matrix (M ):</li>
+</ul>
+<p>nx nx−1</p>
+<p>ny ny−1</p>
+<p>0 0 </p>
+<p>M =  2 2 </p>
+<p>0 0 1 0 </p>
+<p>0 0 0 1</p>
+
+<p>Section 8.1.2: The Orthographic Projection</p>
+<p>Transformation</p>
+<ul>
+<li>Sometimes we want to render things that are not inside the</li>
+</ul>
+<p>canonical view volume.</p>
+<ul>
+<li>We use two constraints to perform this:</li>
+</ul>
+<p>1. View volume is an axis-aligned box.</p>
+<p>2. Name the coordinates of its sides so</p>
+<p>that the view volume is:</p>
+<p>[l,r]×[b,t]×[f,n]</p>
+<ul>
+<li>We call this box, the orthographic view volume.</li>
+</ul>
+
+<ul>
+<li>The orthographic view volume refers to the bounding planes</li>
+</ul>
+<p>as follows:</p>
+<ul>
+<li>x =l ≡ left plane - y =b ≡ bottom plane - z =n≡ near plane</li>
+<li>- ▶</li>
+</ul>
+<p>x =r ≡ right plane y =t ≡ top plane z =f ≡ far plane</p>
+<ul>
+<li>Note, z might feel unnatural as we are looking in the −z</li>
+</ul>
+<p>direction.</p>
+
+<ul>
+<li>Thus, the orthographically view matrix (M orth ) is:</li>
+</ul>
+<p> 2 −r+l </p>
+<p>r−l r−l</p>
+<p>2 −t+b</p>
+<p> 0 0 </p>
+<p>M =  t− b t− b </p>
+<p>orth 0 0 2 −n + f</p>
+<p>n−f n−f</p>
+<p>0 0 0 1</p>
+<ul>
+<li>In order to draw the 3D line segments in orthographic view</li>
+</ul>
+<p>volume, we project them onto the x and y screen-coordinates.</p>
+<ul>
+<li>Again, why do we ignore the z-value?</li>
+<li>In order to perform this projection, we multiply M with</li>
+</ul>
+<p>M orth and then with the point as follows:</p>
+<p>   </p>
+<p>x pixel x</p>
+<p> p ix e l   </p>
+<p>  = (M vp M orth )  </p>
+<p>z   z </p>
+<p>c an o n i cal</p>
+
+<p>Thus, we can use the following algorithm to draw 3D lines.</p>
+<p>Algorithm 1 Drawing 3D lines</p>
+<p>Construct M</p>
+<p>Construct M</p>
+<p>orth</p>
+<p>M := M vp ×M orth</p>
+<p>for each line segment (a ,b ) do</p>
+<p>p := Ma</p>
+<p>q := Mb</p>
+<p>drawLine(p, q)</p>
+<p>end for</p>
+
+<ul>
+<li>We will now discuss changing the viewpoint in 3D and look in</li>
+</ul>
+<p>any direction.</p>
+<p>We will use the following</p>
+<p>convention:</p>
+<ul>
+<li>We can now create a coordinate system using e as the origin,</li>
+</ul>
+<p>and uvw as the basis as discussed in Section 2.4.7 (and listed</p>
+<p>on page 163)</p>
+
+<ul>
+<li>We need to now translate the coordinates of geometric</li>
+</ul>
+<p>objects from the coordinate system generated by the Cartesian</p>
+<p>origin, and xyz axis to the coordinate system generated by the</p>
+<p>origin e and uvw axis.</p>
+<ul>
+<li>In order to do this, we use the following matrix:</li>
+</ul>
+<p>  </p>
+<p>x y z 0 1 0 0 −x</p>
+<p>u u u e</p>
+<p>u v w e  x v y v z v 0   0 1 0 − y e</p>
+<p>M = =    </p>
+<p>cam 0 0 0 1 x y z 0 0 0 1 − z</p>
+<p>w w w   e </p>
+<p>0 0 0 1 0 0 0 1</p>
+
+<p>We can now extend Algorithm 1 to include M .</p>
+<p>Algorithm 2 Drawing 3D lines</p>
+<p>Construct M</p>
+<p>Construct M</p>
+<p>orth</p>
+<p>Construct M</p>
+<p>M := M ×M ×M</p>
+<p>vp orth cam</p>
+<p>p := Ma i</p>
+<p>q := Mb</p>
+<p>drawLine(p, q)</p>
+<p>end for</p>
+
+  </div>
+
+  <div class="page-nav">
+    <a href="L10.html"><span class="nav-label">← Previous</span><span class="nav-title">Graphical Data Structures</span></a>
+    <a href="L12.html" class="nav-next"><span class="nav-label">Next →</span><span class="nav-title">Viewing (Conclusion)</span></a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span><a href="../index.html">COS344 Study Hub</a></span>
+    <span>Shirley &amp; Marschner, <em>Fundamentals of Computer Graphics</em></span>
+  </div>
+</footer>
+
+</body>
+</html>

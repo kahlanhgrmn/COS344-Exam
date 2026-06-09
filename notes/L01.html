@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L01: Introduction to Computer Graphics · COS344</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><a href="../index.html" style="color:inherit;text-decoration:none">COS344</a> <span>// Lecture Notes</span></div>
+    <div class="topnav-links">
+      <a href="../index.html">Home</a>
+      <a href="index.html" class="active">Notes</a>
+      <a href="../guides/index.html">Guides</a>
+      <a href="../guides/03_questions.html">Questions</a>
+      <a href="../guides/05_math.html">Math</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="index.html">Lecture Notes</a>
+      <span class="sep">›</span>
+      <span>L01</span>
+    </div>
+    <div class="hero-eyebrow">L01 · Ch 1</div>
+    <h1>Introduction to Computer Graphics</h1>
+    <div style="display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap;">
+      <span class="tag tag-pipe">Foundations</span>
+      <a href="../guides/03_questions.html#l01" class="tag tag-guide" style="cursor:pointer;text-decoration:none;">📝 Practice Questions</a>
+    </div>
+  </div>
+
+  <div class="content-body">
+    <p>COS 344 L1: Introduction</p>
+<p>Chapter 1</p>
+<p>Cobus Redelinghuys</p>
+<p>09/02/2026</p>
+
+<p>The prerequisites of COS344 are:</p>
+<p>1. COS110</p>
+<p>2. Mathematics :)</p>
+<ul>
+<li>WTW124 or</li>
+<li>WTW146</li>
+</ul>
+<p>3. Completed at least four COS2XX.</p>
+<p>You may not register for COS344 if you do not comply with the</p>
+<p>prerequisites.</p>
+
+<ul>
+<li>Plagiarism is a very serious offense and if found guilty, it can</li>
+</ul>
+<p>lead to expulsion.</p>
+<ul>
+<li>COS344 will make use of dedicated software to check for</li>
+</ul>
+<p>plagiarism.</p>
+<ul>
+<li>All class tests and practicals must be completed on an</li>
+</ul>
+<p>individual basis.</p>
+<ul>
+<li>Please see the study guide for the entire plagiarism statement.</li>
+</ul>
+
+<p>The following textbook will be used in COS344:</p>
+<p>Fundamentals of Computer Graphics</p>
+<p>S. Marschner, P. Shirley</p>
+<p>Fifth edition</p>
+<p>Taylor and Francis Ltd</p>
+<p>978-0-367-50503-5</p>
+
+<p>Supplementary material</p>
+<ul>
+<li>During the course of the semester, supplementary material</li>
+</ul>
+<p>will be released if needed.</p>
+<ul>
+<li>Note no memorandums will be released.</li>
+<li>If you have questions, please attend a consultation session or</li>
+</ul>
+<p>ask on discord.</p>
+
+<p>Programming language and libraries</p>
+<ul>
+<li>OpenGL is going to be used through the course of the</li>
+</ul>
+<p>semester.</p>
+<ul>
+<li>OpenGL 3.3 specifically</li>
+<li>This means back to good old C++</li>
+</ul>
+
+<p>Lecturer information</p>
+<p>Mr Cobus Redelinghuys</p>
+<p>Office: IT 5-49</p>
+<p>E-mail:</p>
+<p>cobus.redelinghuys@up.ac.za</p>
+
+<p>Tutor information</p>
+<p>Mr. Simon van der</p>
+<p>Mr Salmaan Patel Ms. Amber Werner</p>
+<p>Merwe</p>
+
+<p>Contacting the staff</p>
+<p>Please use the following methods to contact the COS344 2026</p>
+<p>staff members:</p>
+<p>1. Email.</p>
+<p>2. After lectures.</p>
+<p>3. During the lecturer consultation session (by booking).</p>
+<p>4. During practical sessions.</p>
+<p>5. During the tutor consultation sessions (to be announced).</p>
+
+<p>Class Rep Nominations</p>
+<ul>
+<li>A form on ClickUp will be opened for class rep nominations.</li>
+<li>The form is due on the 15th of Feb at 23h59.</li>
+<li>Voting will take place on the 16th of Feb during the lecture.</li>
+</ul>
+
+<ul>
+<li>4 practicals this semester.</li>
+<li>Contributes 30% to your semester</li>
+</ul>
+<p>mark.</p>
+<ul>
+<li>Practicals will be completed in</li>
+</ul>
+<p>C++.</p>
+<ul>
+<li>First practical will be a FitchFork</li>
+</ul>
+<p>assignment.</p>
+<ul>
+<li>Remaining 3 practicals will be</li>
+</ul>
+<p>demo-ed during practical sessions.</p>
+
+<ul>
+<li>You must complete each practical assignment individually;</li>
+</ul>
+<p>plagiarism detection will be applied to all submissions.</p>
+<ul>
+<li>The practicals will be released after the first week of lectures</li>
+</ul>
+<p>so you have ample time to complete them.</p>
+<ul>
+<li>Due to this, no sick practical will be made available.</li>
+<li>The deadlines for practicals will not be extended and no</li>
+</ul>
+<p>excuses will be accepted for late submissions.</p>
+
+<p>Software Installation</p>
+<ul>
+<li>Three options are available for the installation of OpenGL:</li>
+</ul>
+<p>1. WSL Export</p>
+<p>2. Docker</p>
+<p>3. Manual Installation (Linux-based)</p>
+<ul>
+<li>Two guides have been uploaded to ClickUp for you.</li>
+<li>Please use next week’s practical session to finalise your</li>
+</ul>
+<p>installation if you have not yet done so.</p>
+
+<p>Marking Admin</p>
+<ul>
+<li>Marking will occur over a two week period.</li>
+<li>You will thus need to book a time slot to be marked.</li>
+<li>Please only attend the session you booked for and be there at</li>
+</ul>
+<p>the START of the booked session.</p>
+<ul>
+<li>Upload your submission to FitchFork and ClickUp using the</li>
+</ul>
+<p>designated upload slots.</p>
+
+<p>Class Test</p>
+<ul>
+<li>5 compulsory class tests.</li>
+<li>Your best 4 class tests will contribute to your final mark.</li>
+<li>Contributes 10% to your semester mark.</li>
+<li>The class tests will occur on ClickUp.</li>
+<li>You will have 5 hours to complete the class test and multiple</li>
+</ul>
+<p>attempts.</p>
+<ul>
+<li>The exact dates of the class tests will be determined during</li>
+</ul>
+<p>the semester.</p>
+<ul>
+<li>Due to the 5-hour time period and multiple submissions, no</li>
+</ul>
+<p>sick test will be granted for missing class tests.</p>
+
+<p>Homework Assignment</p>
+<ul>
+<li>The homework assignment will have the form of a</li>
+</ul>
+<p>substantially large programming assignment.</p>
+<ul>
+<li>The project may be completed in groups of three or five</li>
+</ul>
+<p>students.</p>
+<ul>
+<li>The homework assignment will contribute 30% to your final</li>
+</ul>
+<p>semester mark.</p>
+<ul>
+<li>The homework assignment will also incorporate a report which</li>
+</ul>
+<p>will need to be submitted at an earlier date.</p>
+<ul>
+<li>Will be released at the beginning of the semester.</li>
+<li>Will also be demoed.</li>
+<li>More details later.</li>
+<li>The deadlines for this assignment will not be extended, and</li>
+</ul>
+<p>no excuses will be accepted for late submissions.</p>
+
+<p>Semester Tests</p>
+<ul>
+<li>Only the best of the two official semester tests will be</li>
+</ul>
+<p>counted. Due to this, there will not be a sick test.</p>
+<ul>
+<li>This test will contribute 30% to your final semester mark.</li>
+<li>The semester tests will have a duration of 1.5 hours.</li>
+<li>The semester tests will be an open book, non-electronic notes,</li>
+</ul>
+<p>on campus test.</p>
+<ul>
+<li>The scopes for the semester tests will be announced on</li>
+</ul>
+<p>ClickUp ahead of the semester test.</p>
+<ul>
+<li>Writing of all the semester tests is compulsory, unless a valid</li>
+</ul>
+<p>sick note is provided.</p>
+
+<ul>
+<li>Exam entrance: Final semester mark of at least 40%.</li>
+<li>No exceptions will be made.</li>
+<li>Scope of the exam will be everything covered through-out the</li>
+</ul>
+<p>semester.</p>
+<ul>
+<li>The topics and scenarios covered in the practicals and</li>
+</ul>
+<p>homework assignment may also be used to contribute to the</p>
+<p>scope.</p>
+
+<p>Final Mark Calculation</p>
+<p>Your final mark will be calculated as follows:</p>
+<p>finalMark = semesterMark ×0.6+examMark ×0.4</p>
+<p>In order to pass COS344, you need to obtain:</p>
+<p>1. At least 40% in the final exam.</p>
+<p>2. A final mark of at least 50%.</p>
+<p>Please see the faculty regulations regarding chancellors exams.</p>
+
+<ul>
+<li>Lectures:</li>
+<li>Monday 10h30 - 11h30 in IT 2-24</li>
+<li>Thursday 09h30 - 10h30 in IT 2-24</li>
+<li>Practical sessions:</li>
+<li>Monday, 14:30 - 17:30 in Informatorium Purple Lab</li>
+<li>Semester test dates:</li>
+<li>Semester Test 1: 28 March 2026, 12h30 - 14h00</li>
+<li>Semester Test 2: 07 May 2026, 12h30 - 14h00</li>
+<li>Exam dates:</li>
+<li>Exam: 11 Jun 2026, 07h30 - 10h30</li>
+</ul>
+<p>Please consult the study guide for further information.</p>
+
+<p>Mathematical specification of the object that will be rendered and</p>
+<p>the object’s appearance.</p>
+<p>Rendering</p>
+<p>The process of creating images from 2D or 3D computer graphic</p>
+<p>objects.</p>
+<p>Animation</p>
+<p>Process of creating the illusion of motion through sequential</p>
+<p>images.</p>
+<p>Computer graphics consists of the following three major areas:</p>
+<p>Modeling</p>
+
+<p>objects.</p>
+<p>Animation</p>
+<p>images.</p>
+<p>Modeling</p>
+<p>Rendering</p>
+
+<p>images.</p>
+<p>Modeling</p>
+<p>Rendering</p>
+<p>objects.</p>
+<p>Animation</p>
+
+<p>Modeling</p>
+<p>Rendering</p>
+<p>objects.</p>
+<p>Animation</p>
+<p>images.</p>
+
+<p>Smaller areas include which will be discussed in detail later:</p>
+<ul>
+<li>User interaction</li>
+<li>Visualization</li>
+<li>Image processing</li>
+</ul>
+
+<ul>
+<li>Video games</li>
+<li>Cartoons</li>
+<li>Visual effects</li>
+<li>Animated files</li>
+<li>CAD/CAM</li>
+<li>Simulations</li>
+<li>Medical imaging</li>
+<li>Information visualisation</li>
+</ul>
+<p>Where can computer graphics be applied?</p>
+
+<ul>
+<li>Video games</li>
+<li>Cartoons</li>
+<li>Visual effects</li>
+<li>Animated files</li>
+<li>CAD/CAM</li>
+<li>Simulations</li>
+<li>Medical imaging</li>
+</ul>
+
+<p>Video game example</p>
+<p>multimedia/10best-video-games-baldurs-gate-lqmg/</p>
+<p>10best-video-games-baldurs-gate-lqmg-articleLarge.</p>
+<p>jpg?quality=75&auto=webp&disable=upscale</p>
+
+<p>Cartoon example</p>
+<p>Scooby-gang-1969.jpg/220px-Scooby-gang-1969.jpg</p>
+
+<p>CAD/CAM example</p>
+<p>https:</p>
+<p>Autodesk_moldflow2011_features_cad_interop_tools_</p>
+<p>large_1141x823b3aeea3dd5cf469b84e8ae3e4968af3d.png</p>
+
+<p>Medical imaging example</p>
+<p>d/d8/MRI_Scan_General_Illustration.jpg/220px-MRI_</p>
+<p>Scan_General_Illustration.jpg</p>
+
+<p>1. Graphics - to draw</p>
+<p>2. User Interface (UI) - control</p>
+<ul>
+<li>Predominant Graphics API paradigm</li>
+<li>Integrated</li>
+<li>Graphics and UI toolkits are integrated as standard features of</li>
+</ul>
+<p>the language.</p>
+<ul>
+<li>Example - Java</li>
+<li>Library</li>
+<li>Graphics and UI APIs are separate and supported by libraries.</li>
+<li>Examples: Direct3D and OpenGL with C++</li>
+</ul>
+<p>Advantages and disadvantages of each?</p>
+<p>Graphics API</p>
+<p>A set of functions that perform basic operations such as drawing</p>
+<p>images and 3D surfaces into windows on the screen.</p>
+<ul>
+<li>Graphic programs rely on two APIs:</li>
+</ul>
+
+<p>Graphics API</p>
+<ul>
+<li>Integrated</li>
+</ul>
+<p>the language.</p>
+<ul>
+<li>Example - Java</li>
+<li>Library</li>
+</ul>
+
+<ul>
+<li>Modern computers have optimised graphical pipelines</li>
+<li>Basic operations:</li>
+</ul>
+<p>1. Map 3D coordinates to 2D screens.</p>
+<p>2. Shade polygons such that they appear realistic.</p>
+<p>3. Render polygons in the correct order. Why?</p>
+<ul>
+<li>More on this topic in Chapter 9.</li>
+</ul>
+
+<ul>
+<li>The remainder of the chapter is left as practical knowledge</li>
+</ul>
+<p>and won’t be explicitly examined.</p>
+<ul>
+<li>Section 1.6 might come in useful for students on ”weaker”</li>
+</ul>
+<p>laptops/pcs as well as the homework assignment.</p>
+<ul>
+<li>Chapters 2 and 6 are left as self-study.</li>
+</ul>
+<p>Any questions?</p>
+
+  </div>
+
+  <div class="page-nav">
+    
+    <a href="L02.html" class="nav-next"><span class="nav-label">Next →</span><span class="nav-title">Raster Images</span></a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span><a href="../index.html">COS344 Study Hub</a></span>
+    <span>Shirley &amp; Marschner, <em>Fundamentals of Computer Graphics</em></span>
+  </div>
+</footer>
+
+</body>
+</html>

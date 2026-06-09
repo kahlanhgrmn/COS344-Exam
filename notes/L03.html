@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L03: Ray Tracing · COS344</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><a href="../index.html" style="color:inherit;text-decoration:none">COS344</a> <span>// Lecture Notes</span></div>
+    <div class="topnav-links">
+      <a href="../index.html">Home</a>
+      <a href="index.html" class="active">Notes</a>
+      <a href="../guides/index.html">Guides</a>
+      <a href="../guides/03_questions.html">Questions</a>
+      <a href="../guides/05_math.html">Math</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="index.html">Lecture Notes</a>
+      <span class="sep">›</span>
+      <span>L03</span>
+    </div>
+    <div class="hero-eyebrow">L03 · Ch 4</div>
+    <h1>Ray Tracing</h1>
+    <div style="display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap;">
+      <span class="tag tag-ray">Ray Tracing</span>
+      <a href="../guides/03_questions.html#l03" class="tag tag-guide" style="cursor:pointer;text-decoration:none;">📝 Practice Questions</a>
+    </div>
+  </div>
+
+  <div class="content-body">
+    <p>COS 344 L3: Chapter 4</p>
+<p>Introduction to ray tracing</p>
+<p>Cobus Redelinghuys</p>
+<p>16/02/2026</p>
+
+<p>Practical Schedule</p>
+<p>Start By</p>
+<p>Assessment Due Marking 1 Marking 2</p>
+<p>Date</p>
+<p>Practical 1 16/02/2026 27/02/2026 N/A N/A</p>
+<p>Practical 2 28/02/2026 23/03/2026 23/03/2026 07/04/2026</p>
+<p>Practical 3 24/03/2026 13/04/2026 13/04/2026 20/04/2026</p>
+<p>Practical 4 14/04/2026 11/05/2026 11/05/2026 18/05/2026</p>
+<p>HW Initial</p>
+<p>07/04/2026 28/04/2026 N/A N/A</p>
+<p>Report</p>
+<p>HW Peer</p>
+<p>11/05/2026 13/05/2026 N/A N/A</p>
+<p>Review</p>
+<p>HW Final</p>
+<p>15/05/2026 22/05/2026 N/A N/A</p>
+<p>Report</p>
+<p>HW Final</p>
+<p>23/03/2026 25/05/2026 TBC TBC</p>
+<p>Project</p>
+
+<p>Rendering</p>
+<p>Process of taking in a set of objects and producing an array of</p>
+<p>pixels as output.</p>
+<ul>
+<li>Two types of rendering approaches:</li>
+</ul>
+<p>Object-order rendering</p>
+<p>Each object is considered in turn, and for each object, all the</p>
+<p>pixels that it influences are found and updated.</p>
+<p>Image-order rendering</p>
+<p>Each pixel is considered in turn, and for each pixel, all the objects</p>
+<p>that influence it are found and the pixel value is computed.</p>
+
+<ul>
+<li>What if the object is translucent?</li>
+<li>Once the object is found, shading is applied to the surface of</li>
+</ul>
+<p>the object.</p>
+<p>Section 4.1: Basic Ray-Tracing Algorithm</p>
+<ul>
+<li>A ray tracer works by:</li>
+<li>Determining for each pixel which objects are ”seen” by said</li>
+</ul>
+<p>pixel.</p>
+<ul>
+<li>Thus, the object must intersect the viewing ray.</li>
+</ul>
+<p>Viewing ray</p>
+<p>A line that emanates from the viewpoint, in the direction the pixel</p>
+<p>is looking in.</p>
+<ul>
+<li>Does the viewing ray stop at the first object it intersects?</li>
+</ul>
+
+<p>the object.</p>
+<p>pixel.</p>
+<p>Viewing ray</p>
+<p>is looking in.</p>
+
+<p>pixel.</p>
+<p>Viewing ray</p>
+<p>is looking in.</p>
+<p>the object.</p>
+
+<ul>
+<li>Basic components of ray tracer:</li>
+</ul>
+<p>1. Ray generation</p>
+<ul>
+<li>Computes the origin, and direction of each pixel’s viewing ray,</li>
+</ul>
+<p>based on camera geometry.</p>
+<p>2. Ray intersection</p>
+<ul>
+<li>Finds the closest object intersecting the viewing ray. (*)</li>
+</ul>
+<p>3. Shading</p>
+<ul>
+<li>Computes the pixel color based on the results of the</li>
+</ul>
+<p>intersection.</p>
+<p>Algorithm 1 Basic Ray Tracing Algorithm</p>
+<p>for each pixel do</p>
+<p>Compute viewing ray</p>
+<p>Find the first object that it intersects with</p>
+<p>Compute the normal n of the surface of the object the ray hit</p>
+<p>Set pixel color to the value computed using n, light, and hit point</p>
+<p>end for</p>
+
+<p>https:</p>
+<p>pictures/2018/RayTracing/ray-tracing-image-1.jpg</p>
+
+<p>Linear perspective</p>
+<p>3D objects are projected onto an image plane, in such a way that</p>
+<p>straight lines in the scene become straight lines in the image.</p>
+<ul>
+<li>Types of projection:</li>
+<li>Parallel projection</li>
+<li>Perspective projection</li>
+</ul>
+<p>Section 4.2: Perspective</p>
+<ul>
+<li>Many ”approaches” exist for creating 3D shapes on a 2D</li>
+</ul>
+<p>shape.</p>
+<ul>
+<li>Cubist Painting</li>
+<li>Fish eye lenses</li>
+<li>Peripheral cameras</li>
+<li>Linear Perspective</li>
+<li>Most common approach and used in computer graphics.</li>
+</ul>
+
+<p>shape.</p>
+<ul>
+<li>Cubist Painting</li>
+<li>Fish eye lenses</li>
+<li>Peripheral cameras</li>
+<li>Linear Perspective</li>
+</ul>
+<p>Linear perspective</p>
+
+<p>Cubist Painting</p>
+
+<p>Fisheye lens</p>
+<p>Sharing_Photography/10351/images/02.jpg</p>
+
+<p>Orthographic</p>
+<p>The image plane is perpendicular to the view direction.</p>
+<p>Obligue</p>
+<p>The image plane is not perpendicular to the view direction.</p>
+<p>Parallel Projection</p>
+<p>Parallel projection</p>
+<p>3D points are mapped to 2D points by moving them parallel along</p>
+<p>a projection direction, until they hit the image plane.</p>
+<ul>
+<li>Produced view is constructed by choosing the:</li>
+<li>Projection direction</li>
+<li>Image plane</li>
+</ul>
+
+<p>Parallel Projection</p>
+<p>Parallel projection</p>
+<ul>
+<li>Image plane</li>
+</ul>
+<p>Orthographic</p>
+<p>Obligue</p>
+
+<ul>
+<li>Mechanical and architectural drawings.</li>
+<li>Why?</li>
+<li>Parallel lines stay parallel.</li>
+<li>Size and shapes are preserved.</li>
+<li>Where can parallel projection be used?</li>
+</ul>
+
+<ul>
+<li>Why?</li>
+</ul>
+
+<ul>
+<li>Why?</li>
+</ul>
+
+<p>Perspective Projection</p>
+<p>Perspective projection</p>
+<p>3D points are projected to 2D points along lines that pass through</p>
+<p>a single point, known as the viewpoint, rather than along parallel</p>
+<p>lines.</p>
+<ul>
+<li>Allows objects to appear smaller the further they are from the</li>
+</ul>
+<p>viewpoint when projected.</p>
+<ul>
+<li>Viewpoint</li>
+<li>Image plane</li>
+</ul>
+
+<p>By SharkD - Own work. Download source code., CC BY-SA 4.0,</p>
+
+<p>Section 4.3: Computing Viewing Rays</p>
+<ul>
+<li>Mathematical definition of a ray:</li>
+</ul>
+<p>p(t) = e+t(s−e)</p>
+<p>p(t) = (1−t)e+t(s)</p>
+<p>where:</p>
+<ul>
+<li>p is a point</li>
+<li>e is the start point (eye point)</li>
+<li>s is the end point (surface intersect)</li>
+<li>t is a real value bounded between 0 and 1</li>
+<li>s−e is the direction of the ray.</li>
+<li>Properties:</li>
+<li>p(0)=e</li>
+<li>p(1)=s</li>
+<li>If 0<t <t then p(t ) is closer to e than p(t ).</li>
+</ul>
+<p>1 2 1 2</p>
+
+<p>Camera Frame</p>
+<ul>
+<li>Consider an orthonormal (camera frame) defined by:</li>
+<li>e or the viewpoint.</li>
+<li>u pointing rightward from e.</li>
+<li>v pointing upward from e.</li>
+<li>w pointing backward.</li>
+<li>{u,v,w} form a right-handed coordinate system.</li>
+<li>Common camera frame construction:</li>
+<li>viewpoint (e)</li>
+<li>view direction (-w)</li>
+<li>up (v).</li>
+<li>This is used to construct a basis such that v and w are in the</li>
+</ul>
+<p>plane defined by the view direction and the up direction.</p>
+<ul>
+<li>See Section 2.4.7</li>
+</ul>
+
+<p>Section 4.3.1: Orthographic views</p>
+<ul>
+<li>Constructing an image plane:</li>
+<li>l and r are the left and right edges of the plane, as measured</li>
+</ul>
+<p>from e along the u direction.</p>
+<ul>
+<li>Usually: l <0<r</li>
+<li>b and t are the bottom and top edges of the image as</li>
+</ul>
+<p>measured from e along the v direction.</p>
+<ul>
+<li>Usually: b <0<t</li>
+<li>To translate a pixel at position (i,j) in pixel coordinates</li>
+</ul>
+<p>(Chapter 3) to (u,v) in the image plane use:</p>
+<ul>
+<li>(r−l)(i+0.5)</li>
+</ul>
+<p>u =l +</p>
+<ul>
+<li>(t−b)(j+0.5)</li>
+</ul>
+<p>v =b+</p>
+<ul>
+<li>(u,v) are coordinates on the image plane.</li>
+<li>Note the textbook overloads notation!</li>
+</ul>
+
+<ul>
+<li>Orthographic view ray:</li>
+<li>Direction: -w.</li>
+<li>Starting position: plane defined by e, u, and v.</li>
+<li>s is on the image plane.</li>
+<li>Construct the orthographic viewing ray using:</li>
+</ul>
+<p>Algorithm 2 Generating orthographic viewing rays</p>
+<p>compute u and v using formulae on previous slide.</p>
+<p>Ray origin := e + uu + vv</p>
+<p>Ray direction := -w</p>
+<ul>
+<li>To create oblique parallel view:</li>
+<li>Allow the image plane’s normal to be specified separately from</li>
+</ul>
+<p>the view direction.</p>
+<ul>
+<li>Use the same approach as Algorithm 2, but with d instead of</li>
+</ul>
+
+<p>Section 4.3.2: Perspective view</p>
+<ul>
+<li>In perspective view rays, all rays have the same origin</li>
+</ul>
+<p>(viewpoint), but different directions.</p>
+<ul>
+<li>Image plane is positioned some distance, d, away from e.</li>
+<li>d is referred to as the plane distance or focal length</li>
+<li>Ray direction is defined by the viewpoint and position on the</li>
+</ul>
+<p>image plane.</p>
+<p>Algorithm 3 Generating perspective viewing rays</p>
+<p>compute u and v using formulae on previous slides.</p>
+<p>Ray origin := e</p>
+<p>Ray direction := -dw + uu + vv</p>
+
+<p>Section 4.4.1: Ray-Sphere Intersection</p>
+<ul>
+<li>To find where a ray (p(t) = e+td) intersects a sphere</li>
+</ul>
+<p>centered around c and has a radius of R:</p>
+<ul>
+<li>Find the value of t for which the ray intersects the sphere.</li>
+<li>Use the formula:</li>
+</ul>
+<p>(d·d)t2+2d·(e−c)t+(e−c)·(e−c)−R2 =0</p>
+<ul>
+<li>Only unknown is thus t.</li>
+<li>Solve t using the standard quadratic equation.</li>
+<li>The derivation can be found in the textbook for the curious.</li>
+</ul>
+
+<p>Section 4.4.2: Ray-Triangle Intersection</p>
+<ul>
+<li>To find where a ray (p(t) = e+td) intersects a triangle with</li>
+</ul>
+<p>vertices a, b, c solve:</p>
+<p>e+td = a+β(b−a)+γ(c −a)</p>
+<ul>
+<li>Solve for: t,β, and γ.</li>
+<li>Set up and solve a linear set of equations:</li>
+</ul>
+<p>x +tx =x +β(x −x )+γ(x −x )</p>
+<p>e d a b a c a</p>
+<p>y +ty =y +β(y −y )+γ(y −y )</p>
+<p>e d a b a c a</p>
+<p>z +tz =z +β(z −z )+γ(z −z )</p>
+<p>e d a b a c a</p>
+<ul>
+<li>Textbook shows how to use Cramer’s rule to solve this system</li>
+</ul>
+<p>of linear equations.</p>
+<ul>
+<li>If β > 0, γ > 0 and β +γ < 1 then the intersect is inside of</li>
+</ul>
+<p>the triangle.</p>
+
+<p>More efficient algorithm to calculate if the ray hits the triangle:</p>
+<p>Algorithm 4 Early termination ray-triangle intersection algorithm</p>
+<p>Require: Ray r, Vector a, Vector b, Vector c, t , t</p>
+<p>Ensure: If the ray hits the triangle</p>
+<p>Compute t</p>
+<p>if (t <t ) or (t >t ) then</p>
+<p>return false</p>
+<p>end if</p>
+<p>Compute γ</p>
+<p>if (γ <0) or (γ >1) then</p>
+<p>return false</p>
+<p>end if</p>
+<p>Compute β</p>
+<p>if (β <0) or (β+γ >1) then</p>
+<p>return false</p>
+<p>end if</p>
+<p>return true</p>
+
+<p>Remainder of Chapter 4.</p>
+<ul>
+<li>Sections 4.4.3 and 4.4.4 are left out, but can be useful in</li>
+</ul>
+<p>practical 4.</p>
+<ul>
+<li>Section 4.5 will be covered in the next lecture as part of</li>
+</ul>
+<p>Chapter 5’s discussion.</p>
+
+  </div>
+
+  <div class="page-nav">
+    <a href="L02.html"><span class="nav-label">← Previous</span><span class="nav-title">Raster Images</span></a>
+    <a href="L04.html" class="nav-next"><span class="nav-label">Next →</span><span class="nav-title">Surface Shading</span></a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span><a href="../index.html">COS344 Study Hub</a></span>
+    <span>Shirley &amp; Marschner, <em>Fundamentals of Computer Graphics</em></span>
+  </div>
+</footer>
+
+</body>
+</html>

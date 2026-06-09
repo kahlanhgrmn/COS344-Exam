@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L21: Physics-Based Rendering · COS344</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><a href="../index.html" style="color:inherit;text-decoration:none">COS344</a> <span>// Lecture Notes</span></div>
+    <div class="topnav-links">
+      <a href="../index.html">Home</a>
+      <a href="index.html" class="active">Notes</a>
+      <a href="../guides/index.html">Guides</a>
+      <a href="../guides/03_questions.html">Questions</a>
+      <a href="../guides/05_math.html">Math</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="index.html">Lecture Notes</a>
+      <span class="sep">›</span>
+      <span>L21</span>
+    </div>
+    <div class="hero-eyebrow">L21 · Ch 14</div>
+    <h1>Physics-Based Rendering</h1>
+    <div style="display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap;">
+      <span class="tag tag-ray">PBR</span>
+      <a href="../guides/03_questions.html#l21" class="tag tag-guide" style="cursor:pointer;text-decoration:none;">📝 Practice Questions</a>
+    </div>
+  </div>
+
+  <div class="content-body">
+    <p>COS 344: L21 Chapter 14: Physics-Based</p>
+<p>Rendering</p>
+<p>18/05/2026</p>
+
+<ul>
+<li>All of the rendering we have done up until now is to some</li>
+</ul>
+<p>extent or another “physics-based”.</p>
+<ul>
+<li>But the term physics-based implies in practice something</li>
+</ul>
+<p>different.</p>
+<p>Physics-based rendering (PBR)</p>
+<p>The use of physics-based models to create a render.</p>
+<ul>
+<li>In this chapter, a very high level discussion will be had about</li>
+</ul>
+<p>PBR due to the sheer amount of different approaches and</p>
+<p>algorithms that have been created.</p>
+
+<ul>
+<li>A particle representing a quantum of light or other</li>
+</ul>
+<p>electromagnetic radiation.</p>
+<ul>
+<li>What is a photon to computer graphic programmers?</li>
+<li>A photon is a packet of light that has a position, direction of</li>
+</ul>
+<p>propagation, and a wavelength λ.</p>
+<ul>
+<li>A photon also has a speed c that depends only on the</li>
+</ul>
+<p>refractive index n of the medium it is propagating through.</p>
+<ul>
+<li>What is a photon?</li>
+</ul>
+
+<ul>
+<li>What is a photon?</li>
+</ul>
+
+<ul>
+<li>What is a photon?</li>
+</ul>
+
+<ul>
+<li>What is a photon?</li>
+</ul>
+
+<ul>
+<li>We can also use the following formula to calculate the</li>
+</ul>
+<p>frequency of light:</p>
+<ul>
+<li>This is useful as f does not change when a photon refracts</li>
+</ul>
+<p>into a medium with a new n.</p>
+<ul>
+<li>Another invariant measure is the amount of energy q a</li>
+</ul>
+<p>photon has:</p>
+<p>q = hf =</p>
+<ul>
+<li>Where h = 6.63×10−34 Js (Planck’s constant)</li>
+</ul>
+
+<ul>
+<li>In Chapter 4 we discussed how smooth metals reflect light.</li>
+<li>Two options exist:</li>
+</ul>
+<p>1. Specular reflection</p>
+<p>2. Refracted into the surface and then quickly absorbed.</p>
+<ul>
+<li>The amount of light that is reflected is determined by the</li>
+</ul>
+<p>Fresnel equations.</p>
+<ul>
+<li>These are a set of straightforward but cumbersome equations</li>
+</ul>
+<p>and their values differ when polarization is taken into account.</p>
+<ul>
+<li>In computer graphics, polarization is often ignored.</li>
+<li>The main visual effect of the Fresnel equation, is that the</li>
+</ul>
+<p>reflectance increases with the incident angle, particularly near</p>
+<p>grazing angles where it goes to 100%.</p>
+
+<ul>
+<li>In computer graphics, we use a simple approximation for the</li>
+</ul>
+<p>Fresnel equations:</p>
+<p>(λ))(1−cos(θ))5</p>
+<p>R(θ,λ) = R 0 (λ)+(1−R 0</p>
+<p>where:</p>
+<ul>
+<li>λ is the wavelength</li>
+<li>θ is the angle between the direction of light propagation and</li>
+</ul>
+<p>the surface normal.</p>
+<ul>
+<li>R (λ) is the reflectance at normal incidence</li>
+</ul>
+
+<ul>
+<li>“Clear” materials that refract light.</li>
+<li>It is not a “bad” assumption to make, that if something is not</li>
+</ul>
+<p>a metal it is a dielectric.</p>
+<ul>
+<li>Examples?</li>
+<li>Skin</li>
+<li>Milk</li>
+<li>Hair</li>
+<li>Cloth</li>
+<li>These examples are tricky as they can be seen as fully opaque</li>
+</ul>
+<p>since they are a mixture of different refractive indices and</p>
+<p>light-absorbing impurities.</p>
+<ul>
+<li>Examples of smooth homogeneous dielectrics:</li>
+<li>Pure Water</li>
+<li>Pure Glass</li>
+<li>Eye lens (Eyeball 1.0)</li>
+<li>What are dielectrics?</li>
+</ul>
+
+<ul>
+<li>Skin</li>
+<li>Milk</li>
+<li>Hair</li>
+<li>Cloth</li>
+<li>Pure Water</li>
+<li>Pure Glass</li>
+<li>Examples?</li>
+</ul>
+
+<ul>
+<li>Pure Water</li>
+<li>Pure Glass</li>
+<li>Examples?</li>
+<li>Skin</li>
+<li>Milk</li>
+<li>Hair</li>
+<li>Cloth</li>
+</ul>
+
+<ul>
+<li>Examples?</li>
+<li>Skin</li>
+<li>Milk</li>
+<li>Hair</li>
+<li>Cloth</li>
+<li>Pure Water</li>
+<li>Pure Glass</li>
+</ul>
+
+<ul>
+<li>Smooth Dielectrics have the following properties:</li>
+</ul>
+<p>1. How much light is reflected at each incident angle and</p>
+<p>wavelength.</p>
+<p>2. What fraction of light is absorbed as it travels through the</p>
+<p>material for a given distance and wavelength.</p>
+<p>3. What are the directions of the reflected and refracted light?</p>
+
+<ul>
+<li>How light bends geometrically and what fraction is</li>
+</ul>
+<p>reflected/transmitted, depends on the refractive index n(λ).</p>
+<ul>
+<li>When air is one of the materials light moves through, we can</li>
+</ul>
+<p>set R (λ) in terms of n(λ).</p>
+
+<p>n(λ)−1</p>
+<p>R (λ) =</p>
+<p>n(λ)+1</p>
+<ul>
+<li>In cases where the material on either side is not air, or a</li>
+</ul>
+<p>vacuum (when the refractive indices are not 1.0), use this</p>
+<p>formula:</p>
+
+<p>n (λ)−n (λ)</p>
+<p>R (λ) =</p>
+<p>n (λ)+n (λ)</p>
+<p>where:</p>
+<ul>
+<li>i is associated with the incoming ray</li>
+<li>t is associated with the transmitted ray</li>
+</ul>
+
+<ul>
+<li>Typically n does not change depending on wavelength.</li>
+<li>Some useful values for n:</li>
+<li>water: 1.33</li>
+<li>glass: 1.4-1.7</li>
+<li>diamond: 2.4</li>
+</ul>
+
+<ul>
+<li>Dielectrics also filter and refract light.</li>
+<li>Some glass types filter out more red and blue light than green</li>
+</ul>
+<p>light.</p>
+<ul>
+<li>When light travels from one medium with a refractive index n,</li>
+</ul>
+<p>to another medium with a refractive index n , some light is</p>
+<p>transmitted and bent.</p>
+<ul>
+<li>Snell’s law is defined as:</li>
+</ul>
+<p>nsin(θ) = n sin(ϕ)</p>
+<ul>
+<li>We can rewrite this in terms of cosines:</li>
+</ul>
+<p>n2(1−cos2(θ))</p>
+<p>cos2(ϕ) = 1−</p>
+<ul>
+<li>This will exploit the dot product between two vectors for us.</li>
+</ul>
+
+<p>The remainder of the subsection discusses how to convert cos(ϕ)</p>
+<p>and sin(ϕ) into a 3D vector.</p>
+
+<ul>
+<li>Sections 14.4, 14.5, 14.6, 14.7, and 14.8 are skipped.</li>
+<li>Section 14.5 introduces a brute-force photon tracing</li>
+</ul>
+<p>algorithm, which is able to generate amazing and realistic</p>
+<p>renders at a high execution cost.</p>
+
+<ul>
+<li>At the start of the semester, we said that we can look up a</li>
+</ul>
+<p>material’s BRDF function for the lighting and shadow</p>
+<p>calculations.</p>
+<ul>
+<li>There are many BRDF models in industry and literature.</li>
+<li>There are also many fields that use BRDF models including:</li>
+<li>remote sensing</li>
+<li>heat transfer</li>
+<li>material science</li>
+<li>computer graphics</li>
+<li>Unfortunately, as with many things in tech, there is no</li>
+</ul>
+<p>standard set of terms for BRDF.</p>
+<ul>
+<li>The taxonomy on the next page are a somewhat summary of</li>
+</ul>
+<p>the consensus of BRDF terms in industry and practice.</p>
+<ul>
+<li>Section 14.10 is also skipped due to Monte Carlo Integration</li>
+</ul>
+
+<p>traditionalvspbr01.jpg</p>
+<p>Video: https://www.youtube.com/watch?v=iXHZlqp3X6U</p>
+
+<p>And with this, we conclude the theory for COS 344 2026.</p>
+<p>Good luck with your exams and the rest of your 3rd year.</p>
+
+  </div>
+
+  <div class="page-nav">
+    <a href="L20.html"><span class="nav-label">← Previous</span><span class="nav-title">Visual Perception</span></a>
+    
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span><a href="../index.html">COS344 Study Hub</a></span>
+    <span>Shirley &amp; Marschner, <em>Fundamentals of Computer Graphics</em></span>
+  </div>
+</footer>
+
+</body>
+</html>

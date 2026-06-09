@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Situation-Based Guide &middot; COS344</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><a href="../index.html" style="color:inherit;text-decoration:none">COS344</a> <span>// Guide 4</span></div>
+    <div class="topnav-links">
+      <a href="../index.html">Home</a>
+      <a href="../notes/index.html">Notes</a>
+      <a href="index.html">Guides</a>
+      <a href="03_questions.html">Questions</a>
+      <a href="05_math.html">Math</a>
+    </div>
+  </div>
+</nav>
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="sep">&rsaquo;</span>
+      <a href="index.html">Guides</a>
+      <span class="sep">&rsaquo;</span>
+      <span>Situation-Based Guide</span>
+    </div>
+    <h1>Situation-Based Guide</h1>
+  </div>
+  <div class="content-body">
+    <h2>COS344 — Situation-Based Decision Guide</h2>
+<h2 id="10-exam-scenarios-with-technique-decisions">10 Exam Scenarios with Technique Decisions</h2>
+
+<hr>
+
+<h2 id="how-to-use-this-guide">How to Use This Guide</h2>
+
+<p>For each scenario, the exam will describe a scene and ask which CG techniques you'd use. Your answer needs:</p>
+<ol>
+<li>The <strong>technique name</strong></li>
+<li><strong>Why</strong> it's appropriate for this scenario</li>
+<li>What you'd <strong>NOT</strong> use and why</li>
+</ol>
+
+<hr>
+
+<h2 id="scenario-1-deep-sea-exploration">Scenario 1: Deep Sea Exploration</h2>
+
+<p><strong>Context:</strong> Rendering an underwater environment with bioluminescent creatures, volumetric light shafts from the surface, and dense particle effects for water disturbances.</p>
+
+<h3>Decision Table</h3>
+
+<p>| Requirement | Chosen Technique | Why |</p>
+<p>|-------------|-----------------|-----|</p>
+<p>| Lighting model | PBR + emissive for bioluminescence | Physically accurate for water, emissive for self-lit creatures |</p>
+<p>| Water/transparency | Alpha blending + Fresnel (Schlick) | Semi-transparent water needs blending; Fresnel controls reflection/refraction ratio |</p>
+<p>| Refraction | Snell's law (n₁sinθ₁ = n₂sinθ₂), n_water=1.33 | Light bends entering/exiting water |</p>
+<p>| Volumetric effects | Volumetric light shafts (ray marching or texture slices) | Simulates light scattering in water |</p>
+<p>| Particles | Particle system with velocity + lifespan | Bubbles, disturbed sediment, floating debris |</p>
+<p>| Shadows | No hard shadows — diffuse ambient underwater | Hard shadows don't exist in deep water (diffuse scattering) |</p>
+<p>| Optimization | BVH for dense geometry + frustum culling | Many coral/rock meshes; need fast intersection tests |</p>
+<p>| Depth effects | Fog with exponential falloff + color shift | Water absorbs red light first → blue-green shift with depth |</p>
+<p>| Surface caustics | Projected animated texture map | Refracted light patterns on sea floor |</p>
+<p>| Rendering approach | Forward rendering + particle pass | Relatively few lights; particle systems need alpha sorting |</p>
+
+<h3>Key Techniques to Mention</h3>
+<ul>
+<li><strong>Bioluminescence</strong> = emissive material (adds light to scene without a light source)</li>
+<li><strong>Fresnel equation</strong> R(θ,λ) = R₀ + (1-R₀)(1-cosθ)⁵ — grazing angles reflect more</li>
+<li><strong>Snell's law</strong> for refraction direction of light entering water</li>
+<li><strong>Particle system</strong> with per-particle lifespan, velocity, randomness</li>
+<li><strong>Exponential fog</strong> for distance-based water opacity and color absorption</li>
+<li><strong>BVH</strong> for efficient ray/frustum tests against dense coral geometry</li>
+</ul>
+
+<h3>What NOT to Use</h3>
+<ul>
+<li><strong>Hard directional shadows</strong> — no sun rays penetrate to deep sea</li>
+<li><strong>Simple ambient lighting</strong> alone — misses the dramatic bioluminescent glow</li>
+<li><strong>BSP trees</strong> — designed for indoor static geometry, not open underwater scenes</li>
+</ul>
+
+<hr>
+
+<h2 id="scenario-2-medieval-castle">Scenario 2: Medieval Castle</h2>
+
+<p><strong>Context:</strong> Rendering a large exterior castle with stone walls, torches, a drawbridge, and characters in armor — broad daylight with hard shadows.</p>
+
+<h3>Decision Table</h3>
+
+<p>| Requirement | Chosen Technique | Why |</p>
+<p>|-------------|-----------------|-----|</p>
+<p>| Lighting model | Phong / Blinn-Phong + directional light | Single sun = directional light; Blinn-Phong for stone and metal |</p>
+<p>| Shadows | Shadow maps (depth-based) | Hard shadows from directional sun; efficient for large scene |</p>
+<p>| Stone texture | Normal maps | Gives stone surface detail without extra geometry |</p>
+<p>| Metal armor | PBR specular maps | High-frequency specular highlights on polished metal |</p>
+<p>| Distant geometry | LOD (Level of Detail) | Towers far away → simpler mesh; saves vertex processing |</p>
+<p>| Culling | Frustum culling + backface culling | Large scene; most walls face away from camera |</p>
+<p>| Optimization | BSP tree for interior rooms | If camera enters castle, BSP quickly determines visible rooms |</p>
+<p>| Foliage/banners | Alpha discard (<code>discard</code> in shader) | Plant leaves and fabric are not convex — use cutout transparency |</p>
+<p>| Ground/terrain | Displacement map or heightmap | Gives bumpy cobblestone terrain with actual geometry |</p>
+<p>| Animation | Skeletal animation (FK) for characters | Human characters need joint hierarchy for walking/attacking |</p>
+
+<h3>Key Techniques to Mention</h3>
+<ul>
+<li><strong>Shadow maps</strong>: render scene depth from sun's perspective → compare in main render</li>
+<li><strong>Normal maps</strong>: fake geometric detail on flat stone surfaces per-pixel</li>
+<li><strong>LOD</strong>: swap high-poly tower for low-poly at distance threshold</li>
+<li><strong>Frustum culling</strong>: discard entire towers outside view volume before draw calls</li>
+<li><strong>BSP tree</strong>: binary space partitioning for indoor occlusion determination</li>
+</ul>
+
+<h3>What NOT to Use</h3>
+<ul>
+<li><strong>Ray-traced shadows</strong> — too expensive for real-time; shadow maps suffice</li>
+<li><strong>Particle systems</strong> — no fire/smoke in this scene description</li>
+<li><strong>Subsurface scattering</strong> — stone and metal don't transmit light</li>
+</ul>
+
+<hr>
+
+<h2 id="scenario-3-martian-colony">Scenario 3: Martian Colony</h2>
+
+<p><strong>Context:</strong> Harsh desert landscape on Mars with a colony of metallic habitats, dust storms, and no atmospheric scattering (thin atmosphere).</p>
+
+<h3>Decision Table</h3>
+
+<p>| Requirement | Chosen Technique | Why |</p>
+<p>|-------------|-----------------|-----|</p>
+<p>| Lighting | Strong directional light (no atmosphere scattering) | Mars has thin atmosphere; sunlight is harsh and direct |</p>
+<p>| Metal surfaces | PBR with metallic workflow | Physically accurate for polished/brushed metals |</p>
+<p>| Terrain | Heightmap + displacement mapping | Rocky Martian terrain needs actual geometry variation |</p>
+<p>| Dust storm | Particle system + procedural noise | Millions of dust particles; randomized velocity + direction |</p>
+<p>| Shadows | Shadow maps | Harsh directional shadows from sun |</p>
+<p>| Sky rendering | Simple color gradient (no scatter) | No atmospheric Rayleigh scattering on Mars |</p>
+<p>| Equipment reflection | Environment map (cube map) | Reflects Martian sky and terrain on metallic surfaces |</p>
+<p>| Optimization | Frustum culling + LOD | Open landscape; distant habitats can use lower LOD |</p>
+<p>| Ground texture | Diffuse + normal map (rust-red) | Unique Martian texture without extra geometry |</p>
+<p>| Rendering | Forward rendering | Manageable light count; no complex lighting needed |</p>
+
+<h3>Key Techniques to Mention</h3>
+<ul>
+<li><strong>PBR (BRDF)</strong> for metal — correct Fresnel, roughness, and metallic reflection</li>
+<li><strong>Displacement mapping</strong> for terrain — modifies actual vertex positions (not just normal)</li>
+<li><strong>Particle system</strong> for dust: N particles with initial velocity, randomized direction, gravity</li>
+<li><strong>Cube map / environment mapping</strong> for metal reflections</li>
+<li><strong>No atmospheric scattering</strong> — don't add blue tint from Rayleigh scattering</li>
+</ul>
+
+<h3>What NOT to Use</h3>
+<ul>
+<li><strong>Volumetric fog</strong> (atmospheric scattering type) — Mars has near-vacuum atmosphere</li>
+<li><strong>Subsurface scattering</strong> — no organic materials in this scene</li>
+<li><strong>Soft shadows</strong> — thin atmosphere means harder shadows than Earth</li>
+</ul>
+
+<hr>
+
+<h2 id="scenario-4-fantasy-magic-academy">Scenario 4: Fantasy Magic Academy</h2>
+
+<p><strong>Context:</strong> Indoor magic school with glowing spell effects, transparent potion bottles, floating books, and magical energy orbs.</p>
+
+<h3>Decision Table</h3>
+
+<p>| Requirement | Chosen Technique | Why |</p>
+<p>|-------------|-----------------|-----|</p>
+<p>| Spell effects | Particle system with emissive particles | Magic = light-emitting particles; use emissive + additive blending |</p>
+<p>| Transparency | Alpha blending (back-to-front sorted) | Glass bottles and magical effects need correct transparency |</p>
+<p>| Reflective orbs | Environment maps + Fresnel | Crystal orbs reflect surroundings; Fresnel controls edge reflection |</p>
+<p>| Area lighting | Point lights + deferred rendering | Many small magical lights need deferred shading |</p>
+<p>| Floating objects | Keyframe animation | Floating books = scripted path animation |</p>
+<p>| Glow effects | Post-processing bloom | Bright emissive areas bleed light into surrounding pixels |</p>
+<p>| Glass/potions | Snell's law refraction + alpha | Correct optical bending through glass |</p>
+<p>| Scene structure | Scene graph | Hierarchical transforms for organized indoor scene |</p>
+<p>| Shadows | Shadow maps per light | Multiple point lights each cast shadows |</p>
+<p>| Optimization | Occlusion culling + BSP | Indoor scene with many rooms; occluded rooms skipped |</p>
+
+<h3>Key Techniques to Mention</h3>
+<ul>
+<li><strong>Additive blending</strong> for magical glow: GL_ONE, GL_ONE — colors only add, never darken</li>
+<li><strong>Deferred rendering</strong> for many point lights — handles N lights efficiently</li>
+<li><strong>Bloom post-processing</strong> — extract bright pixels, blur, composite back</li>
+<li><strong>Alpha sorting</strong> — transparent objects must render back-to-front for correct blending</li>
+<li><strong>Scene graph</strong> — hierarchical scene for indoor room structure</li>
+</ul>
+
+<h3>What NOT to Use</h3>
+<ul>
+<li><strong>Backface culling for transparent objects</strong> — you need to see through both sides of glass</li>
+<li><strong>Z-buffer only</strong> for transparency — need sorted transparency for correct results</li>
+<li><strong>Single ambient light</strong> — magical scene needs many colored light sources</li>
+</ul>
+
+<hr>
+
+<h2 id="scenario-5-jurassic-safari">Scenario 5: Jurassic Safari</h2>
+
+<p><strong>Context:</strong> Outdoor jungle environment with large dinosaur characters, dense foliage, procedural animation, and dynamic weather.</p>
+
+<h3>Decision Table</h3>
+
+<p>| Requirement | Chosen Technique | Why |</p>
+<p>|-------------|-----------------|-----|</p>
+<p>| Dinosaur animation | Skeletal animation (FK + IK) | Complex character rigs; FK for body, IK for foot placement |</p>
+<p>| Skin deformation | Smooth skinning d=Σωᵢdᵢ | Blends multiple joint influences for realistic skin |</p>
+<p>| Foliage | Alpha discard + LOD | Leaf transparency without sorting issues; LOD for dense trees |</p>
+<p>| Dense jungle | Occlusion culling + BVH | Many overlapping objects; need efficient visibility |</p>
+<p>| Lighting | Directional (sun) + ambient (sky dome) | Outdoor jungle with light filtering through canopy |</p>
+<p>| Rain | Particle system | Falling rain drops with velocity, collision, lifespan |</p>
+<p>| Shadows | Shadow maps with PCF (soft) | Natural outdoor shadows are soft, not hard-edged |</p>
+<p>| Ground | Displacement mapping | Muddy terrain needs actual geometry bumps |</p>
+<p>| Dinosaur scales | Normal maps | High-detail scale texture on character skin |</p>
+<p>| Optimization | Frustum culling + LOD | Large outdoor scene; distant trees need simplified meshes |</p>
+
+<h3>Key Techniques to Mention</h3>
+<ul>
+<li><strong>Smooth skinning formula</strong>: d = Σωᵢdᵢ — weights ωᵢ sum to 1, blend joint transforms</li>
+<li><strong>Inverse kinematics (IK)</strong> for foot placement on uneven terrain</li>
+<li><strong>PCF soft shadows</strong> — percentage closer filtering averages multiple shadow map samples</li>
+<li><strong>Alpha discard</strong> for foliage — faster than alpha blending, no sorting required</li>
+<li><strong>BVH (Bounding Volume Hierarchy)</strong> for efficient collision and visibility in dense jungle</li>
+</ul>
+
+<h3>What NOT to Use</h3>
+<ul>
+<li><strong>Rigid skinning</strong> for dinosaur bodies — causes "candy wrapper" artifacts at joints</li>
+<li><strong>Hard shadow maps</strong> — outdoor natural shadows have penumbra (soft edges)</li>
+<li><strong>Alpha blending</strong> for foliage — sorting thousands of leaves is too expensive</li>
+</ul>
+
+<hr>
+
+<h2 id="scenario-6-steampunk-armada">Scenario 6: Steampunk Armada</h2>
+
+<p><strong>Context:</strong> Fleet of metallic steam-powered airships with brass/copper surfaces, steam exhaust, gears, and dramatic sky battles.</p>
+
+<h3>Decision Table</h3>
+
+<p>| Requirement | Chosen Technique | Why |</p>
+<p>|-------------|-----------------|-----|</p>
+<p>| Metal surfaces | PBR (metallic/roughness workflow) | Brass, copper, iron all need physically accurate Fresnel |</p>
+<p>| Specular | Environment maps + specular maps | Reflective metal surfaces need sky/scene reflections |</p>
+<p>| Fresnel | R(θ,λ) = R₀+(1-R₀)(1-cosθ)⁵ | Controls edge vs normal-incidence reflectance |</p>
+<p>| Steam exhaust | Particle system + volumetric rendering | Steam = many small semi-transparent particles |</p>
+<p>| Gears (animation) | Keyframe or procedural rotation | Mechanical rotation = simple timed rotation matrix |</p>
+<p>| Lighting | Directional sun + sky ambient | Outdoor aerial scene |</p>
+<p>| Shadows | Shadow maps | Ships casting shadows on each other |</p>
+<p>| Optimization | Frustum culling + LOD | Distant ships in fleet use lower detail |</p>
+<p>| Scene | Scene graph with instances | Many similar ships = instanced rendering |</p>
+<p>| Rendering | Forward + deferred hybrid | Manageable lights but PBR needs proper shading pass |</p>
+
+<h3>Key Techniques to Mention</h3>
+<ul>
+<li><strong>PBR metallic workflow</strong>: albedo + metallic + roughness maps per surface</li>
+<li><strong>R₀(λ) = ((n(λ)-1)/(n(λ)+1))²</strong> — base reflectance at normal incidence for each metal</li>
+<li><strong>Environment mapping (cubemap)</strong> — sky reflection in polished metal</li>
+<li><strong>Instanced rendering</strong> — draw many similar ships with one draw call</li>
+<li><strong>Particle system</strong> for steam with lifespan, velocity, opacity falloff</li>
+</ul>
+
+<h3>What NOT to Use</h3>
+<ul>
+<li><strong>Phong alone</strong> — Phong doesn't capture the metallic/dielectric distinction properly</li>
+<li><strong>Flat normals</strong> on gear teeth — need normal maps for mechanical detail</li>
+<li><strong>Subsurface scattering</strong> — metal is opaque</li>
+</ul>
+
+<hr>
+
+<h2 id="scenario-7-microscopic-cell-world">Scenario 7: Microscopic Cell World</h2>
+
+<p><strong>Context:</strong> Visualizing the interior of a biological cell — organelles, membranes, DNA, and ATP molecules at molecular scale.</p>
+
+<h3>Decision Table</h3>
+
+<p>| Requirement | Chosen Technique | Why |</p>
+<p>|-------------|-----------------|-----|</p>
+<p>| Translucency | Alpha blending (additive/subtractive) | Cell membranes are semi-transparent; need to see organelles inside |</p>
+<p>| Organic glow | Emissive + bloom | Some organelles emit fluorescent light |</p>
+<p>| Subsurface scattering | SSS approximation | Organic material like membranes transmit scattered light |</p>
+<p>| Shadows | Diffuse ambient only (no hard shadows) | Biological scale; light is diffusely scattered everywhere |</p>
+<p>| Surface detail | Normal maps | Bumpy membrane texture without excess geometry |</p>
+<p>| Animation | Physics-based / procedural | Brownian motion of molecules = random walk procedural |</p>
+<p>| Particles | Particle system for ATP, vesicles | Floating molecular components with random motion |</p>
+<p>| Scale | No parallax/perspective distortion | Microscopic — orthographic projection may be more appropriate |</p>
+<p>| Rendering | Forward + alpha sorted | Transparency is key; need correct sorting |</p>
+<p>| Optimization | BVH | Dense packing of organelles needs spatial indexing |</p>
+
+<h3>Key Techniques to Mention</h3>
+<ul>
+<li><strong>Additive blending</strong> for glowing cytoplasm: GL_SRC_ALPHA, GL_ONE</li>
+<li><strong>Alpha compositing</strong> c = αc_f + (1-α)c_b for layered membrane transparency</li>
+<li><strong>Orthographic projection</strong> — microscopic view doesn't have strong perspective</li>
+<li><strong>Procedural animation</strong> for Brownian motion (random displacement each frame)</li>
+<li><strong>SSS</strong> — membranes are thin biological materials that transmit scattered light</li>
+</ul>
+
+<h3>What NOT to Use</h3>
+<ul>
+<li><strong>Hard directional light</strong> — light at cellular scale is diffuse omnidirectional</li>
+<li><strong>LOD</strong> — objects are already at minimal detail; no benefit</li>
+<li><strong>Backface culling</strong> — need to see through membranes from both sides</li>
+</ul>
+
+<hr>
+
+<h2 id="scenario-8-arctic-research-station">Scenario 8: Arctic Research Station</h2>
+
+<p><strong>Context:</strong> Snow and ice landscape with metallic research buildings, frozen water surfaces, blizzard conditions, and aurora in the sky.</p>
+
+<h3>Decision Table</h3>
+
+<p>| Requirement | Chosen Technique | Why |</p>
+<p>|-------------|-----------------|-----|</p>
+<p>| Ice/snow | PBR + high roughness for snow, low for ice | Snow = rough diffuse; ice = smooth specular with Fresnel |</p>
+<p>| Ice reflections | Environment map + Fresnel | Smooth ice reflects sky; Fresnel increases at grazing angles |</p>
+<p>| Blizzard | Particle system + wind velocity field | Snow particles with velocity, lifetime, turbulence |</p>
+<p>| Aurora | Emissive screen-space effect / additive | Aurora = color-shifting emissive light in sky |</p>
+<p>| Metal buildings | PBR metallic workflow | Cold metal surfaces with correct specular |</p>
+<p>| Shadows | Shadow maps (directional sun or moon) | Hard shadows from cold light source |</p>
+<p>| Ground | Displacement map for snow drift | Actual geometry variation for snow mounds |</p>
+<p>| Optimization | Frustum culling + LOD | Open landscape; distant features need LOD |</p>
+<p>| Depth of field | Post-processing DoF | Blizzard visibility limits — simulate with blur |</p>
+<p>| Lighting | Directional + sky hemisphere | Low-angle sun, bounced light from snow |</p>
+
+<h3>Key Techniques to Mention</h3>
+<ul>
+<li><strong>Fresnel</strong> — ice acts like a dielectric: R₀ for ice ≈ 0.02-0.05, high reflection at grazing</li>
+<li><strong>Particle system</strong> for blizzard: spawn rate, velocity with wind field, fade out at ground</li>
+<li><strong>Screen-space fog/DoF</strong> to simulate low visibility in snow storm</li>
+<li><strong>Snow accumulation</strong> — displacement map updated over time</li>
+<li><strong>Hemisphere lighting</strong> — snow-covered ground bounces light upward (two-sided ambient)</li>
+</ul>
+
+<h3>What NOT to Use</h3>
+<ul>
+<li><strong>Subsurface scattering</strong> — snow does scatter light but computationally expensive for environment</li>
+<li><strong>Bioluminescence / emissive</strong> for snow — snow reflects, doesn't emit</li>
+<li><strong>Deferred rendering</strong> — limited light sources in arctic scene; forward is simpler</li>
+</ul>
+
+<hr>
+
+<h2 id="scenario-9-post-apocalyptic-city">Scenario 9: Post-Apocalyptic City</h2>
+
+<p><strong>Context:</strong> Ruined urban environment with damaged buildings, rusted vehicles, fire and smoke, and dynamic weather — emphasis on gritty realism.</p>
+
+<h3>Decision Table</h3>
+
+<p>| Requirement | Chosen Technique | Why |</p>
+<p>|-------------|-----------------|-----|</p>
+<p>| Metal rust/damage | PBR with roughness/metallic maps | Varying rust/clean areas need per-pixel material variation |</p>
+<p>| Structural detail | Normal + displacement maps | Cracked concrete, bent metal without extreme polygon count |</p>
+<p>| Fire & smoke | Particle system | Fire = emissive particles; smoke = alpha-blended billboard particles |</p>
+<p>| Urban occlusion | BSP tree / PVS | Dense buildings occlude each other; precomputed visibility |</p>
+<p>| Shadows | Shadow maps + PCF | Dramatic directional light (post-storm sky) |</p>
+<p>| Rain | Particle system | Falling rain with splash particles on impact |</p>
+<p>| Lighting | Multiple point lights (fires) + deferred | Many fire light sources → deferred shading |</p>
+<p>| LOD | LOD for distant buildings | Many buildings; far ones need simplified meshes |</p>
+<p>| Glass shards | Alpha blending + physics | Broken window glass needs transparency and debris physics |</p>
+<p>| Rendering | Deferred shading | Many dynamic point lights from fires |</p>
+
+<h3>Key Techniques to Mention</h3>
+<ul>
+<li><strong>Deferred shading</strong> — G-buffer stores position/normal/albedo; lighting pass handles N lights</li>
+<li><strong>BSP/PVS</strong> — urban scene where one building fully occludesanother</li>
+<li><strong>Particle system</strong> for fire: emissive, upward velocity, additive blending, short lifespan</li>
+<li><strong>PBR material maps</strong> — roughness varies from clean metal (low) to rust (high)</li>
+<li><strong>Depth prepass</strong> — render scene depth first to avoid expensive pixel shader on occluded geometry</li>
+</ul>
+
+<h3>What NOT to Use</h3>
+<ul>
+<li><strong>Forward rendering</strong> with many lights — too many fire lights for forward to handle efficiently</li>
+<li><strong>Single ambient</strong> only — misses dramatic directional light and fire glow</li>
+<li><strong>No occlusion culling</strong> — city geometry is extremely dense; culling is essential</li>
+</ul>
+
+<hr>
+
+<h2 id="scenario-10-cyberpunk-city">Scenario 10: Cyberpunk City</h2>
+
+<p><strong>Context:</strong> Night-time futuristic city with neon lights, rain-wet reflective streets, holographic displays, and massive crowds.</p>
+
+<h3>Decision Table</h3>
+
+<p>| Requirement | Chosen Technique | Why |</p>
+<p>|-------------|-----------------|-----|</p>
+<p>| Many light sources | Deferred rendering + many point lights | Hundreds of neon signs = many point lights → deferred shading essential |</p>
+<p>| Neon glow | Emissive + bloom post-processing | Neon = emissive surfaces; bloom spreads light into surrounding pixels |</p>
+<p>| Wet streets | PBR + environment map + low roughness | Wet surface = smooth/mirror-like; Fresnel increases at grazing |</p>
+<p>| Rain puddles | Screen-space reflections + ripple animation | Dynamic water surface reflecting neon lights |</p>
+<p>| Holograms | Additive alpha blending | Holographic displays are semi-transparent, add color on top |</p>
+<p>| Crowds | Skeletal animation + LOD (impostors at distance) | Many characters; distant ones = flat textured billboards |</p>
+<p>| City occlusion | PVS + BSP | Pre-computed visibility for dense urban grid |</p>
+<p>| Depth prepass | Depth prepass before main shading | Many overlapping surfaces; avoid expensive deferred pass on hidden geometry |</p>
+<p>| LOD | LOD for buildings + crowds | Massive scene; far geometry greatly simplified |</p>
+<p>| Rendering | Full deferred pipeline | Only option for hundreds of dynamic lights |</p>
+
+<h3>Key Techniques to Mention</h3>
+<ul>
+<li><strong>Deferred rendering</strong> with G-buffer — mandatory for this many lights</li>
+<li><strong>Bloom</strong> post-processing: bright-pass extract → Gaussian blur → additive composite</li>
+<li><strong>PVS (Potentially Visible Set)</strong> — precomputed which city blocks see which others</li>
+<li><strong>Instanced rendering</strong> for crowd — thousands of similar character meshes</li>
+<li><strong>Screen-space reflections (SSR)</strong> for wet street reflections — efficient, uses depth buffer</li>
+<li><strong>Impostors / billboards</strong> for very distant crowd members — 2D textured quads</li>
+</ul>
+
+<h3>What NOT to Use</h3>
+<ul>
+<li><strong>Forward rendering</strong> — completely impractical for hundreds of lights</li>
+<li><strong>Hard shadow maps for every neon light</strong> — too many shadow maps; use shadow map atlases or skip for distant lights</li>
+<li><strong>High-poly meshes for distant crowd</strong> — use impostors/billboards instead</li>
+</ul>
+
+<hr>
+
+<h2 id="cross-scenario-quick-reference">Cross-Scenario Quick Reference</h2>
+
+<p>| Technique | Scenarios | When to Use |</p>
+<p>|-----------|-----------|------------|</p>
+<p>| PBR / BRDF | 1,3,4,5,6,8,9,10 | Any realistic metal, glass, or organic material |</p>
+<p>| Phong / Blinn-Phong | 2,5 | Simpler scenes; good enough for stone, cloth |</p>
+<p>| Shadow maps | 2,3,4,5,6,7,8,9,10 | Any scene with defined light sources casting shadows |</p>
+<p>| PCF soft shadows | 5,9 | Outdoor natural lighting; soft penumbra |</p>
+<p>| Alpha blending | 1,4,5,7,8,9,10 | Transparency: glass, water, holograms, particles |</p>
+<p>| Alpha discard | 2,5 | Foliage, fences — no sorting needed |</p>
+<p>| Emissive materials | 1,4,6,7,9,10 | Bioluminescence, neon, fire, magic glow |</p>
+<p>| Bloom post-process | 4,10 | When emissive objects should glow into surroundings |</p>
+<p>| Particle system | 1,3,5,6,8,9,10 | Any fluid/gaseous effect: dust, steam, rain, fire |</p>
+<p>| Skeletal animation (FK) | 2,5,6,9,10 | Human/creature characters |</p>
+<p>| Smooth skinning | 5,10 | Character skin deformation over skeleton |</p>
+<p>| IK (Inverse Kinematics) | 5 | Foot placement, reaching — endpoint-driven animation |</p>
+<p>| Keyframe animation | 4,6 | Mechanical/simple path animation |</p>
+<p>| Normal maps | 2,3,5,6,7,9 | Surface detail without extra geometry |</p>
+<p>| Displacement maps | 2,3,5,8,9 | Terrain, snow — actual geometry offset |</p>
+<p>| Environment maps | 3,4,6,8,10 | Reflective metallic / glass surfaces |</p>
+<p>| Fresnel equation | 1,4,8,10 | Water, ice, glass, polished metal — grazing reflection |</p>
+<p>| Snell's law | 1,4 | Actual light refraction through transparent medium |</p>
+<p>| Frustum culling | 2,3,5,6,8 | Any outdoor/open scene — cull geometry outside view |</p>
+<p>| Backface culling | 2,5,6 | Closed solid objects — cull back-facing triangles |</p>
+<p>| Occlusion culling | 4,5,7 | Dense scenes where objects hide each other |</p>
+<p>| Frustum culling | 2,3,5,6 | Always use — basic optimization for any large scene |</p>
+<p>| LOD | 2,3,5,6,8,10 | Large scenes with distant objects |</p>
+<p>| Depth prepass | 9,10 | Many overdraw situations — render depth first |</p>
+<p>| BSP tree | 2,4,9,10 | Indoor / urban scenes — precomputed spatial partition |</p>
+<p>| PVS | 9,10 | Dense urban grid — precomputed visibility sets |</p>
+<p>| BVH | 1,5,7 | Dense/complex geometry — fast ray/frustum intersection |</p>
+<p>| Deferred rendering | 4,9,10 | Many dynamic point lights (>10) |</p>
+<p>| Scene graph | 4,6 | Hierarchical transforms (parent-child relationships) |</p>
+<p>| Volumetric lighting | 1,3 | Light scattering through medium (water, dust, smoke) |</p>
+<p>| Subsurface scattering | 7 | Organic materials transmitting scattered light |</p>
+<p>| Screen-space reflections | 10 | Dynamic reflections in wet surfaces |</p>
+<p>| Instanced rendering | 6,10 | Many identical or similar objects |</p>
+
+<hr>
+
+<h2 id="exam-strategy">Exam Strategy</h2>
+
+<ol>
+<li><strong>Read the scenario</strong> — identify: outdoor/indoor, material types, dynamic elements, scale</li>
+<li><strong>Lighting first</strong> — what type of light (directional/point/emissive)? How many lights? → Forward vs Deferred</li>
+<li><strong>Materials</strong> — metals? Glass? Organic? → PBR vs Phong; Fresnel?</li>
+<li><strong>Transparency</strong> — any? → Alpha blending (sorted) or discard</li>
+<li><strong>Animation</strong> — characters? Particles? Mechanical? → Skeletal/particle/keyframe</li>
+<li><strong>Optimization</strong> — dense scene? Many objects? → Frustum/occlusion culling, LOD, BSP/PVS/BVH</li>
+<li><strong>Special effects</strong> — glow? Fog? Rain? → Post-processing, particles, volumetric</li>
+</ol>
+
+<p>Always justify <strong>why</strong> — "I use shadow maps because there is a clear directional light source" scores more than just naming the technique.</p>
+
+  </div>
+</div>
+<footer>
+  <div class="footer-inner">
+    <span><a href="../index.html">COS344 Study Hub</a></span>
+    <span>Computer Graphics Exam Guides</span>
+  </div>
+</footer>
+</body>
+</html>

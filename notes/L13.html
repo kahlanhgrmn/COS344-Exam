@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L13: ASSIMP, Blender & You · COS344</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><a href="../index.html" style="color:inherit;text-decoration:none">COS344</a> <span>// Lecture Notes</span></div>
+    <div class="topnav-links">
+      <a href="../index.html">Home</a>
+      <a href="index.html" class="active">Notes</a>
+      <a href="../guides/index.html">Guides</a>
+      <a href="../guides/03_questions.html">Questions</a>
+      <a href="../guides/05_math.html">Math</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="index.html">Lecture Notes</a>
+      <span class="sep">›</span>
+      <span>L13</span>
+    </div>
+    <div class="hero-eyebrow">L13</div>
+    <h1>ASSIMP, Blender & You</h1>
+    <div style="display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap;">
+      <span class="tag tag-pipe">Assets</span>
+      <a href="../guides/03_questions.html#l13" class="tag tag-guide" style="cursor:pointer;text-decoration:none;">📝 Practice Questions</a>
+    </div>
+  </div>
+
+  <div class="content-body">
+    <p>ASSIMP, Blender</p>
+<p>and you</p>
+<p>Tristan Potgieter</p>
+
+<p>By the end of this lecture, you should know:</p>
+<p>● Basic shader debugging</p>
+<p>○ RenderDoc</p>
+<p>● How to export a model from Blender.</p>
+<p>○ Basic UV unwrapping</p>
+<p>○ Texture Baking</p>
+<p>○ Asset file types</p>
+<p>● How to configure an asset importer to work with OpenGL</p>
+<p>○ Downloading Assimp</p>
+<p>○ Creating and using an Assimp instance</p>
+
+<p>Does any of this look familiar?</p>
+
+<p>Manual Vertex Specification is painful!</p>
+<p>Buzz had approximately 30k faces before the model was subdivided.</p>
+<p>Most of it was in the face so that it would look smooth enough.</p>
+<p>Digital Animation was difficult. No tools like rigging. Everything was a</p>
+<p>slider.</p>
+<p>Eben Ostby capturing vertex positions of Buzz</p>
+<p>Lightyear’s face for “Toy Story” (1995)</p>
+
+<p>Nowadays it's way easier</p>
+<p>3d modelling software has made creating objects</p>
+<p>(relatively) more intuitive.</p>
+<p>Hardware and software improvements mean</p>
+<p>performance is far more forgiving.</p>
+<p>Retopology is now a permanent part of the asset</p>
+<p>creation pipeline.</p>
+<p>Official Capture of the Hi-Poly sculpt for ‘Tracer’ from the 2016 game</p>
+<p>“Overwatch”. The in game version runs with around 30k faces. This</p>
+<p>sculpt probably has more than 1 million faces.</p>
+
+<p>There is a catch…</p>
+<p>Most of the biggest/most successful video games or renderers use custom engines that use different APIs.</p>
+<p>Engine: Engine: Engine:</p>
+<p>Proprietary Divinity Lightweight</p>
+<p>in house Engine 4.0 Java Game</p>
+<p>engine Library</p>
+<p>Graphics Graphics Graphics</p>
+<p>API: API: API:</p>
+<p>DirectX 11 Vulkan OpenGL</p>
+<p>Graphics APIs by themselves don’t know what to do with 3D Assets!</p>
+
+<p>Asset importers!</p>
+
+<p>ASSIMP</p>
+<p>As far as I know, ASSIMP (Open Asset Import Library) is</p>
+<p>the only “Plug and play” library around for asset</p>
+<p>importing.</p>
+<p>Every other is either proprietary, too obscure to be</p>
+<p>found, or too buggy to be useful.</p>
+<p>Most game dev studios that build their own engines also</p>
+<p>build their own asset importers.</p>
+<p>This is slowly changing however.</p>
+<p>Gadot Engine, an open source competitor to Unreal</p>
+<p>Engine and Unity Engine, uses Assimp!</p>
+
+<p>Just some clarification</p>
+<p>● This is NOT a 3D modeling lecture</p>
+<p>○ There are plenty of tutorials out there that will explain the basics of</p>
+<p>Blender better than me.</p>
+<p>○ 3D modeling is not something I can explain adequately in a single</p>
+<p>lecture.</p>
+<p>○ I will cover the major points that are relevant to exporting your model.</p>
+<p>● You are not required to use ASSIMP or Blender for your</p>
+<p>Homework Assignment</p>
+<p>○ Consider this as an extra tidbit of knowledge to hold onto.</p>
+<p>○ However, spending some time to learn these tools will make your</p>
+<p>Homework Assignment go a lot quicker.</p>
+<p>○ That is time you can spend on other subjects… like COS 332 and COS</p>
+<p>301 If you know where this doughnut is</p>
+<p>● Assimp is designed around workflows from industry from then you are already on the right</p>
+<p>track</p>
+<p>○ Do not be surprised if you have to do some restructuring to</p>
+<p>accommodate for it.</p>
+
+<p>First, an introduction to RenderDoc</p>
+<p>RenderDoc is an open source Graphics debugger</p>
+<p>released in 2014.</p>
+<p>It allows you to capture a single frame of your render,</p>
+<p>and then analyse the graphics pipeline that produced</p>
+<p>that frame.</p>
+<p>Key things to note:</p>
+<p>● It’s user interface is structured in a way that</p>
+<p>lines up with how you have been taught the</p>
+<p>graphics pipeline.</p>
+<p>● It allows you to check what data is being</p>
+<p>inputted to you shaders.</p>
+<p>● It allows you to modify your shaders on the fly</p>
+<p>to see how it affects your renders.</p>
+
+<p>Quick Demo!</p>
+
+<p>Lets hop into Blender then</p>
+
+<p>So, you have a beautifully</p>
+<p>designed 3D model! Now</p>
+<p>what?</p>
+<p>Before exporting, we need to know what format we are exporting to.</p>
+<p>There are several formats we can export to:</p>
+<p>● .OBJ Wavefront</p>
+<p>○ Simple, human-readable format</p>
+<p>○ Great if you are only interested in using blender for coordinate</p>
+<p>mapping</p>
+<p>○ Lacks support for modern texture workflows</p>
+<p>○ Can be very slow for modern polycounts (> 30k)</p>
+<p>● .FBX Filmbox</p>
+<p>○ Slightly more modern and better supported (Is developed by</p>
+<p>Autodesk)</p>
+<p>○ Much faster than OBJ</p>
+<p>○ Not human readable</p>
+<p>○ Designed for transfer between 3D tools.</p>
+<p>○ Still can be slow</p>
+<p>● .gltf 2.0</p>
+<p>○ Modern open source file format</p>
+<p>○ Designed for modern texture workflows</p>
+<p>○ Designed for web based projects. Small file sizes and extremely</p>
+<p>fast!</p>
+<p>○ Not human readable</p>
+<p>I advise you use .gltf.</p>
+
+<p>Lets check if we have</p>
+<p>GLTF 2.0 installed</p>
+<p>Edit > Preferences > Addons > GLTF</p>
+
+<p>Check the model is enclosed and has no loose</p>
+<p>geometry.</p>
+<p>Not as big of an issue, but is still good practice.</p>
+<p>An open mesh will still render, but may produces</p>
+<p>unexpected results when viewing from different angles.</p>
+<p>To check that your mesh is enclosed, follow these steps:</p>
+<p>● Go into edit mode</p>
+<p>● Press 3 to go into face select mode</p>
+<p>● Press A</p>
+<p>● Select > Select Loops > Select Boundary Loop</p>
+<p>● If any vertices become highlighted, you’re mesh is</p>
+<p>not enclosed!</p>
+
+<p>Checking UVs are unwrapped</p>
+<p>UV unwrapping is something that should be done once you have</p>
+<p>finished modeling.</p>
+<p>Blender’s automatic UV unwrapper should be adequate for what</p>
+<p>you will do for your assignment.</p>
+
+<p>Baking Procedural Textures</p>
+<p>Pay attention! I’m only going to cover this briefly.</p>
+<p>Things to remember:</p>
+<p>● You have to give Blender a target image to send the Baked textures to.</p>
+<p>● Lower your samples unless you want to melt your GPU</p>
+
+<p>Now we can actually export</p>
+<p>Since we are exporting in gltf, we go file > export > gltf 2.0</p>
+<p>Then just have the export setting as you see there.</p>
+<p>If you choose to export as a .OBJ, the process is quite</p>
+<p>similar. Some config settings might be different.</p>
+
+<p>Back to OpenGL</p>
+<p>In order to use ASSIMP:</p>
+<p>● Organized VAO VBO and EBO into separate classes.</p>
+<p>● Have defined classes for the following:</p>
+<p>○ Mesh</p>
+<p>○ Model</p>
+<p>○ Shader</p>
+<p>○ Camera</p>
+<p>I’m also assuming you have at the very least entertained the idea of adding textures to your</p>
+<p>scenes, so you have started exploring the ways to do that.</p>
+
+<p>Installing Assimp</p>
+<p>I lied when I said Assimp was plug-and-play.</p>
+<p>You actually need to download the source and compile it on your machine using cmake. Then</p>
+<p>you have to use Visual Studio to turn it into a usable c++ library on your machine.</p>
+<p>This means if you want to use Assimp comfortably, you will have to write and compile an</p>
+<p>OpenGL program locally on Windows.</p>
+<p>No WSL or Docker Containers.</p>
+
+<p>Importing a I am going to walk through my code and show</p>
+<p>how I did it. It should work for you but keep in</p>
+<p>model into</p>
+<p>mind that I had a bit more time to figure this all</p>
+<p>out.</p>
+<p>OpenGL</p>
+<p>Don’t worry if it doesn’t click that easily.</p>
+<p>This will also be demoed</p>
+
+<p>A little caveat about Assimp’s scene structure</p>
+<p>Assimp when it imports a model uses a Tree-like structure to map the scene. Each Node is linked</p>
+<p>to a root node called the “Scene root”.</p>
+<p>● There are many different types of nodes that can be linked to this scene node.</p>
+<p>● For our purposes, we are looking at Mesh nodes.</p>
+<p>● These nodes then have child nodes which link to other related resources (Textures, bones</p>
+<p>etc.)</p>
+
+<p>The loadModel and processNode function</p>
+<p>Both classes are in the model class.</p>
+<p>LoadModel parses the passed in asset file into a Assimp Tree structure. This is stored in a Assimp</p>
+<p>data type called aiScene.</p>
+<p>The first invocation of processNode has the root of the tree passed in with the scene data type.</p>
+<p>processNode in my implementation only checks for meshes connected to the node.</p>
+
+<p>Process Mesh</p>
+<p>This function includes some texture and UV processing, which you have not covered in</p>
+<p>lectures yet, so I will only point them out.</p>
+<p>Here, we are collecting all the vertices in this mesh node into a vertex array, much like what you</p>
+<p>have been doing manually.</p>
+<p>We also store the normal in a similar struct.</p>
+<p>We also store the indices so OpenGL knows which order to use vertices when drawing triangles.</p>
+
+<p>Questions?</p>
+
+  </div>
+
+  <div class="page-nav">
+    <a href="L12.html"><span class="nav-label">← Previous</span><span class="nav-title">Viewing (Conclusion)</span></a>
+    <a href="L14.html" class="nav-next"><span class="nav-label">Next →</span><span class="nav-title">Rasterisation & Viewing</span></a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span><a href="../index.html">COS344 Study Hub</a></span>
+    <span>Shirley &amp; Marschner, <em>Fundamentals of Computer Graphics</em></span>
+  </div>
+</footer>
+
+</body>
+</html>

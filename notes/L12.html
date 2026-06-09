@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L12: Viewing (Conclusion) · COS344</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><a href="../index.html" style="color:inherit;text-decoration:none">COS344</a> <span>// Lecture Notes</span></div>
+    <div class="topnav-links">
+      <a href="../index.html">Home</a>
+      <a href="index.html" class="active">Notes</a>
+      <a href="../guides/index.html">Guides</a>
+      <a href="../guides/03_questions.html">Questions</a>
+      <a href="../guides/05_math.html">Math</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="index.html">Lecture Notes</a>
+      <span class="sep">›</span>
+      <span>L12</span>
+    </div>
+    <div class="hero-eyebrow">L12 · Ch 8</div>
+    <h1>Viewing (Conclusion)</h1>
+    <div style="display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap;">
+      <span class="tag tag-xform">Viewing</span>
+      <a href="../guides/03_questions.html#l12" class="tag tag-guide" style="cursor:pointer;text-decoration:none;">📝 Practice Questions</a>
+    </div>
+  </div>
+
+  <div class="content-body">
+    <p>COS 344: L12 Chapter 8: Viewing</p>
+<p>Cobus Redelinghuys</p>
+<p>26/03/2026</p>
+
+<ul>
+<li>Today we continue our discussion on Chapter 8: Viewing, and</li>
+</ul>
+<p>we will focus on perspective projection.</p>
+<ul>
+<li>What do you think is the problem if t and g are scalar</li>
+</ul>
+<p>multiples of each other?</p>
+
+<ul>
+<li>For example, what if the up vector is 1 and the gazing</li>
+</ul>
+<p> 0 </p>
+<p>vector is 2?</p>
+<ul>
+<li>How can we solve this?</li>
+</ul>
+
+<p>Section 8.2: Projective Transformations</p>
+<ul>
+<li>Let us assume the following:</li>
+<li>Viewpoint is at the origin.</li>
+<li>Camera is looking along the z-direction.</li>
+<li>The key property of perspective that we will use is:</li>
+<li>That the size of the object on the screen is proportional to 1</li>
+</ul>
+<p>for an eye at the origin looking in the negative z-axis.</p>
+<ul>
+<li>We can then use: y = dy</li>
+</ul>
+
+<ul>
+<li>We would like to just multiply some matrix and achieve this</li>
+</ul>
+<p>projection as it aligns with our process we have build up until</p>
+<p>now.</p>
+<ul>
+<li>Assume we have a point at (x,y,z) and we represent it as</li>
+</ul>
+<p> x </p>
+<p> y</p>
+<p>follows:   or (x,y,z,1)T</p>
+<ul>
+<li>The last value, w, is always equal to 1.</li>
+<li>(0,0,0,1)T</li>
+</ul>
+<p>We can enforce this by always using as the fourth</p>
+<p>row in an affine transformation matrix.</p>
+<ul>
+<li>What if we think of the w as the denominator of the xyz</li>
+</ul>
+<p>coordinates?</p>
+<p>x x</p>
+<ul>
+<li> y y</li>
+</ul>
+<p>In other words,   represents the point as  .</p>
+<p>z w</p>
+
+<ul>
+<li>Affine transformations allows us to compute:</li>
+</ul>
+<p>x′ =ax +by +cz +d</p>
+<ul>
+<li>Using w we can compute the following:</li>
+</ul>
+<p>ax +by +cz +d</p>
+<p>ex +fy +gz +h</p>
+<ul>
+<li>This is known as a linear rotational function.</li>
+<li>We need to add another constraint:</li>
+<li>For each coordinate the denominator is the same.</li>
+<li>To summarize:</li>
+<li>Linear transformations allows us to compute:</li>
+</ul>
+<p>=ax +by +cz</p>
+
+<p>ax +by +cz +d</p>
+<p>ex +fy +gz +h</p>
+<ul>
+<li>To summarize:</li>
+</ul>
+<p>=ax +by +cz</p>
+<p>x′ =ax +by +cz +d</p>
+
+<ul>
+<li>To summarize:</li>
+</ul>
+<p>=ax +by +cz</p>
+<p>x′ =ax +by +cz +d</p>
+<p>ax +by +cz +d</p>
+<p>ex +fy +gz +h</p>
+
+<ul>
+<li>We can express this as a matrix transformation:</li>
+</ul>
+<p>    </p>
+<p>x˜ a b c d x</p>
+<p>1 1 1 1</p>
+<p>y˜ a b c d y</p>
+<p>  2 2 2 2 </p>
+<p> =    </p>
+<p>z˜ a b c d 3z</p>
+<p>3 3 3</p>
+<p>w˜ e f g h 1</p>
+<ul>
+<li>Which leads to:</li>
+</ul>
+<p>x˜ y˜ z˜</p>
+<p>(x′,y′,z′)</p>
+<p>= ( , , )</p>
+<p>w˜ w˜ w˜</p>
+<ul>
+<li>This looks as follows:</li>
+</ul>
+<p>a x +b y +c z +d</p>
+<p>x′ 1 1 1 1</p>
+<p>ex +fy +gz +h</p>
+<p>a 2 x +b 2 y +c 2 z +d 2</p>
+<p>y′ =</p>
+<p>ex +fy +gz +h</p>
+<p>a x +b y +c z +d</p>
+<p>z′ 3 3 3 3</p>
+<p>ex +fy +gz +h</p>
+
+<p>a x +b y +c z +d</p>
+<p>x′ 1 1 1 1</p>
+<p>ex +fy +gz +h</p>
+<p>y′ =</p>
+<p>ex +fy +gz +h</p>
+<p>a x +b y +c z +d</p>
+<p>z′ 3 3 3 3</p>
+<p>ex +fy +gz +h</p>
+<p>    </p>
+<p>x˜ a b c d x</p>
+<p>1 1 1 1</p>
+<p>y˜ a b c d y</p>
+<p>  2 2 2 2 </p>
+<p> =    </p>
+<p>z˜ a b c d 3z</p>
+<p>3 3 3</p>
+<p>w˜ e f g h 1</p>
+<ul>
+<li>Which leads to:</li>
+</ul>
+<p>x˜ y˜ z˜</p>
+<p>(x′,y′,z′)</p>
+<p>= ( , , )</p>
+<p>w˜ w˜ w˜</p>
+
+<ul>
+<li>Transformations like this are known as a projective</li>
+</ul>
+<p>transformation or a homography.</p>
+<ul>
+<li>Examples 17 and 18 are left as self-study.</li>
+</ul>
+
+<p>Section 8.3: Perspective Projection</p>
+<ul>
+<li>Projective transformations simplify the implementation of the</li>
+</ul>
+<p>key property of perspective, i.e. the division by z.</p>
+<ul>
+<li>Using the simple 2D example from Figure 8.8, we can</li>
+</ul>
+<p>implement the perspective projection as follows:</p>
+<p> y </p>
+
+<p>y d 0 0</p>
+<p>s ∼ z</p>
+<p>1 0 1 0</p>
+<ul>
+<li>This transforms the 2D homogeneous vector: z to the 1D</li>
+</ul>
+
+<p>homogeneous vector .</p>
+<ul>
+<li>dy.</li>
+</ul>
+<p>This represents the point</p>
+
+<ul>
+<li>For a 3D perspective projection matrix, let us assume the</li>
+</ul>
+<p>following:</p>
+<ul>
+<li>Camera is at the origin and facing in the negative z-axis</li>
+</ul>
+<p>direction.</p>
+<ul>
+<li>The distance to the point positioned at y is −d</li>
+</ul>
+<ul>
+<li>Note the textbook has it as −z referring to the z as with Fig</li>
+</ul>
+<p>8.8.</p>
+<ul>
+<li>Just as with orthographic projection, we limit the near and far</li>
+</ul>
+<p>planes of what can be seen.</p>
+<ul>
+<li>The image plane is therefore at a distance of −n.</li>
+<li>Why is −d p and −n negative?</li>
+<li>The desired mapping is thus: y = ( n )y and the same can be</li>
+</ul>
+<p>s dp</p>
+<p>found for x.</p>
+
+<ul>
+<li>Thus we obtain the perspective matrix (P) as:</li>
+</ul>
+<p>n 0 0 0</p>
+<p>0 n 0 0 </p>
+<p>0 0 n+f −fn</p>
+<p>0 0 1 0</p>
+<ul>
+<li>The first, second, and fourth rows simply implement the</li>
+</ul>
+<p>perspective equation.</p>
+<ul>
+<li>Third row, as with orthographical and viewport matrices, is</li>
+</ul>
+<p>just to carry over the z value for later use.</p>
+<ul>
+<li>Note the z component of coordinates are distorted in an effort</li>
+</ul>
+<p>to manipulate the x and y components.</p>
+<ul>
+<li>We thus choose to keep the z value unchanged for points on</li>
+</ul>
+<p>the near and far point.</p>
+
+<ul>
+<li>There are many different matrices that can work as</li>
+</ul>
+<p>perspective matrices, and all of them nonlinearly distort the z</p>
+<p>component.</p>
+<ul>
+<li>P has the following properties:</li>
+<li>Leaves points on the z =n plane alone.</li>
+<li>Leaves points on the z =f plane, but, squashes the x and y</li>
+</ul>
+<p>components by the appropriate amount.</p>
+<ul>
+<li>The effect of P on y is thus:</li>
+</ul>
+<p> x   nx   nx </p>
+<p>y  ny   ny </p>
+<p>P  =   ∼  z </p>
+<p>z (n+f)z −fn n+f − fn </p>
+<p>1 z 1</p>
+
+<ul>
+<li>The inverse of P is:</li>
+</ul>
+<p>1 </p>
+<p>0 0 0</p>
+<p> 0 0 0 </p>
+<p>P−1 =  n </p>
+<p>0 0 0 1</p>
+<p>0 0 −1 n+f</p>
+<p>fn fn</p>
+<ul>
+<li>A nice benefit of the perspective matrix is that once applied,</li>
+</ul>
+<p>the orthographic transforms can be used to create the</p>
+<p>canonical view volume.</p>
+<ul>
+<li>If we take the perspective matrix in the context of the</li>
+</ul>
+<p>orthographic projection matrix, the perspective matrix simply</p>
+<p>maps the perspective view volume to the orthographic view</p>
+<p>volume.</p>
+<ul>
+<li>The shape of the perspective view volume is:</li>
+<li>Slice, or frustrum, of a pyramid.</li>
+<li>The shape of the orthographic view volume:</li>
+<li>Axis-aligned box</li>
+</ul>
+
+<p>perspective-matrix/canonical1.png?</p>
+
+<ul>
+<li>We can thus obtain the perspective projection matrix (M )</li>
+</ul>
+<p>M = M P</p>
+<p>per orth</p>
+<ul>
+<li>The remaining problem is how we define l,r,b,t for perspective.</li>
+<li>Since the perspective matrix does not alter the values of x</li>
+</ul>
+<p>and y on the (z = n)-plane, we specify (l,r,b,t) on the</p>
+<p>(z = n)-plane.</p>
+<ul>
+<li>How can we integrate this perspective matrix into our</li>
+</ul>
+<p>previously defined formula: M M M ?</p>
+<p>vp orth cam</p>
+<ul>
+<li>We simply replace M with M .</li>
+</ul>
+<p>orth per</p>
+<ul>
+<li>This gives us two options:</li>
+</ul>
+<p>M = M M M M = M M PM</p>
+<p>vp per cam vp orth cam</p>
+
+<ul>
+<li>If we multiply the M per out we obtain:</li>
+</ul>
+<p> 2n l+r </p>
+<p>r−l l−r</p>
+<p>2n b+t</p>
+<p> 0 0 </p>
+<p>M =  t− b b − t </p>
+<p>per 0 0 f + n 2fn</p>
+<p>n−f f−n</p>
+<p>0 0 1 0</p>
+<ul>
+<li>Section 8.4 is left to the curious students and deals with the</li>
+</ul>
+<p>properties of the perspective transformations</p>
+
+<p>We can now extend Algorithm 2 to use M .</p>
+<p>Algorithm 1 Drawing 3D lines</p>
+<p>Construct M</p>
+<p>Construct M</p>
+<p>Construct M</p>
+<p>M := M ×M ×M</p>
+<p>vp per cam</p>
+<p>for each line segment (a ,b ) do</p>
+<p>p := Ma i</p>
+<p>q := Mb</p>
+<p>drawLine( , )</p>
+<p>wp wq</p>
+<p>end for</p>
+
+<ul>
+<li>This implies the constraint that:</li>
+<li>l =−r</li>
+<li>b =−t</li>
+<li>Now add the constraint that the pixels are square, i.e. there is</li>
+</ul>
+<p>no distortion of the shape in the image.</p>
+<ul>
+<li>We obtain that the ratio of r to t must be the same as the</li>
+</ul>
+<p>number of horizontal pixels to the number of vertical pixels:</p>
+<p>Section 8.5: Field-of-View</p>
+<ul>
+<li>We saw that we can specify any viewing window using</li>
+</ul>
+<p>(l,r,b,t) and n values.</p>
+<ul>
+<li>What if we would like to simplify this, where we look through</li>
+</ul>
+<p>the center of a window?</p>
+
+<ul>
+<li>l =−r</li>
+<li>b =−t</li>
+</ul>
+
+<ul>
+<li>Once n and n have been chosen, this leaves only one degree</li>
+</ul>
+<p>of freedom left.</p>
+<ul>
+<li>This is known as the field-of-view angle or the vertical</li>
+</ul>
+<p>field-of-view angle.</p>
+<ul>
+<li>Why the need to specify the vertical?</li>
+</ul>
+
+<ul>
+<li>From Fig 8.14 we can see that:</li>
+</ul>
+
+<p>tan =</p>
+<p>2 |n|</p>
+<ul>
+<li>Thus, if we define n and θ we can derive t and use it to code</li>
+</ul>
+<p>a general viewing system.</p>
+
+  </div>
+
+  <div class="page-nav">
+    <a href="L11.html"><span class="nav-label">← Previous</span><span class="nav-title">Viewing (Intro)</span></a>
+    <a href="L13.html" class="nav-next"><span class="nav-label">Next →</span><span class="nav-title">ASSIMP, Blender & You</span></a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span><a href="../index.html">COS344 Study Hub</a></span>
+    <span>Shirley &amp; Marschner, <em>Fundamentals of Computer Graphics</em></span>
+  </div>
+</footer>
+
+</body>
+</html>

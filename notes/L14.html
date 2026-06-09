@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L14: Rasterisation & Viewing · COS344</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><a href="../index.html" style="color:inherit;text-decoration:none">COS344</a> <span>// Lecture Notes</span></div>
+    <div class="topnav-links">
+      <a href="../index.html">Home</a>
+      <a href="index.html" class="active">Notes</a>
+      <a href="../guides/index.html">Guides</a>
+      <a href="../guides/03_questions.html">Questions</a>
+      <a href="../guides/05_math.html">Math</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="index.html">Lecture Notes</a>
+      <span class="sep">›</span>
+      <span>L14</span>
+    </div>
+    <div class="hero-eyebrow">L14 · Ch 9</div>
+    <h1>Rasterisation & Viewing</h1>
+    <div style="display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap;">
+      <span class="tag tag-pipe">Rasterisation</span>
+      <a href="../guides/03_questions.html#l14" class="tag tag-guide" style="cursor:pointer;text-decoration:none;">📝 Practice Questions</a>
+    </div>
+  </div>
+
+  <div class="content-body">
+    <p>COS 344: L14 Chapter 9: Rasterization: Viewing</p>
+<p>Cobus Redelinghuys</p>
+<p>06/04/2025</p>
+
+<ul>
+<li>Today we will finish up the parts of Chapter 9 that was</li>
+</ul>
+<p>skipped previously.</p>
+<ul>
+<li>We needed to skip these sections as we had not discussed</li>
+</ul>
+<p>viewing yet.</p>
+
+<ul>
+<li>During the rasterization process, if we simply transform</li>
+</ul>
+<p>primitives into screen space and rasterize them, what could be</p>
+<p>the problem?</p>
+<ul>
+<li>Primitives that are behind the camera will also be rasterized,</li>
+</ul>
+<p>leading to incorrect rendering.</p>
+<ul>
+<li>For this reason, the clipping operation needs to be applied</li>
+</ul>
+<p>before the rasterization process.</p>
+<ul>
+<li>Clipping is a common process in computer graphics, and is</li>
+</ul>
+<p>used whenever one geometric entity cuts another.</p>
+<ul>
+<li>What is a geometric entity?</li>
+<li>Is it just objects?</li>
+</ul>
+<p>Section 9.1.4: Clipping</p>
+<ul>
+<li>In our discussion on Viewing, we made the assumption that</li>
+</ul>
+<p>everything we want to render is “seen” by the camera.</p>
+<ul>
+<li>In real life, this is not always possible.</li>
+<li>Examples?</li>
+</ul>
+
+<ul>
+<li>Examples?</li>
+</ul>
+<p>the problem?</p>
+
+<ul>
+<li>Examples?</li>
+</ul>
+<p>the problem?</p>
+
+<ul>
+<li>Examples?</li>
+</ul>
+<p>the problem?</p>
+
+<ul>
+<li>The view volume.</li>
+<li>Why is it safe to always discard</li>
+</ul>
+<p>geometric objects that is outside of</p>
+<p>the view volume?</p>
+<ul>
+<li>For example, take a triangle that is</li>
+</ul>
+<p>cut into two portions by a plane.</p>
+<ul>
+<li>In most graphic applications, the</li>
+</ul>
+<p>part of the triangle that is on the</p>
+<p>wrong side of the plane is</p>
+<p>discarded.</p>
+<ul>
+<li>In computer graphics, what is an</li>
+</ul>
+<p>example of a set of planes, that</p>
+<p>when a geometric object is on the</p>
+<p>wrong side of the plane, is</p>
+<p>discarded?</p>
+
+<p>discarded.</p>
+<p>discarded?</p>
+<ul>
+<li>The view volume.</li>
+</ul>
+<p>the view volume?</p>
+
+<ul>
+<li>Two common approaches exist:</li>
+<li>Using the world coordinates and the size bounding planes of</li>
+</ul>
+<p>the truncated viewing pyramid.</p>
+<ul>
+<li>In the 4D transformed space, before the homogeneous divide.</li>
+<li>You are only expected to know, on a high level, how these</li>
+</ul>
+<p>methods work.</p>
+
+<ul>
+<li>Only visits each object once.</li>
+<li>As with most things, this is also a weakness. How?</li>
+<li>Why do objects need to be visited if they are not seen?</li>
+</ul>
+<p>Culling</p>
+<p>Identifying and ignoring invisible geometry, for the sake of</p>
+<p>efficiency.</p>
+<p>Section 9.4: Culling Primitives for Efficiency</p>
+<ul>
+<li>Who can remember what object order rendering’s strength is?</li>
+</ul>
+
+<p>Culling</p>
+<p>efficiency.</p>
+
+<p>Culling</p>
+<p>efficiency.</p>
+
+<ul>
+<li>Three commonly implemented culling strategies are:</li>
+</ul>
+<p>View volume culling (View frustum culling)</p>
+<p>The removal of geometry that is outside the view volume</p>
+<p>Occlusion culling</p>
+<p>The removal of geometry that may be within the view volume, but</p>
+<p>is obscured, or occluded, by other geometry closer to the camera.</p>
+<p>Backface culling</p>
+<p>The removal of primitives facing away from the camera.</p>
+<p>We will only briefly consider view volume culling and backface</p>
+<p>culling.</p>
+
+<ul>
+<li>When they lie outside of the view volume.</li>
+<li>Why?</li>
+<li>The trade-off:</li>
+<li>Being able to decide if a primitive can be culled or not, using a</li>
+</ul>
+<p>quick test, will speed up the render.</p>
+<ul>
+<li>But visiting each primitive to test if they need to be rendered,</li>
+</ul>
+<p>can be more computationally expensive than just leaving it to</p>
+<p>the rasterizer to remove.</p>
+<ul>
+<li>View volume culling can be useful if we can find a bounding</li>
+</ul>
+<p>volume for an object.</p>
+<ul>
+<li>If the bounding volume is outside the view volume, we can</li>
+</ul>
+<p>ignore all the primitives used in the object.</p>
+<p>Section 9.4.1: View Volume Culling</p>
+<ul>
+<li>When can a primitive be safely culled?</li>
+</ul>
+
+<ul>
+<li>Why?</li>
+<li>The trade-off:</li>
+</ul>
+
+<p>Section 9.4.2: Backface Culling</p>
+<p>Closed polygon</p>
+<p>Polygons that bound a closed space with no holes</p>
+<ul>
+<li>Polygons that are closed polygons, have a normal that faces</li>
+</ul>
+<p>outward from the surface of the polygon.</p>
+<ul>
+<li>If the normal faces away from the camera, it is often safe to</li>
+</ul>
+<p>assume that another polygon is in front of this polygon.</p>
+<ul>
+<li>This other polygon will probably have a normal that faces the</li>
+</ul>
+<p>camera.</p>
+<ul>
+<li>The polygon with the “backwards” normal can be culled.</li>
+<li>In basic wording: Culling the back of polygons</li>
+</ul>
+
+<p>Culling+Techniques+Fall+2006+revised.jpg</p>
+
+<ul>
+<li>We would like to create some matrix U that take in a point in</li>
+</ul>
+<p>world space, apply some transformation to it, then change it</p>
+<p>such that it is projected using the correct projection.</p>
+<ul>
+<li>In other words:</li>
+</ul>
+<p>v = Uv</p>
+<p>clip world</p>
+<ul>
+<li>We thus need three matrices:</li>
+<li>Model (M)</li>
+<li>This is the transformation matrix that will change the</li>
+</ul>
+<p>geometric object.</p>
+<ul>
+<li>View (M or V)</li>
+</ul>
+<ul>
+<li>This is the view matrix that alters the camera position and</li>
+</ul>
+<p>looking direction.</p>
+<ul>
+<li>Projection (M or M )</li>
+</ul>
+<p>per orth</p>
+<ul>
+<li>This is the matrix that will project the geometric objects</li>
+</ul>
+<p>according to the correct projection type.</p>
+<ul>
+<li>U can thus be formed as:</li>
+</ul>
+<p>U = PVM</p>
+<p>U = M M M</p>
+<p>orth cam</p>
+
+<ul>
+<li>This part of the work is not in the textbook.</li>
+<li>In order to perform back face culling in OpenGL, the following</li>
+</ul>
+<p>is used:</p>
+<p>1. Winding order</p>
+<p>2. Enabling culling</p>
+<p>3. Specifying what needs to be culled.</p>
+
+<ul>
+<li>This order is also known as the winding order.</li>
+<li>Two possibilities exist:</li>
+<li>Clockwise</li>
+<li>Counter-clockwise</li>
+<li>OpenGL uses this information to determine what the back</li>
+</ul>
+<p>face is and what the front face is.</p>
+<ul>
+<li>By default, OpenGL uses counter-clockwise, why?</li>
+</ul>
+<p>Winding Order</p>
+<ul>
+<li>When drawing triangles, why was the order of the vertices</li>
+</ul>
+<p>important?</p>
+
+<p>Winding Order</p>
+<p>important?</p>
+<ul>
+<li>Clockwise</li>
+<li>Counter-clockwise</li>
+</ul>
+
+<p>float vertices[] = {</p>
+<p>vertices[0], // vertex 1</p>
+<p>vertices[1], // vertex 2</p>
+<p>vertices[2], // vertex 3</p>
+<p>vertices[1] // vertex 2</p>
+<p>windingorder.png</p>
+
+<p>frontback.png</p>
+
+<p>Code</p>
+<p>In order to enable culling, the following functions are needed:</p>
+<p>1. glEnable(GL CULL FACE);</p>
+<p>2. glCullFace(GL FRONT);</p>
+<p>3. glFrontFace(GL CCW);</p>
+<p>What do you think the purpose is of glEnable(GL CULL FACE)?</p>
+
+<p>glCullFace</p>
+<p>void glCullFace(GLenum mode)</p>
+<ul>
+<li>Specifies whether front- or back-facing facets are culled</li>
+<li>mode</li>
+<li>Specifies which mode of culling is used:</li>
+<li>Types are:</li>
+<li>GL FRONT</li>
+<li>GL BACK</li>
+<li>GL FRONT AND BACK</li>
+<li>Default is GL BACK</li>
+</ul>
+
+<p>BC-01-1024x536.jpg</p>
+
+<p>glFrontFace</p>
+<p>void glFrontFace(GLenum mode);</p>
+<ul>
+<li>Specifies the winding order of the front face of the polygon.</li>
+<li>mode</li>
+<li>Specifies the winding order that will be used:</li>
+<li>Options are:</li>
+<li>GL CW (Clockwise)</li>
+<li>GL CCW (Counter clockwise)</li>
+<li>GL CCW is the default value.</li>
+</ul>
+
+  </div>
+
+  <div class="page-nav">
+    <a href="L13.html"><span class="nav-label">← Previous</span><span class="nav-title">ASSIMP, Blender & You</span></a>
+    <a href="L15.html" class="nav-next"><span class="nav-label">Next →</span><span class="nav-title">Texture Mapping (Intro)</span></a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span><a href="../index.html">COS344 Study Hub</a></span>
+    <span>Shirley &amp; Marschner, <em>Fundamentals of Computer Graphics</em></span>
+  </div>
+</footer>
+
+</body>
+</html>
