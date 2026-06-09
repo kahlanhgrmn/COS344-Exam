@@ -316,3 +316,124 @@ footer { background: var(--navy); color: #6b7590; padding: 1.5rem 0; margin-top:
   .page-nav { grid-template-columns: 1fr; }
   .mcq-score { flex-direction: column; gap: .5rem; }
 }
+
+/* ── PRINT ── */
+@media print {
+  /* page setup */
+  @page { margin: 1.8cm 1.5cm; }
+
+  /* hide screen-only navigation/chrome */
+  nav.topnav,
+  footer,
+  .page-nav,
+  .filter-tabs,
+  .progress-wrap,
+  .hero-pills,
+  .breadcrumb { display: none !important; }
+
+  /* reset backgrounds / shadows to save ink */
+  *, *::before, *::after {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    background-color: transparent !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  /* full-width single-column layout */
+  .site-wrap,
+  .page-wrap,
+  .topnav-inner,
+  .hero-inner,
+  .footer-inner { max-width: 100% !important; padding: 0 !important; }
+
+  /* hero: dark bg → white with a bottom border */
+  .hero {
+    background: #fff !important;
+    color: #000 !important;
+    padding: 0 0 1rem !important;
+    border-bottom: 2px solid #000;
+    margin-bottom: 1rem;
+  }
+  .hero h1,
+  .hero-sub,
+  .hero-eyebrow { color: #000 !important; }
+
+  /* headings */
+  h1 { font-size: 20pt; }
+  h2 { font-size: 14pt; border-bottom: 1px solid #999; }
+  h3 { font-size: 12pt; }
+  h4 { font-size: 10pt; }
+
+  /* links: show the URL inline, suppress for nav-only anchors */
+  a[href]::after { content: " (" attr(href) ")"; font-size: .75em; color: #555; }
+  a[href^="#"]::after,
+  a[href^="javascript"]::after { content: ""; }
+
+  /* code blocks: invert dark theme to black-on-light */
+  pre {
+    background: #f4f4f4 !important;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: .75rem 1rem;
+    white-space: pre-wrap;
+    word-break: break-all;
+    page-break-inside: avoid;
+  }
+  pre code { color: #1a1a1a !important; font-size: 9pt; }
+  code {
+    background: #f4f4f4 !important;
+    border: 1px solid #ccc !important;
+    color: #1a1a1a !important;
+  }
+
+  /* tables */
+  table { border: 1px solid #999; page-break-inside: avoid; font-size: 9pt; }
+  th { background: #e0e0e0 !important; color: #000 !important; border: 1px solid #999; }
+  td { border: 1px solid #ccc !important; background: #fff !important; }
+  tr:hover td { background: #fff !important; }
+
+  /* callouts: keep left-border color cue, white background */
+  .callout { border: 1px solid #ccc; border-left-width: 4px; page-break-inside: avoid; }
+  .callout-tip  { border-left-color: #0ea47a !important; }
+  .callout-warn { border-left-color: #d97706 !important; }
+  .callout-info { border-left-color: #2563eb !important; }
+  .callout-exam { border-left-color: #dc2626 !important; }
+  .callout-label { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  /* cards: single-column, no hover effects */
+  .card-grid, .guide-grid { grid-template-columns: 1fr !important; gap: .5rem; }
+  .card, .guide-card {
+    border: 1px solid #ccc !important;
+    page-break-inside: avoid;
+  }
+
+  /* MCQ: remove interactive chrome, show all options as plain list */
+  .mcq-block { border: 1px solid #ccc !important; page-break-inside: avoid; }
+  .mcq-opt { border: 1px solid #ccc !important; cursor: default; }
+  .mcq-opt:hover { background: transparent !important; border-color: #ccc !important; }
+  .mcq-score { background: #e0e0e0 !important; color: #000 !important; border: 1px solid #999; }
+  .mcq-score span { color: #000 !important; }
+  .mcq-feedback { display: none !important; } /* answers hidden in printed copy */
+
+  /* long-question blocks: always show body when printing */
+  .lq-body { display: block !important; }
+  .lq-header { cursor: default; }
+  .lq-block { border: 1px solid #ccc !important; page-break-inside: avoid; }
+
+  /* situations page: show all scenarios, hide tab switcher */
+  #scenario-tabs { display: none !important; }
+  #scenario-content > div { display: block !important; }
+
+  /* avoid orphaned headings */
+  h1, h2, h3, h4 { page-break-after: avoid; }
+  p, li, blockquote { orphans: 3; widows: 3; }
+  blockquote { border-left: 3px solid #999 !important; }
+}
