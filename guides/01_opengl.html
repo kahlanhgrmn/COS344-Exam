@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenGL State Machine &middot; COS344</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo"><a href="../index.html" style="color:inherit;text-decoration:none">COS344</a> <span>// OpenGL</span></div>
+    <div class="topnav-links">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Guides</a>
+      <a href="03_questions.html">Questions</a>
+      <a href="04_situations.html">Situations</a>
+      <a href="05_math.html">Math</a>
+    </div>
+  </div>
+</nav>
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="breadcrumb"><a href="../index.html">Home</a> &rsaquo; <a href="index.html">Guides</a> &rsaquo; OpenGL State Machine</div>
+    <h1>OpenGL State Machine</h1>
+  </div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.4rem;margin-bottom:1.5rem;box-shadow:var(--shadow)"><h4>Contents</h4><div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem"><a href="#1-the-opengl-state-machine-concept" style="background:var(--accent-bg);color:var(--accent);border:1px solid #bfdbfe;border-radius:4px;padding:.2em .7em;font-size:.75rem;font-family:var(--mono);text-decoration:none">1. The OpenGL State Machine Concept</a><a href="#2-object-creation-binding-pattern" style="background:var(--accent-bg);color:var(--accent);border:1px solid #bfdbfe;border-radius:4px;padding:.2em .7em;font-size:.75rem;font-family:var(--mono);text-decoration:none">2. Object Creation & Binding Pattern</a><a href="#3-shader-compilation-pipeline" style="background:var(--accent-bg);color:var(--accent);border:1px solid #bfdbfe;border-radius:4px;padding:.2em .7em;font-size:.75rem;font-family:var(--mono);text-decoration:none">3. Shader Compilation Pipeline</a><a href="#4-complete-rendering-pipeline" style="background:var(--accent-bg);color:var(--accent);border:1px solid #bfdbfe;border-radius:4px;padding:.2em .7em;font-size:.75rem;font-family:var(--mono);text-decoration:none">4. Complete Rendering Pipeline</a><a href="#5-uniforms-and-attribute-locations" style="background:var(--accent-bg);color:var(--accent);border:1px solid #bfdbfe;border-radius:4px;padding:.2em .7em;font-size:.75rem;font-family:var(--mono);text-decoration:none">5. Uniforms and Attribute Locations</a><a href="#6-texture-setup" style="background:var(--accent-bg);color:var(--accent);border:1px solid #bfdbfe;border-radius:4px;padding:.2em .7em;font-size:.75rem;font-family:var(--mono);text-decoration:none">6. Texture Setup</a><a href="#7-framebuffer-depth-test" style="background:var(--accent-bg);color:var(--accent);border:1px solid #bfdbfe;border-radius:4px;padding:.2em .7em;font-size:.75rem;font-family:var(--mono);text-decoration:none">7. Framebuffer & Depth Test</a><a href="#8-backface-culling" style="background:var(--accent-bg);color:var(--accent);border:1px solid #bfdbfe;border-radius:4px;padding:.2em .7em;font-size:.75rem;font-family:var(--mono);text-decoration:none">8. Backface Culling</a><a href="#9-render-loop-structure" style="background:var(--accent-bg);color:var(--accent);border:1px solid #bfdbfe;border-radius:4px;padding:.2em .7em;font-size:.75rem;font-family:var(--mono);text-decoration:none">9. Render Loop Structure</a><a href="#10-primitive-drawing-modes" style="background:var(--accent-bg);color:var(--accent);border:1px solid #bfdbfe;border-radius:4px;padding:.2em .7em;font-size:.75rem;font-family:var(--mono);text-decoration:none">10. Primitive Drawing Modes</a><a href="#11-viewport-transform" style="background:var(--accent-bg);color:var(--accent);border:1px solid #bfdbfe;border-radius:4px;padding:.2em .7em;font-size:.75rem;font-family:var(--mono);text-decoration:none">11. Viewport Transform</a><a href="#12-common-exam-traps" style="background:var(--accent-bg);color:var(--accent);border:1px solid #bfdbfe;border-radius:4px;padding:.2em .7em;font-size:.75rem;font-family:var(--mono);text-decoration:none">12. Common Exam Traps</a><a href="#13-complete-opengl-initialization-sequence" style="background:var(--accent-bg);color:var(--accent);border:1px solid #bfdbfe;border-radius:4px;padding:.2em .7em;font-size:.75rem;font-family:var(--mono);text-decoration:none">13. Complete OpenGL Initialization Sequence</a><a href="#14-summary-tables" style="background:var(--accent-bg);color:var(--accent);border:1px solid #bfdbfe;border-radius:4px;padding:.2em .7em;font-size:.75rem;font-family:var(--mono);text-decoration:none">14. Summary Tables</a></div></div>
+  <div class="content-body"><div class="callout callout-exam"><div class="callout-label">⚠ Exam Tip</div><p>OpenGL is a <strong>state machine</strong> — every setting persists until changed. State leaks between draw calls are a common bug and common exam question.</p></div><h2>COS344 — OpenGL State Machine & Pipeline Reference</h2>
+<hr>
+<h2 id="1-the-opengl-state-machine-concept">1. The OpenGL State Machine Concept</h2>
+<p>OpenGL is a <strong>state machine</strong>: every setting you change persists until you change it again. The current state determines how every draw call behaves.</p>
+<h3>Key State Variables</h3>
+<table><thead><tr>
+<th>State Variable</th><th>Set With</th><th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Clear color</td><td><code>glClearColor(r,g,b,a)</code></td><td>(0,0,0,0)</td>
+</tr>
+<tr>
+<td>Depth test</td><td><code>glEnable/Disable(GL_DEPTH_TEST)</code></td><td>Disabled</td>
+</tr>
+<tr>
+<td>Depth function</td><td><code>glDepthFunc(GL_LESS)</code></td><td>GL_LESS</td>
+</tr>
+<tr>
+<td>Blend mode</td><td><code>glEnable(GL_BLEND)</code> + <code>glBlendFunc</code></td><td>Disabled</td>
+</tr>
+<tr>
+<td>Current VAO</td><td><code>glBindVertexArray(id)</code></td><td>0 (none)</td>
+</tr>
+<tr>
+<td>Current VBO</td><td><code>glBindBuffer(GL_ARRAY_BUFFER, id)</code></td><td>0</td>
+</tr>
+<tr>
+<td>Current shader</td><td><code>glUseProgram(id)</code></td><td>0</td>
+</tr>
+<tr>
+<td>Active texture unit</td><td><code>glActiveTexture(GL_TEXTURE0)</code></td><td>GL_TEXTURE0</td>
+</tr>
+<tr>
+<td>Culling</td><td><code>glEnable(GL_CULL_FACE)</code></td><td>Disabled</td>
+</tr>
+<tr>
+<td>Viewport</td><td><code>glViewport(x,y,w,h)</code></td><td>Full window</td>
+</tr>
+<div class="callout callout-info"><p><strong>Exam tip:</strong> State <em>leaks</em> between draw calls. If you enable blending for one object and forget to disable it, the next object will also blend.</p></div>
+<hr>
+<h2 id="2-object-creation-binding-pattern">2. Object Creation & Binding Pattern</h2>
+<h3>VAO (Vertex Array Object)</h3>
+<p>Stores the <em>configuration</em> of vertex attribute pointers and which VBO they point to.</p>
+<pre><code class="lang-cpp">
+GLuint vao;
+glGenVertexArrays(1, &amp;vao);
+glBindVertexArray(vao);       // Bind FIRST before configuring VBO
+</code></pre>
+<h3>VBO (Vertex Buffer Object)</h3>
+<p>Stores raw vertex data on the GPU.</p>
+<pre><code class="lang-cpp">
+GLuint vbo;
+glGenBuffers(1, &amp;vbo);
+glBindBuffer(GL_ARRAY_BUFFER, vbo);
+glBufferData(GL_ARRAY_BUFFER,       // target
+             sizeof(vertices),      // size in BYTES
+             vertices,              // pointer to CPU data
+             GL_STATIC_DRAW);       // usage hint
+</code></pre>
+<p><code>GL_STATIC_DRAW</code> = data set once, used many times. Also: <code>GL_DYNAMIC_DRAW</code>, <code>GL_STREAM_DRAW</code>.</p>
+<h3>EBO (Element Buffer Object) — for indexed drawing</h3>
+<pre><code class="lang-cpp">
+GLuint ebo;
+glGenBuffers(1, &amp;ebo);
+glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+</code></pre>
+<h3>Vertex Attribute Pointer</h3>
+<p>Tells OpenGL how to interpret raw bytes as attributes:</p>
+<pre><code class="lang-cpp">
+glVertexAttribPointer(
+    0,                  // location (matches layout(location=0) in shader)
+    3,                  // number of components (vec3 = 3 floats)
+    GL_FLOAT,           // data type
+    GL_FALSE,           // normalize?
+    3 * sizeof(float),  // stride: bytes between consecutive vertices
+    (void*)0            // offset: bytes from start to this attribute
+);
+glEnableVertexAttribArray(0);
+</code></pre>
+<p><strong>Interleaved attributes</strong> (position + normal + texcoord in one VBO):</p>
+<pre><code class="lang-cpp">
+// Layout: [x,y,z, nx,ny,nz, u,v] per vertex  =  8 floats = 32 bytes stride
+
+// Position at location 0
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)0);
+glEnableVertexAttribArray(0);
+
+// Normal at location 1
+glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)(3*sizeof(float)));
+glEnableVertexAttribArray(1);
+
+// TexCoord at location 2
+glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)(6*sizeof(float)));
+glEnableVertexAttribArray(2);
+</code></pre>
+<div class="callout callout-info"><p><strong>Exam trap:</strong> Always bind the VAO <em>before</em> configuring VBO attributes. The VAO records which VBO is bound and how attributes are laid out.</p></div>
+<hr>
+<h2 id="3-shader-compilation-pipeline">3. Shader Compilation Pipeline</h2>
+<h3>Step-by-step (9 steps)</h3>
+<pre><code class="lang-cpp">
+// 1. Create shader object
+GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
+
+// 2. Attach source code
+glShaderSource(vertShader, 1, &amp;vertSrc, NULL);
+
+// 3. Compile
+glCompileShader(vertShader);
+
+// 4. Check for errors
+GLint success;
+glGetShaderiv(vertShader, GL_COMPILE_STATUS, &amp;success);
+if (!success) {
+    char log[512];
+    glGetShaderInfoLog(vertShader, 512, NULL, log);
+    std::cout &lt;&lt; "SHADER ERROR: " &lt;&lt; log &lt;&lt; std::endl;
+}
+
+// 5. Repeat for fragment shader
+GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+glShaderSource(fragShader, 1, &amp;fragSrc, NULL);
+glCompileShader(fragShader);
+
+// 6. Create program
+GLuint shaderProg = glCreateProgram();
+
+// 7. Attach both shaders
+glAttachShader(shaderProg, vertShader);
+glAttachShader(shaderProg, fragShader);
+
+// 8. Link
+glLinkProgram(shaderProg);
+
+// 9. Use
+glUseProgram(shaderProg);
+
+// Cleanup (optional but good practice)
+glDeleteShader(vertShader);
+glDeleteShader(fragShader);
+</code></pre>
+<h3>Minimal Vertex Shader</h3>
+<pre><code class="lang-glsl">
+#version 330 core
+layout(location = 0) in vec3 aPos;
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
+void main() {
+    gl_Position = projection * view * model * vec4(aPos, 1.0);
+}
+</code></pre>
+<h3>Minimal Fragment Shader</h3>
+<pre><code class="lang-glsl">
+#version 330 core
+out vec4 FragColor;
+
+void main() {
+    FragColor = vec4(1.0, 0.5, 0.2, 1.0);  // orange
+}
+</code></pre>
+<h3>GLSL Quick Reference</h3>
+<table><thead><tr>
+<th>Type</th><th>Description</th><th>Example</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>float</code></td><td>scalar</td><td><code>0.5</code></td>
+</tr>
+<tr>
+<td><code>vec2/3/4</code></td><td>vector</td><td><code>vec3(1.0, 0.0, 0.0)</code></td>
+</tr>
+<tr>
+<td><code>mat3/4</code></td><td>matrix</td><td><code>mat4(1.0)</code> = identity</td>
+</tr>
+<tr>
+<td><code>sampler2D</code></td><td>2D texture</td><td><code>uniform sampler2D tex</code></td>
+</tr>
+<tr>
+<td><code>in</code></td><td>input from prev stage</td><td><code>in vec3 FragPos</code></td>
+</tr>
+<tr>
+<td><code>out</code></td><td>output to next stage</td><td><code>out vec4 FragColor</code></td>
+</tr>
+<tr>
+<td><code>uniform</code></td><td>CPU-set constant</td><td><code>uniform float time</code></td>
+</tr>
+<p><strong>Swizzling:</strong> <code>.xyz</code>, <code>.rgb</code>, <code>.xy</code>, <code>.xxxx</code>, <code>.zy</code> — any combination.</p>
+<hr>
+<h2 id="4-complete-rendering-pipeline">4. Complete Rendering Pipeline</h2>
+<pre><code class="lang-text">
+CPU (C++ arrays)
+    │
+    ▼
+VBO/VAO ──── Upload to GPU memory
+    │
+    ▼
+Vertex Shader ──── Runs per vertex
+    │               Transforms to clip space (gl_Position)
+    │               Passes interpolatable data (normals, UVs)
+    ▼
+Primitive Assembly ──── Groups vertices into triangles
+    │
+    ▼
+Clipping ──── Removes geometry outside view frustum
+    │
+    ▼
+Rasterization ──── Converts triangles → fragments (pixels)
+    │               Interpolates vertex outputs (barycentric)
+    ▼
+Fragment Shader ──── Runs per fragment
+    │                 Computes final color
+    ▼
+Depth Test ──── Compare fragment z with z-buffer
+    │           Discard if occluded
+    ▼
+Blending ──── If alpha blending enabled: mix with framebuffer
+    │
+    ▼
+Framebuffer (back buffer) ──── glfwSwapBuffers()
+    │
+    ▼
+Screen (front buffer)
+</code></pre>
+<h3>Coordinate Space Pipeline</h3>
+<table><thead><tr>
+<th>Space</th><th>Obtained By</th><th>Range</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Object/Model Space</td><td>—</td><td>Arbitrary</td>
+</tr>
+<tr>
+<td>World Space</td><td>× Model matrix M</td><td>Arbitrary</td>
+</tr>
+<tr>
+<td>View/Camera Space</td><td>× View matrix V</td><td>Camera at origin</td>
+</tr>
+<tr>
+<td>Clip Space</td><td>× Projection P</td><td>w-dependent</td>
+</tr>
+<tr>
+<td>NDC</td><td>÷ w (perspective divide)</td><td>[-1,1]³</td>
+</tr>
+<tr>
+<td>Screen/Window</td><td>× Viewport Mvp</td><td>[0,width]×[0,height]</td>
+</tr>
+<p><strong>Full transform chain:</strong></p>
+<pre><code class="lang-glsl">
+gl_Position = projection * view * model * vec4(aPos, 1.0);
+//            P           V      M
+</code></pre>
+<hr>
+<h2 id="5-uniforms-and-attribute-locations">5. Uniforms and Attribute Locations</h2>
+<h3>Setting Uniforms</h3>
+<pre><code class="lang-cpp">
+// Must call glUseProgram FIRST
+glUseProgram(shaderProg);
+
+GLint loc = glGetUniformLocation(shaderProg, "model");
+</code></pre>
+<table><thead><tr>
+<th>Uniform Type</th><th>Function</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>float</code></td><td><code>glUniform1f(loc, val)</code></td>
+</tr>
+<tr>
+<td><code>int</code></td><td><code>glUniform1i(loc, val)</code></td>
+</tr>
+<tr>
+<td><code>vec3</code></td><td><code>glUniform3fv(loc, 1, glm::value_ptr(v))</code></td>
+</tr>
+<tr>
+<td><code>vec4</code></td><td><code>glUniform4fv(loc, 1, glm::value_ptr(v))</code></td>
+</tr>
+<tr>
+<td><code>mat4</code></td><td><code>glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(m))</code></td>
+</tr>
+<div class="callout callout-info"><p><strong>Exam trap:</strong> <code>glUniformMatrix4fv</code> — the 3rd arg is <code>GL_FALSE</code> (OpenGL uses column-major, which matches GLM's layout). <code>GL_TRUE</code> would transpose.</p></div>
+<h3>Attribute Locations</h3>
+<p>Two ways to specify which location maps to which shader input:</p>
+<p><strong>Method 1: Layout qualifier in GLSL (preferred)</strong></p>
+<pre><code class="lang-glsl">
+layout(location = 0) in vec3 aPos;
+layout(location = 1) in vec3 aNormal;
+</code></pre>
+<p><strong>Method 2: Query from CPU</strong></p>
+<pre><code class="lang-cpp">
+GLint posLoc = glGetAttribLocation(shaderProg, "aPos");
+glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, ...);
+</code></pre>
+<hr>
+<h2 id="6-texture-setup">6. Texture Setup</h2>
+<h3>Complete Texture Setup</h3>
+<pre><code class="lang-cpp">
+// 1. Generate
+GLuint texture;
+glGenTextures(1, &amp;texture);
+
+// 2. Bind
+glBindTexture(GL_TEXTURE_2D, texture);
+
+// 3. Wrapping parameters
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+// 4. Filtering parameters
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+// 5. Load image data (e.g., using stb_image)
+int width, height, nChannels;
+unsigned char* data = stbi_load("texture.png", &amp;width, &amp;height, &amp;nChannels, 0);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+// 6. Generate mipmaps
+glGenerateMipmap(GL_TEXTURE_2D);
+stbi_image_free(data);
+</code></pre>
+<h3>Using Textures in Render Loop</h3>
+<pre><code class="lang-cpp">
+// Activate texture unit, then bind
+glActiveTexture(GL_TEXTURE0);          // Select unit 0
+glBindTexture(GL_TEXTURE_2D, texture); // Bind texture to unit 0
+
+// Tell shader which unit to sample from
+glUniform1i(glGetUniformLocation(shader, "texture1"), 0);  // unit 0
+</code></pre>
+<h3>Texture Unit vs Texture ID</h3>
+<table><thead><tr>
+<th>Concept</th><th>What It Is</th><th>Range</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Texture ID</td><td>OpenGL-assigned name for your texture</td><td>1, 2, 3...</td>
+</tr>
+<tr>
+<td>Texture Unit</td><td>Slot that shaders read from</td><td>GL_TEXTURE0..31</td>
+</tr>
+<tr>
+<td>Uniform value</td><td>Which unit the sampler reads</td><td>0, 1, 2...</td>
+</tr>
+<div class="callout callout-info"><p><strong>Exam trap:</strong> <code>glUniform1i(loc, 0)</code> means "read from GL_TEXTURE0", NOT texture ID 0.</p></div>
+<h3>Wrapping Modes</h3>
+<table><thead><tr>
+<th>Mode</th><th>Behaviour</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>GL_REPEAT</code></td><td>Tile infinitely</td>
+</tr>
+<tr>
+<td><code>GL_MIRRORED_REPEAT</code></td><td>Tile with mirror flip</td>
+</tr>
+<tr>
+<td><code>GL_CLAMP_TO_EDGE</code></td><td>Stretch edge pixels</td>
+</tr>
+<tr>
+<td><code>GL_CLAMP_TO_BORDER</code></td><td>Fill with border color</td>
+</tr>
+<h3>Texture Types</h3>
+<table><thead><tr>
+<th>Type</th><th>Purpose</th><th>How to Apply</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Diffuse/Albedo map</td><td>Base color</td><td>Multiply by lighting result</td>
+</tr>
+<tr>
+<td>Normal map</td><td>Per-pixel normals</td><td>Sample, remap [0,1]→[-1,1], transform to world space</td>
+</tr>
+<tr>
+<td>Bump map</td><td>Height-based normals (older)</td><td>Derive normal from height differences</td>
+</tr>
+<tr>
+<td>Displacement map</td><td>Actually moves geometry</td><td>Applied in vertex/tessellation shader</td>
+</tr>
+<tr>
+<td>Shadow map</td><td>Depth from light's perspective</td><td>Compare fragment depth to shadow map depth</td>
+</tr>
+<hr>
+<h2 id="7-framebuffer-depth-test">7. Framebuffer & Depth Test</h2>
+<pre><code class="lang-cpp">
+// Enable depth testing (do once at init)
+glEnable(GL_DEPTH_TEST);
+glDepthFunc(GL_LESS);   // Pass if fragment z &lt; z-buffer z
+
+// At start of each frame
+glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+</code></pre>
+<h3>glDepthFunc Options</h3>
+<table><thead><tr>
+<th>Function</th><th>Passes when fragment z is...</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>GL_LESS</code> (default)</td><td>less than stored z</td>
+</tr>
+<tr>
+<td><code>GL_LEQUAL</code></td><td>less than or equal</td>
+</tr>
+<tr>
+<td><code>GL_GREATER</code></td><td>greater than stored z</td>
+</tr>
+<tr>
+<td><code>GL_ALWAYS</code></td><td>always (no depth test)</td>
+</tr>
+<tr>
+<td><code>GL_NEVER</code></td><td>never</td>
+</tr>
+<div class="callout callout-info"><p><strong>Exam tip:</strong> <code>glClearColor</code> sets <em>what color to fill with</em>. <code>glClear</code> <em>executes the fill</em>. Both are needed.</p></div>
+<hr>
+<h2 id="8-backface-culling">8. Backface Culling</h2>
+<pre><code class="lang-cpp">
+glEnable(GL_CULL_FACE);
+glCullFace(GL_BACK);     // Cull back-facing triangles (default)
+glFrontFace(GL_CCW);     // Counter-clockwise winding = front face (default)
+</code></pre>
+<p>A triangle's winding order (when viewed from outside) determines front vs back:</p>
+<ul>
+<li><strong>Counter-clockwise (CCW)</strong> → front face → rendered</li>
+<li><strong>Clockwise (CW)</strong> → back face → culled</li>
+</ul>
+<div class="callout callout-info"><p><strong>Exam tip:</strong> Backface culling halves the fragment shader load. It exploits the property that for closed meshes, back faces are never visible.</p></div>
+<hr>
+<h2 id="9-render-loop-structure">9. Render Loop Structure</h2>
+<pre><code class="lang-cpp">
+while (!glfwWindowShouldClose(window)) {
+    // 1. Process input
+    processInput(window);
+
+    // 2. Clear
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // 3. Activate shader program
+    glUseProgram(shaderProg);
+
+    // 4. Set uniforms
+    glm::mat4 model = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime(), glm::vec3(0,1,0));
+    glUniformMatrix4fv(glGetUniformLocation(shaderProg, "model"), 1, GL_FALSE, glm::value_ptr(model));
+    // ... view and projection similarly
+
+    // 5. Bind VAO (restores vertex attribute config)
+    glBindVertexArray(vao);
+
+    // 6. Draw
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    // OR: glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
+
+    // 7. Swap buffers (shows back buffer on screen)
+    glfwSwapBuffers(window);
+
+    // 8. Poll events (keyboard, mouse, window resize)
+    glfwPollEvents();
+}
+</code></pre>
+<h3>glDrawArrays vs glDrawElements</h3>
+<table><thead><tr>
+<th>Function</th><th>When to Use</th><th>Data Needed</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>glDrawArrays(mode, first, count)</code></td><td>Non-indexed, simple geometry</td><td>Just VBO</td>
+</tr>
+<tr>
+<td><code>glDrawElements(mode, count, type, offset)</code></td><td>Indexed, shared vertices</td><td>VBO + EBO</td>
+</tr>
+<hr>
+<h2 id="10-primitive-drawing-modes">10. Primitive Drawing Modes</h2>
+<table><thead><tr>
+<th>Mode</th><th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>GL_POINTS</code></td><td>One point per vertex</td>
+</tr>
+<tr>
+<td><code>GL_LINES</code></td><td>Pairs of vertices = line segments</td>
+</tr>
+<tr>
+<td><code>GL_LINE_STRIP</code></td><td>Connected line chain</td>
+</tr>
+<tr>
+<td><code>GL_LINE_LOOP</code></td><td>Connected loop (last connects to first)</td>
+</tr>
+<tr>
+<td><code>GL_TRIANGLES</code></td><td>Every 3 vertices = one triangle</td>
+</tr>
+<tr>
+<td><code>GL_TRIANGLE_STRIP</code></td><td>Shared edge triangles (efficient)</td>
+</tr>
+<tr>
+<td><code>GL_TRIANGLE_FAN</code></td><td>Fan from first vertex</td>
+</tr>
+<hr>
+<h2 id="11-viewport-transform">11. Viewport Transform</h2>
+<p>Maps NDC [-1,1]² to screen pixels:</p>
+<pre><code class="lang-cpp">
+glViewport(x, y, width, height);
+</code></pre>
+<p>Matrix form:</p>
+<pre><code class="lang-text">
+Mvp = | w/2   0   0   x+w/2 |
+      |  0   h/2  0   y+h/2 |
+      |  0    0  1/2   1/2  |
+      |  0    0   0     1   |
+</code></pre>
+<div class="callout callout-info"><p><strong>Exam tip:</strong> The viewport transform is the last step after the perspective divide. It's fixed-function — you don't write a shader for it.</p></div>
+<hr>
+<h2 id="12-common-exam-traps">12. Common Exam Traps</h2>
+<table><thead><tr>
+<th>Trap</th><th>Wrong</th><th>Correct</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>VAO/VBO order</td><td>Configuring VBO before binding VAO</td><td>Bind VAO first</td>
+</tr>
+<tr>
+<td>Depth test</td><td>Forget <code>glEnable(GL_DEPTH_TEST)</code></td><td>Enable at init</td>
+</tr>
+<tr>
+<td>Uniform type</td><td><code>glUniform3f</code> for a mat4</td><td><code>glUniformMatrix4fv</code></td>
+</tr>
+<tr>
+<td>Texture unit</td><td><code>glUniform1i(loc, textureID)</code></td><td><code>glUniform1i(loc, unitNumber)</code></td>
+</tr>
+<tr>
+<td>glUseProgram</td><td>Setting uniform before <code>glUseProgram</code></td><td>Call <code>glUseProgram</code> first</td>
+</tr>
+<tr>
+<td>Matrix order</td><td><code>model <em> view </em> proj * pos</code></td><td><code>proj <em> view </em> model * pos</code> (or right-to-left in GLSL)</td>
+</tr>
+<tr>
+<td>Buffer size</td><td><code>glBufferData(..., count, ...)</code></td><td><code>glBufferData(..., count * sizeof(float), ...)</code></td>
+</tr>
+<tr>
+<td>Stride</td><td><code>stride = numComponents</code></td><td><code>stride = numComponents * sizeof(float)</code></td>
+</tr>
+<tr>
+<td>Interleaved offset</td><td><code>(void*)componentIndex</code></td><td><code>(void<em>)(componentIndex </em> sizeof(float))</code></td>
+</tr>
+<hr>
+<h2 id="13-complete-opengl-initialization-sequence">13. Complete OpenGL Initialization Sequence</h2>
+<pre><code class="lang-text">
+1.  glfwInit()
+2.  glfwCreateWindow()
+3.  glfwMakeContextCurrent()
+4.  gladLoadGLLoader() or glewInit()
+5.  glViewport()
+6.  glEnable(GL_DEPTH_TEST)
+7.  Create + compile vertex shader
+8.  Create + compile fragment shader
+9.  Create + link shader program
+10. glGenVertexArrays() + glBindVertexArray()
+11. glGenBuffers() + glBindBuffer() + glBufferData()  [VBO]
+12. glGenBuffers() + glBindBuffer() + glBufferData()  [EBO, if needed]
+13. glVertexAttribPointer() + glEnableVertexAttribArray()  [per attribute]
+14. Load textures: glGenTextures → glBindTexture → glTexImage2D → glGenerateMipmap
+15. Enter render loop
+    a. glClear()
+    b. glUseProgram()
+    c. glUniform*() for all uniforms
+    d. glBindVertexArray()
+    e. glDrawArrays() / glDrawElements()
+    f. glfwSwapBuffers()
+    g. glfwPollEvents()
+16. glDeleteVertexArrays / glDeleteBuffers / glDeleteProgram
+17. glfwTerminate()
+</code></pre>
+<hr>
+<h2 id="14-summary-tables">14. Summary Tables</h2>
+<h3>Object Types</h3>
+<table><thead><tr>
+<th>Object</th><th>Gen</th><th>Bind</th><th>Configure</th><th>Draw Usage</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>VAO</td><td><code>glGenVertexArrays</code></td><td><code>glBindVertexArray</code></td><td><code>glVertexAttribPointer</code></td><td>Bind before draw</td>
+</tr>
+<tr>
+<td>VBO</td><td><code>glGenBuffers</code></td><td><code>glBindBuffer(ARRAY)</code></td><td><code>glBufferData</code></td><td>Bound via VAO</td>
+</tr>
+<tr>
+<td>EBO</td><td><code>glGenBuffers</code></td><td><code>glBindBuffer(ELEMENT)</code></td><td><code>glBufferData</code></td><td>Bound via VAO</td>
+</tr>
+<tr>
+<td>Texture</td><td><code>glGenTextures</code></td><td><code>glBindTexture</code></td><td><code>glTexImage2D</code></td><td><code>glActiveTexture</code></td>
+</tr>
+<tr>
+<td>Shader</td><td><code>glCreateShader</code></td><td>—</td><td><code>glShaderSource</code></td><td>Part of program</td>
+</tr>
+<tr>
+<td>Program</td><td><code>glCreateProgram</code></td><td>—</td><td><code>glAttachShader</code></td><td><code>glUseProgram</code></td>
+</tr>
+<h3>glEnable Capabilities</h3>
+<table><thead><tr>
+<th>Capability</th><th>Effect</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>GL_DEPTH_TEST</code></td><td>Z-buffer depth testing</td>
+</tr>
+<tr>
+<td><code>GL_BLEND</code></td><td>Alpha blending</td>
+</tr>
+<tr>
+<td><code>GL_CULL_FACE</code></td><td>Backface culling</td>
+</tr>
+<tr>
+<td><code>GL_MULTISAMPLE</code></td><td>MSAA anti-aliasing</td>
+</tr>
+<tr>
+<td><code>GL_STENCIL_TEST</code></td><td>Stencil buffer test</td>
+</tr>
+<tr>
+<td><code>GL_SCISSOR_TEST</code></td><td>Restrict rendering to rectangle</td>
+</tr></tbody></table></div>
+</div>
+<footer><div class="footer-inner"><span><a href="../index.html">COS344 Study Hub</a></span><span>Computer Graphics Exam Guides</span></div></footer>
+</body>
+</html>
