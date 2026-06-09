@@ -4,9 +4,9 @@ A static GitHub Pages site for studying COS344 Computer Graphics at the Universi
 
 ## 🔗 Live Site
 
-**[View the Study Hub →](https://YOUR-USERNAME.github.io/COS344-Study-Hub/)**
+**[View the Study Hub →]()**
 
-## 📁 Structure
+## Structure
 
 ```
 index.html              ← Home page (all lectures + guides overview)
@@ -23,15 +23,8 @@ guides/
   05_math.html          ← Math Guide
 ```
 
-## 🚀 Deploying to GitHub Pages
 
-1. Create a new GitHub repository (e.g. `COS344-Study-Hub`)
-2. Upload all files maintaining the folder structure above
-3. Go to **Settings → Pages**
-4. Set **Source** to `Deploy from a branch` → `main` → `/ (root)`
-5. Click **Save** — your site will be live at `https://YOUR-USERNAME.github.io/COS344-Study-Hub/`
-
-## 📚 Content
+## Content
 
 Based on **Shirley & Marschner, *Fundamentals of Computer Graphics*** — Chapters 1, 3, 4, 5, 7, 8, 9, 11, 12, 14, 16, 17, 19, 22, 23
 
