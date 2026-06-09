@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COS344 — Computer Graphics Study Hub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">COS344 <span>// Computer Graphics</span></div>
+    <div class="topnav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="notes/index.html">Lecture Notes</a>
+      <a href="guides/index.html">Guides</a>
+      <a href="guides/03_questions.html">Question Bank</a>
+      <a href="guides/04_situations.html">Situations</a>
+      <a href="guides/05_math.html">Math</a>
+    </div>
+  </div>
+</nav>
+
+<div class="site-wrap">
+  <div class="hero">
+    <div class="hero-eyebrow">University of Pretoria · COS344</div>
+    <h1>Computer Graphics<br><em>Study Hub</em></h1>
+    <p class="hero-sub">
+      All 21 lecture notes, 5 exam guides, a question bank, math walkthroughs,
+      and situation-based revision — based on Shirley &amp; Marschner Chapters 1–23.
+    </p>
+    <div class="hero-meta">
+      <span><strong>21</strong> Lectures</span>
+      <span><strong>5</strong> Guides</span>
+      <span><strong>210+</strong> MCQs</span>
+      <span><strong>Open-book</strong> exam format</span>
+    </div>
+  </div>
+
+  <!-- GUIDES -->
+  <div class="section-head">
+    <h2>Exam Guides</h2>
+    <span class="section-label">Start here</span>
+  </div>
+  <div class="guide-grid">
+    <a class="guide-card" href="guides/01_opengl.html">
+      <div class="guide-icon">⚙️</div>
+      <div class="guide-title">OpenGL State Machine</div>
+      <div class="guide-desc">VAOs, VBOs, uniforms, the render loop, common state-leak mistakes, and the full pipeline concept.</div>
+    </a>
+    <a class="guide-card" href="guides/02_shaders.html">
+      <div class="guide-icon">🔦</div>
+      <div class="guide-title">Vertex &amp; Fragment Shaders</div>
+      <div class="guide-desc">Full annotated GLSL anatomy, coordinate space chain, Phong shading line-by-line, built-ins cheat sheet.</div>
+    </a>
+    <a class="guide-card" href="guides/03_questions.html">
+      <div class="guide-icon">📝</div>
+      <div class="guide-title">Question Bank</div>
+      <div class="guide-desc">10 MCQs + 3 long questions per lecture. All 21 lectures covered with model answers.</div>
+    </a>
+    <a class="guide-card" href="guides/04_situations.html">
+      <div class="guide-icon">🎮</div>
+      <div class="guide-title">Situation-Based Guide</div>
+      <div class="guide-desc">Decision tables for: rendering, camera, animation, textures, visual perception &amp; gamification.</div>
+    </a>
+    <a class="guide-card" href="guides/05_math.html">
+      <div class="guide-icon">∑</div>
+      <div class="guide-title">Math Guide</div>
+      <div class="guide-desc">Step-by-step walkthrough of all mathematical concepts — vectors, matrices, transforms, ray equations, and more.</div>
+    </a>
+  </div>
+
+  <!-- LECTURE NOTES -->
+  <div class="section-head">
+    <h2>Lecture Notes</h2>
+    <span class="section-label">All 21 lectures</span>
+  </div>
+
+  <!-- Section P1 -->
+  <h4 style="margin-bottom:.75rem; color:var(--muted);">Part 1 — Foundations &amp; Rendering</h4>
+  <div class="card-grid">
+    <a class="card" href="notes/L01.html" style="--card-accent:var(--accent)">
+      <span class="card-num">L01 · Ch 1</span>
+      <span class="card-title">Introduction to Computer Graphics</span>
+      <span class="card-sub">Applications, modelling, rendering, animation, course overview.</span>
+      <div class="card-tags"><span class="tag tag-pipe">Foundations</span></div>
+    </a>
+    <a class="card" href="notes/L02.html" style="--card-accent:var(--tag-xform)">
+      <span class="card-num">L02 · Ch 3</span>
+      <span class="card-title">Raster Images</span>
+      <span class="card-sub">Pixels, resolution, colour models, image storage, gamma correction.</span>
+      <div class="card-tags"><span class="tag tag-xform">Raster</span></div>
+    </a>
+    <a class="card" href="notes/L03.html" style="--card-accent:var(--tag-ray)">
+      <span class="card-num">L03 · Ch 4</span>
+      <span class="card-title">Ray Tracing</span>
+      <span class="card-sub">Ray–object intersection, shadow rays, reflections, recursive tracing.</span>
+      <div class="card-tags"><span class="tag tag-ray">Ray Tracing</span></div>
+    </a>
+    <a class="card" href="notes/L04.html" style="--card-accent:var(--tag-shade)">
+      <span class="card-num">L04 · Ch 5</span>
+      <span class="card-title">Surface Shading</span>
+      <span class="card-sub">Diffuse, specular, Phong model, normals, ambient, Lambertian.</span>
+      <div class="card-tags"><span class="tag tag-shade">Shading</span></div>
+    </a>
+    <a class="card" href="notes/L05.html" style="--card-accent:var(--accent2)">
+      <span class="card-num">L05 · Ch 17</span>
+      <span class="card-title">Graphical Hardware (Intro)</span>
+      <span class="card-sub">GPU architecture, SIMD, parallelism, the hardware pipeline overview.</span>
+      <div class="card-tags"><span class="tag tag-pipe">Hardware</span></div>
+    </a>
+  </div>
+
+  <!-- Section P2 -->
+  <h4 style="margin: 2rem 0 .75rem; color:var(--muted);">Part 2 — Hardware, Pipeline &amp; Transforms</h4>
+  <div class="card-grid">
+    <a class="card" href="notes/L06.html" style="--card-accent:var(--accent2)">
+      <span class="card-num">L06 · Ch 17</span>
+      <span class="card-title">Graphical Hardware (Conclusion)</span>
+      <span class="card-sub">OpenGL buffer objects, VAO/VBO, shaders on GPU, memory model.</span>
+      <div class="card-tags"><span class="tag tag-pipe">Hardware</span></div>
+    </a>
+    <a class="card" href="notes/L07.html" style="--card-accent:var(--tag-xform)">
+      <span class="card-num">L07 · Ch 7</span>
+      <span class="card-title">2D Transformations</span>
+      <span class="card-sub">Translation, rotation, scaling, shear, homogeneous coords, composition.</span>
+      <div class="card-tags"><span class="tag tag-xform">Transforms</span></div>
+    </a>
+    <a class="card" href="notes/L08.html" style="--card-accent:var(--tag-xform)">
+      <span class="card-num">L08 · Ch 7</span>
+      <span class="card-title">3D Transformations</span>
+      <span class="card-sub">3D rotation axes, Euler angles, gimbal lock, rotation matrices.</span>
+      <div class="card-tags"><span class="tag tag-xform">Transforms</span></div>
+    </a>
+    <a class="card" href="notes/L09.html" style="--card-accent:var(--accent2)">
+      <span class="card-num">L09 · Ch 9</span>
+      <span class="card-title">Graphics Pipeline</span>
+      <span class="card-sub">Vertex processing, rasterisation, fragment processing, pipeline stages.</span>
+      <div class="card-tags"><span class="tag tag-pipe">Pipeline</span></div>
+    </a>
+    <a class="card" href="notes/L10.html" style="--card-accent:var(--accent)">
+      <span class="card-num">L10 · Ch 12</span>
+      <span class="card-title">Graphical Data Structures</span>
+      <span class="card-sub">Scene graphs, BVH, octrees, BSP trees, spatial partitioning.</span>
+      <div class="card-tags"><span class="tag tag-pipe">Data Structures</span></div>
+    </a>
+  </div>
+
+  <!-- Section P3 -->
+  <h4 style="margin: 2rem 0 .75rem; color:var(--muted);">Part 3 — Viewing, Assets &amp; Textures</h4>
+  <div class="card-grid">
+    <a class="card" href="notes/L11.html" style="--card-accent:var(--accent3)">
+      <span class="card-num">L11 · Ch 8</span>
+      <span class="card-title">Viewing (Intro)</span>
+      <span class="card-sub">Camera model, view transform, orthographic vs perspective projection.</span>
+      <div class="card-tags"><span class="tag tag-xform">Viewing</span></div>
+    </a>
+    <a class="card" href="notes/L12.html" style="--card-accent:var(--accent3)">
+      <span class="card-num">L12 · Ch 8</span>
+      <span class="card-title">Viewing (Conclusion)</span>
+      <span class="card-sub">Viewport transform, NDC, clip space, depth buffer, frustum culling.</span>
+      <div class="card-tags"><span class="tag tag-xform">Viewing</span></div>
+    </a>
+    <a class="card" href="notes/L13.html" style="--card-accent:var(--accent)">
+      <span class="card-num">L13</span>
+      <span class="card-title">ASSIMP, Blender &amp; You</span>
+      <span class="card-sub">Asset pipelines, loading 3D models with ASSIMP, Blender workflows.</span>
+      <div class="card-tags"><span class="tag tag-pipe">Assets</span></div>
+    </a>
+    <a class="card" href="notes/L14.html" style="--card-accent:var(--accent2)">
+      <span class="card-num">L14 · Ch 9</span>
+      <span class="card-title">Rasterisation &amp; Viewing</span>
+      <span class="card-sub">Triangle rasterisation, barycentric coords, z-buffer, clipping.</span>
+      <div class="card-tags"><span class="tag tag-pipe">Rasterisation</span></div>
+    </a>
+    <a class="card" href="notes/L15.html" style="--card-accent:var(--tag-tex)">
+      <span class="card-num">L15 · Ch 11</span>
+      <span class="card-title">Texture Mapping (Intro)</span>
+      <span class="card-sub">UV coordinates, texture lookup, wrapping, filtering, mipmaps.</span>
+      <div class="card-tags"><span class="tag tag-tex">Textures</span></div>
+    </a>
+    <a class="card" href="notes/L16.html" style="--card-accent:var(--tag-tex)">
+      <span class="card-num">L16 · Ch 11</span>
+      <span class="card-title">Texture Mapping (Conclusion)</span>
+      <span class="card-sub">Normal maps, bump maps, environment maps, procedural textures.</span>
+      <div class="card-tags"><span class="tag tag-tex">Textures</span></div>
+    </a>
+  </div>
+
+  <!-- Section P4 -->
+  <h4 style="margin: 2rem 0 .75rem; color:var(--muted);">Part 4 — Advanced Topics</h4>
+  <div class="card-grid">
+    <a class="card" href="notes/L17.html" style="--card-accent:var(--accent)">
+      <span class="card-num">L17 · Ch 22</span>
+      <span class="card-title">Computer Graphics in Games</span>
+      <span class="card-sub">Real-time constraints, LOD, culling, deferred rendering, game loops.</span>
+      <div class="card-tags"><span class="tag tag-anim">Games</span></div>
+    </a>
+    <a class="card" href="notes/L18.html" style="--card-accent:var(--tag-vis)">
+      <span class="card-num">L18 · Ch 23</span>
+      <span class="card-title">Visualisation</span>
+      <span class="card-sub">Data types, visual encodings, glyphs, interaction, multiple views.</span>
+      <div class="card-tags"><span class="tag tag-vis">Visualisation</span></div>
+    </a>
+    <a class="card" href="notes/L19.html" style="--card-accent:var(--tag-anim)">
+      <span class="card-num">L19 · Ch 16</span>
+      <span class="card-title">Animation</span>
+      <span class="card-sub">Keyframes, interpolation, skeletal animation, splines, physics.</span>
+      <div class="card-tags"><span class="tag tag-anim">Animation</span></div>
+    </a>
+    <a class="card" href="notes/L20.html" style="--card-accent:var(--tag-shade)">
+      <span class="card-num">L20 · Ch 19</span>
+      <span class="card-title">Visual Perception</span>
+      <span class="card-sub">Human vision, colour perception, contrast, depth cues, gamification.</span>
+      <div class="card-tags"><span class="tag tag-shade">Perception</span></div>
+    </a>
+    <a class="card" href="notes/L21.html" style="--card-accent:var(--tag-ray)">
+      <span class="card-num">L21 · Ch 14</span>
+      <span class="card-title">Physics-Based Rendering</span>
+      <span class="card-sub">BRDFs, radiometry, global illumination, light transport, PBR workflows.</span>
+      <div class="card-tags"><span class="tag tag-ray">PBR</span></div>
+    </a>
+  </div>
+
+  <!-- Exam info -->
+  <div class="section-head">
+    <h2>Exam Info</h2>
+    <span class="section-label">COS344 Final</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-bottom:3rem;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;">
+      <h4>📅 Date &amp; Time</h4>
+      <p style="margin:0;font-size:.9rem;">11 June 2026 · 07:30–10:30</p>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;">
+      <h4>📖 Format</h4>
+      <p style="margin:0;font-size:.9rem;">Open-book, non-electronic notes. Theory + application focus.</p>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;">
+      <h4>📊 Mark Weight</h4>
+      <p style="margin:0;font-size:.9rem;">Final = semesterMark × 0.6 + examMark × 0.4</p>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;">
+      <h4>⚠️ Pass Requirements</h4>
+      <p style="margin:0;font-size:.9rem;">≥40% in exam &amp; ≥50% final mark. Entrance: ≥40% semester mark.</p>
+    </div>
+  </div>
+
+</div><!-- /site-wrap -->
+
+<footer>
+  <div class="footer-inner">
+    <span>COS344 Computer Graphics — Study Hub</span>
+    <span>Based on Shirley &amp; Marschner, <em>Fundamentals of Computer Graphics</em></span>
+  </div>
+</footer>
+
+</body>
+</html>
