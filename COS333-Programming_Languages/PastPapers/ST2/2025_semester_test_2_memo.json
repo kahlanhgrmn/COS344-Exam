@@ -1,0 +1,177 @@
+{
+  "exam": "COS333 – Programming Languages",
+  "paper": "Semester Test 2",
+  "date": "9 May 2025",
+  "duration": "1.5 hours",
+  "total_marks": 35,
+  "source_chapters": ["Chapter 5 (Parts 1 & 2)", "Chapter 6 (Parts 1 & 2)", "Chapter 16 (Parts 1, 2 & 3)"],
+  "questions": [
+    {
+      "question": 1,
+      "marks": 1,
+      "topic": "Prolog — Anonymous Variable",
+      "answer": "The warning can be avoided without changing how the `tail` proposition works by replacing `H` with `_`.",
+      "explanation": "The variable `H` in `tail([H|T], T)` is bound by unification but never used in the body of the clause — it is a singleton variable. Prolog warns about singleton variables because they often indicate a mistake (why bind a variable you never use?). Replacing `H` with `_` (the anonymous variable) tells Prolog: 'I intentionally don't care about this value.' The anonymous variable suppresses the warning AND the proposition works identically — it still unifies the head of the list and discards it, returning the tail T. There is no change to correctness, efficiency, or reliability."
+    },
+    {
+      "question": 2,
+      "marks": 1,
+      "topic": "Prolog — Goal Ordering Efficiency",
+      "answer": "The `primeGreaterThanOneMillion` proposition will execute **less** efficiently if rewritten as: `primeGreaterThanOneMillion(X) :- X > 1000000, prime(X).`",
+      "explanation": "In Prolog, goals are evaluated left to right. The original order `prime(X), X > 1000000` first finds candidates that are prime (a finite, enumerable set) and then checks if they exceed one million — this is efficient. The rewritten version `X > 1000000, prime(X)` tries to evaluate `X > 1000000` first with X unbound. Since X has no value yet, `X > 1000000` will fail immediately (or produce an error — an unbound variable cannot be compared arithmetically). This does NOT work correctly if X is unbound — so it will actually be less efficient OR incorrect depending on context. The original order is correct and more efficient."
+    },
+    {
+      "question": 3,
+      "marks": 1,
+      "topic": "Prolog — Ensuring Inequality",
+      "answer": "By using the proposition `not(X = Y)`.",
+      "explanation": "In Prolog, X and Y are variables that get instantiated through unification — two DISTINCT variable names can still be unified to the same value. Saying 'X and Y are different variables' does NOT mean their values differ; they could both unify to `apple`. Defining `unequal(X,Y)` for every pair is impractical (infinitely many pairs). The correct and general approach is `not(X = Y)`, which means 'it is NOT provable that X and Y unify to the same thing.' This is how inequality is typically expressed in Prolog using the closed-world assumption and Prolog's negation-as-failure."
+    },
+    {
+      "question": 4,
+      "marks": 5,
+      "topic": "Prolog — nephewNiece",
+      "answer": "parent(P, C) :- father(P, C).\nparent(P, C) :- mother(P, C).\n\nsibling(X, Y) :-\n  parent(P, X),\n  parent(P, Y),\n  not(X = Y).\n\nnephewNiece(X, Y) :-\n  parent(Z, X),\n  sibling(Z, Y).",
+      "explanation": "Strategy: (1) Define a `parent` helper that unifies any parent (father or mother) with a child. (2) Define `sibling(X, Y)` as: two people share a parent P, and X ≠ Y (to avoid someone being their own sibling). (3) `nephewNiece(X, Y)` succeeds if X has a parent Z who is a sibling of Y — meaning Y is a brother or sister of X's parent, so X is the nephew/niece of Y. Example: ted's parent is jake (via father(jake,ted)). Jake is a sibling of shelley (they share bill or mary). So nephewNiece(ted, shelley) succeeds. Similarly liz's parent is shelley → sibling of jake → nephewNiece(liz, jake) succeeds."
+    },
+    {
+      "question": 5,
+      "marks": 5,
+      "topic": "Prolog — getAbsNonZeros",
+      "answer": "getAbsNonZeros([], []).\ngetAbsNonZeros([H|T], L2) :-\n  H =:= 0,\n  getAbsNonZeros(T, L2).\ngetAbsNonZeros([H|T], [Abs|L2]) :-\n  not(H =:= 0),\n  Abs is abs(H),\n  getAbsNonZeros(T, L2).",
+      "explanation": "Three clauses: (1) Base case: empty list → empty result. (2) If head H is zero: skip it, recurse on tail with same L2. (3) If head H is NOT zero: compute its absolute value with `Abs is abs(H)`, prepend Abs to the result list, recurse on tail. The `=:=` operator is used for arithmetic equality (evaluating both sides). `abs/1` is a standard Prolog arithmetic function. Example: `getAbsNonZeros([1, 0, -2, 0], X)` → 1 non-zero (abs=1), 0 skipped, -2 non-zero (abs=2), 0 skipped → X=[1,2]."
+    },
+    {
+      "question": 6,
+      "marks": 1,
+      "topic": "Name Length and Reliability",
+      "answer": "Fortran",
+      "explanation": "Reliability in terms of name length relates to whether names are long enough to be meaningful and distinguishable. Early Fortran (Fortran I through Fortran 77) restricted variable names to 6 characters or fewer. This forces programmers to use abbreviated names that can be ambiguous or misleading (e.g., `TOTCST` for 'total cost'). Short, cryptic names make programs harder to understand and increase the chance of using the wrong variable — reducing reliability. C99, C++, and C# all support long identifier names (effectively unlimited), making variable names more meaningful and reliable."
+    },
+    {
+      "question": 7,
+      "marks": 1,
+      "topic": "Variable Names in Perl vs Java",
+      "answer": "Variable names in Perl have a higher cost of maintenance than variable names in Java.",
+      "explanation": "In Perl, variable names include a type sigil prefix: `$` for scalars, `@` for arrays, `%` for hashes. While these sigils can help identify variable types, they are unusual and add cognitive overhead. More importantly, Perl allows (and encourages) very short, terse variable names, making code harder to maintain. Java enforces no sigils but strongly encourages meaningful camelCase names by convention. Programs written in Java are generally more self-documenting and easier to maintain. Perl's sigil system could arguably be seen as readable in some ways, but overall the maintenance cost is higher due to terse naming traditions."
+    },
+    {
+      "question": 8,
+      "marks": 1,
+      "topic": "Variable Binding Time",
+      "answer": "Runtime",
+      "explanation": "A stack-dynamic variable is one whose storage is allocated at runtime — specifically when the declaration statement is encountered during execution (when the function or block is entered). The binding of the name to a specific memory location (on the call stack) happens at runtime. It is NOT at compile time (compile-time binding would be a static variable), NOT at language design time, NOT at implementation time, and NOT at load time. Stack-dynamic variables are created when the enclosing function is called and destroyed when it returns."
+    },
+    {
+      "question": 9,
+      "marks": 1,
+      "topic": "Type Binding in Fortran I",
+      "answer": "Implicit type declaration without type inferencing",
+      "explanation": "In Fortran I, if a variable name starts with I, J, K, L, M, or N, it is automatically an integer; otherwise it is a real (floating-point). This is implicit (no explicit type declaration needed — the type is set by a rule), but it uses a CONVENTION based on the first letter of the name, NOT by inferring the type from how the variable is used or what values are assigned to it. True type inferencing would examine the assigned values or expressions to determine the type. Here, the type is simply decided by a naming convention — implicit, but without inferencing."
+    },
+    {
+      "question": 10,
+      "marks": 1,
+      "topic": "Variable Categories by Lifetime",
+      "answer": "Static variable",
+      "explanation": "The output is `10 15 20`, meaning `myValue` PERSISTS between calls to `f()`. First call: starts at 10, becomes 15. Second call: starts at 15, becomes 20. Third call: starts at 20, becomes 25 (but only 10 15 20 are printed). This behaviour — where a local variable retains its value between calls — is characteristic of a STATIC variable: it is allocated once for the lifetime of the program (not on the stack per call), so its value is preserved across calls. A stack-dynamic variable would be re-created each call, always starting fresh."
+    },
+    {
+      "question": 11,
+      "marks": 1,
+      "topic": "Dynamic Type Binding and Variable Categories",
+      "answer": "Implicit heap-dynamic variables",
+      "explanation": "Dynamic type binding means a variable's type changes with each assignment — the variable takes on the type of whatever value is assigned to it. For this to work, variables cannot be allocated on the stack with a fixed size (the stack-allocated space for an int is different from a string). Instead, each value must be allocated on the heap at assignment time, and the variable (a reference) is updated to point to the new heap-allocated value. This happens implicitly (no explicit `new` or `malloc` call) with each assignment — making these implicit heap-dynamic variables. Python variables work exactly this way."
+    },
+    {
+      "question": 12,
+      "marks": 2,
+      "topic": "Static vs Dynamic Scoping with Nested Subprograms",
+      "answer": {
+        "static_scoping": "Error",
+        "dynamic_scoping": "10"
+      },
+      "explanation": "Static scoping: Scope begins at the point of declaration. `X` is declared on line `var X = 10` which appears AFTER the definition of `doSomething`. In static scoping, scope starts from the declaration point — `doSomething` is defined BEFORE X is declared, so X is NOT in scope inside `doSomething` → Error. Dynamic scoping: The call chain at runtime is main → doSomething. When doSomething executes, the most recent binding of X on the call stack is X=10 from main. So dynamic scoping prints 10."
+    },
+    {
+      "question": 13,
+      "marks": 2,
+      "topic": "Lifetime of Explicit Heap-Dynamic Variable",
+      "answer": {
+        "lifetime_of_myValue_from_line": 2,
+        "lifetime_of_myValue_to_line": 3
+      },
+      "explanation": "`allocateInteger(myValue, 15)` on line 2 explicitly allocates an integer on the heap and binds `myValue` to it — so the lifetime begins at line 2. Line 3 (`print(myValue)`) uses the value. After line 3, the function `f()` returns and there is no further use of `myValue`. There is no explicit deallocation (`free` or `delete`) in this code. Without garbage collection or explicit deallocation, technically the memory persists. But the question asks about the lifetime of `myValue` within the program's logical execution — it is last accessed on line 3, and the function returns at line 3. Answer: lines 2 to 3."
+    },
+    {
+      "question": 14,
+      "marks": 1,
+      "topic": "Named Constants in C++",
+      "answer": "Static named constants (bound at compile time)",
+      "explanation": "In C++, named constants declared with `const` are bound at compile time — the compiler substitutes the value wherever the constant is used. This means C++ named constants are STATIC: their values are fixed before the program runs. This is different from languages like Java where `final` constants may be computed at runtime (dynamic named constants). C++ also supports `constexpr` which is even more explicitly a compile-time constant. The key characteristic is that C++ `const` values are bound statically (at compile time)."
+    },
+    {
+      "question": 15,
+      "marks": 1,
+      "topic": "Primitive Complex Number Type",
+      "answer": "Support for a primitive complex number type improves the **writability** of a programming language.",
+      "explanation": "When a language has a primitive complex number type (like Fortran), programmers can write complex number operations directly using built-in operators and notation, without needing to manually separate real and imaginary parts or define custom classes. This is a significant writability improvement for scientific domains. It does NOT necessarily improve readability over a well-designed class. It does NOT improve execution cost (complex arithmetic still requires multiple floating-point operations). It does NOT inherently improve reliability (you can still make algorithmic errors with complex numbers)."
+    },
+    {
+      "question": 16,
+      "marks": 1,
+      "topic": "Java String vs StringBuffer",
+      "answer": "A `String` object has a lower cost of execution than a `StringBuffer` object.",
+      "explanation": "Java `String` objects are immutable — once created, they cannot be changed. Operations that seem to modify a string (like concatenation) actually create a new String object. `StringBuffer` (and its thread-safe cousin `StringBuilder`) is mutable — characters can be added, removed, or modified in place. For repeated string modifications, `StringBuffer` is more efficient. But for a single fixed string that is just read, `String` has lower execution cost (no synchronisation overhead, simpler internals). `String` is not less readable, not less writable (arguably more so — you just write string literals), and not less reliable than `StringBuffer`."
+    },
+    {
+      "question": 17,
+      "marks": 2,
+      "topic": "Array Categories",
+      "answer": ["Fixed stack-dynamic", "Fixed heap-dynamic"],
+      "explanation": "The array `myArray[LENGTH]` has its length set by the constant `LENGTH = 3` — a compile-time constant. The size is FIXED (cannot change after being set, as stated in the question). Options: Static requires allocation before runtime (not the case here — it's inside a function). Stack-dynamic requires size determined at RUNTIME from a variable (LENGTH is a constant → not stack-dynamic). Fixed stack-dynamic means size fixed at compile time, allocated on the stack at runtime → POSSIBLE. Stack-dynamic (size from a variable) → NO (LENGTH is a constant). Fixed heap-dynamic means fixed size, explicitly allocated on heap → POSSIBLE if the language uses heap allocation for local arrays. Heap-dynamic means variable size → NO. So: Fixed stack-dynamic and Fixed heap-dynamic are both possible."
+    },
+    {
+      "question": 18,
+      "marks": 1,
+      "topic": "Simulating Associative Arrays",
+      "answer": "Using two normal arrays in a statically typed language, where one stores keys and the other stores corresponding values.",
+      "explanation": "An associative array (hash map/dictionary) maps keys to values — you look up a value by its key, not by a numeric index. To simulate this with regular arrays: use one array for keys and a parallel array for values, where `keys[i]` maps to `values[i]`. To find a value for a key, search the keys array for the matching key, then return the value at the same index. This is an O(n) simulation but correctly implements the associative mapping. Storing a key AND value at each subscript in ONE array is not standard (each element can only hold one value in a typed language). Using an `Object` class array simulates heterogeneous arrays. A single primitive-typed array cannot mix key-value pairs."
+    },
+    {
+      "question": 19,
+      "marks": 1,
+      "topic": "Records in COBOL vs Ada",
+      "answer": "References to record fields in COBOL are less writable than references to record fields in Ada.",
+      "explanation": "In Ada, record fields are accessed with a simple dot notation: `record.fieldName`. In COBOL, references to record fields require qualification when the field name is ambiguous: `MOVE field OF record TO destination`. COBOL's hierarchical record structure and verbose qualification syntax makes field references much more verbose — reducing writability. Ada's concise dot notation is more writable and also more readable. So references to record fields in COBOL are less writable than in Ada. COBOL records are not more orthogonal (Ada's approach is more uniform/orthogonal)."
+    },
+    {
+      "question": 20,
+      "marks": 1,
+      "topic": "Unions — Free vs Discriminated",
+      "answer": "Free unions are more effective at saving memory than discriminated unions.",
+      "explanation": "Both free and discriminated unions share memory among their variants — the union occupies the size of its largest member. The difference is that discriminated unions include an extra 'tag' field that records which variant is currently active. This tag field uses additional memory (even if small). Free unions have no tag, so they use slightly LESS memory. This makes free unions MORE memory-efficient (better at saving memory). However, free unions are LESS reliable (no check that you're reading the correct variant) and harder to maintain. The question asks which statement is most correct — free unions are better at saving memory."
+    },
+    {
+      "question": 21,
+      "marks": 1,
+      "topic": "Pointers and References — Reliability",
+      "answer": "Pointers and references have the most reliable support in Java.",
+      "explanation": "Java uses only references (no raw pointers). Java references are type-safe: they cannot be used to access arbitrary memory, cannot be arithmetically manipulated, and are always either null or pointing to a valid heap object. The garbage collector ensures no dangling references. C++ has raw pointers which can be incremented, cast freely, and dangled (pointing to freed memory) — very unreliable. C# allows both safe references and unsafe pointers (in unsafe blocks), but the default reference mechanism is reliable. Java's reference-only approach with GC and type safety gives the most reliable support."
+    },
+    {
+      "question": 22,
+      "marks": 2,
+      "topic": "C++ Strong Typing",
+      "answer": ["Void pointers", "Casting a base class pointer to a derived class pointer"],
+      "explanation": "A strongly typed language detects all type errors. C++ is NOT strongly typed because: (1) Void pointers (`void*`) can hold a pointer of ANY type — when you cast a `void*` back to a typed pointer, the compiler cannot verify the original type. This bypasses the type system completely. (2) Casting a BASE class pointer DOWN to a DERIVED class pointer (downcast) can be unsafe — if the actual object is not of the derived type, the cast succeeds at compile time but produces undefined behaviour. Explicit type declarations actually HELP strong typing (they declare types explicitly). Casting a DERIVED to BASE pointer (upcast) is ALWAYS safe and does not break strong typing."
+    },
+    {
+      "question": 23,
+      "marks": 1,
+      "topic": "Name vs Structure Type Equivalence",
+      "answer": "Name type equivalence has a lower cost of execution than structure type equivalence.",
+      "explanation": "Name type equivalence: two variables are type-compatible only if they are declared with the same type name. Checking this at compile time is O(1) — just compare type name identifiers. Structure type equivalence: two variables are type-compatible if their structures are identical (same fields, same field types, in the same order). Checking this requires traversing and comparing the entire type structure recursively — much more expensive, especially for complex types. So name equivalence has LOWER execution (and compile-time) cost. Name equivalence is actually less writable (more strict — requires same type name) and more readable/reliable (clearer intent from type names)."
+    }
+  ]
+}
