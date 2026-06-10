@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>COS344 Semester Test — Full Memo Guide</title>
+  <title>COS344 — ST1 & ST2 Full Memo</title>
   <style>
     :root {
       --bg: #0f1117;
@@ -14,883 +14,770 @@
       --red: #f87171;
       --yellow: #fbbf24;
       --purple: #a78bfa;
+      --orange: #fb923c;
       --text: #e2e8f0;
       --muted: #94a3b8;
       --border: #2d3148;
       --code-bg: #12141e;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
-      padding: 0 0 60px;
-    }
-    header {
-      background: linear-gradient(135deg, #1a1d27 0%, #0f1117 100%);
-      border-bottom: 2px solid var(--accent);
-      padding: 32px 40px;
-      text-align: center;
-    }
-    header h1 { font-size: 2rem; color: var(--accent); letter-spacing: -0.5px; }
-    header p { color: var(--muted); margin-top: 6px; font-size: 0.95rem; }
-    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
-    .section-title {
-      margin: 48px 0 24px;
-      padding: 14px 20px;
-      background: var(--surface2);
-      border-left: 4px solid var(--accent);
-      border-radius: 0 8px 8px 0;
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 20px;
-    }
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border);
-    }
-    .q-number {
-      background: var(--accent);
-      color: #fff;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      white-space: nowrap;
-    }
-    .q-title { font-weight: 600; color: var(--text); font-size: 1rem; }
-    .answer-box {
-      background: rgba(52, 211, 153, 0.08);
-      border: 1px solid rgba(52, 211, 153, 0.3);
-      border-radius: 8px;
-      padding: 12px 16px;
-      margin-bottom: 14px;
-    }
-    .answer-label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--green);
-      margin-bottom: 4px;
-    }
-    .answer-value { color: var(--green); font-weight: 600; font-size: 1rem; }
-    .explain {
-      background: var(--surface2);
-      border-radius: 8px;
-      padding: 14px 16px;
-      color: var(--text);
-      font-size: 0.95rem;
-    }
-    .explain p + p { margin-top: 10px; }
-    .warn {
-      background: rgba(251, 191, 36, 0.08);
-      border: 1px solid rgba(251, 191, 36, 0.3);
-      border-radius: 8px;
-      padding: 10px 14px;
-      margin-top: 10px;
-      color: var(--yellow);
-      font-size: 0.9rem;
-    }
-    code, pre {
-      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
-    }
-    pre {
-      background: var(--code-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 18px;
-      overflow-x: auto;
-      font-size: 0.88rem;
-      line-height: 1.6;
-      margin-top: 10px;
-      color: #cdd6f4;
-    }
-    .keyword { color: #cba6f7; }
-    .type-kw { color: #89dceb; }
-    .string { color: #a6e3a1; }
-    .comment { color: #6c7086; font-style: italic; }
-    .number { color: #fab387; }
-    .func { color: #89b4fa; }
-    .matrix {
-      display: inline-block;
-      border-left: 2px solid var(--muted);
-      border-right: 2px solid var(--muted);
-      padding: 8px 14px;
-      margin: 4px 0;
-      font-family: monospace;
-    }
-    .matrix table { border-collapse: collapse; }
-    .matrix td { padding: 2px 10px; text-align: center; }
-    .tag {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      margin-right: 6px;
-    }
-    .tag-key { background: rgba(167, 139, 250, 0.15); color: var(--purple); }
-    .tag-tip { background: rgba(79, 142, 247, 0.15); color: var(--accent); }
-    .tag-trap { background: rgba(248, 113, 113, 0.15); color: var(--red); }
-    ol, ul { padding-left: 20px; }
-    ol li, ul li { margin-bottom: 6px; }
-    .step {
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-      margin-bottom: 10px;
-    }
-    .step-num {
-      background: var(--accent);
-      color: #fff;
-      font-weight: 700;
-      font-size: 0.8rem;
-      min-width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 2px;
-    }
-    hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
-    .toc {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px 24px;
-      margin: 30px 0;
-    }
-    .toc h2 { color: var(--accent); font-size: 1rem; margin-bottom: 12px; }
-    .toc a { color: var(--muted); text-decoration: none; font-size: 0.9rem; }
-    .toc a:hover { color: var(--accent); }
-    .toc ul { list-style: none; padding: 0; column-count: 2; column-gap: 20px; }
-    .toc li { padding: 2px 0; }
-    .highlight { color: var(--yellow); font-weight: 600; }
-    .sub-section { margin-top: 16px; }
-    .sub-title {
-      font-weight: 700;
-      color: var(--purple);
-      margin-bottom: 8px;
-      font-size: 0.95rem;
-    }
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 15px; line-height: 1.7; }
+    header { background: linear-gradient(135deg, #1a1d27, #0f1117); border-bottom: 2px solid var(--accent); padding: 28px 40px; text-align: center; }
+    header h1 { font-size: 1.9rem; color: var(--accent); }
+    header p { color: var(--muted); margin-top: 4px; font-size: 0.9rem; }
+
+    /* TAB NAV */
+    .tab-nav { display: flex; justify-content: center; gap: 0; padding: 24px 0 0; border-bottom: 2px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 100; }
+    .tab-btn { padding: 12px 40px; font-size: 1rem; font-weight: 700; cursor: pointer; border: none; background: transparent; color: var(--muted); border-bottom: 3px solid transparent; transition: all 0.2s; letter-spacing: 0.5px; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--accent); border-bottom: 3px solid var(--accent); background: rgba(79,142,247,0.06); }
+
+    /* TAB PANELS */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px 60px; }
+    .section-title { margin: 44px 0 20px; padding: 12px 18px; background: var(--surface2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; font-size: 1.15rem; font-weight: 700; color: var(--accent); }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px; margin-bottom: 18px; }
+    .card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .q-number { background: var(--accent); color: #fff; font-weight: 700; padding: 3px 11px; border-radius: 20px; font-size: 0.82rem; white-space: nowrap; margin-top: 2px; }
+    .q-title { font-weight: 600; color: var(--text); font-size: 0.97rem; line-height: 1.5; }
+
+    .answer-box { background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.3); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; }
+    .answer-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--green); margin-bottom: 3px; }
+    .answer-value { color: var(--green); font-weight: 600; }
+
+    .explain { background: var(--surface2); border-radius: 8px; padding: 13px 15px; font-size: 0.93rem; }
+    .explain p + p { margin-top: 9px; }
+    ul, ol { padding-left: 20px; }
+    li { margin-bottom: 5px; }
+
+    .warn { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.3); border-radius: 8px; padding: 9px 13px; margin-top: 10px; color: var(--yellow); font-size: 0.88rem; }
+    .info { background: rgba(79,142,247,0.08); border: 1px solid rgba(79,142,247,0.3); border-radius: 8px; padding: 9px 13px; margin-top: 10px; color: var(--accent); font-size: 0.88rem; }
+
+    code, pre { font-family: 'JetBrains Mono','Cascadia Code','Fira Code',monospace; }
+    pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; overflow-x: auto; font-size: 0.86rem; line-height: 1.6; margin-top: 10px; color: #cdd6f4; }
+    .kw { color: #cba6f7; }
+    .ty { color: #89dceb; }
+    .cm { color: #6c7086; font-style: italic; }
+    .nm { color: #fab387; }
+    .fn { color: #89b4fa; }
+    .st { color: #a6e3a1; }
+
+    .tag { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-right: 5px; }
+    .tag-k { background: rgba(167,139,250,0.15); color: var(--purple); }
+    .tag-t { background: rgba(248,113,113,0.15); color: var(--red); }
+
+    .sub { margin-top: 14px; }
+    .sub-title { font-weight: 700; color: var(--purple); margin-bottom: 7px; font-size: 0.92rem; }
+
+    .step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 9px; }
+    .step-n { background: var(--accent); color:#fff; font-weight:700; font-size:0.78rem; min-width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-top:2px; flex-shrink:0; }
+
+    table.data { border-collapse: collapse; width: 100%; font-size: 0.87rem; margin: 10px 0; }
+    table.data th { background: var(--surface2); color: var(--accent); padding: 7px 10px; text-align: left; }
+    table.data td { padding: 5px 10px; border-bottom: 1px solid var(--border); }
+    table.data tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+    .hl { color: var(--yellow); font-weight: 600; }
+
+    .test-badge { display:inline-block; padding:3px 10px; border-radius:12px; font-size:0.78rem; font-weight:700; margin-left:8px; }
+    .st1-badge { background: rgba(79,142,247,0.15); color: var(--accent); }
+    .st2-badge { background: rgba(167,139,250,0.15); color: var(--purple); }
+
+    .scenario-box { background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.3); border-radius: 10px; padding: 16px 18px; margin: 20px 0; color: var(--orange); font-size: 0.92rem; }
+    .scenario-box h3 { color: var(--orange); margin-bottom: 8px; font-size: 1rem; }
   </style>
 </head>
 <body>
 
 <header>
   <h1>COS344 — Computer Graphics</h1>
-  <p>Semester Test Full Memo &amp; Guide &nbsp;|&nbsp; ST1 &amp; ST2</p>
+  <p>Full Memo Guide &nbsp;|&nbsp; Semester Test 1 &amp; Semester Test 2</p>
 </header>
 
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('st1')">Semester Test 1</button>
+  <button class="tab-btn" onclick="switchTab('st2')">Semester Test 2</button>
+</div>
+
+<!-- ═══════════════════════════ ST1 ═══════════════════════════ -->
+<div id="panel-st1" class="tab-panel active">
 <div class="container">
 
-  <div class="toc">
-    <h2>Contents</h2>
-    <ul>
-      <li><a href="#q1">Question 1 — Multiple Choice (1.1–1.9)</a></li>
-      <li><a href="#q2">Question 2 — Colour &amp; Lighting</a></li>
-      <li><a href="#q3">Question 3 — Rendering Theory</a></li>
-      <li><a href="#q4">Question 4 — OpenGL Program</a></li>
-      <li><a href="#q5">Question 5 — Input &amp; Transformations</a></li>
-      <li><a href="#q6">Question 6 — Rasterisation</a></li>
-    </ul>
-  </div>
+  <div class="section-title" id="st1-q1">Question 1 — Multiple Choice</div>
 
-  <!-- ===== QUESTION 1 ===== -->
-  <div class="section-title" id="q1">Question 1 — Multiple Choice</div>
-
-  <!-- 1.1 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">1.1</span>
-      <span class="q-title">Raster display 1300 × 1100 — how many pixels?</span>
-    </div>
-    <div class="answer-box">
-      <div class="answer-label">Correct Answer</div>
-      <div class="answer-value">D — 1300 × 1100 = 1 430 000 pixels</div>
-    </div>
+    <div class="card-header"><span class="q-number">1.1</span><span class="q-title">Raster display 1300×1100 — total pixels?</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">D — 1300 × 1100 = 1 430 000 pixels</div></div>
     <div class="explain">
-      <p>A raster display is a grid of pixels. Total pixels = width × height.</p>
-      <p>1300 × 1100 = <span class="highlight">1 430 000 pixels</span>. Option D is written as "13001100" which represents the multiplication 1300 × 1100.</p>
-      <p>Options A and B are just the individual dimensions. Option C is addition (1300+1100=2400), which is wrong.</p>
+      <p>Total pixels = width × height. 1300 × 1100 = <span class="hl">1 430 000</span>. Option D represents "1300 × 1100". Options A and B are just single dimensions; C is addition (1300+1100=2400).</p>
     </div>
   </div>
 
-  <!-- 1.2 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">1.2</span>
-      <span class="q-title">Valid vector for a 3×3 homogeneous matrix multiplication</span>
-    </div>
-    <div class="answer-box">
-      <div class="answer-label">Correct Answer</div>
-      <div class="answer-value">C and D — [2  1  1] and [2  1  1]ᵀ</div>
-    </div>
+    <div class="card-header"><span class="q-number">1.2</span><span class="q-title">Valid vector for a 3×3 homogeneous matrix multiplication</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">D — [2  1  1]ᵀ (column vector, w = 1)</div></div>
     <div class="explain">
-      <p><span class="tag tag-key">Key Concept</span> In 2D homogeneous coordinates a point is represented as a <strong>column vector</strong> [x, y, 1]ᵀ. The last component must be <strong>1</strong> for the point to be finite.</p>
-      <p>The matrix is 3×3, so it needs a 3-element vector. The last element (homogeneous coordinate <em>w</em>) must equal <strong>1</strong> for a proper point transformation.</p>
+      <p><span class="tag tag-k">Key Concept</span> In 2D homogeneous coordinates, a <strong>point</strong> is [x, y, 1]ᵀ. The last component (<em>w</em>) must be <strong>1</strong> for a finite point. It must be a <strong>column vector</strong> for matrix-vector multiplication.</p>
       <ul style="margin-top:8px">
-        <li>[2 1] — only 2 elements, dimensions don't match ✗</li>
-        <li>[2 1 0]ᵀ — w=0 means a <em>direction vector</em>, not a point — won't translate ✗</li>
+        <li>[2 1] — only 2 elements, can't multiply with a 3×3 matrix ✗</li>
+        <li>[2 1 0]ᵀ — w=0 means a <em>direction vector</em>, not a point; translations won't apply ✗</li>
+        <li>[2 1 1] — row vector, wrong orientation ✗</li>
         <li>[2 1 1]ᵀ — correct: 3-element column vector with w=1 ✓</li>
-        <li>[2 1 1] — row vector; matrix multiplication requires a column vector for a valid point transform ✓ (same values, matrix can still act on it depending on convention — if column vector convention is required, D is the only fully correct answer)</li>
       </ul>
-      <div class="warn">⚠ In standard linear algebra matrix-vector multiplication, the vector must be a <em>column</em> vector. The most correct answer is <strong>D: [2 1 1]ᵀ</strong>.</div>
     </div>
   </div>
 
-  <!-- 1.3 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">1.3</span>
-      <span class="q-title">Transformation of [e, e², 0]ᵀ by the scaling matrix</span>
-    </div>
-    <div class="answer-box">
-      <div class="answer-label">Correct Answer</div>
-      <div class="answer-value">F — A transformation not mentioned in the other options</div>
-    </div>
+    <div class="card-header"><span class="q-number">1.3</span><span class="q-title">Scaling matrix applied to [e, e², 0]ᵀ — what transformation?</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">F — A transformation not mentioned in the other options</div></div>
     <div class="explain">
-      <p>The matrix looks like a scaling matrix (3 on x and y diagonals). But the vector given is [e, e², <span class="highlight">0</span>]ᵀ — notice the last component is <strong>0</strong>.</p>
-      <p><span class="tag tag-trap">Trap</span> In homogeneous coordinates:</p>
+      <p><span class="tag tag-t">Trap</span> The matrix looks like a scaling matrix, but the vector has <strong>w = 0</strong>. In homogeneous coordinates: w=0 means a <em>direction vector</em> (point at infinity), not a 2D point.</p>
+      <p>Applying the matrix gives [3e, 3e², 0]ᵀ — still w=0. You cannot convert this to Cartesian coordinates (x/0 is undefined). No meaningful geometric transformation of a real point has occurred — hence F.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">1.4</span><span class="q-title">Ambient lighting is primarily used to:</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">B — Provide a uniform base illumination independent of object position</div></div>
+    <div class="explain">
+      <p>Ambient light fills the entire scene uniformly — it's the <em>minimum brightness</em> any surface has, regardless of direction or position. It simulates indirect/scattered light (like skylight bouncing around a room). It doesn't create shadows and isn't directional.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">1.5</span><span class="q-title">Which rays are parallel projection?</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">A — i and ii</div></div>
+    <div class="explain">
+      <p><span class="tag tag-k">Rule</span> Parallel projection = rays travel in the <strong>same direction</strong>, different origins.</p>
       <ul>
-        <li>w = 1 → a <strong>point</strong> in 2D space</li>
-        <li>w = 0 → a <strong>direction vector</strong> (point at infinity)</li>
+        <li>i) r(e₁, <span class="hl">d₁</span>, t) and ii) r(e₂, <span class="hl">d₁</span>, t) — same direction d₁, different origins ✓</li>
+        <li>iii) direction d₂ — different ✗ &nbsp;&nbsp; iv) direction d₃ — different ✗</li>
       </ul>
-      <p>Applying the matrix gives [3e, 3e², 0]ᵀ — still w=0. You cannot convert this back to Cartesian coordinates (x/0 and y/0 are undefined). The transformation does not act on a valid finite point, making the result meaningless as a geometric point transformation.</p>
-      <p>This is why the answer is F — it doesn't fit neatly into scaling, translation, rotation, or shearing of a real 2D point.</p>
     </div>
   </div>
 
-  <!-- 1.4 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">1.4</span>
-      <span class="q-title">What is ambient lighting primarily used for?</span>
-    </div>
-    <div class="answer-box">
-      <div class="answer-label">Correct Answer</div>
-      <div class="answer-value">B — Provide a uniform base illumination independent of object position</div>
-    </div>
+    <div class="card-header"><span class="q-number">1.6</span><span class="q-title">Which rays are perspective projection?</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">B — i and iii</div></div>
     <div class="explain">
-      <p>Ambient light is a constant, directionless light that fills the entire scene equally. It simulates indirect/scattered light bouncing around the environment (e.g. sky light, room bounce).</p>
-      <p>It is <em>not</em> directional (that's diffuse/directional lighting), does <em>not</em> create shadows (that requires ray casting), and is <em>not</em> specular (that's the shiny highlight).</p>
-      <p>Think of it as: "the minimum brightness of any surface in the scene, regardless of where it is."</p>
-    </div>
-  </div>
-
-  <!-- 1.5 -->
-  <div class="card">
-    <div class="card-header">
-      <span class="q-number">1.5</span>
-      <span class="q-title">Which rays are examples of parallel projection?</span>
-    </div>
-    <div class="answer-box">
-      <div class="answer-label">Correct Answer</div>
-      <div class="answer-value">A — i and ii</div>
-    </div>
-    <div class="explain">
-      <p><span class="tag tag-key">Key Concept</span> In <strong>parallel projection</strong>, all rays travel in the <em>same direction</em> (parallel to each other) but from different origins.</p>
+      <p><span class="tag tag-k">Rule</span> Perspective projection = rays from the <strong>same origin</strong> (eye point), different directions.</p>
       <ul>
-        <li>i) r(e₁, d₁, t) — direction: d₁</li>
-        <li>ii) r(e₂, d₁, t) — direction: d₁ ← <strong>same direction as i</strong>, different origin ✓</li>
-        <li>iii) r(e₁, d₂, t) — direction: d₂ (different) ✗</li>
-        <li>iv) r(e₃, d₃, t) — direction: d₃ (different) ✗</li>
+        <li>i) r(<span class="hl">e₁</span>, d₁, t) and iii) r(<span class="hl">e₁</span>, d₂, t) — same origin e₁, different directions ✓</li>
+        <li>ii) origin e₂ — different ✗ &nbsp;&nbsp; iv) origin e₃ — different ✗</li>
       </ul>
-      <p>Only rays i and ii share direction d₁, so they form a parallel projection pair.</p>
     </div>
   </div>
 
-  <!-- 1.6 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">1.6</span>
-      <span class="q-title">Which rays are examples of perspective projection?</span>
-    </div>
-    <div class="answer-box">
-      <div class="answer-label">Correct Answer</div>
-      <div class="answer-value">B — i and iii</div>
-    </div>
+    <div class="card-header"><span class="q-number">1.7</span><span class="q-title">OpenGL is an example of which CG API?</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">C — Library</div></div>
+    <div class="explain"><p>OpenGL is an external software library that you link to your program. WebGL is the web version; Direct3D is more OS-integrated. A "library" API is one you include as a dependency.</p></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">1.8</span><span class="q-title">Orthographic-style floor render — which projection?</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">A — Orthographic projection</div></div>
+    <div class="explain"><p>Tiles appear perfectly square, no foreshortening, parallel lines stay parallel — classic <strong>orthographic</strong>. No vanishing point, depth doesn't affect scale.</p></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">1.9</span><span class="q-title">Angled floor render — which projection?</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">C — Oblique projection</div></div>
+    <div class="explain"><p>Oblique shows 3D depth from an angle but depth lines don't converge (no vanishing point). Unlike perspective where far objects shrink, oblique maintains parallel depth lines. The angled view with no convergence = oblique.</p></div>
+  </div>
+
+  <div class="section-title">Question 2 — Colour, Lighting &amp; Reflections</div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">2.1</span><span class="q-title">Why is a camera sensor a 2D raster image input?</span></div>
     <div class="explain">
-      <p><span class="tag tag-key">Key Concept</span> In <strong>perspective projection</strong>, all rays come from the <em>same origin</em> (the eye/camera) but travel in <em>different directions</em>.</p>
       <ul>
-        <li>i) r(e₁, d₁, t) — origin: e₁</li>
-        <li>ii) r(e₂, d₁, t) — origin: e₂ (different) ✗</li>
-        <li>iii) r(e₁, d₂, t) — origin: e₁ ← <strong>same origin as i</strong>, different direction ✓</li>
-        <li>iv) r(e₃, d₃, t) — origin: e₃ (different) ✗</li>
-      </ul>
-      <p>Rays i and iii share origin e₁ but have different directions — this is perspective projection (all rays emanate from one viewpoint).</p>
-    </div>
-  </div>
-
-  <!-- 1.7 -->
-  <div class="card">
-    <div class="card-header">
-      <span class="q-number">1.7</span>
-      <span class="q-title">OpenGL is an example of which Computer Graphics API?</span>
-    </div>
-    <div class="answer-box">
-      <div class="answer-label">Correct Answer</div>
-      <div class="answer-value">C — Library</div>
-    </div>
-    <div class="explain">
-      <p>OpenGL is a <strong>library-based API</strong>. It is an external collection of functions that you link against in your program.</p>
-      <ul>
-        <li><em>Integrated</em> — built directly into the OS or hardware (e.g. some GPU-specific APIs)</li>
-        <li><em>Web</em> — runs in a browser (WebGL is the web version of OpenGL)</li>
-        <li><em>Library</em> — a separate software library you include in your project ✓</li>
+        <li>A camera sensor is a physical <strong>2D grid of photosensors</strong> (rows × columns).</li>
+        <li>Each photosensor captures light at one discrete location → one pixel value.</li>
+        <li>The output is a finite 2D grid of colour values — the definition of a <strong>raster image</strong>.</li>
+        <li>It is an <em>input</em> device because it digitises the real world into pixel data.</li>
       </ul>
     </div>
   </div>
 
-  <!-- 1.8 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">1.8</span>
-      <span class="q-title">Orthographic-style floor render — which projection?</span>
-    </div>
-    <div class="answer-box">
-      <div class="answer-label">Correct Answer</div>
-      <div class="answer-value">A — Orthographic projection</div>
-    </div>
-    <div class="explain">
-      <p>The render shows tiles that are <em>perfectly square</em> with <strong>no foreshortening</strong> — objects don't get smaller as they go further away, and parallel lines remain parallel.</p>
-      <p>This is the hallmark of <strong>orthographic projection</strong>: all projection rays are parallel, there is no vanishing point, and scale is preserved regardless of depth.</p>
-    </div>
+    <div class="card-header"><span class="q-number">2.2</span><span class="q-title">Name the scale from [0,0,0]ᵀ to [1,1,1]ᵀ in the RGB cube</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">Greyscale (achromatic scale)</div></div>
+    <div class="explain"><p>Every point on the diagonal has equal R=G=B, producing neutral greys: [0,0,0]=black → [0.5,0.5,0.5]=grey → [1,1,1]=white. This line is the <strong>greyscale axis</strong> of the RGB cube.</p></div>
   </div>
 
-  <!-- 1.9 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">1.9</span>
-      <span class="q-title">Angled floor render — which projection?</span>
-    </div>
-    <div class="answer-box">
-      <div class="answer-label">Correct Answer</div>
-      <div class="answer-value">C — Oblique projection</div>
-    </div>
-    <div class="explain">
-      <p>An oblique projection shows depth from an angle while <em>keeping the front face undistorted</em>. Lines going "into the depth" are drawn at an angle but do <strong>not</strong> converge to a vanishing point (unlike perspective).</p>
-      <ul>
-        <li><strong>Orthographic</strong> — perfectly flat, top-down, no depth sense</li>
-        <li><strong>Oblique</strong> — angled, parallel depth lines, no vanishing point ✓</li>
-        <li><strong>Perspective</strong> — depth lines converge, things look smaller far away</li>
-      </ul>
-      <p>The "angled render" with tiles that are still described as "perfectly square" (no perspective distortion) fits oblique projection best.</p>
-    </div>
-  </div>
-
-  <!-- ===== QUESTION 2 ===== -->
-  <div class="section-title" id="q2">Question 2 — Colour, Lighting &amp; Reflections</div>
-
-  <!-- 2.1 -->
-  <div class="card">
-    <div class="card-header">
-      <span class="q-number">2.1</span>
-      <span class="q-title">Why is a camera sensor an example of a 2D raster image input?</span>
-    </div>
-    <div class="explain">
-      <p>A <strong>raster image</strong> is a 2D grid (rows and columns) of discrete pixels, where each pixel stores a colour value.</p>
-      <p>A camera sensor works exactly this way:</p>
-      <ol style="margin-top:8px">
-        <li>It is physically a <strong>2D array of photosensors</strong> arranged in a grid.</li>
-        <li>Each photosensor captures the light intensity at one discrete location → one pixel.</li>
-        <li>The result is a finite grid of colour values — the definition of a raster image.</li>
-        <li>It is an <em>input</em> device because it <em>captures</em> (reads in) light from the real world and converts it to digital pixel data.</li>
-      </ol>
-    </div>
-  </div>
-
-  <!-- 2.2 -->
-  <div class="card">
-    <div class="card-header">
-      <span class="q-number">2.2</span>
-      <span class="q-title">Name the scale of colours from [0,0,0]ᵀ to [1,1,1]ᵀ in the RGB cube</span>
-    </div>
-    <div class="answer-box">
-      <div class="answer-label">Answer</div>
-      <div class="answer-value">Greyscale (achromatic scale / shades of grey)</div>
-    </div>
-    <div class="explain">
-      <p>In the RGB colour cube:</p>
-      <ul>
-        <li>[0, 0, 0]ᵀ = black</li>
-        <li>[0.5, 0.5, 0.5]ᵀ = medium grey</li>
-        <li>[1, 1, 1]ᵀ = white</li>
-      </ul>
-      <p>The line from origin to [1,1,1]ᵀ is the <strong>main diagonal</strong> of the RGB cube. Every point on it has equal R, G, and B values, producing a neutral grey. This is called the <strong>greyscale</strong> or <strong>achromatic axis</strong>.</p>
-    </div>
-  </div>
-
-  <!-- 2.3 -->
-  <div class="card">
-    <div class="card-header">
-      <span class="q-number">2.3</span>
-      <span class="q-title">Implement determineFinalColour() using alpha compositing</span>
-    </div>
-    <div class="answer-box">
-      <div class="answer-label">Formula</div>
-      <div class="answer-value">final = α × foreground + (1 − α) × background</div>
-    </div>
-    <div class="explain">
-      <p><span class="tag tag-key">Alpha Compositing</span> Alpha (α) controls transparency. α=1 means fully opaque foreground; α=0 means fully transparent (show background only).</p>
-    </div>
-<pre><span class="type-kw">Colour</span> <span class="func">determineFinalColour</span>(<span class="type-kw">Colour</span> foreground, <span class="type-kw">Colour</span> background, <span class="type-kw">float</span> alpha) {
-    <span class="type-kw">float</span> r = alpha * foreground.r + (<span class="number">1.0f</span> - alpha) * background.r;
-    <span class="type-kw">float</span> g = alpha * foreground.g + (<span class="number">1.0f</span> - alpha) * background.g;
-    <span class="type-kw">float</span> b = alpha * foreground.b + (<span class="number">1.0f</span> - alpha) * background.b;
-    <span class="keyword">return</span> <span class="func">Colour</span>(r, g, b);
+    <div class="card-header"><span class="q-number">2.3</span><span class="q-title">Implement determineFinalColour() — alpha compositing</span></div>
+    <div class="answer-box"><div class="answer-label">Formula</div><div class="answer-value">final = α × foreground + (1 − α) × background</div></div>
+<pre><span class="ty">Colour</span> <span class="fn">determineFinalColour</span>(<span class="ty">Colour</span> foreground, <span class="ty">Colour</span> background, <span class="ty">float</span> alpha) {
+    <span class="ty">float</span> r = alpha * foreground.r + (<span class="nm">1.0f</span> - alpha) * background.r;
+    <span class="ty">float</span> g = alpha * foreground.g + (<span class="nm">1.0f</span> - alpha) * background.g;
+    <span class="ty">float</span> b = alpha * foreground.b + (<span class="nm">1.0f</span> - alpha) * background.b;
+    <span class="kw">return</span> <span class="fn">Colour</span>(r, g, b);
 }</pre>
-    <div class="explain" style="margin-top:12px">
-      <p>The formula is applied independently to each channel (R, G, B). When α=1: result = foreground. When α=0: result = background. When α=0.5: equal blend of both.</p>
-    </div>
+    <div class="explain" style="margin-top:10px"><p>α=1 → fully opaque (shows foreground). α=0 → fully transparent (shows background). Applied per channel independently.</p></div>
   </div>
 
-  <!-- 2.4 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">2.4</span>
-      <span class="q-title">What type of reflection is caused by the reflected direction [−2, 3, −1]ᵀ?</span>
-    </div>
-    <div class="answer-box">
-      <div class="answer-label">Answer</div>
-      <div class="answer-value">Specular (mirror) reflection</div>
-    </div>
+    <div class="card-header"><span class="q-number">2.4</span><span class="q-title">What type of reflection gives reflected direction [−2, 3, −1]ᵀ?</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">Specular (mirror) reflection</div></div>
     <div class="explain">
-      <p>Let's verify by computing the expected specular reflection:</p>
-      <div class="step">
-        <div class="step-num">1</div>
-        <div>Incident ray direction (light → surface): d = surface − light = [2,1,3]−[4,4,4] = <strong>[−2,−3,−1]</strong></div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div>Surface normal: n = <strong>[0,1,0]</strong></div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div>Specular reflection formula: <strong>r = d − 2(d·n)n</strong></div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div>d·n = (−2)(0) + (−3)(1) + (−1)(0) = <strong>−3</strong></div>
-      </div>
-      <div class="step">
-        <div class="step-num">5</div>
-        <div>r = [−2,−3,−1] − 2(−3)[0,1,0] = [−2,−3,−1] + [0,6,0] = <strong>[−2, 3, −1]</strong></div>
-      </div>
-      <p style="margin-top:8px">The calculated specular reflection <strong>exactly matches</strong> the given reflected direction [−2, 3, −1]ᵀ. This means the surface is a <strong>specular (mirror-like) reflector</strong> — it obeys the law of reflection (angle of incidence = angle of reflection).</p>
-      <p style="margin-top:8px">If it were <em>diffuse</em>, the reflected light would scatter in all directions, not a single specific direction.</p>
+      <p>Verify using the reflection formula <strong>r = d − 2(d·n)n</strong>:</p>
+      <div class="step"><div class="step-n">1</div><div>Incident direction (light→surface): d = [2,1,3]−[4,4,4] = [−2,−3,−1]</div></div>
+      <div class="step"><div class="step-n">2</div><div>Surface normal: n = [0,1,0]</div></div>
+      <div class="step"><div class="step-n">3</div><div>d·n = (−3)(1) = −3</div></div>
+      <div class="step"><div class="step-n">4</div><div>r = [−2,−3,−1] − 2(−3)[0,1,0] = [−2,−3,−1] + [0,6,0] = <span class="hl">[−2, 3, −1] ✓</span></div></div>
+      <p style="margin-top:8px">The calculated specular reflection exactly matches the given direction → the surface is a <strong>specular (mirror-like) reflector</strong> obeying angle-of-incidence = angle-of-reflection.</p>
     </div>
   </div>
 
-  <!-- ===== QUESTION 3 ===== -->
-  <div class="section-title" id="q3">Question 3 — Rendering Theory</div>
+  <div class="section-title">Question 3 — Rendering Theory</div>
 
-  <!-- 3.1 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">3.1</span>
-      <span class="q-title">"Rendering is the process by which the object is moved around the screen" — True or False?</span>
-    </div>
-    <div class="answer-box">
-      <div class="answer-label">Answer</div>
-      <div class="answer-value">FALSE</div>
-    </div>
-    <div class="explain">
-      <p><strong>Motivation:</strong> Rendering is the process of converting a 3D scene description into a 2D image — essentially generating what the scene looks like from a given viewpoint.</p>
-      <p>Moving objects around the screen is the job of <strong>geometric transformations</strong> (translation, rotation, scaling). Rendering happens after transformations are applied — it produces the final pixel colours.</p>
-    </div>
+    <div class="card-header"><span class="q-number">3.1</span><span class="q-title">"Rendering is the process by which the object is moved around the screen" — True or False?</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">FALSE</div></div>
+    <div class="explain"><p><strong>Motivation:</strong> Rendering is the process of converting a 3D scene description into a 2D image. <em>Moving</em> objects is done through geometric transformations (translation, rotation, scaling) — a separate step that happens before rendering.</p></div>
   </div>
 
-  <!-- 3.2 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">3.2</span>
-      <span class="q-title">Two methods for how objects influence pixels</span>
-    </div>
-    <div class="sub-section">
-      <div class="sub-title">a) Name and explain the two methods</div>
+    <div class="card-header"><span class="q-number">3.2</span><span class="q-title">Two methods for how objects influence pixels</span></div>
+    <div class="sub">
+      <div class="sub-title">a) Name the two methods and how they differ</div>
       <div class="explain">
-        <p><strong>1. Object-order rendering (Rasterisation):</strong></p>
-        <ul>
-          <li>Iterate over each <em>object/primitive</em> and determine which pixels it covers.</li>
-          <li>For each triangle: project it onto the screen, find which pixels fall inside it, colour those pixels.</li>
-          <li>Fast, GPU-friendly — standard in real-time graphics.</li>
-        </ul>
-        <p style="margin-top:10px"><strong>2. Image-order rendering (Ray Tracing/Casting):</strong></p>
-        <ul>
-          <li>Iterate over each <em>pixel</em> and determine which objects influence it.</li>
-          <li>For each pixel: cast a ray through it into the scene, find what it hits, and compute the colour.</li>
-          <li>More physically accurate (shadows, reflections) but computationally expensive.</li>
-        </ul>
-        <p style="margin-top:10px"><strong>Key difference:</strong> Object-order loops over objects then finds pixels; image-order loops over pixels then finds objects.</p>
+        <p><strong>1. Object-order rendering (Rasterisation):</strong> Loop over each object/triangle → find which pixels it covers → colour those pixels. Fast, GPU-friendly, used in real-time graphics.</p>
+        <p style="margin-top:8px"><strong>2. Image-order rendering (Ray Tracing):</strong> Loop over each pixel → cast a ray into the scene → find which object it hits → compute colour. Physically accurate but expensive.</p>
+        <p style="margin-top:8px"><strong>Key difference:</strong> Object-order iterates objects first; image-order iterates pixels first.</p>
       </div>
     </div>
-    <div class="sub-section" style="margin-top:14px">
-      <div class="sub-title">b) Which method does OpenGL use?</div>
-      <div class="answer-box">
-        <div class="answer-label">Answer</div>
-        <div class="answer-value">Object-order rendering (Rasterisation)</div>
-      </div>
-      <div class="explain">
-        <p><strong>Reason:</strong> OpenGL processes each primitive (triangle) one at a time, projects it to screen space, then determines which pixels it covers (rasterisation). It does not cast rays from pixels into the scene. This is why real-time OpenGL rendering is fast but doesn't natively support ray-tracing effects like global reflections.</p>
-      </div>
+    <div class="sub" style="margin-top:12px">
+      <div class="sub-title">b) Which method does OpenGL use? Why?</div>
+      <div class="answer-box"><div class="answer-value">Object-order rendering (Rasterisation)</div></div>
+      <div class="explain"><p><strong>Reason:</strong> OpenGL takes each triangle, projects it to the screen, then fills (rasterises) the pixels it covers. It does not cast rays from pixels. This pipeline is optimised for GPU parallel processing.</p></div>
     </div>
   </div>
 
-  <!-- 3.3 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">3.3</span>
-      <span class="q-title">Why is ray-triangle intersection important in ray tracing?</span>
-    </div>
+    <div class="card-header"><span class="q-number">3.3</span><span class="q-title">Why is ray-triangle intersection critical in ray tracing?</span></div>
     <div class="explain">
-      <p><strong>Why triangles specifically?</strong></p>
+      <p><strong>Why triangles?</strong></p>
       <ul>
-        <li>Every 3D model in computer graphics is ultimately made of triangles (this process is called <em>triangulation</em> or <em>tessellation</em>).</li>
-        <li>Triangles are the simplest polygon: 3 non-collinear points <em>always</em> define a unique, flat plane.</li>
-        <li>They are <em>always planar</em> and <em>always convex</em> — quads and higher polygons can be non-planar.</li>
-        <li>Any polygon can be split into triangles.</li>
-        <li>GPU hardware is optimised around triangles.</li>
+        <li>Every 3D model is decomposed into triangles (triangulation/tessellation).</li>
+        <li>Triangles are <em>always planar</em> and <em>always convex</em> — 3 points always define a unique flat plane. Quads can be non-planar.</li>
+        <li>Any polygon can be split into triangles → triangles are universal.</li>
+        <li>GPU hardware is built around triangle processing.</li>
       </ul>
-      <p style="margin-top:10px"><strong>Why it matters for ray tracing:</strong></p>
-      <ul>
-        <li>In ray tracing, for each pixel you cast a ray and check if it hits any object.</li>
-        <li>Since all 3D objects are made of triangles, being able to test ray-triangle intersection means you can test against <em>any 3D object</em>.</li>
-        <li>If you can intersect a ray with a triangle, you can intersect a ray with the entire scene.</li>
-        <li>Efficient algorithms (e.g. Möller–Trumbore) exist specifically for ray-triangle intersection.</li>
-      </ul>
+      <p style="margin-top:8px"><strong>Why it matters for ray tracing:</strong> Since all objects are made of triangles, testing ray-triangle intersection means you can test against any 3D scene. If you can intersect one triangle, you can intersect the entire world.</p>
     </div>
   </div>
 
-  <!-- ===== QUESTION 4 ===== -->
-  <div class="section-title" id="q4">Question 4 — OpenGL Drawing Program</div>
+  <div class="section-title">Question 4 — OpenGL Drawing Program</div>
 
-  <!-- 4.1 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">4.1</span>
-      <span class="q-title">What shapes does the program draw? (Vertex analysis)</span>
-    </div>
+    <div class="card-header"><span class="q-number">4.1</span><span class="q-title">What shapes does the program draw?</span></div>
     <div class="explain">
-      <p>First, let's label the vertices (pairs of x,y floats):</p>
-      <table style="margin:10px 0; border-collapse:collapse; font-size:0.88rem; font-family:monospace; width:100%">
-        <thead>
-          <tr style="background:var(--surface2); color:var(--accent)">
-            <th style="padding:6px 10px; text-align:left">Index</th>
-            <th style="padding:6px 10px; text-align:left">Vertex (x, y)</th>
-            <th style="padding:6px 10px; text-align:left">Colour (R,G,B)</th>
-          </tr>
-        </thead>
+      <table class="data">
+        <thead><tr><th>Index</th><th>Vertex (x, y)</th><th>Colour</th></tr></thead>
         <tbody>
-          <tr><td style="padding:4px 10px">0</td><td>(−0.5, 0.0)</td><td style="color:#f87171">Red (1,0,0)</td></tr>
-          <tr style="background:var(--surface2)"><td style="padding:4px 10px">1</td><td>(−0.7, 0.2)</td><td style="color:#f87171">Red</td></tr>
-          <tr><td style="padding:4px 10px">2</td><td>(−0.5, 0.3)</td><td style="color:#f87171">Red</td></tr>
-          <tr style="background:var(--surface2)"><td style="padding:4px 10px">3</td><td>(−0.3, 0.2)</td><td style="color:#f87171">Red</td></tr>
-          <tr><td style="padding:4px 10px">4</td><td>(0.0, 0.0)</td><td style="color:#34d399">Green (0,1,0)</td></tr>
-          <tr style="background:var(--surface2)"><td style="padding:4px 10px">5</td><td>(−0.1, 0.3)</td><td style="color:#34d399">Green</td></tr>
-          <tr><td style="padding:4px 10px">6</td><td>(0.0, 0.4)</td><td style="color:#34d399">Green</td></tr>
-          <tr style="background:var(--surface2)"><td style="padding:4px 10px">7</td><td>(0.0, 0.0)</td><td style="color:#34d399">Green</td></tr>
-          <tr><td style="padding:4px 10px">8</td><td>(0.1, 0.3)</td><td style="color:#34d399">Green</td></tr>
-          <tr style="background:var(--surface2)"><td style="padding:4px 10px">9</td><td>(0.0, 0.4)</td><td style="color:#34d399">Green</td></tr>
-          <tr><td style="padding:4px 10px">10</td><td>(0.2, 0.2)</td><td style="color:#89b4fa">Blue (0,0,1)</td></tr>
-          <tr style="background:var(--surface2)"><td style="padding:4px 10px">11</td><td>(0.2, 0.4)</td><td style="color:#89b4fa">Blue</td></tr>
-          <tr><td style="padding:4px 10px">12</td><td>(0.4, 0.2)</td><td style="color:#89b4fa">Blue</td></tr>
-          <tr style="background:var(--surface2)"><td style="padding:4px 10px">13</td><td>(0.4, 0.4)</td><td style="color:#89b4fa">Blue</td></tr>
-          <tr><td style="padding:4px 10px">14</td><td>(0.8, 0.2)</td><td style="color:#89b4fa">Blue</td></tr>
-          <tr style="background:var(--surface2)"><td style="padding:4px 10px">15</td><td>(0.8, 0.4)</td><td style="color:#89b4fa">Blue</td></tr>
+          <tr><td>0</td><td>(−0.5, 0.0)</td><td style="color:#f87171">Red</td></tr>
+          <tr><td>1</td><td>(−0.7, 0.2)</td><td style="color:#f87171">Red</td></tr>
+          <tr><td>2</td><td>(−0.5, 0.3)</td><td style="color:#f87171">Red</td></tr>
+          <tr><td>3</td><td>(−0.3, 0.2)</td><td style="color:#f87171">Red</td></tr>
+          <tr><td>4</td><td>(0.0, 0.0)</td><td style="color:#34d399">Green</td></tr>
+          <tr><td>5</td><td>(−0.1, 0.3)</td><td style="color:#34d399">Green</td></tr>
+          <tr><td>6</td><td>(0.0, 0.4)</td><td style="color:#34d399">Green</td></tr>
+          <tr><td>7</td><td>(0.0, 0.0)</td><td style="color:#34d399">Green</td></tr>
+          <tr><td>8</td><td>(0.1, 0.3)</td><td style="color:#34d399">Green</td></tr>
+          <tr><td>9</td><td>(0.0, 0.4)</td><td style="color:#34d399">Green</td></tr>
+          <tr><td>10</td><td>(0.2, 0.2)</td><td style="color:#89b4fa">Blue</td></tr>
+          <tr><td>11–15</td><td>(0.2–0.8, 0.2–0.4)</td><td style="color:#89b4fa">Blue</td></tr>
         </tbody>
       </table>
-
-      <div class="sub-title" style="margin-top:16px">Shape 1 — GL_TRIANGLE_FAN, start=0, count=4 → vertices 0,1,2,3 — RED</div>
-      <p>A triangle fan uses the first vertex as the <em>centre</em>, then fans out. The triangles formed are:</p>
-      <ul>
-        <li>Triangle (0, 1, 2): (−0.5,0), (−0.7,0.2), (−0.5,0.3)</li>
-        <li>Triangle (0, 2, 3): (−0.5,0), (−0.5,0.3), (−0.3,0.2)</li>
-      </ul>
-      <p>Together they form a <strong>red diamond/kite shape</strong> on the left side of the screen, centred around (−0.5, 0.15).</p>
-
-      <div class="sub-title" style="margin-top:14px">Shape 2 — GL_TRIANGLES, start=4, count=6 → vertices 4–9 — GREEN</div>
-      <p>GL_TRIANGLES takes every group of 3 vertices as a separate triangle:</p>
-      <ul>
-        <li>Triangle (4,5,6): (0,0), (−0.1,0.3), (0,0.4)</li>
-        <li>Triangle (7,8,9): (0,0), (0.1,0.3), (0,0.4)</li>
-      </ul>
-      <p>Two separate <strong>green triangles</strong> that together look like a diamond/upward arrow near the centre of the screen.</p>
-
-      <div class="sub-title" style="margin-top:14px">Shape 3 — GL_TRIANGLE_STRIP, start=10, count=6 → vertices 10–15 — BLUE</div>
-      <p>A triangle strip reuses the last 2 vertices for each new triangle, alternating winding:</p>
-      <ul>
-        <li>Triangle 1 (10,11,12): (0.2,0.2), (0.2,0.4), (0.4,0.2)</li>
-        <li>Triangle 2 (11,12,13): (0.2,0.4), (0.4,0.2), (0.4,0.4)</li>
-        <li>Triangle 3 (12,13,14): (0.4,0.2), (0.4,0.4), (0.8,0.2)</li>
-        <li>Triangle 4 (13,14,15): (0.4,0.4), (0.8,0.2), (0.8,0.4)</li>
-      </ul>
-      <p>This creates a <strong>blue horizontal band/strip</strong> of rectangles on the right side of the screen.</p>
+      <div class="sub" style="margin-top:12px">
+        <div class="sub-title" style="color:#f87171">GL_TRIANGLE_FAN, start=0, count=4 → RED</div>
+        <p>First vertex (0) is the fan centre. Creates: Tri(0,1,2) + Tri(0,2,3) → a <strong>red diamond/kite</strong> on the left (~x=−0.5).</p>
+      </div>
+      <div class="sub" style="margin-top:10px">
+        <div class="sub-title" style="color:#34d399">GL_TRIANGLES, start=4, count=6 → GREEN</div>
+        <p>Every 3 vertices = 1 triangle: Tri(4,5,6) + Tri(7,8,9) → two <strong>green triangles</strong> forming a diamond/arrow near centre.</p>
+      </div>
+      <div class="sub" style="margin-top:10px">
+        <div class="sub-title" style="color:#89b4fa">GL_TRIANGLE_STRIP, start=10, count=6 → BLUE</div>
+        <p>Reuses last 2 vertices: creates 4 triangles forming a <strong>blue rectangular band</strong> on the right (x=0.2 to 0.8).</p>
+      </div>
     </div>
   </div>
 
-  <!-- 4.2 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">4.2</span>
-      <span class="q-title">Modified vertex and fragment shaders</span>
-    </div>
-    <div class="explain">
-      <p>Three modifications needed:</p>
-      <ul>
-        <li>If vertex x &lt; 0 → double the x value</li>
-        <li>If vertex y &lt; 0 → halve the y value</li>
-        <li>All colours become more pastel → add 0.5 to each colour channel</li>
-      </ul>
-      <p style="margin-top:8px">Position changes happen in the <strong>vertex shader</strong>. Colour changes happen in the <strong>fragment shader</strong>.</p>
-    </div>
-    <div class="sub-title" style="margin:14px 0 8px; color:var(--green)">Vertex Shader (vertexShader.glsl)</div>
-<pre><span class="comment">// Vertex Shader</span>
-#version 330 core
+    <div class="card-header"><span class="q-number">4.2</span><span class="q-title">Modified vertex and fragment shaders</span></div>
+    <div class="sub-title" style="color:var(--green);margin-bottom:6px">Vertex Shader</div>
+<pre>#version 330 core
+layout(location = 0) <span class="kw">in</span> vec2 vertexPosition;
+layout(location = 1) <span class="kw">in</span> vec3 vertexColor;
+<span class="kw">out</span> vec3 fragmentColor;
 
-layout(location = 0) <span class="keyword">in</span> vec2 vertexPosition;
-layout(location = 1) <span class="keyword">in</span> vec3 vertexColor;
-
-<span class="keyword">out</span> vec3 fragmentColor;
-
-<span class="type-kw">void</span> <span class="func">main</span>() {
+<span class="ty">void</span> <span class="fn">main</span>() {
     vec2 pos = vertexPosition;
-
-    <span class="keyword">if</span> (pos.x &lt; <span class="number">0.0</span>) {
-        pos.x = pos.x * <span class="number">2.0</span>;
-    }
-    <span class="keyword">if</span> (pos.y &lt; <span class="number">0.0</span>) {
-        pos.y = pos.y * <span class="number">0.5</span>;
-    }
-
-    gl_Position = vec4(pos, <span class="number">0.0</span>, <span class="number">1.0</span>);
+    <span class="kw">if</span> (pos.x &lt; <span class="nm">0.0</span>) pos.x *= <span class="nm">2.0</span>;   <span class="cm">// double negative x</span>
+    <span class="kw">if</span> (pos.y &lt; <span class="nm">0.0</span>) pos.y *= <span class="nm">0.5</span>;   <span class="cm">// halve negative y</span>
+    gl_Position = vec4(pos, <span class="nm">0.0</span>, <span class="nm">1.0</span>);
     fragmentColor = vertexColor;
 }</pre>
-    <div class="sub-title" style="margin:14px 0 8px; color:var(--purple)">Fragment Shader (fragmentShader.glsl)</div>
-<pre><span class="comment">// Fragment Shader</span>
-#version 330 core
+    <div class="sub-title" style="color:var(--purple);margin:12px 0 6px">Fragment Shader</div>
+<pre>#version 330 core
+<span class="kw">in</span>  vec3 fragmentColor;
+<span class="kw">out</span> vec3 color;
 
-<span class="keyword">in</span>  vec3 fragmentColor;
-<span class="keyword">out</span> vec3 color;
-
-<span class="type-kw">void</span> <span class="func">main</span>() {
-    color = fragmentColor + vec3(<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>);
+<span class="ty">void</span> <span class="fn">main</span>() {
+    color = fragmentColor + vec3(<span class="nm">0.5</span>, <span class="nm">0.5</span>, <span class="nm">0.5</span>);  <span class="cm">// pastel: add 0.5 to each channel</span>
 }</pre>
-    <div class="warn">⚠ Adding 0.5 to colours will push values above 1.0 (e.g. red (1,0,0) → (1.5, 0.5, 0.5)). OpenGL automatically clamps these to 1.0, so red becomes (1.0, 0.5, 0.5) — a pastel pink. This is the expected behaviour.</div>
+    <div class="warn">Adding 0.5 can push values above 1.0 — OpenGL clamps to 1.0. Red (1,0,0) → (1.5,0.5,0.5) → clamped to (1.0,0.5,0.5) = pastel pink. Expected behaviour.</div>
   </div>
 
-  <!-- ===== QUESTION 5 ===== -->
-  <div class="section-title" id="q5">Question 5 — Input Handling &amp; Transformations</div>
+  <div class="section-title">Question 5 — Input Handling &amp; Transformations</div>
 
-  <!-- 5.1 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">5.1</span>
-      <span class="q-title">C++ code to call rotateScene() when R is pressed</span>
-    </div>
-<pre><span class="comment">// Inside the render loop (the do-while loop)</span>
-<span class="keyword">if</span> (<span class="func">glfwGetKey</span>(window, GLFW_KEY_R) == GLFW_PRESS) {
-    <span class="func">rotateScene</span>();
+    <div class="card-header"><span class="q-number">5.1</span><span class="q-title">Call rotateScene() when R is pressed</span></div>
+<pre><span class="cm">// Inside the do-while render loop:</span>
+<span class="kw">if</span> (<span class="fn">glfwGetKey</span>(window, GLFW_KEY_R) == GLFW_PRESS) {
+    <span class="fn">rotateScene</span>();
 }</pre>
-    <div class="explain" style="margin-top:10px">
-      <p><code>glfwGetKey(window, GLFW_KEY_R)</code> returns <code>GLFW_PRESS</code> while the R key is held down. This check goes inside the main render/event loop so it is polled every frame.</p>
-    </div>
+    <div class="explain" style="margin-top:10px"><p><code>glfwGetKey</code> returns GLFW_PRESS while the key is held. Placing this inside the loop polls it every frame.</p></div>
   </div>
 
-  <!-- 5.2 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">5.2</span>
-      <span class="q-title">Transformation matrices (scene centre at [1,2,1]ᵀ) — 4D homogeneous</span>
-    </div>
-    <div class="warn" style="margin-bottom:14px">⚠ When scaling or rotating about a point other than the origin, you must translate the centre to the origin first, apply the transformation, then translate back.</div>
-
-    <div class="sub-section">
-      <div class="sub-title">a) Scaling by 3 along all axes, centre at [1,2,1]ᵀ</div>
+    <div class="card-header"><span class="q-number">5.2</span><span class="q-title">Transformation matrices — centre at [1,2,1]ᵀ (4D homogeneous)</span></div>
+    <div class="warn" style="margin-bottom:12px">To transform about a non-origin point: translate centre to origin → apply transform → translate back. Order: T × Transform × T⁻¹</div>
+    <div class="sub">
+      <div class="sub-title">a) Scale by 3 along all axes</div>
       <div class="explain">
-        <p>Three matrices, applied right-to-left (multiply as: T × S × T⁻¹ × point):</p>
-        <div class="step">
-          <div class="step-num">1</div>
-          <div><strong>T⁻¹ — Translate centre to origin:</strong> move by [−1, −2, −1]<br>
-<pre style="margin-top:6px">T⁻¹ = | 1  0  0  -1 |
-       | 0  1  0  -2 |
-       | 0  0  1  -1 |
-       | 0  0  0   1 |</pre>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div><strong>S — Scale by 3:</strong>
-<pre style="margin-top:6px">S   = | 3  0  0  0 |
-      | 0  3  0  0 |
-      | 0  0  3  0 |
-      | 0  0  0  1 |</pre>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div><strong>T — Translate back:</strong> move by [1, 2, 1]
-<pre style="margin-top:6px">T   = | 1  0  0  1 |
-      | 0  1  0  2 |
-      | 0  0  1  1 |
-      | 0  0  0  1 |</pre>
-          </div>
-        </div>
-        <p><strong>Order:</strong> Apply <code>T × S × T⁻¹</code> to each point. (Rightmost applied first.)</p>
+<pre>T⁻¹ (move to origin)    S (scale ×3)         T (move back)
+| 1  0  0  -1 |         | 3  0  0  0 |        | 1  0  0  1 |
+| 0  1  0  -2 |    ×    | 0  3  0  0 |   ×    | 0  1  0  2 |
+| 0  0  1  -1 |         | 0  0  3  0 |        | 0  0  1  1 |
+| 0  0  0   1 |         | 0  0  0  1 |        | 0  0  0  1 |</pre>
       </div>
     </div>
-
-    <div class="sub-section" style="margin-top:16px">
-      <div class="sub-title">b) Rotation about global Z-axis by 40°, centre at [1,2,1]ᵀ</div>
+    <div class="sub" style="margin-top:12px">
+      <div class="sub-title">b) Rotation about global Z-axis by 40°</div>
       <div class="explain">
-        <p>Three matrices, same translate-rotate-translateBack pattern:</p>
-        <div class="step">
-          <div class="step-num">1</div>
-          <div><strong>T⁻¹</strong> (same as above — translate centre to origin)</div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div><strong>Rz(40°) — Rotate about Z-axis:</strong>
-<pre style="margin-top:6px">Rz  = | cos40°  -sin40°  0  0 |
-      | sin40°   cos40°  0  0 |
-      |    0       0     1  0 |
-      |    0       0     0  1 |
-
-    ≈ |  0.766  -0.643  0  0 |
-      |  0.643   0.766  0  0 |
-      |  0       0      1  0 |
-      |  0       0      0  1 |</pre>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div><strong>T</strong> (same as above — translate back to centre)</div>
-        </div>
-        <p><strong>Order:</strong> <code>T × Rz × T⁻¹</code></p>
+<pre>T⁻¹ (same)     Rz(40°)                             T (same)
+               |  0.766  -0.643  0  0 |
+               |  0.643   0.766  0  0 |
+               |  0       0      1  0 |
+               |  0       0      0  1 |</pre>
       </div>
     </div>
   </div>
 
-  <!-- 5.3 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">5.3</span>
-      <span class="q-title">What does <code>gl.enable(gl.GL_BLEND)</code> do?</span>
-    </div>
+    <div class="card-header"><span class="q-number">5.3</span><span class="q-title">What does gl.enable(gl.GL_BLEND) do?</span></div>
     <div class="explain">
-      <p>This enables <strong>alpha blending</strong> in OpenGL.</p>
-      <ul>
-        <li>By default, each new fragment simply overwrites the colour already in the framebuffer.</li>
-        <li>With blending enabled, OpenGL <em>combines</em> the incoming fragment's colour with the existing framebuffer colour, using the alpha (transparency) values.</li>
-        <li>This allows you to render <strong>transparent and semi-transparent objects</strong> correctly.</li>
-        <li>Without it: transparent objects would appear fully opaque.</li>
-      </ul>
-      <p style="margin-top:8px">You typically also set a blend function like <code>glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)</code> to specify <em>how</em> the blending is done.</p>
+      <p>Enables <strong>alpha blending</strong>. Without it, new fragments simply overwrite the framebuffer. With blending enabled, OpenGL <em>combines</em> the incoming colour with the existing colour using alpha (transparency) values, allowing transparent/semi-transparent objects to render correctly.</p>
+      <p style="margin-top:8px">You also need: <code>glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)</code> to specify the blend equation.</p>
     </div>
   </div>
 
-  <!-- ===== QUESTION 6 ===== -->
-  <div class="section-title" id="q6">Question 6 — Rasterisation &amp; Midpoint Algorithm</div>
+  <div class="section-title">Question 6 — Rasterisation &amp; Midpoint Algorithm</div>
 
-  <!-- 6.1 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">6.1</span>
-      <span class="q-title">Midpoint algorithm — which condition suits which line?</span>
-    </div>
+    <div class="card-header"><span class="q-number">6.1</span><span class="q-title">Midpoint algorithm — which condition suits which line?</span></div>
     <div class="explain">
-      <p>The midpoint algorithm draws a line pixel by pixel. The <em>condition</em> checks whether the midpoint between two candidate pixels is above or below the actual line. The correct condition depends on two things:</p>
-      <ol>
-        <li>Is the slope steep (|m| &gt; 1, step in Y) or shallow (|m| &lt; 1, step in X)?</li>
-        <li>Is the slope positive or negative?</li>
-      </ol>
-
-      <table style="margin:14px 0; border-collapse:collapse; width:100%; font-size:0.88rem">
-        <thead>
-          <tr style="background:var(--surface2); color:var(--accent)">
-            <th style="padding:8px 12px; text-align:left">Condition</th>
-            <th style="padding:8px 12px; text-align:left">Meaning</th>
-          </tr>
-        </thead>
+      <p>The correct condition depends on slope magnitude and sign:</p>
+      <table class="data" style="margin:10px 0">
+        <thead><tr><th>Condition</th><th>When to use</th></tr></thead>
         <tbody>
-          <tr>
-            <td style="padding:6px 12px; font-family:monospace">i) f(x+1, y+0.5) &lt; 0</td>
-            <td style="padding:6px 12px">Step in X, positive shallow slope (0 &lt; m &lt; 1)</td>
-          </tr>
-          <tr style="background:var(--surface2)">
-            <td style="padding:6px 12px; font-family:monospace">ii) f(x+1, y−0.5) &gt; 0</td>
-            <td style="padding:6px 12px">Step in X, negative shallow slope (−1 &lt; m &lt; 0)</td>
-          </tr>
-          <tr>
-            <td style="padding:6px 12px; font-family:monospace">iii) f(x+0.5, y+1) &gt; 0</td>
-            <td style="padding:6px 12px">Step in Y, positive steep slope (m &gt; 1)</td>
-          </tr>
-          <tr style="background:var(--surface2)">
-            <td style="padding:6px 12px; font-family:monospace">iv) f(x+0.5, y−1) &lt; 0</td>
-            <td style="padding:6px 12px">Step in Y, negative steep slope (m &lt; −1)</td>
-          </tr>
+          <tr><td><code>i) f(x+1, y+0.5) &lt; 0</code></td><td>Shallow positive slope: 0 &lt; m &lt; 1</td></tr>
+          <tr><td><code>ii) f(x+1, y−0.5) &gt; 0</code></td><td>Shallow negative slope: −1 &lt; m &lt; 0</td></tr>
+          <tr><td><code>iii) f(x+0.5, y+1) &gt; 0</code></td><td>Steep positive slope: m &gt; 1</td></tr>
+          <tr><td><code>iv) f(x+0.5, y−1) &lt; 0</code></td><td>Steep negative slope: m &lt; −1</td></tr>
         </tbody>
       </table>
-
-      <div class="sub-title">a) g(x) = 5x + 2 → slope = 5 (steep, positive, m &gt; 1)</div>
-      <div class="answer-box"><div class="answer-value">Condition iii: f(x+0.5, y+1) &gt; 0</div></div>
-
-      <div class="sub-title" style="margin-top:12px">b) g(x) = −0.2x − 5 → slope = −0.2 (shallow, negative, −1 &lt; m &lt; 0)</div>
-      <div class="answer-box"><div class="answer-value">Condition ii: f(x+1, y−0.5) &gt; 0</div></div>
-
-      <div class="sub-title" style="margin-top:12px">c) g(x) = 0.2x + 8 → slope = 0.2 (shallow, positive, 0 &lt; m &lt; 1)</div>
-      <div class="answer-box"><div class="answer-value">Condition i: f(x+1, y+0.5) &lt; 0</div></div>
-
-      <div class="sub-title" style="margin-top:12px">d) g(x) = −10x → slope = −10 (steep, negative, m &lt; −1)</div>
-      <div class="answer-box"><div class="answer-value">Condition iv: f(x+0.5, y−1) &lt; 0</div></div>
+      <div class="answer-box" style="margin-top:10px"><div class="answer-label">a) g(x) = 5x+2 → slope=5 (steep positive)</div><div class="answer-value">Condition iii</div></div>
+      <div class="answer-box"><div class="answer-label">b) g(x) = −0.2x−5 → slope=−0.2 (shallow negative)</div><div class="answer-value">Condition ii</div></div>
+      <div class="answer-box"><div class="answer-label">c) g(x) = 0.2x+8 → slope=0.2 (shallow positive)</div><div class="answer-value">Condition i</div></div>
+      <div class="answer-box"><div class="answer-label">d) g(x) = −10x → slope=−10 (steep negative)</div><div class="answer-value">Condition iv</div></div>
     </div>
   </div>
 
-  <!-- 6.2 -->
   <div class="card">
-    <div class="card-header">
-      <span class="q-number">6.2</span>
-      <span class="q-title">Problems with edge-pixel colouring solutions</span>
-    </div>
+    <div class="card-header"><span class="q-number">6.2</span><span class="q-title">Problems with edge-pixel colouring solutions</span></div>
     <div class="explain">
-      <p>When a pixel lies exactly on the shared edge between two triangles, we must decide how to colour it. Each solution has a flaw:</p>
-
-      <div class="sub-section">
-        <div class="sub-title">a) Blend the colours assigned to the pixel</div>
-        <p><strong>Problem:</strong> The pixel is processed and written to twice — once for each triangle. This causes <em>double-blending</em>: the pixel receives both triangles' colours blended on top of each other, making the edge pixel appear <span class="highlight">brighter or differently coloured</span> than it should. For opaque surfaces this creates a visible seam or artefact along shared edges. It also costs extra GPU time.</p>
+      <div class="sub">
+        <div class="sub-title">a) Blend the colours</div>
+        <p><strong>Problem:</strong> The pixel gets processed and written twice (once per triangle) causing <em>double-blending</em>. The result is brighter or differently coloured than intended — a visible artefact along every shared edge on opaque surfaces.</p>
       </div>
-
-      <div class="sub-section" style="margin-top:14px">
-        <div class="sub-title">b) If the pixel is on the edge, give it no colour</div>
-        <p><strong>Problem:</strong> Every shared edge in the mesh will produce a pixel with no colour, resulting in <span class="highlight">visible dark lines/cracks</span> along all triangle edges. Even a simple model with thousands of triangles would show a wireframe-like gap pattern across the entire surface — completely unacceptable for solid/smooth rendering.</p>
+      <div class="sub" style="margin-top:12px">
+        <div class="sub-title">b) Give the edge pixel no colour</div>
+        <p><strong>Problem:</strong> Every shared edge in the entire mesh will have a gap of uncoloured pixels, producing <em>visible dark cracks/holes</em> along all triangle boundaries — completely unacceptable for solid surfaces.</p>
       </div>
-
-      <div class="sub-section" style="margin-top:14px">
-        <div class="sub-title">c) Use an offscreen point to determine the colour</div>
-        <p><strong>Problem:</strong> The offscreen point assigns the edge pixel to exactly <em>one</em> of the two triangles. If the two triangles have <span class="highlight">different colours</span>, the choice can look inconsistent or arbitrary — the edge pixel always takes one triangle's colour based on an external point's position, which may not reflect the actual visual intent. There is also potential for edge cases where the offscreen point itself falls exactly on an edge, causing ambiguity again.</p>
+      <div class="sub" style="margin-top:12px">
+        <div class="sub-title">c) Use an offscreen point</div>
+        <p><strong>Problem:</strong> The pixel is always assigned to exactly one triangle based on the offscreen point's side. If the two triangles have <em>different colours</em>, the edge pixel consistently shows only one colour, which can look visually inconsistent. Also fails at viewport boundaries where the offscreen point may not be valid.</p>
       </div>
     </div>
   </div>
 
-  <div style="text-align:center; color:var(--muted); font-size:0.85rem; margin-top:40px; padding-top:20px; border-top:1px solid var(--border)">
-    COS344 Computer Graphics — Semester Test Memo Guide
+</div><!-- /container st1 -->
+</div><!-- /panel-st1 -->
+
+<!-- ═══════════════════════════ ST2 ═══════════════════════════ -->
+<div id="panel-st2" class="tab-panel">
+<div class="container">
+
+  <div class="scenario-box">
+    <h3>Scenario Context</h3>
+    <p>All questions relate to a render showing: a <strong>floor</strong> of rectangles (with 3D cuboid sides), a <strong>glass panel</strong> of variable thickness in the middle, and a <strong>light</strong> shining through the glass onto the floor.</p>
   </div>
 
-</div>
+  <div class="section-title">Question 1 — Multiple Choice (Tools, Textures)</div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">1.1</span><span class="q-title">Which tool imports Blender assets into OpenGL?</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">B — ASSIMP</div></div>
+    <div class="explain"><p><strong>ASSIMP</strong> (Open Asset Import Library) is a C++ library that loads 3D model files (including Blender's .obj, .fbx, .dae formats) into your OpenGL program. GoDot is a game engine; GLFW handles windows/input; "Asset Importer" is a generic name, not a specific tool.</p></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">1.2</span><span class="q-title">Which program debugs the graphics pipeline specifically?</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">C — RenderDoc</div></div>
+    <div class="explain"><p><strong>RenderDoc</strong> is a graphics debugger that captures a frame and lets you inspect every step of the GPU pipeline — shader inputs/outputs, draw calls, textures, buffers. GDB is a general C++ debugger; Blender is a 3D editor; GLAD is an OpenGL loader.</p></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">1.3</span><span class="q-title">Which drawback is specific to the OBJ wavefront file format?</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">A — Lacks support for modern texture workflows</div></div>
+    <div class="explain"><p>OBJ is a very old format. It doesn't support <strong>PBR (Physically Based Rendering)</strong> material properties (metalness, roughness maps). It also can't store animation, scene hierarchies, or custom attributes. Options B (not human-readable) and D (designed for transfer) are actually strengths of OBJ. C (open source) is not a drawback.</p></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">1.4</span><span class="q-title">Texture lookup f(x,y,z) = (u,v), where u=2x² mod z, v=log(y) mod z</span></div>
+    <div class="sub">
+      <div class="sub-title">a) Primary bijectivity issue</div>
+      <div class="answer-box"><div class="answer-value">C — The x² term causes multiple inputs to map to the same output</div></div>
+      <div class="explain"><p>A <strong>bijective</strong> function maps each input to a unique output (one-to-one). The term x² is NOT one-to-one: x=2 and x=−2 both give x²=4, so different 3D coordinates map to the same UV → not bijective.</p></div>
+    </div>
+    <div class="sub" style="margin-top:12px">
+      <div class="sub-title">b) Distortion of size</div>
+      <div class="answer-box"><div class="answer-value">B — Both u and v components are affected, resulting in overall size distortion</div></div>
+      <div class="explain"><p>u = 2x² mod z grows quadratically → non-uniform size distortion in u. v = log(y) mod z grows logarithmically → non-uniform distortion in v. Both components are distorted (though differently), causing overall size distortion across the texture.</p></div>
+    </div>
+    <div class="sub" style="margin-top:12px">
+      <div class="sub-title">c) Effect of modulus on texture shape</div>
+      <div class="answer-box"><div class="answer-value">D — The non-linear modulus operation creates discrete jumps → significant shape distortion</div></div>
+      <div class="explain"><p>The modulus operator causes the UV value to <em>wrap around</em> abruptly (e.g. 9 mod 5 = 4, then 10 mod 5 = 0 — a sudden jump). These discrete discontinuities break the smooth shape of textures, creating distorted/torn-looking projections.</p></div>
+    </div>
+  </div>
+
+  <div class="section-title">Question 2 — Projections (Figures)</div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">2.1</span><span class="q-title">Name the projection for Figure 1 and Figure 2, with justification</span></div>
+    <div class="explain">
+      <p>Without seeing the actual images, here's how to identify each projection type:</p>
+      <table class="data" style="margin:10px 0">
+        <thead><tr><th>Projection</th><th>How to identify</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Orthographic</strong></td><td>Flat, top-down or side view. No depth — objects don't get smaller with distance. Parallel lines stay parallel.</td></tr>
+          <tr><td><strong>Perspective</strong></td><td>Objects further away look smaller. Parallel lines converge to vanishing points. Looks "realistic".</td></tr>
+          <tr><td><strong>Oblique</strong></td><td>Angled view but depth lines don't converge. Front face is undistorted. Parallel depth lines at a constant angle.</td></tr>
+        </tbody>
+      </table>
+      <p><strong>For the scenario:</strong> One figure likely shows an angled/3D view with depth (perspective or oblique), the other a flat top-down or side view (orthographic). Justify by looking for: vanishing points (perspective), flat no-depth (orthographic), or angled-but-parallel-depth (oblique).</p>
+    </div>
+  </div>
+
+  <div class="section-title">Question 3 — Orthographic Pipeline Matrices</div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">3</span><span class="q-title">All 4D matrices for orthographic rendering of the scene</span></div>
+    <div class="explain">
+      <p>Three matrices are needed: <strong>Camera/View matrix → Orthographic Projection → Viewport</strong></p>
+    </div>
+
+    <div class="sub" style="margin-top:14px">
+      <div class="sub-title">Step 1 — Build the camera frame (View Matrix)</div>
+      <div class="explain">
+        <p>Camera position: e = [2,2,2]ᵀ, Gaze direction: g = [−2,0,0]ᵀ, Up: t = [2,2,0]ᵀ</p>
+        <div class="step"><div class="step-n">1</div><div><strong>w</strong> = −normalize(g) = −[−1,0,0] = <strong>[1, 0, 0]</strong></div></div>
+        <div class="step"><div class="step-n">2</div><div>normalize(t) = [2,2,0]/√8 = [1/√2, 1/√2, 0]</div></div>
+        <div class="step"><div class="step-n">3</div><div><strong>u</strong> = normalize(t) × w = [1/√2,1/√2,0] × [1,0,0] = [0, 0, −1/√2], normalize → <strong>[0, 0, −1]</strong></div></div>
+        <div class="step"><div class="step-n">4</div><div><strong>v</strong> = w × u = [1,0,0] × [0,0,−1] = <strong>[0, 1, 0]</strong></div></div>
+<pre><span class="cm">// Camera basis: u=[0,0,-1], v=[0,1,0], w=[1,0,0], e=[2,2,2]
+// -u·e = -(0*2+0*2+(-1)*2) = 2
+// -v·e = -(0*2+1*2+0*2) = -2
+// -w·e = -(1*2+0*2+0*2) = -2</span>
+
+M_view = | 0   0  -1   2 |
+          | 0   1   0  -2 |
+          | 1   0   0  -2 |
+          | 0   0   0   1 |</pre>
+      </div>
+    </div>
+
+    <div class="sub" style="margin-top:14px">
+      <div class="sub-title">Step 2 — Orthographic Projection Matrix</div>
+      <div class="explain">
+        <p>L=−10, R=10, T=8, B=−8, N=−2, F=−10</p>
+        <p>R−L=20, T−B=16, N−F=8, (R+L)=0, (T+B)=0, (N+F)=−12</p>
+<pre>M_orth = | 2/(R-L)     0         0       -(R+L)/(R-L) |
+          |    0      2/(T-B)     0       -(T+B)/(T-B) |
+          |    0         0      2/(N-F)   -(N+F)/(N-F) |
+          |    0         0         0            1       |
+
+       = | 1/10    0      0      0   |
+          |   0    1/8     0      0   |
+          |   0     0     1/4    3/2  |
+          |   0     0      0      1   |</pre>
+        <p style="margin-top:8px"><strong>Purpose:</strong> Maps the view volume to the canonical cube [−1,1]³.</p>
+      </div>
+    </div>
+
+    <div class="sub" style="margin-top:14px">
+      <div class="sub-title">Step 3 — Viewport Matrix</div>
+      <div class="explain">
+        <p>Screen: nx=1920, ny=1080. Maps canonical [−1,1]² to pixel space.</p>
+<pre>M_vp = | nx/2    0    0   (nx-1)/2 |     | 960    0   0    959.5 |
+        |   0   ny/2  0   (ny-1)/2 |  =  |   0   540  0    539.5 |
+        |   0     0   1       0    |     |   0     0  1       0  |
+        |   0     0   0       1    |     |   0     0  0       1  |</pre>
+        <p style="margin-top:8px"><strong>Purpose:</strong> Maps from NDC (normalised device coordinates) to actual screen pixel positions.</p>
+      </div>
+    </div>
+
+    <div class="info" style="margin-top:12px">Final transform order: M_vp × M_orth × M_view × point</div>
+  </div>
+
+  <div class="section-title">Question 4 — Culling</div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">4.1</span><span class="q-title">Which faces are culled for each technique?</span></div>
+    <div class="explain">
+      <div class="sub">
+        <div class="sub-title">a) View Volume Culling</div>
+        <p>Any object (or part of an object) that lies <strong>outside the camera's view frustum/volume</strong> is culled. The entire object is discarded before rasterisation. Objects partially outside are clipped at the volume boundary.</p>
+        <p style="margin-top:6px">In the scenario: objects positioned beyond the far plane, before the near plane, or outside the left/right/top/bottom bounds are culled.</p>
+      </div>
+      <div class="sub" style="margin-top:12px">
+        <div class="sub-title">b) Occlusion Culling</div>
+        <p>Objects <strong>completely hidden behind other opaque objects</strong> are culled. The GPU doesn't bother rendering geometry that will never be seen. In the scenario: parts of the floor behind the glass panel might be occluded from the camera's view by other geometry.</p>
+      </div>
+      <div class="sub" style="margin-top:12px">
+        <div class="sub-title">c) Backface Culling</div>
+        <p>Triangle faces whose <strong>normal points away from the camera</strong> are culled. For a floor: the bottom faces of the floor tiles face downward (away from the camera above) and are culled. For the glass panel: the face pointing away from the camera is culled.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">4.2</span><span class="q-title">Why is winding order important for backface culling?</span></div>
+    <div class="explain">
+      <p>The <strong>winding order</strong> of a triangle's vertices (clockwise or counter-clockwise when viewed from outside) determines which direction its normal points.</p>
+      <ul style="margin-top:8px">
+        <li>Counter-clockwise (CCW) winding → normal points outward (toward viewer for a front face)</li>
+        <li>Clockwise (CW) winding → normal points inward (away from viewer)</li>
+      </ul>
+      <p style="margin-top:8px">Backface culling discards any face whose normal points away from the camera. If the winding order is <em>inconsistent</em>, the GPU can't tell front from back — it may cull visible faces (creating holes) or keep invisible faces (wasting GPU time). Consistent winding order is essential for culling to work correctly.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">4.3</span><span class="q-title">C++ code: cull FRONT faces, clockwise winding order</span></div>
+<pre><span class="fn">glEnable</span>(GL_CULL_FACE);         <span class="cm">// enable culling</span>
+<span class="fn">glCullFace</span>(GL_FRONT);           <span class="cm">// cull front-facing faces</span>
+<span class="fn">glFrontFace</span>(GL_CW);             <span class="cm">// define clockwise as "front"</span></pre>
+    <div class="explain" style="margin-top:10px">
+      <p><code>glCullFace(GL_FRONT)</code> removes front-facing polygons (normally you'd use GL_BACK). <code>glFrontFace(GL_CW)</code> tells OpenGL that clockwise-wound triangles are the "front" faces.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Question 5 — Texture Mapping</div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">5.1</span><span class="q-title">Best geometrically determined coordinate technique for the floor</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">Planar projection (orthographic/planar texture mapping)</div></div>
+    <div class="explain">
+      <p><strong>Motivation:</strong> The floor is a flat, rectangular surface. Planar projection maps texture coordinates directly from the x and z world-space coordinates of each vertex (treating the floor as lying in the XZ plane). Because the floor is flat, there is no distortion — the texture maps straight onto the surface without wrapping or stretching artifacts that would appear with spherical or cylindrical mapping.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">5.2</span><span class="q-title">How does tiling work with geometrically determined coordinates?</span></div>
+    <div class="explain">
+      <p>By <strong>scaling the UV coordinates</strong> before sampling (multiplying the texture coordinate by a tiling factor), the UV values exceed [0,1] and wrap around — this is <em>tiling</em>.</p>
+      <p style="margin-top:8px">Set the texture wrap mode to <code>GL_REPEAT</code>: <code>glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)</code></p>
+      <p style="margin-top:8px">Then scale UVs in the shader: <code>vec2 tiledUV = texCoord * tilingFactor</code>. A tiling factor of 4 repeats the texture 4× along each axis across the floor.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">5.3a</span><span class="q-title">Vertex shader — displace vertex along normal by texture lookup</span></div>
+<pre>#version 330 core
+layout(location = 0) <span class="kw">in</span> vec3 vertexPosition;
+layout(location = 1) <span class="kw">in</span> vec3 surfaceNormal;
+layout(location = 2) <span class="kw">in</span> vec2 texCoord;
+
+uniform sampler2D customTexture;
+<span class="kw">out</span> vec3 fragmentColor;
+
+<span class="ty">void</span> <span class="fn">main</span>() {
+    <span class="ty">float</span> displacement = <span class="fn">texture</span>(customTexture, texCoord).r;
+    vec3 displaced = vertexPosition + surfaceNormal * displacement;
+    gl_Position = vec4(displaced, <span class="nm">1.0</span>);
+    fragmentColor = vec3(displacement, displacement, displacement);
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">5.3b</span><span class="q-title">What is the name of this texture mapping technique?</span></div>
+    <div class="answer-box"><div class="answer-label">Answer</div><div class="answer-value">Displacement Mapping</div></div>
+    <div class="explain">
+      <p><strong>Reason:</strong> The texture value is used to <em>physically move (displace)</em> vertices along their normals — it creates real geometric detail, unlike bump/normal mapping which only fakes shading without moving geometry. The result is actual 3D surface deformation driven by the texture.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Question 6 — Transformations</div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">6.1</span><span class="q-title">Matrices for scaling then rotating about centre [1,1,1]ᵀ</span></div>
+    <div class="warn" style="margin-bottom:12px">Two separate transformation sequences. Each uses Translate-to-origin → Transform → Translate-back.</div>
+
+    <div class="sub">
+      <div class="sub-title">Transformation 1: Scale by 2 in x, 3 in y (about [1,1,1]ᵀ)</div>
+      <div class="explain">
+<pre>T⁻¹ (to origin)    S(2,3,1)           T (back)
+| 1  0  0  -1 |    | 2  0  0  0 |    | 1  0  0  1 |
+| 0  1  0  -1 |  × | 0  3  0  0 |  × | 0  1  0  1 |
+| 0  0  1  -1 |    | 0  0  1  0 |    | 0  0  1  1 |
+| 0  0  0   1 |    | 0  0  0  1 |    | 0  0  0  1 |</pre>
+        <p style="margin-top:6px"><strong>Purpose of each:</strong> T⁻¹ — moves the scene so the centre is at the origin (so scaling doesn't drift). S — scales x by 2, y by 3, z unchanged. T — moves centre back to [1,1,1].</p>
+      </div>
+    </div>
+
+    <div class="sub" style="margin-top:14px">
+      <div class="sub-title">Transformation 2: Rotate 30° around x and y axes (about [1,1,1]ᵀ)</div>
+      <div class="explain">
+<pre>T⁻¹ (same)         Rx(30°)                       Ry(30°)
+                   | 1     0       0    0 |      | cos30°  0  sin30°  0 |
+                   | 0   cos30°  -sin30° 0 |      |   0     1    0    0 |
+                   | 0   sin30°   cos30° 0 |      | -sin30° 0  cos30° 0 |
+                   | 0     0       0    1 |      |   0     0    0    1 |
+
+cos30° ≈ 0.866,  sin30° = 0.5
+
+Order: T × Ry(30°) × Rx(30°) × T⁻¹ × point</pre>
+        <p style="margin-top:6px"><strong>Purpose:</strong> T⁻¹/T handle the non-origin pivot point. Rx rotates around the x-axis by 30°. Ry rotates around the y-axis by 30°. The order of Rx and Ry matters — apply Rx first, then Ry (or as specified).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Question 7 — LOD, Performance, Meshes</div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">7.1a</span><span class="q-title">How to apply LOD to the glass with tiny scratches</span></div>
+    <div class="explain">
+      <p><strong>Level of Detail (LOD)</strong> uses different mesh/texture resolutions depending on the distance from the camera:</p>
+      <ul>
+        <li><strong>Close up:</strong> High-detail model with actual scratch geometry (many polygons, detailed normal/bump map).</li>
+        <li><strong>Medium distance:</strong> Simplified mesh with scratch detail baked into a normal/bump map only (no geometry).</li>
+        <li><strong>Far away:</strong> Low-poly glass panel — scratches are invisible at this distance anyway, so don't render them.</li>
+      </ul>
+      <p style="margin-top:8px">When the camera moves, the engine switches between LOD levels. Since tiny scratches are only visible close up, this saves significant rendering time when the glass is far from the camera.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">7.1b</span><span class="q-title">Why develop for computationally weak (mobile) platforms first?</span></div>
+    <div class="explain">
+      <p>If a render runs well on a <em>weak</em> device, it will definitely run on a <em>stronger</em> one — but not vice versa.</p>
+      <ul>
+        <li>Designing for weak hardware forces you to write <strong>efficient code</strong>: lower polygon counts, smaller textures, fewer draw calls, memory-efficient data structures.</li>
+        <li>These optimisations benefit all platforms — the render will look great and run fast everywhere.</li>
+        <li>A render designed only for powerful hardware may be unoptimised and <em>unrunnable</em> on mobile — porting becomes a major rework rather than a minor adjustment.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">7.1c</span><span class="q-title">How do old games run on hardware that didn't exist when they were made?</span></div>
+    <div class="explain">
+      <p>Games communicate with hardware through <strong>abstraction layers</strong> — APIs like OpenGL, DirectX, or Vulkan. The game talks to the API, not directly to the GPU.</p>
+      <p style="margin-top:8px">When new hardware is built, the manufacturer implements drivers that make the new GPU <em>behave like</em> the same API the old game uses. The game doesn't know or care about the specific hardware — only the API contract. So as long as the new hardware's drivers support the same API (or an emulation layer bridges them), the old game runs fine.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">7.2</span><span class="q-title">Manifold violations — index-based meshes</span></div>
+    <div class="explain">
+      <p><strong>Strict manifold:</strong> Every edge is shared by <em>exactly 2</em> triangles (closed/watertight), and each vertex's triangles form a single connected fan.<br>
+      <strong>Relaxed manifold:</strong> Every edge is shared by <em>at most 2</em> triangles (open boundaries allowed), but vertex fans must still be connected (no disconnected triangle groups around one vertex).</p>
+    </div>
+
+    <div class="sub" style="margin-top:12px">
+      <div class="sub-title">a) Strict manifold violations</div>
+      <div class="answer-box"><div class="answer-label">i) (2,4,1), (4,1,0), (4,5,1)</div><div class="answer-value">VIOLATES — edge 4-1 is shared by all 3 triangles (max allowed = 2)</div></div>
+      <div class="explain" style="margin-top:6px"><p>Check edge 4-1: appears in (2,4,1), (4,1,0), AND (4,5,1) → 3 triangles share this edge → violates the max-2 rule.</p></div>
+
+      <div class="answer-box" style="margin-top:10px"><div class="answer-label">ii) (2,4,1), (4,5,1), (2,5,1), (1,0,3)</div><div class="answer-value">VIOLATES — vertex 1 has disconnected triangle fans</div></div>
+      <div class="explain" style="margin-top:6px"><p>No edge is shared by 3+ triangles. But triangle (1,0,3) shares no edge with the other three triangles through vertex 1 → the triangles around vertex 1 form two disconnected groups, violating the connected-fan requirement.</p></div>
+    </div>
+
+    <div class="sub" style="margin-top:14px">
+      <div class="sub-title">b) Relaxed manifold violations</div>
+      <div class="answer-box"><div class="answer-label">i) (1,0,3), (1,3,5), (0,1,2)</div><div class="answer-value">DOES NOT VIOLATE — no edge >2, all vertex fans connected</div></div>
+      <div class="explain" style="margin-top:6px"><p>Edge 1-0 shared by (1,0,3) and (0,1,2) ✓. Edge 1-3 shared by (1,0,3) and (1,3,5) ✓. All other edges appear once. Around each vertex, the triangles form a connected fan. Open boundary edges are allowed under relaxed rules.</p></div>
+
+      <div class="answer-box" style="margin-top:10px"><div class="answer-label">ii) (2,1,4), (4,5,1), (4,2,5), (1,3,0)</div><div class="answer-value">VIOLATES — vertex 1 has disconnected triangle fans</div></div>
+      <div class="explain" style="margin-top:6px"><p>No edge is shared by 3+ triangles. But vertex 1 appears in (2,1,4), (4,5,1), and (1,3,0). The first two share edge 1-4 so they're connected, but (1,3,0) shares no edge with them through vertex 1 → disconnected fan around vertex 1 → violates relaxed manifold.</p></div>
+    </div>
+  </div>
+
+  <div class="section-title">Question 8 — Visualisation</div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">8.1</span><span class="q-title">Why is clipping negative in rendering but useful in visualisation?</span></div>
+    <div class="explain">
+      <p><strong>In regular rendering (negative):</strong> If the camera clips through a wall or object, you see the model's hollow interior — missing geometry, broken immersion. It breaks the believability of the scene.</p>
+      <p style="margin-top:8px"><strong>In visualisation (positive):</strong> Deliberately cutting through a 3D dataset (medical scan, geological layer, architectural model, airflow simulation) reveals the <em>interior cross-section</em>. This is exactly what the user needs — seeing internal structures that would otherwise be hidden by the outer surface. The "flaw" becomes a feature that aids understanding.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="q-number">8.2</span><span class="q-title">Derived dimensionality vs another dimensionality reduction method</span></div>
+    <div class="explain">
+      <div class="sub">
+        <div class="sub-title">Derived Dimensionality</div>
+        <p>Adds an <em>extra visual dimension</em> to data by encoding a variable as a visual property (colour, size, shape, transparency). The original data dimensions are kept; a new visual channel represents an additional data attribute. Example: a 2D scatter plot where a 3rd variable is encoded as point colour.</p>
+        <ul style="margin-top:6px">
+          <li><strong>Advantage:</strong> No data loss — all original information is preserved.</li>
+          <li><strong>Disadvantage:</strong> Can become visually cluttered/confusing if too many visual channels are used simultaneously.</li>
+          <li><strong>Use case:</strong> Showing population, GDP, and continent on a single world map (x=GDP, y=population, colour=continent).</li>
+        </ul>
+      </div>
+      <div class="sub" style="margin-top:12px">
+        <div class="sub-title">Dimensional Slicing / Filtering</div>
+        <p>Shows a <em>subset</em> of the data by fixing some dimensions and only displaying a 2D or 3D slice. Example: showing one time step of a 4D (x,y,z,t) dataset at a time.</p>
+        <ul style="margin-top:6px">
+          <li><strong>Advantage:</strong> Simple, uncluttered — the viewer focuses on one slice at a time.</li>
+          <li><strong>Disadvantage:</strong> The user only sees part of the data at once — context from other slices is lost.</li>
+          <li><strong>Use case:</strong> Medical imaging — displaying one axial cross-section of a CT scan at a time.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container st2 -->
+</div><!-- /panel-st2 -->
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
 </body>
 </html>
