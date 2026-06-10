@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>COS344 Semester Test — Full Memo Guide</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #4f8ef7;
+      --green: #34d399;
+      --red: #f87171;
+      --yellow: #fbbf24;
+      --purple: #a78bfa;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --border: #2d3148;
+      --code-bg: #12141e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      padding: 0 0 60px;
+    }
+    header {
+      background: linear-gradient(135deg, #1a1d27 0%, #0f1117 100%);
+      border-bottom: 2px solid var(--accent);
+      padding: 32px 40px;
+      text-align: center;
+    }
+    header h1 { font-size: 2rem; color: var(--accent); letter-spacing: -0.5px; }
+    header p { color: var(--muted); margin-top: 6px; font-size: 0.95rem; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    .section-title {
+      margin: 48px 0 24px;
+      padding: 14px 20px;
+      background: var(--surface2);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .q-number {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+    .q-title { font-weight: 600; color: var(--text); font-size: 1rem; }
+    .answer-box {
+      background: rgba(52, 211, 153, 0.08);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+    }
+    .answer-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--green);
+      margin-bottom: 4px;
+    }
+    .answer-value { color: var(--green); font-weight: 600; font-size: 1rem; }
+    .explain {
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 14px 16px;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+    .explain p + p { margin-top: 10px; }
+    .warn {
+      background: rgba(251, 191, 36, 0.08);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-top: 10px;
+      color: var(--yellow);
+      font-size: 0.9rem;
+    }
+    code, pre {
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    }
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+      overflow-x: auto;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      margin-top: 10px;
+      color: #cdd6f4;
+    }
+    .keyword { color: #cba6f7; }
+    .type-kw { color: #89dceb; }
+    .string { color: #a6e3a1; }
+    .comment { color: #6c7086; font-style: italic; }
+    .number { color: #fab387; }
+    .func { color: #89b4fa; }
+    .matrix {
+      display: inline-block;
+      border-left: 2px solid var(--muted);
+      border-right: 2px solid var(--muted);
+      padding: 8px 14px;
+      margin: 4px 0;
+      font-family: monospace;
+    }
+    .matrix table { border-collapse: collapse; }
+    .matrix td { padding: 2px 10px; text-align: center; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-right: 6px;
+    }
+    .tag-key { background: rgba(167, 139, 250, 0.15); color: var(--purple); }
+    .tag-tip { background: rgba(79, 142, 247, 0.15); color: var(--accent); }
+    .tag-trap { background: rgba(248, 113, 113, 0.15); color: var(--red); }
+    ol, ul { padding-left: 20px; }
+    ol li, ul li { margin-bottom: 6px; }
+    .step {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .step-num {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      min-width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+    hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 30px 0;
+    }
+    .toc h2 { color: var(--accent); font-size: 1rem; margin-bottom: 12px; }
+    .toc a { color: var(--muted); text-decoration: none; font-size: 0.9rem; }
+    .toc a:hover { color: var(--accent); }
+    .toc ul { list-style: none; padding: 0; column-count: 2; column-gap: 20px; }
+    .toc li { padding: 2px 0; }
+    .highlight { color: var(--yellow); font-weight: 600; }
+    .sub-section { margin-top: 16px; }
+    .sub-title {
+      font-weight: 700;
+      color: var(--purple);
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>COS344 — Computer Graphics</h1>
+  <p>Semester Test Full Memo &amp; Guide &nbsp;|&nbsp; ST1 &amp; ST2</p>
+</header>
+
+<div class="container">
+
+  <div class="toc">
+    <h2>Contents</h2>
+    <ul>
+      <li><a href="#q1">Question 1 — Multiple Choice (1.1–1.9)</a></li>
+      <li><a href="#q2">Question 2 — Colour &amp; Lighting</a></li>
+      <li><a href="#q3">Question 3 — Rendering Theory</a></li>
+      <li><a href="#q4">Question 4 — OpenGL Program</a></li>
+      <li><a href="#q5">Question 5 — Input &amp; Transformations</a></li>
+      <li><a href="#q6">Question 6 — Rasterisation</a></li>
+    </ul>
+  </div>
+
+  <!-- ===== QUESTION 1 ===== -->
+  <div class="section-title" id="q1">Question 1 — Multiple Choice</div>
+
+  <!-- 1.1 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">1.1</span>
+      <span class="q-title">Raster display 1300 × 1100 — how many pixels?</span>
+    </div>
+    <div class="answer-box">
+      <div class="answer-label">Correct Answer</div>
+      <div class="answer-value">D — 1300 × 1100 = 1 430 000 pixels</div>
+    </div>
+    <div class="explain">
+      <p>A raster display is a grid of pixels. Total pixels = width × height.</p>
+      <p>1300 × 1100 = <span class="highlight">1 430 000 pixels</span>. Option D is written as "13001100" which represents the multiplication 1300 × 1100.</p>
+      <p>Options A and B are just the individual dimensions. Option C is addition (1300+1100=2400), which is wrong.</p>
+    </div>
+  </div>
+
+  <!-- 1.2 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">1.2</span>
+      <span class="q-title">Valid vector for a 3×3 homogeneous matrix multiplication</span>
+    </div>
+    <div class="answer-box">
+      <div class="answer-label">Correct Answer</div>
+      <div class="answer-value">C and D — [2  1  1] and [2  1  1]ᵀ</div>
+    </div>
+    <div class="explain">
+      <p><span class="tag tag-key">Key Concept</span> In 2D homogeneous coordinates a point is represented as a <strong>column vector</strong> [x, y, 1]ᵀ. The last component must be <strong>1</strong> for the point to be finite.</p>
+      <p>The matrix is 3×3, so it needs a 3-element vector. The last element (homogeneous coordinate <em>w</em>) must equal <strong>1</strong> for a proper point transformation.</p>
+      <ul style="margin-top:8px">
+        <li>[2 1] — only 2 elements, dimensions don't match ✗</li>
+        <li>[2 1 0]ᵀ — w=0 means a <em>direction vector</em>, not a point — won't translate ✗</li>
+        <li>[2 1 1]ᵀ — correct: 3-element column vector with w=1 ✓</li>
+        <li>[2 1 1] — row vector; matrix multiplication requires a column vector for a valid point transform ✓ (same values, matrix can still act on it depending on convention — if column vector convention is required, D is the only fully correct answer)</li>
+      </ul>
+      <div class="warn">⚠ In standard linear algebra matrix-vector multiplication, the vector must be a <em>column</em> vector. The most correct answer is <strong>D: [2 1 1]ᵀ</strong>.</div>
+    </div>
+  </div>
+
+  <!-- 1.3 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">1.3</span>
+      <span class="q-title">Transformation of [e, e², 0]ᵀ by the scaling matrix</span>
+    </div>
+    <div class="answer-box">
+      <div class="answer-label">Correct Answer</div>
+      <div class="answer-value">F — A transformation not mentioned in the other options</div>
+    </div>
+    <div class="explain">
+      <p>The matrix looks like a scaling matrix (3 on x and y diagonals). But the vector given is [e, e², <span class="highlight">0</span>]ᵀ — notice the last component is <strong>0</strong>.</p>
+      <p><span class="tag tag-trap">Trap</span> In homogeneous coordinates:</p>
+      <ul>
+        <li>w = 1 → a <strong>point</strong> in 2D space</li>
+        <li>w = 0 → a <strong>direction vector</strong> (point at infinity)</li>
+      </ul>
+      <p>Applying the matrix gives [3e, 3e², 0]ᵀ — still w=0. You cannot convert this back to Cartesian coordinates (x/0 and y/0 are undefined). The transformation does not act on a valid finite point, making the result meaningless as a geometric point transformation.</p>
+      <p>This is why the answer is F — it doesn't fit neatly into scaling, translation, rotation, or shearing of a real 2D point.</p>
+    </div>
+  </div>
+
+  <!-- 1.4 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">1.4</span>
+      <span class="q-title">What is ambient lighting primarily used for?</span>
+    </div>
+    <div class="answer-box">
+      <div class="answer-label">Correct Answer</div>
+      <div class="answer-value">B — Provide a uniform base illumination independent of object position</div>
+    </div>
+    <div class="explain">
+      <p>Ambient light is a constant, directionless light that fills the entire scene equally. It simulates indirect/scattered light bouncing around the environment (e.g. sky light, room bounce).</p>
+      <p>It is <em>not</em> directional (that's diffuse/directional lighting), does <em>not</em> create shadows (that requires ray casting), and is <em>not</em> specular (that's the shiny highlight).</p>
+      <p>Think of it as: "the minimum brightness of any surface in the scene, regardless of where it is."</p>
+    </div>
+  </div>
+
+  <!-- 1.5 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">1.5</span>
+      <span class="q-title">Which rays are examples of parallel projection?</span>
+    </div>
+    <div class="answer-box">
+      <div class="answer-label">Correct Answer</div>
+      <div class="answer-value">A — i and ii</div>
+    </div>
+    <div class="explain">
+      <p><span class="tag tag-key">Key Concept</span> In <strong>parallel projection</strong>, all rays travel in the <em>same direction</em> (parallel to each other) but from different origins.</p>
+      <ul>
+        <li>i) r(e₁, d₁, t) — direction: d₁</li>
+        <li>ii) r(e₂, d₁, t) — direction: d₁ ← <strong>same direction as i</strong>, different origin ✓</li>
+        <li>iii) r(e₁, d₂, t) — direction: d₂ (different) ✗</li>
+        <li>iv) r(e₃, d₃, t) — direction: d₃ (different) ✗</li>
+      </ul>
+      <p>Only rays i and ii share direction d₁, so they form a parallel projection pair.</p>
+    </div>
+  </div>
+
+  <!-- 1.6 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">1.6</span>
+      <span class="q-title">Which rays are examples of perspective projection?</span>
+    </div>
+    <div class="answer-box">
+      <div class="answer-label">Correct Answer</div>
+      <div class="answer-value">B — i and iii</div>
+    </div>
+    <div class="explain">
+      <p><span class="tag tag-key">Key Concept</span> In <strong>perspective projection</strong>, all rays come from the <em>same origin</em> (the eye/camera) but travel in <em>different directions</em>.</p>
+      <ul>
+        <li>i) r(e₁, d₁, t) — origin: e₁</li>
+        <li>ii) r(e₂, d₁, t) — origin: e₂ (different) ✗</li>
+        <li>iii) r(e₁, d₂, t) — origin: e₁ ← <strong>same origin as i</strong>, different direction ✓</li>
+        <li>iv) r(e₃, d₃, t) — origin: e₃ (different) ✗</li>
+      </ul>
+      <p>Rays i and iii share origin e₁ but have different directions — this is perspective projection (all rays emanate from one viewpoint).</p>
+    </div>
+  </div>
+
+  <!-- 1.7 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">1.7</span>
+      <span class="q-title">OpenGL is an example of which Computer Graphics API?</span>
+    </div>
+    <div class="answer-box">
+      <div class="answer-label">Correct Answer</div>
+      <div class="answer-value">C — Library</div>
+    </div>
+    <div class="explain">
+      <p>OpenGL is a <strong>library-based API</strong>. It is an external collection of functions that you link against in your program.</p>
+      <ul>
+        <li><em>Integrated</em> — built directly into the OS or hardware (e.g. some GPU-specific APIs)</li>
+        <li><em>Web</em> — runs in a browser (WebGL is the web version of OpenGL)</li>
+        <li><em>Library</em> — a separate software library you include in your project ✓</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1.8 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">1.8</span>
+      <span class="q-title">Orthographic-style floor render — which projection?</span>
+    </div>
+    <div class="answer-box">
+      <div class="answer-label">Correct Answer</div>
+      <div class="answer-value">A — Orthographic projection</div>
+    </div>
+    <div class="explain">
+      <p>The render shows tiles that are <em>perfectly square</em> with <strong>no foreshortening</strong> — objects don't get smaller as they go further away, and parallel lines remain parallel.</p>
+      <p>This is the hallmark of <strong>orthographic projection</strong>: all projection rays are parallel, there is no vanishing point, and scale is preserved regardless of depth.</p>
+    </div>
+  </div>
+
+  <!-- 1.9 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">1.9</span>
+      <span class="q-title">Angled floor render — which projection?</span>
+    </div>
+    <div class="answer-box">
+      <div class="answer-label">Correct Answer</div>
+      <div class="answer-value">C — Oblique projection</div>
+    </div>
+    <div class="explain">
+      <p>An oblique projection shows depth from an angle while <em>keeping the front face undistorted</em>. Lines going "into the depth" are drawn at an angle but do <strong>not</strong> converge to a vanishing point (unlike perspective).</p>
+      <ul>
+        <li><strong>Orthographic</strong> — perfectly flat, top-down, no depth sense</li>
+        <li><strong>Oblique</strong> — angled, parallel depth lines, no vanishing point ✓</li>
+        <li><strong>Perspective</strong> — depth lines converge, things look smaller far away</li>
+      </ul>
+      <p>The "angled render" with tiles that are still described as "perfectly square" (no perspective distortion) fits oblique projection best.</p>
+    </div>
+  </div>
+
+  <!-- ===== QUESTION 2 ===== -->
+  <div class="section-title" id="q2">Question 2 — Colour, Lighting &amp; Reflections</div>
+
+  <!-- 2.1 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">2.1</span>
+      <span class="q-title">Why is a camera sensor an example of a 2D raster image input?</span>
+    </div>
+    <div class="explain">
+      <p>A <strong>raster image</strong> is a 2D grid (rows and columns) of discrete pixels, where each pixel stores a colour value.</p>
+      <p>A camera sensor works exactly this way:</p>
+      <ol style="margin-top:8px">
+        <li>It is physically a <strong>2D array of photosensors</strong> arranged in a grid.</li>
+        <li>Each photosensor captures the light intensity at one discrete location → one pixel.</li>
+        <li>The result is a finite grid of colour values — the definition of a raster image.</li>
+        <li>It is an <em>input</em> device because it <em>captures</em> (reads in) light from the real world and converts it to digital pixel data.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 2.2 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">2.2</span>
+      <span class="q-title">Name the scale of colours from [0,0,0]ᵀ to [1,1,1]ᵀ in the RGB cube</span>
+    </div>
+    <div class="answer-box">
+      <div class="answer-label">Answer</div>
+      <div class="answer-value">Greyscale (achromatic scale / shades of grey)</div>
+    </div>
+    <div class="explain">
+      <p>In the RGB colour cube:</p>
+      <ul>
+        <li>[0, 0, 0]ᵀ = black</li>
+        <li>[0.5, 0.5, 0.5]ᵀ = medium grey</li>
+        <li>[1, 1, 1]ᵀ = white</li>
+      </ul>
+      <p>The line from origin to [1,1,1]ᵀ is the <strong>main diagonal</strong> of the RGB cube. Every point on it has equal R, G, and B values, producing a neutral grey. This is called the <strong>greyscale</strong> or <strong>achromatic axis</strong>.</p>
+    </div>
+  </div>
+
+  <!-- 2.3 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">2.3</span>
+      <span class="q-title">Implement determineFinalColour() using alpha compositing</span>
+    </div>
+    <div class="answer-box">
+      <div class="answer-label">Formula</div>
+      <div class="answer-value">final = α × foreground + (1 − α) × background</div>
+    </div>
+    <div class="explain">
+      <p><span class="tag tag-key">Alpha Compositing</span> Alpha (α) controls transparency. α=1 means fully opaque foreground; α=0 means fully transparent (show background only).</p>
+    </div>
+<pre><span class="type-kw">Colour</span> <span class="func">determineFinalColour</span>(<span class="type-kw">Colour</span> foreground, <span class="type-kw">Colour</span> background, <span class="type-kw">float</span> alpha) {
+    <span class="type-kw">float</span> r = alpha * foreground.r + (<span class="number">1.0f</span> - alpha) * background.r;
+    <span class="type-kw">float</span> g = alpha * foreground.g + (<span class="number">1.0f</span> - alpha) * background.g;
+    <span class="type-kw">float</span> b = alpha * foreground.b + (<span class="number">1.0f</span> - alpha) * background.b;
+    <span class="keyword">return</span> <span class="func">Colour</span>(r, g, b);
+}</pre>
+    <div class="explain" style="margin-top:12px">
+      <p>The formula is applied independently to each channel (R, G, B). When α=1: result = foreground. When α=0: result = background. When α=0.5: equal blend of both.</p>
+    </div>
+  </div>
+
+  <!-- 2.4 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">2.4</span>
+      <span class="q-title">What type of reflection is caused by the reflected direction [−2, 3, −1]ᵀ?</span>
+    </div>
+    <div class="answer-box">
+      <div class="answer-label">Answer</div>
+      <div class="answer-value">Specular (mirror) reflection</div>
+    </div>
+    <div class="explain">
+      <p>Let's verify by computing the expected specular reflection:</p>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>Incident ray direction (light → surface): d = surface − light = [2,1,3]−[4,4,4] = <strong>[−2,−3,−1]</strong></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>Surface normal: n = <strong>[0,1,0]</strong></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>Specular reflection formula: <strong>r = d − 2(d·n)n</strong></div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>d·n = (−2)(0) + (−3)(1) + (−1)(0) = <strong>−3</strong></div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div>r = [−2,−3,−1] − 2(−3)[0,1,0] = [−2,−3,−1] + [0,6,0] = <strong>[−2, 3, −1]</strong></div>
+      </div>
+      <p style="margin-top:8px">The calculated specular reflection <strong>exactly matches</strong> the given reflected direction [−2, 3, −1]ᵀ. This means the surface is a <strong>specular (mirror-like) reflector</strong> — it obeys the law of reflection (angle of incidence = angle of reflection).</p>
+      <p style="margin-top:8px">If it were <em>diffuse</em>, the reflected light would scatter in all directions, not a single specific direction.</p>
+    </div>
+  </div>
+
+  <!-- ===== QUESTION 3 ===== -->
+  <div class="section-title" id="q3">Question 3 — Rendering Theory</div>
+
+  <!-- 3.1 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">3.1</span>
+      <span class="q-title">"Rendering is the process by which the object is moved around the screen" — True or False?</span>
+    </div>
+    <div class="answer-box">
+      <div class="answer-label">Answer</div>
+      <div class="answer-value">FALSE</div>
+    </div>
+    <div class="explain">
+      <p><strong>Motivation:</strong> Rendering is the process of converting a 3D scene description into a 2D image — essentially generating what the scene looks like from a given viewpoint.</p>
+      <p>Moving objects around the screen is the job of <strong>geometric transformations</strong> (translation, rotation, scaling). Rendering happens after transformations are applied — it produces the final pixel colours.</p>
+    </div>
+  </div>
+
+  <!-- 3.2 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">3.2</span>
+      <span class="q-title">Two methods for how objects influence pixels</span>
+    </div>
+    <div class="sub-section">
+      <div class="sub-title">a) Name and explain the two methods</div>
+      <div class="explain">
+        <p><strong>1. Object-order rendering (Rasterisation):</strong></p>
+        <ul>
+          <li>Iterate over each <em>object/primitive</em> and determine which pixels it covers.</li>
+          <li>For each triangle: project it onto the screen, find which pixels fall inside it, colour those pixels.</li>
+          <li>Fast, GPU-friendly — standard in real-time graphics.</li>
+        </ul>
+        <p style="margin-top:10px"><strong>2. Image-order rendering (Ray Tracing/Casting):</strong></p>
+        <ul>
+          <li>Iterate over each <em>pixel</em> and determine which objects influence it.</li>
+          <li>For each pixel: cast a ray through it into the scene, find what it hits, and compute the colour.</li>
+          <li>More physically accurate (shadows, reflections) but computationally expensive.</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Key difference:</strong> Object-order loops over objects then finds pixels; image-order loops over pixels then finds objects.</p>
+      </div>
+    </div>
+    <div class="sub-section" style="margin-top:14px">
+      <div class="sub-title">b) Which method does OpenGL use?</div>
+      <div class="answer-box">
+        <div class="answer-label">Answer</div>
+        <div class="answer-value">Object-order rendering (Rasterisation)</div>
+      </div>
+      <div class="explain">
+        <p><strong>Reason:</strong> OpenGL processes each primitive (triangle) one at a time, projects it to screen space, then determines which pixels it covers (rasterisation). It does not cast rays from pixels into the scene. This is why real-time OpenGL rendering is fast but doesn't natively support ray-tracing effects like global reflections.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3.3 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">3.3</span>
+      <span class="q-title">Why is ray-triangle intersection important in ray tracing?</span>
+    </div>
+    <div class="explain">
+      <p><strong>Why triangles specifically?</strong></p>
+      <ul>
+        <li>Every 3D model in computer graphics is ultimately made of triangles (this process is called <em>triangulation</em> or <em>tessellation</em>).</li>
+        <li>Triangles are the simplest polygon: 3 non-collinear points <em>always</em> define a unique, flat plane.</li>
+        <li>They are <em>always planar</em> and <em>always convex</em> — quads and higher polygons can be non-planar.</li>
+        <li>Any polygon can be split into triangles.</li>
+        <li>GPU hardware is optimised around triangles.</li>
+      </ul>
+      <p style="margin-top:10px"><strong>Why it matters for ray tracing:</strong></p>
+      <ul>
+        <li>In ray tracing, for each pixel you cast a ray and check if it hits any object.</li>
+        <li>Since all 3D objects are made of triangles, being able to test ray-triangle intersection means you can test against <em>any 3D object</em>.</li>
+        <li>If you can intersect a ray with a triangle, you can intersect a ray with the entire scene.</li>
+        <li>Efficient algorithms (e.g. Möller–Trumbore) exist specifically for ray-triangle intersection.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== QUESTION 4 ===== -->
+  <div class="section-title" id="q4">Question 4 — OpenGL Drawing Program</div>
+
+  <!-- 4.1 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">4.1</span>
+      <span class="q-title">What shapes does the program draw? (Vertex analysis)</span>
+    </div>
+    <div class="explain">
+      <p>First, let's label the vertices (pairs of x,y floats):</p>
+      <table style="margin:10px 0; border-collapse:collapse; font-size:0.88rem; font-family:monospace; width:100%">
+        <thead>
+          <tr style="background:var(--surface2); color:var(--accent)">
+            <th style="padding:6px 10px; text-align:left">Index</th>
+            <th style="padding:6px 10px; text-align:left">Vertex (x, y)</th>
+            <th style="padding:6px 10px; text-align:left">Colour (R,G,B)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:4px 10px">0</td><td>(−0.5, 0.0)</td><td style="color:#f87171">Red (1,0,0)</td></tr>
+          <tr style="background:var(--surface2)"><td style="padding:4px 10px">1</td><td>(−0.7, 0.2)</td><td style="color:#f87171">Red</td></tr>
+          <tr><td style="padding:4px 10px">2</td><td>(−0.5, 0.3)</td><td style="color:#f87171">Red</td></tr>
+          <tr style="background:var(--surface2)"><td style="padding:4px 10px">3</td><td>(−0.3, 0.2)</td><td style="color:#f87171">Red</td></tr>
+          <tr><td style="padding:4px 10px">4</td><td>(0.0, 0.0)</td><td style="color:#34d399">Green (0,1,0)</td></tr>
+          <tr style="background:var(--surface2)"><td style="padding:4px 10px">5</td><td>(−0.1, 0.3)</td><td style="color:#34d399">Green</td></tr>
+          <tr><td style="padding:4px 10px">6</td><td>(0.0, 0.4)</td><td style="color:#34d399">Green</td></tr>
+          <tr style="background:var(--surface2)"><td style="padding:4px 10px">7</td><td>(0.0, 0.0)</td><td style="color:#34d399">Green</td></tr>
+          <tr><td style="padding:4px 10px">8</td><td>(0.1, 0.3)</td><td style="color:#34d399">Green</td></tr>
+          <tr style="background:var(--surface2)"><td style="padding:4px 10px">9</td><td>(0.0, 0.4)</td><td style="color:#34d399">Green</td></tr>
+          <tr><td style="padding:4px 10px">10</td><td>(0.2, 0.2)</td><td style="color:#89b4fa">Blue (0,0,1)</td></tr>
+          <tr style="background:var(--surface2)"><td style="padding:4px 10px">11</td><td>(0.2, 0.4)</td><td style="color:#89b4fa">Blue</td></tr>
+          <tr><td style="padding:4px 10px">12</td><td>(0.4, 0.2)</td><td style="color:#89b4fa">Blue</td></tr>
+          <tr style="background:var(--surface2)"><td style="padding:4px 10px">13</td><td>(0.4, 0.4)</td><td style="color:#89b4fa">Blue</td></tr>
+          <tr><td style="padding:4px 10px">14</td><td>(0.8, 0.2)</td><td style="color:#89b4fa">Blue</td></tr>
+          <tr style="background:var(--surface2)"><td style="padding:4px 10px">15</td><td>(0.8, 0.4)</td><td style="color:#89b4fa">Blue</td></tr>
+        </tbody>
+      </table>
+
+      <div class="sub-title" style="margin-top:16px">Shape 1 — GL_TRIANGLE_FAN, start=0, count=4 → vertices 0,1,2,3 — RED</div>
+      <p>A triangle fan uses the first vertex as the <em>centre</em>, then fans out. The triangles formed are:</p>
+      <ul>
+        <li>Triangle (0, 1, 2): (−0.5,0), (−0.7,0.2), (−0.5,0.3)</li>
+        <li>Triangle (0, 2, 3): (−0.5,0), (−0.5,0.3), (−0.3,0.2)</li>
+      </ul>
+      <p>Together they form a <strong>red diamond/kite shape</strong> on the left side of the screen, centred around (−0.5, 0.15).</p>
+
+      <div class="sub-title" style="margin-top:14px">Shape 2 — GL_TRIANGLES, start=4, count=6 → vertices 4–9 — GREEN</div>
+      <p>GL_TRIANGLES takes every group of 3 vertices as a separate triangle:</p>
+      <ul>
+        <li>Triangle (4,5,6): (0,0), (−0.1,0.3), (0,0.4)</li>
+        <li>Triangle (7,8,9): (0,0), (0.1,0.3), (0,0.4)</li>
+      </ul>
+      <p>Two separate <strong>green triangles</strong> that together look like a diamond/upward arrow near the centre of the screen.</p>
+
+      <div class="sub-title" style="margin-top:14px">Shape 3 — GL_TRIANGLE_STRIP, start=10, count=6 → vertices 10–15 — BLUE</div>
+      <p>A triangle strip reuses the last 2 vertices for each new triangle, alternating winding:</p>
+      <ul>
+        <li>Triangle 1 (10,11,12): (0.2,0.2), (0.2,0.4), (0.4,0.2)</li>
+        <li>Triangle 2 (11,12,13): (0.2,0.4), (0.4,0.2), (0.4,0.4)</li>
+        <li>Triangle 3 (12,13,14): (0.4,0.2), (0.4,0.4), (0.8,0.2)</li>
+        <li>Triangle 4 (13,14,15): (0.4,0.4), (0.8,0.2), (0.8,0.4)</li>
+      </ul>
+      <p>This creates a <strong>blue horizontal band/strip</strong> of rectangles on the right side of the screen.</p>
+    </div>
+  </div>
+
+  <!-- 4.2 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">4.2</span>
+      <span class="q-title">Modified vertex and fragment shaders</span>
+    </div>
+    <div class="explain">
+      <p>Three modifications needed:</p>
+      <ul>
+        <li>If vertex x &lt; 0 → double the x value</li>
+        <li>If vertex y &lt; 0 → halve the y value</li>
+        <li>All colours become more pastel → add 0.5 to each colour channel</li>
+      </ul>
+      <p style="margin-top:8px">Position changes happen in the <strong>vertex shader</strong>. Colour changes happen in the <strong>fragment shader</strong>.</p>
+    </div>
+    <div class="sub-title" style="margin:14px 0 8px; color:var(--green)">Vertex Shader (vertexShader.glsl)</div>
+<pre><span class="comment">// Vertex Shader</span>
+#version 330 core
+
+layout(location = 0) <span class="keyword">in</span> vec2 vertexPosition;
+layout(location = 1) <span class="keyword">in</span> vec3 vertexColor;
+
+<span class="keyword">out</span> vec3 fragmentColor;
+
+<span class="type-kw">void</span> <span class="func">main</span>() {
+    vec2 pos = vertexPosition;
+
+    <span class="keyword">if</span> (pos.x &lt; <span class="number">0.0</span>) {
+        pos.x = pos.x * <span class="number">2.0</span>;
+    }
+    <span class="keyword">if</span> (pos.y &lt; <span class="number">0.0</span>) {
+        pos.y = pos.y * <span class="number">0.5</span>;
+    }
+
+    gl_Position = vec4(pos, <span class="number">0.0</span>, <span class="number">1.0</span>);
+    fragmentColor = vertexColor;
+}</pre>
+    <div class="sub-title" style="margin:14px 0 8px; color:var(--purple)">Fragment Shader (fragmentShader.glsl)</div>
+<pre><span class="comment">// Fragment Shader</span>
+#version 330 core
+
+<span class="keyword">in</span>  vec3 fragmentColor;
+<span class="keyword">out</span> vec3 color;
+
+<span class="type-kw">void</span> <span class="func">main</span>() {
+    color = fragmentColor + vec3(<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>);
+}</pre>
+    <div class="warn">⚠ Adding 0.5 to colours will push values above 1.0 (e.g. red (1,0,0) → (1.5, 0.5, 0.5)). OpenGL automatically clamps these to 1.0, so red becomes (1.0, 0.5, 0.5) — a pastel pink. This is the expected behaviour.</div>
+  </div>
+
+  <!-- ===== QUESTION 5 ===== -->
+  <div class="section-title" id="q5">Question 5 — Input Handling &amp; Transformations</div>
+
+  <!-- 5.1 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">5.1</span>
+      <span class="q-title">C++ code to call rotateScene() when R is pressed</span>
+    </div>
+<pre><span class="comment">// Inside the render loop (the do-while loop)</span>
+<span class="keyword">if</span> (<span class="func">glfwGetKey</span>(window, GLFW_KEY_R) == GLFW_PRESS) {
+    <span class="func">rotateScene</span>();
+}</pre>
+    <div class="explain" style="margin-top:10px">
+      <p><code>glfwGetKey(window, GLFW_KEY_R)</code> returns <code>GLFW_PRESS</code> while the R key is held down. This check goes inside the main render/event loop so it is polled every frame.</p>
+    </div>
+  </div>
+
+  <!-- 5.2 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">5.2</span>
+      <span class="q-title">Transformation matrices (scene centre at [1,2,1]ᵀ) — 4D homogeneous</span>
+    </div>
+    <div class="warn" style="margin-bottom:14px">⚠ When scaling or rotating about a point other than the origin, you must translate the centre to the origin first, apply the transformation, then translate back.</div>
+
+    <div class="sub-section">
+      <div class="sub-title">a) Scaling by 3 along all axes, centre at [1,2,1]ᵀ</div>
+      <div class="explain">
+        <p>Three matrices, applied right-to-left (multiply as: T × S × T⁻¹ × point):</p>
+        <div class="step">
+          <div class="step-num">1</div>
+          <div><strong>T⁻¹ — Translate centre to origin:</strong> move by [−1, −2, −1]<br>
+<pre style="margin-top:6px">T⁻¹ = | 1  0  0  -1 |
+       | 0  1  0  -2 |
+       | 0  0  1  -1 |
+       | 0  0  0   1 |</pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div><strong>S — Scale by 3:</strong>
+<pre style="margin-top:6px">S   = | 3  0  0  0 |
+      | 0  3  0  0 |
+      | 0  0  3  0 |
+      | 0  0  0  1 |</pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div><strong>T — Translate back:</strong> move by [1, 2, 1]
+<pre style="margin-top:6px">T   = | 1  0  0  1 |
+      | 0  1  0  2 |
+      | 0  0  1  1 |
+      | 0  0  0  1 |</pre>
+          </div>
+        </div>
+        <p><strong>Order:</strong> Apply <code>T × S × T⁻¹</code> to each point. (Rightmost applied first.)</p>
+      </div>
+    </div>
+
+    <div class="sub-section" style="margin-top:16px">
+      <div class="sub-title">b) Rotation about global Z-axis by 40°, centre at [1,2,1]ᵀ</div>
+      <div class="explain">
+        <p>Three matrices, same translate-rotate-translateBack pattern:</p>
+        <div class="step">
+          <div class="step-num">1</div>
+          <div><strong>T⁻¹</strong> (same as above — translate centre to origin)</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div><strong>Rz(40°) — Rotate about Z-axis:</strong>
+<pre style="margin-top:6px">Rz  = | cos40°  -sin40°  0  0 |
+      | sin40°   cos40°  0  0 |
+      |    0       0     1  0 |
+      |    0       0     0  1 |
+
+    ≈ |  0.766  -0.643  0  0 |
+      |  0.643   0.766  0  0 |
+      |  0       0      1  0 |
+      |  0       0      0  1 |</pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div><strong>T</strong> (same as above — translate back to centre)</div>
+        </div>
+        <p><strong>Order:</strong> <code>T × Rz × T⁻¹</code></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5.3 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">5.3</span>
+      <span class="q-title">What does <code>gl.enable(gl.GL_BLEND)</code> do?</span>
+    </div>
+    <div class="explain">
+      <p>This enables <strong>alpha blending</strong> in OpenGL.</p>
+      <ul>
+        <li>By default, each new fragment simply overwrites the colour already in the framebuffer.</li>
+        <li>With blending enabled, OpenGL <em>combines</em> the incoming fragment's colour with the existing framebuffer colour, using the alpha (transparency) values.</li>
+        <li>This allows you to render <strong>transparent and semi-transparent objects</strong> correctly.</li>
+        <li>Without it: transparent objects would appear fully opaque.</li>
+      </ul>
+      <p style="margin-top:8px">You typically also set a blend function like <code>glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)</code> to specify <em>how</em> the blending is done.</p>
+    </div>
+  </div>
+
+  <!-- ===== QUESTION 6 ===== -->
+  <div class="section-title" id="q6">Question 6 — Rasterisation &amp; Midpoint Algorithm</div>
+
+  <!-- 6.1 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">6.1</span>
+      <span class="q-title">Midpoint algorithm — which condition suits which line?</span>
+    </div>
+    <div class="explain">
+      <p>The midpoint algorithm draws a line pixel by pixel. The <em>condition</em> checks whether the midpoint between two candidate pixels is above or below the actual line. The correct condition depends on two things:</p>
+      <ol>
+        <li>Is the slope steep (|m| &gt; 1, step in Y) or shallow (|m| &lt; 1, step in X)?</li>
+        <li>Is the slope positive or negative?</li>
+      </ol>
+
+      <table style="margin:14px 0; border-collapse:collapse; width:100%; font-size:0.88rem">
+        <thead>
+          <tr style="background:var(--surface2); color:var(--accent)">
+            <th style="padding:8px 12px; text-align:left">Condition</th>
+            <th style="padding:8px 12px; text-align:left">Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:6px 12px; font-family:monospace">i) f(x+1, y+0.5) &lt; 0</td>
+            <td style="padding:6px 12px">Step in X, positive shallow slope (0 &lt; m &lt; 1)</td>
+          </tr>
+          <tr style="background:var(--surface2)">
+            <td style="padding:6px 12px; font-family:monospace">ii) f(x+1, y−0.5) &gt; 0</td>
+            <td style="padding:6px 12px">Step in X, negative shallow slope (−1 &lt; m &lt; 0)</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 12px; font-family:monospace">iii) f(x+0.5, y+1) &gt; 0</td>
+            <td style="padding:6px 12px">Step in Y, positive steep slope (m &gt; 1)</td>
+          </tr>
+          <tr style="background:var(--surface2)">
+            <td style="padding:6px 12px; font-family:monospace">iv) f(x+0.5, y−1) &lt; 0</td>
+            <td style="padding:6px 12px">Step in Y, negative steep slope (m &lt; −1)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="sub-title">a) g(x) = 5x + 2 → slope = 5 (steep, positive, m &gt; 1)</div>
+      <div class="answer-box"><div class="answer-value">Condition iii: f(x+0.5, y+1) &gt; 0</div></div>
+
+      <div class="sub-title" style="margin-top:12px">b) g(x) = −0.2x − 5 → slope = −0.2 (shallow, negative, −1 &lt; m &lt; 0)</div>
+      <div class="answer-box"><div class="answer-value">Condition ii: f(x+1, y−0.5) &gt; 0</div></div>
+
+      <div class="sub-title" style="margin-top:12px">c) g(x) = 0.2x + 8 → slope = 0.2 (shallow, positive, 0 &lt; m &lt; 1)</div>
+      <div class="answer-box"><div class="answer-value">Condition i: f(x+1, y+0.5) &lt; 0</div></div>
+
+      <div class="sub-title" style="margin-top:12px">d) g(x) = −10x → slope = −10 (steep, negative, m &lt; −1)</div>
+      <div class="answer-box"><div class="answer-value">Condition iv: f(x+0.5, y−1) &lt; 0</div></div>
+    </div>
+  </div>
+
+  <!-- 6.2 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-number">6.2</span>
+      <span class="q-title">Problems with edge-pixel colouring solutions</span>
+    </div>
+    <div class="explain">
+      <p>When a pixel lies exactly on the shared edge between two triangles, we must decide how to colour it. Each solution has a flaw:</p>
+
+      <div class="sub-section">
+        <div class="sub-title">a) Blend the colours assigned to the pixel</div>
+        <p><strong>Problem:</strong> The pixel is processed and written to twice — once for each triangle. This causes <em>double-blending</em>: the pixel receives both triangles' colours blended on top of each other, making the edge pixel appear <span class="highlight">brighter or differently coloured</span> than it should. For opaque surfaces this creates a visible seam or artefact along shared edges. It also costs extra GPU time.</p>
+      </div>
+
+      <div class="sub-section" style="margin-top:14px">
+        <div class="sub-title">b) If the pixel is on the edge, give it no colour</div>
+        <p><strong>Problem:</strong> Every shared edge in the mesh will produce a pixel with no colour, resulting in <span class="highlight">visible dark lines/cracks</span> along all triangle edges. Even a simple model with thousands of triangles would show a wireframe-like gap pattern across the entire surface — completely unacceptable for solid/smooth rendering.</p>
+      </div>
+
+      <div class="sub-section" style="margin-top:14px">
+        <div class="sub-title">c) Use an offscreen point to determine the colour</div>
+        <p><strong>Problem:</strong> The offscreen point assigns the edge pixel to exactly <em>one</em> of the two triangles. If the two triangles have <span class="highlight">different colours</span>, the choice can look inconsistent or arbitrary — the edge pixel always takes one triangle's colour based on an external point's position, which may not reflect the actual visual intent. There is also potential for edge cases where the offscreen point itself falls exactly on an edge, causing ambiguity again.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; color:var(--muted); font-size:0.85rem; margin-top:40px; padding-top:20px; border-top:1px solid var(--border)">
+    COS344 Computer Graphics — Semester Test Memo Guide
+  </div>
+
+</div>
+</body>
+</html>

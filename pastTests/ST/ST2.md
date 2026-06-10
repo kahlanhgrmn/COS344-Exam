@@ -1,423 +1,309 @@
-Here are all the questions and their associated visual content extracted from the provided semester test document:
+Here are the questions and their associated visual content extracted from the second semester test document:
 
-Question 1 
+### **Scenario**
 
-**1.1** Given that a raster display has the dimensions of 1300 by 1100, how many pixels is the display comprised of? 
+Consider the following scenario when answering the majority of the questions in this test: You have been contracted to create a render to illustrate how the resulting colour of a beam of light is affected by a panel of coloured glass when shone onto a coloured floor. The render should be set up as follows:
 
-* A. 1300 
+* A floor consisting of a variable number of a series of smaller rectangles, which are of the same size.
 
 
-* B. 1100 
+* The floor also has a series of rectangles running along the sides to create the illusion that the floor is a 3D cuboid and not a flat 2D plane.
 
 
-* C. 2400 
+* A 3D glass panel, which has a variable thickness, is positioned in the middle of the floor.
 
 
-* D. 13001100 
+* A light that shines through the glass panel onto the floor.
 
 
-* E. None of the above 
-
-
-
-**1.2** Consider the homogeneous matrix below is applied to a point to transform the point. 
-
-$$\begin{bmatrix} 1 & 0 & 0.5 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{bmatrix}$$
-
-Which of the following vector representation(s) of the point is valid such that the point will be transformed? 
-
-* A. $[2 \quad 1]$ 
-
-
-* B. $[2 \quad 1 \quad 0]$ 
-
-
-* C. $[2 \quad 1 \quad 1]$ 
-
-
-* D. $[2 \quad 1 \quad 1]^T$ 
-
-
-* E. $[2 \quad 1 \quad 0]^T$ 
-
-
-* F. $[2 \quad 1]^T$ 
-
-
-* G. None of the above 
-
-
-
-**1.3** Consider the transformation matrix below is applied to the following vector. Which of the following descriptions best describes the resulting transformation? 
-
-$$\begin{bmatrix} 3 & 0 & 0 \\ 0 & 3 & 0 \\ 0 & 0 & 1 \end{bmatrix}$$
-
- applied to 
-
-$$\begin{bmatrix} e \\ e^2 \\ 0 \end{bmatrix}$$
-
-
-
-* A. No transformation 
-
-
-* B. Translation 
-
-
-* C. Scaling 
-
-
-* D. Shearing 
-
-
-* E. Rotation 
-
-
-* F. A transformation not mentioned in the other options 
-
-
-
-**1.4** Ambient lighting is primarily used to: 
-
-* A. Simulate directional light sources such as the sun 
-
-
-* B. Provide a uniform base illumination independent of object position 
-
-
-* C. Create shadows and highlights based on surface orientation 
-
-
-* D. Enhance specular reflections on shiny surfaces 
-
-
-
-**1.5** Consider a general ray can be described by: $r(e,d,t)=e+td$, where $e$ is the origin of the ray and $d$ is the direction of the ray. Which of the following rays are examples of parallel projection? i) $r(e_1,d_1,t)$ ii) $r(e_2,d_1,t)$ iii) $r(e_1,d_2,t)$ iv) $r(e_3,d_3,t)$ Assume that $e_1 \neq e_2 \neq e_3$ and $d_1 \neq d_2 \neq d_3$. 
-
-* A. i, ii 
-
-
-* B. i, iii 
-
-
-* C. i, iv 
-
-
-* D. i, ii, iv 
-
-
-* E. ii, iii, iv 
-
-
-* F. More than one of the above, but not all of the above 
-
-
-* G. All of the above 
-
-
-* H. None of the above 
-
-
-
-**1.6** Consider a general ray can be described by: $r(e,d,t)=e+td$, where $e$ is the origin of the ray and $d$ is the direction of the ray. Which of the following rays are examples of perspective projection? i) $r(e_1,d_1,t)$ ii) $r(e_2,d_1,t)$ iii) $r(e_1,d_2,t)$ iv) $r(e_3,d_3,t)$ Assume that each of the $e$s and $d$s is different. 
-
-* A. i, ii 
-
-
-* B. i, iii 
-
-
-* C. i, iv 
-
-
-* D. i, ii, iv 
-
-
-* E. ii, iii, iv 
-
-
-* F. More than one of the above, but not all of the above 
-
-
-* G. All of the above 
-
-
-* H. None of the above 
-
-
-
-**1.7** OpenGL is an example of which Computer Graphics API: 
-
-* A. Integrated 
-
-
-* B. Web 
-
-
-* C. Library 
-
-
-* D. Practical 
-
-
-
-**1.8** Consider the following render of a scenario, where the tiles on the floor are perfectly square: 
 
 > 
-> **Visual Content:** Orthographic-style render of a floor with a box. 
+> **Visual Content:** Two reference render images - Figure 1: A and Figure 2: В are shown in the exam paper.
 > 
 > 
 
-Which of the following projections best describes the projection used in the render of the scenario? 
+---
 
-* A. Orthographic projection 
+### **Question 1**
 
+**1.1** Which of the following allows you to import assets created in Blender into OpenGL? 
 
-* B. Perspective projection 
-
-
-* C. Oblique projection 
+* A. Asset Importer 
 
 
-* D. Fish Eye projection 
+* B. ASSIMP 
+
+
+* C. GoDot 
+
+
+* D. GLFW 
 
 
 
-**1.9** Consider the following render of a scenario, where the tiles on the floor are perfectly square: 
+**1.2** Which of the following programs can assist you with debugging your graphic assignments, specifically with regard to the graphics pipeline? 
 
-> 
-> **Visual Content:** Angled render of a floor with a box. 
-> 
-> 
-
-Which of the following projections best describes the projection used in the render of the scenario? 
-
-* A. Orthographic projection 
+* A. GDB 
 
 
-* B. Perspective projection 
+* B. Blender 
 
 
-* C. Oblique projection 
+* C. RenderDoc 
 
 
-* D. Fish Eye projection 
+* D. Glad 
+
+
+
+**1.3** Which of the following drawbacks is specific to the obj wavefront file format? 
+
+* A. Lacks support for modern texture workflows 
+
+
+* B. Not human-readable 
+
+
+* C. Open source 
+
+
+* D. Designed for transfer between 3D tools 
+
+
+
+**1.4** Consider the following texture lookup function $f(x,y,z)=(u,v)$ where $u=2x^2 \bmod z$ and $v=\log(y) \bmod z$. Answer the following questions:
+
+**a)** What is the primary issue with its bijectivity? 
+
+* A. The function always returns zero values for u and v.
+
+
+* B. The function is not defined for all combinations of x, y, and z.
+
+
+* C. The square term $x^2$ in $u=2x^2 \bmod z$ can cause multiple input coordinates to map to the same output texture coordinates.
+
+
+* D. The logarithm function $\log(y)$ is undefined for negative values of y.
+
+
+
+**b)** Which of the following best describes the distortion of size within the texture lookup function? 
+
+* A. Only the v component is subject to distortion, leading to size changes.
+
+
+* B. Both the u and v components are equally affected, resulting in overall size distortion.
+
+
+* C. The function maintains perfect size preservation.
+
+
+* D. The function always increases the size of the texture.
+
+
+
+**c)** How does the use of the modulus operator in the texture lookup function affect the shape of the resulting textures? 
+
+* A. The modulus operator has no effect on the shape of the texture.
+
+
+* B. It creates a perfectly regular and predictable shape distortion.
+
+
+* C. The modulus operator only distorts textures when z is a large number.
+
+
+* D. The non-linear nature of the modulus operation (creating discrete jumps) leads to significant shape distortion.
 
 
 
 ---
 
-Question 2 
+### **Question 2**
 
-**2.1** Explain why a camera sensor is an example of a 2D raster image input. 
+**2.1** For each of the two images (Figure 1 and Figure 2), name the projection that was used to create the image, and justify your answer.
 
-**2.2** Consider an RGB colour cube, where each colour component is bounded between the values 0 and 1, i.e., blue has the coordinate $[0, 0, 1]^T$. What is the name given to the scale of colours produced by the line going from the origin to the coordinate $[1, 1, 1]^T$? 
+* Figure 1: 
 
-**2.3** Consider the following C++ function definition: `Colour determine Final Colour (Colour foreground, Colour background, float alpha)` 
-This function needs to determine the final colour after alpha compositing has occurred. The Colour data type is defined as follows: 
 
-```cpp
-struct Colour {
-    float r;
-    float g;
-    float b;
-    Colour(float r, float g, float b): r(r), g(g), b(b) {};
-};
+* Figure 2: 
 
-```
 
-Provide the implementation for the determine Final Colour function. 
-
-**2.4** Consider that we have a ray from a point light source, positioned at $[4, 4, 4]^T$, that intersects the surface at a position described by $[2, 1, 3]^T$. The normal of the surface where the light intersects with said surface is $[0, 1, 0]^T$. 
-If the direction of the reflected light is $[-2, 3, -1]^T$, what can be assumed by the type of reflection caused by the material of the surface? Provide a motivation for your answer. 
 
 ---
 
-Question 3 
+### **Question 3**
 
-**3.1** State whether the following statement is true or false, and provide a motivation. Note: No marks will be awarded if no motivation is given. "Rendering is the process by which the object is moved around the screen" 
+To create and present the scene orthographically, a series of matrices is needed. Given the following information, provide all of the required 4D matrices to create the scene:
 
-**3.2** In Computer Graphics, there exist two types of methods for determining how an object influences the final result a pixel shows. Answer the following questions. 
-
-* 
-**a)** Name each of these two methods, and explain how they differ. 
+* A screen that is 1920 pixels wide and 1080 pixels high.
 
 
-* **b)** OpenGL is an example of which method? Provide a reason for your answer. Note: No marks will be awarded if no motivation is given. 
+* A view volume with the following bounding planes: Left = -10, Right = 10, Top = 8, Bottom = -8, Near = -2, $Far = -10$.
+
+
+* A camera described by the following vectors:
+* Camera position: $[2, 2, 2]^T$ 
+
+
+* Camera gazing direction: $[-2, 0, 0]^T$ 
+
+
+* Camera top direction: $[2, 2, 0]^T$ 
 
 
 
-**3.3** As part of any ray-tracing algorithm, explain why it is important to know how to calculate if a viewing ray intersects a triangle, specifically. As part of your discussion, explain why triangles play a vital role in Computer Graphics. 
+If a matrix can be expressed in its inverse form, you can provide that form as well. For each matrix that you create, provide its name and its purpose. Show all steps performed to create each of the matrices.
 
 ---
 
-Question 4 
+### **Question 4**
 
-Consider the following C++ program: 
+**4.1** For each of the following culling techniques, using an 'X', indicate on the side profile drawing which faces of the objects will be culled. If the entire object is culled, draw a big 'X' over the entire object. Motivate your answer to the right of the image.
 
-```cpp
-/* required correct pre-amble and setup goes here */
-int main()
-{
-    GLFWwindow *window = setUp();
-    glClearColor(0.2, 0.2, 0.2, 0.2);
-    GLuint VertexArrayID;
-    glGenVertexArrays(1, &VertexArrayID);
-    glBindVertexArray(VertexArrayID);
-    GLuint programID = LoadShaders("vertexShader.glsl", "fragmentShader.glsl");
-    GLuint vertexbuffer;
-    glGenBuffers(1, &vertexbuffer);
-    GLuint colorbuffer;
-    glGenBuffers(1, &colorbuffer);
-    GLfloat vertices[] = {
-        -0.5, 0,
-        -0.7, 0.2,
-        -0.5, 0.3,
-        -0.3, 0.2,
-        0.0, 0.0,
-        -0.1, 0.3,
-        0.0, 0.4,
-        0.0, 0.0,
-        0.1, 0.3,
-        0.0, 0.4,
-        0.2, 0.2,
-        0.2, 0.4,
-        0.4, 0.2,
-        0.4, 0.4,
-        0.8, 0.2,
-        0.8, 0.4
-    };
-    GLfloat colors[] = {
-        1,0,0,
-        1,0,0,
-        1,0,0,
-        1,0,0,
-        0,1,0,
-        0,1,0,
-        0,1,0,
-        0,1,0,
-        0,1,0,
-        0,1,0,
-        0,0,1,
-        0,0,1,
-        0,0,1,
-        0,0,1,
-        0,0,1,
-        0,0,1,
-    };
-    do
-    {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glUseProgram(programID);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-        glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void *)0);
-        glEnableVertexAttribArray(1);
-        glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-        glDrawArrays(GL_TRIANGLES, 4, 6);
-        glDrawArrays(GL_TRIANGLE_STRIP, 10, 6);
-        glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    } while (glfwGetKey(window, GLFW_KEY_SPACE) != GLFW_PRESS && glfwWindowShouldClose(window) == 0);
-}
-
-```
-
-**4.1** Using the graph below, draw the resulting shapes that are produced by this program, as well as indicating what colour each of the shapes will have. You can assume that the shaders do not alter the shapes or colours. 
+**a)** Viewvolume Culling 
 
 > 
-> **Visual Content:** Graph with axes from -1 to 1 provided in exam paper. 
+> **Visual Content:** Side profile diagram with Camera, View volume, Floor, Glass, Ball, and Decor objects provided in exam paper.
 > 
 > 
 
-**4.2** Consider now that the shaders are modified to perform the following tasks: 
+**b)** Occlusion Culling 
 
-* If the vertex has a negative $x$ value, the value should be doubled. 
+> 
+> **Visual Content:** Side profile diagram provided in exam paper.
+> 
+> 
 
+**c)** Backface Culling 
 
-* If the vertex has a negative $y$ value, the value should be halved. 
+> 
+> **Visual Content:** Side profile diagram provided in exam paper.
+> 
+> 
 
+**4.2** Explain why the winding order of the triangles used to create the faces of shapes is important, especially for backface culling.
 
-* All the colours should be more pastel colours (i.e. more white). This is done by adding 0.5 to each of the colour channels. 
-
-
-
-Provide the modified vertex and fragment shaders. Clearly indicate which shader is which. 
-
----
-
-Question 5 
-
-**5.1** Assume a function `void rotateScene()` has been declared for you, which will rotate the scene. Provide the valid C++ code that will invoke this function when the R key is pressed. You can assume that `GLFWwindow *window` is the GLFWwindow pointer to the active window, and all the required boiler code has been correctly configured. 
-
-**5.2** Assuming that the centre of the scene is located at $[1, 2, 1]^T$, provide the transformation matrices that will allow the following transformations. If multiple matrices are required, provide each matrix as well as the order in which they will need to be multiplied to achieve the desired effect. Provide the matrices as 4D homogeneous matrices. 
-
-* 
-**a)** Scaling the scene along all three axes by 3 units. 
-
-
-* 
-**b)** Rotation about the global Z-axis by $40^{\circ}$. 
-
-
-
-**5.3** Explain what the purpose of the code statement is: `gl.enable(gl.GL_BLEND)` 
+**4.3** Provide the C++ code that will allow the culling of the front faces of objects. The winding order that should be used is clockwise.
 
 ---
 
-Question 6 
+### **Question 5**
 
-**6.1** Consider the following possible conditions for the midpoint algorithm: 
+Consider the following texture image is used for the floor of the scenario:
 
-* i) $f(x+1, y+0.5) < 0$ 
+> 
+> **Visual Content:** Figure 3: Texture Image a small 2-tile image with a dark and a light grey square.
+> 
+> 
 
+**5.1** Explain which of the geometrically determined coordinate techniques that were discussed in class will be the most appropriate for the scenario. Motivate your answer.
 
-* ii) $f(x+1, y-0.5) > 0$ 
+**5.2** Together with the geometrically determined coordinate technique, tiling can also be used. Explain how.
 
+**5.3** Assume that a C++ program has been correctly configured to load the texture, and pass all the following information to the vertex shader:
 
-* iii) $f(x+0.5, y+1) > 0$ 
-
-
-* iv) $f(x+0.5, y-1) < 0$ 
-
-
-
-State which condition will be best suited for each of the following lines: 
-
-* 
-**a)** $g(x) = 5x+2$ 
+* Vertex positions as a vec3 at position 0.
 
 
-* 
-**b)** $g(x) = -0.2x-5$ 
+* Surface normals for each vertex as a vec3 at position 1.
 
 
-* 
-**c)** $g(x) = 0.2x+8$ 
+* Texture coordinates as a vec2 at position 2.
 
 
-* 
-**d)** $g(x) = -10x$ 
+* The texture as a uniform sampler2D known as "customTexture".
 
 
 
-**6.2** During the rasterisation process, complications arise when colouring two connected triangles with a pixel that lies perfectly on the edge between the two triangles. For each of the following solutions to the complications, explain a possible problem that may arise if the solution is used. 
+Consider as well that the result of a texture lookup returns a float between the values of -1 and 1. The colour associated with each vertex position should be a vec3 with all three components set to the result of the texture lookup function. Answer the following questions:
 
-* 
-**a)** Blend the colours assigned to a pixel. 
+**a)** Provide the vertex shader that will scale the vertex position along the passed-through surface normal by the result of the texture lookup for the passed-through texture coordinate.
+
+**b)** What is the name for this application of texture mapping? Provide a reason for your answer.
+
+---
+
+### **Question 6**
+
+**6.1** Assume the centre of the scene is situated at the position described by $[1, 1, 1]^T$. You would like to perform the following transformations on the scene, in this order:
+
+* Scale the scene by 2 units along the x-direction and 3 units along the y-direction.
 
 
-* 
-**b)** If the pixel is on the edge, do not give it any colour. 
+* Rotate by $30^\circ$ units around the centre of the scene in both the x and y axis.
 
 
-* 
-**c)** Use an offscreen point to determine the colour of the pixel.
+
+Provide the required matrices, and explain the purpose of each of the matrices.
+
+---
+
+### **Question 7**
+
+**7.1** Consider that the glass contains lots of tiny scratches and deformities. Answer the following questions:
+
+
+**a)** Explain how you would apply a level of detail algorithm to improve the performance of the render.
+**b)** If this render were ported over to work on mobile devices, explain why it is important to develop it for a computationally weak platform compared to a computationally strong platform.
+**c)** Explain how computer games that were developed on older hardware can run on hardware that was not yet invented at the time of the games' development.
+
+**7.2** Consider we have the following vertices, which can be combined to create index-based meshes: 
+
+| Vertex number | Position |
+| --- | --- |
+| 0 | (1,0,0) 
+
+ |
+| 1 | (0,1,0) 
+
+ |
+| 2 | (0,0,1) 
+
+ |
+| 3 | (1,1,0) 
+
+ |
+| 4 | (0,1,1) 
+
+ |
+| 5 | (1,1,1) 
+
+ |
+
+**a)** State whether the following triangle combinations violate the strict manifold restrictions. Provide a motivation for your answer.
+
+* i) (2, 4, 1), (4, 1, 0), (4, 5, 1) 
+
+
+* ii) (2, 4, 1), (4, 5, 1), (2, 5, 1), (1, 0, 3) 
+
+
+
+**b)** State whether the following triangle combinations violate the relaxed manifold restrictions. Provide a motivation for your answer.
+
+* i) (1, 0, 3), (1, 3, 5), (0, 1, 2) 
+
+
+* ii) (2, 1, 4), (4, 5, 1), (4, 2, 5), (1, 3, 0) 
+
+
+
+---
+
+### **Question 8**
+
+Visualisation is one of the applications of computer graphics. Answer the following questions on visualisation.
+
+**8.1** Explain how clipping through a geometric object in a render can be seen as a negative experience for the user, but in visualisation, it can be used to aid the user's understanding.
+
+**8.2** Often, it is needed to reduce the complexity of the data. Contrast the derived dimensionality technique with another data dimensionality reduction method that was discussed in class by discussing the following points:
+
+* Explain what derived dimensionality is, as well as the technique of your choosing.
+
+
+* Explain one advantage and one disadvantage of each method.
+
+
+* Provide a use case for both methods.
