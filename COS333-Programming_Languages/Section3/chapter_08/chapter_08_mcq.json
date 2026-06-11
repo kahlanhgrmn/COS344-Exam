@@ -1,0 +1,247 @@
+{
+  "chapter": "Chapter 8",
+  "title": "Statement-Level Control Structures",
+  "total_questions": 20,
+  "questions": [
+    {
+      "id": 1,
+      "question": "In C, the code `if (a > b) if (a > c) max = a; else max = c;` — which `if` does the `else` belong to?",
+      "options": [
+        "The outer `if (a > b)`",
+        "The inner `if (a > c)`",
+        "Both — the else matches both ifs simultaneously",
+        "Neither — this is a compile error in C"
+      ],
+      "answer": "The inner `if (a > c)`",
+      "explanation": "The 'dangling else' problem: in C (and most C-like languages), an `else` is matched to the nearest preceding unmatched `if`. So `else max = c;` belongs to `if (a > c)`. This can cause unexpected behaviour if the programmer intended the else for the outer if. Using braces `{}` or an `end if` keyword eliminates this ambiguity."
+    },
+    {
+      "id": 2,
+      "question": "Python uses indentation to disambiguate nested selection statements. What is the key reliability concern with this approach compared to Java's use of braces?",
+      "options": [
+        "Python programs execute more slowly due to indentation parsing",
+        "A wrong indentation level is syntactically valid Python but changes the semantics silently",
+        "Python cannot handle more than 3 levels of nesting",
+        "Java's braces are less reliable because they can be mismatched"
+      ],
+      "answer": "A wrong indentation level is syntactically valid Python but changes the semantics silently",
+      "explanation": "In Python, the indentation level IS the structure. If an `else` or statement is accidentally indented at the wrong level, Python accepts it as valid code but attaches it to a different `if` than intended. No error is reported. Java's braces produce a compile error if mismatched — catching structural errors before execution."
+    },
+    {
+      "id": 3,
+      "question": "Ruby uses `elsif` and `end` keywords for its selection statements. How does this compare to Python's approach for disambiguating nested selectors in terms of readability?",
+      "options": [
+        "Ruby's approach is less readable because end keywords clutter the code",
+        "Python's approach is less readable because indentation provides no visual markers for block boundaries",
+        "Both approaches have identical readability",
+        "Ruby's explicit `end` keywords make block boundaries unambiguous and more readable than Python's indentation"
+      ],
+      "answer": "Ruby's explicit `end` keywords make block boundaries unambiguous and more readable than Python's indentation",
+      "explanation": "Ruby uses `if`, `elsif`, `else`, `end` — explicit markers that show exactly where each block starts and ends. Python's indentation-only approach relies on the programmer maintaining consistent whitespace, which can be harder to visually parse in deeply nested code. Ruby's explicit delimiters are considered more readable."
+    },
+    {
+      "id": 4,
+      "question": "Ruby's `case` statement is more writable than C++'s `switch` statement for assigning to a variable. What is the key reason?",
+      "options": [
+        "Ruby's `case` supports string and object comparisons, while C++ `switch` only supports integers",
+        "Ruby's `case` is an expression that returns a value and can be directly assigned, while C++ `switch` is a statement",
+        "Ruby's `case` requires fewer keywords than C++ `switch`",
+        "Ruby's `case` automatically breaks after each match, while C++ requires explicit break"
+      ],
+      "answer": "Ruby's `case` is an expression that returns a value and can be directly assigned, while C++ `switch` is a statement",
+      "explanation": "In Ruby: `result = case x when 1 then 'one' when 2 then 'two' else 'other' end`. The case expression returns a value that is directly assigned to `result`. In C++, `switch` is a statement — you cannot write `result = switch(x) {...}`. This makes Ruby's approach more writable for conditional assignment."
+    },
+    {
+      "id": 5,
+      "question": "In C-based languages, the for loop uses three expressions: `for (expr1; expr2; expr3)`. Which expression is evaluated only once?",
+      "options": [
+        "expr1 only",
+        "expr2 only",
+        "expr3 only",
+        "All three are evaluated once per iteration"
+      ],
+      "answer": "expr1 only",
+      "explanation": "`expr1` (initialisation) is evaluated once before the loop begins. `expr2` (condition) is evaluated at the start of each iteration — if false, the loop exits. `expr3` (update) is evaluated at the end of each iteration. This is the standard C for-loop execution model."
+    },
+    {
+      "id": 6,
+      "question": "Counter-controlled loops in C++ are considered less reliable than in Python because:",
+      "options": [
+        "C++ loops cannot use floating-point loop variables",
+        "C++ allows modifying the loop variable and branching into the loop body with goto",
+        "C++ loops always execute a fixed number of times regardless of the body",
+        "C++ does not support break statements inside loops"
+      ],
+      "answer": "C++ allows modifying the loop variable and branching into the loop body with goto",
+      "explanation": "C++ allows: modifying the loop variable inside the body (changing iteration count unpredictably), and using `goto` to jump into the middle of a loop (bypassing initialisation). Python's for loop over a range is more reliable — the loop variable cannot be meaningfully changed to affect iteration count, and Python has no `goto`."
+    },
+    {
+      "id": 7,
+      "question": "What is the key difference between a `while` loop (pretest) and a `do-while` loop (posttest)?",
+      "options": [
+        "A while loop can iterate more times than a do-while loop",
+        "A while loop tests the condition BEFORE each iteration, so the body may never execute; a do-while tests AFTER, so the body always executes at least once",
+        "A do-while loop is faster because it avoids the initial condition check",
+        "A while loop is only available in C; a do-while is only in Java"
+      ],
+      "answer": "A while loop tests the condition BEFORE each iteration, so the body may never execute; a do-while tests AFTER, so the body always executes at least once",
+      "explanation": "A pretest `while` loop evaluates the condition first — if initially false, the body is skipped entirely (0 iterations). A posttest `do-while` executes the body first, then checks — guaranteeing at least one execution. The choice between them depends on whether the first iteration should be conditional."
+    },
+    {
+      "id": 8,
+      "question": "Java has labeled `break` and `continue` statements that C++ lacks. What benefit does this provide?",
+      "options": [
+        "Java loops execute faster due to labeling",
+        "Java can break out of or continue a specific outer loop from deeply nested code, which C++ cannot do without goto",
+        "Java labeled breaks eliminate the need for while loops",
+        "Java breaks are more reliable because they prevent infinite loops"
+      ],
+      "answer": "Java can break out of or continue a specific outer loop from deeply nested code, which C++ cannot do without goto",
+      "explanation": "C++'s `break` only exits the immediately enclosing loop. To exit an outer loop from nested code, C++ requires a flag variable or a `goto`. Java's `break labelName;` directly exits the loop with the matching label, regardless of nesting depth — more writable and readable for this pattern."
+    },
+    {
+      "id": 9,
+      "question": "The Python for loop has an optional `else` clause that executes when the loop terminates normally. When does the else clause NOT execute?",
+      "options": [
+        "When the loop variable reaches the end of the range",
+        "When the loop iterates zero times",
+        "When the loop exits via a `break` statement",
+        "When the loop contains a `continue` statement"
+      ],
+      "answer": "When the loop exits via a `break` statement",
+      "explanation": "Python's loop `else` clause executes if the loop completes normally (exhausts its range or condition becomes false). It does NOT execute if the loop exits early via `break`. This is useful for 'search loops' — if the loop found what it was looking for (and broke), the else (which handles the 'not found' case) is skipped."
+    },
+    {
+      "id": 10,
+      "question": "In Ruby, the `times`, `each`, and `upto` methods are used instead of traditional for loops. What are these called?",
+      "options": [
+        "Generators",
+        "Iterators",
+        "Coroutines",
+        "Lambda expressions"
+      ],
+      "answer": "Iterators",
+      "explanation": "Ruby uses predefined iterator methods like `3.times { puts 'Hello' }`, `list.each { |x| puts x }`, and `1.upto(5) { |x| print x }`. These are iterators — methods that control how a block of code is repeatedly executed. They are more object-oriented than traditional for loops and are consistent with Ruby's 'everything is an object' philosophy."
+    },
+    {
+      "id": 11,
+      "question": "Guarded commands were designed by Dijkstra. What is the key semantic rule for the guarded selection (`if-fi`)?",
+      "options": [
+        "The first guard that evaluates to true is executed",
+        "All guards are evaluated and all whose conditions are true are executed",
+        "If more than one guard is true, one is chosen non-deterministically; if none are true, a runtime error occurs",
+        "If no guard is true, the construct is silently skipped"
+      ],
+      "answer": "If more than one guard is true, one is chosen non-deterministically; if none are true, a runtime error occurs",
+      "explanation": "In Dijkstra's guarded selection (`if B1 -> S1 [] B2 -> S2 fi`): all guards are evaluated. If multiple are true, one is chosen non-deterministically (the programmer should not rely on order). If NONE are true, a runtime error occurs — unlike an if-else which silently falls through. This strictness supports formal program verification."
+    },
+    {
+      "id": 12,
+      "question": "In a guarded loop (`do-od`), what causes the loop to exit?",
+      "options": [
+        "When the loop variable reaches its maximum value",
+        "When all guards evaluate to false",
+        "When a break statement is encountered",
+        "After a fixed number of iterations specified at the start"
+      ],
+      "answer": "When all guards evaluate to false",
+      "explanation": "In Dijkstra's guarded loop: each iteration evaluates all guards. If at least one is true, one is chosen non-deterministically and executed, then the loop repeats. The loop only exits when ALL guards are simultaneously false. Unlike while/for loops, there is no explicit exit condition — termination emerges from the guards becoming false."
+    },
+    {
+      "id": 13,
+      "question": "Consider the guarded loop:\n```\ndo (x > 0) -> x = x - 1\n[] (x < 5) -> x = x + 1\nod\n```\nStarting with `x = 3`, what happens?",
+      "options": [
+        "The loop terminates immediately with x = 3",
+        "The loop runs until x = 0",
+        "The loop runs until x = 5",
+        "The loop runs forever (infinite loop)"
+      ],
+      "answer": "The loop runs forever (infinite loop)",
+      "explanation": "With x = 3: guard 1 (x > 0) = true (3 > 0); guard 2 (x < 5) = true (3 < 5). Both are true. One is chosen non-deterministically. If guard 1 chosen: x becomes 2. If guard 2 chosen: x becomes 4. In either case, at least one guard will remain true: if x goes to 0, guard 2 (x < 5) fires increasing it; if x goes to 5, guard 1 (x > 0) fires decreasing it. The loop never terminates."
+    },
+    {
+      "id": 14,
+      "question": "What was the main concern in the 1960s/70s debate over `goto` statements?",
+      "options": [
+        "goto statements were too slow to execute",
+        "goto statements made program verification and readability nearly impossible",
+        "goto statements consumed too much memory",
+        "goto statements were not portable across different hardware"
+      ],
+      "answer": "goto statements made program verification and readability nearly impossible",
+      "explanation": "Dijkstra's famous 1968 letter 'Go To Statement Considered Harmful' argued that unrestricted goto creates 'spaghetti code' — control flow that jumps unpredictably, making it nearly impossible to trace program execution, prove correctness, or maintain the code. The readability concern was central; modern languages like Java have no goto for this reason."
+    },
+    {
+      "id": 15,
+      "question": "In Java, the `break` statement inside a switch can only exit the switch, not any enclosing loop. What is the implication for nested switch-inside-loop code?",
+      "options": [
+        "Java automatically exits both the switch and the loop",
+        "The programmer must use a labeled break or a flag variable to exit the enclosing loop",
+        "Java's switch cannot be placed inside a loop",
+        "The switch break also exits the loop if the loop has only one iteration"
+      ],
+      "answer": "The programmer must use a labeled break or a flag variable to exit the enclosing loop",
+      "explanation": "A `break` in a Java switch only exits the switch statement. If the switch is inside a `for` or `while` loop and you want to exit the loop from within the switch, you need either (a) a labeled break `break loopLabel;` targeting the loop's label, or (b) a boolean flag that the loop checks. Unlabeled break is scoped to its immediately enclosing construct."
+    },
+    {
+      "id": 16,
+      "question": "Which of the following best describes why logically-controlled loops are considered more general than counter-controlled loops?",
+      "options": [
+        "Logically-controlled loops can iterate more times than counter-controlled loops",
+        "Every counter-controlled loop can be rewritten as a logically-controlled loop, but not vice versa",
+        "Logically-controlled loops execute faster than counter-controlled loops",
+        "Logically-controlled loops are supported in more programming languages"
+      ],
+      "answer": "Every counter-controlled loop can be rewritten as a logically-controlled loop, but not vice versa",
+      "explanation": "A `for` loop can always be converted to a `while` loop: `for (i=0; i<n; i++) { body }` becomes `i=0; while (i<n) { body; i++; }`. However, a while loop controlled by a complex boolean condition cannot always be expressed naturally as a counter loop. Logically-controlled loops are therefore the more general mechanism."
+    },
+    {
+      "id": 17,
+      "question": "Fortran 90 added a CASE statement. Which evaluation criteria benefit from this addition?",
+      "options": [
+        "Execution cost — CASE is faster than nested ifs",
+        "Readability and writability — CASE provides a more natural multi-way selector than nested if-else chains",
+        "Reliability — CASE prevents all runtime errors",
+        "Portability — CASE produces more portable code than if-else"
+      ],
+      "answer": "Readability and writability — CASE provides a more natural multi-way selector than nested if-else chains",
+      "explanation": "A multi-way selection expressed as `case x of 1: ...; 2: ...; 3: ...` is clearer than a chain of `if x==1 ... else if x==2 ... else if x==3...`. The CASE statement directly expresses the programmer's intent — selecting one of several alternatives based on a single value. This improves both readability (intent is clearer) and writability (more concise)."
+    },
+    {
+      "id": 18,
+      "question": "Data structure-based iteration (like Java 5.0's for-each: `for (String s : myList)`) is most useful for which reason?",
+      "options": [
+        "It allows modifying the collection while iterating",
+        "It eliminates the need for loop variables and index arithmetic, reducing potential off-by-one errors",
+        "It executes faster than traditional indexed loops",
+        "It only works with arrays, not with other collections"
+      ],
+      "answer": "It eliminates the need for loop variables and index arithmetic, reducing potential off-by-one errors",
+      "explanation": "For-each loops automatically advance through the collection without requiring the programmer to manage an index variable. This eliminates classic bugs: off-by-one errors (`i < n` vs `i <= n`), accessing wrong index, or forgetting to increment. It is a reliability improvement for iteration over complete data structures."
+    },
+    {
+      "id": 19,
+      "question": "In C# and Java, using `break` inside a loop exits only the innermost loop. How is this restriction relevant to program verification?",
+      "options": [
+        "It makes programs faster because the CPU can optimise exit paths",
+        "It makes programs more readable because the exit point is always the loop header",
+        "It is a restricted goto — it restricts where control can transfer, making flow analysis easier",
+        "It forces programmers to use recursion instead of loops"
+      ],
+      "answer": "It is a restricted goto — it restricts where control can transfer, making flow analysis easier",
+      "explanation": "An unrestricted `goto` can jump anywhere in the program, making control flow analysis nearly impossible. A `break` is a restricted goto — it can only exit the immediately enclosing loop. This restriction makes it easier to reason about program flow (you always know where control goes after a break) while still providing flexibility for early loop exit."
+    },
+    {
+      "id": 20,
+      "question": "Guarded commands support a programming methodology where correctness verification is simplified. Which control structures must be used exclusively to make verification 'relatively simple' according to Dijkstra?",
+      "options": [
+        "Only goto statements",
+        "Only recursive functions",
+        "Only guarded commands (guarded selection and guarded loops)",
+        "Selection statements and logical pretest loops"
+      ],
+      "answer": "Only guarded commands (guarded selection and guarded loops)",
+      "explanation": "Dijkstra showed that program verification difficulty depends on control structures used: goto → nearly impossible to verify; selection + pretest loops → possible; guarded commands only → relatively simple. Guarded commands' non-determinism actually helps verification because proofs don't need to account for specific ordering — they must hold for ALL valid non-deterministic choices."
+    }
+  ]
+}

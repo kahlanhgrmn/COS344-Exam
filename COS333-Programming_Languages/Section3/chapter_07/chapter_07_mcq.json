@@ -1,0 +1,247 @@
+{
+  "chapter": "Chapter 7",
+  "title": "Expressions and Assignment Statements",
+  "total_questions": 20,
+  "questions": [
+    {
+      "id": 1,
+      "question": "In most programming languages, the expression `2 + 3 * 4` evaluates to 14 rather than 20. What rule determines this?",
+      "options": [
+        "Left-to-right associativity",
+        "Right-to-left associativity",
+        "Operator precedence — multiplication has higher precedence than addition",
+        "Short-circuit evaluation"
+      ],
+      "answer": "Operator precedence — multiplication has higher precedence than addition",
+      "explanation": "Operator precedence determines which operator is applied first when no parentheses are present. Multiplication (`*`) has higher precedence than addition (`+`) in most languages, so `3 * 4 = 12` is evaluated first, then `2 + 12 = 14`. Without precedence rules, `2 + 3 = 5` would be evaluated first, giving `5 * 4 = 20`."
+    },
+    {
+      "id": 2,
+      "question": "Evaluate the expression `8 - 4 - 2` in a language where subtraction is left-associative.",
+      "options": [
+        "6",
+        "2",
+        "0",
+        "The result depends on the compiler"
+      ],
+      "answer": "2",
+      "explanation": "Left-associativity means the leftmost operation is performed first. `8 - 4 - 2` is evaluated as `(8 - 4) - 2 = 4 - 2 = 2`. If subtraction were right-associative, it would be `8 - (4 - 2) = 8 - 2 = 6`. Most languages use left-associativity for subtraction."
+    },
+    {
+      "id": 3,
+      "question": "APL uses a unique approach to operator precedence. Which statement correctly describes it?",
+      "options": [
+        "APL has many levels of precedence, one for each operator",
+        "APL has no operator precedence — all operators have equal precedence and associate right to left",
+        "APL evaluates all expressions left to right regardless of operator",
+        "APL uses the same precedence rules as C"
+      ],
+      "answer": "APL has no operator precedence — all operators have equal precedence and associate right to left",
+      "explanation": "APL uses a single, uniform rule: all operators have equal precedence and expressions are evaluated strictly right to left. While this is orthogonal (one consistent rule), it can produce counterintuitive results for programmers expecting mathematical precedence — for example, `2 + 3 × 4` in APL evaluates as `2 + (3 × 4) = 2 + 12 = 14`... wait, actually in APL: `3 × 4 = 12`, then `2 + 12 = 14`. So the rule is: evaluate right to left, which happens to match normal precedence here but differs in other cases."
+    },
+    {
+      "id": 4,
+      "question": "In Ruby, operators like `+`, `-`, and `*` are implemented as methods. What does this mean for the language?",
+      "options": [
+        "Operators in Ruby are less writable than in C",
+        "Operators in Ruby can be overloaded by defining or redefining the corresponding method in a class",
+        "Operators in Ruby are faster than in C because they bypass method dispatch",
+        "Operators in Ruby cannot be used with user-defined types"
+      ],
+      "answer": "Operators in Ruby can be overloaded by defining or redefining the corresponding method in a class",
+      "explanation": "Since `a + b` in Ruby is the method call `a.+(b)`, any class can define or override the `+` method to give custom meaning to the `+` operator for its objects. This is operator overloading. For example, a `Vector` class could define `+` to add two vectors component-wise."
+    },
+    {
+      "id": 5,
+      "question": "A functional side effect in a subprogram occurs when:",
+      "options": [
+        "A function returns a value to the caller",
+        "A function modifies a non-local variable or parameter outside its own scope",
+        "A function calls another function",
+        "A function takes more than one parameter"
+      ],
+      "answer": "A function modifies a non-local variable or parameter outside its own scope",
+      "explanation": "A functional side effect is when a function changes state outside itself — modifying a global variable, modifying a pass-by-reference parameter, or writing to I/O. Side effects can cause problems with referential transparency and make programs harder to reason about, because the same function call may produce different results depending on external state."
+    },
+    {
+      "id": 6,
+      "question": "Referential transparency means that a function called with the same arguments always returns the same result. Which of the following would BREAK referential transparency?",
+      "options": [
+        "A function that squares its numeric argument",
+        "A function that adds two numbers",
+        "A function that reads a value from a global variable that may change between calls",
+        "A function that returns the length of its string argument"
+      ],
+      "answer": "A function that reads a value from a global variable that may change between calls",
+      "explanation": "Referential transparency requires that a function's output depends ONLY on its input arguments. If a function reads a global variable, two calls with the same arguments may return different values (if the global changed between calls). This breaks referential transparency. Pure functions (no side effects, no external reads) are always referentially transparent."
+    },
+    {
+      "id": 7,
+      "question": "Ada has no implicit type coercions between numeric types. What is the most significant benefit of this design?",
+      "options": [
+        "Programs execute faster because no coercion overhead exists",
+        "The language is more writable because fewer explicit conversions are needed",
+        "The language is more reliable because unexpected type conversions cannot occur silently",
+        "The language is more portable because types are defined consistently"
+      ],
+      "answer": "The language is more reliable because unexpected type conversions cannot occur silently",
+      "explanation": "In C/C++, implicit coercions silently convert between numeric types, which can cause precision loss or unexpected behaviour (e.g., assigning a float to an int truncates silently). Ada requires all conversions to be explicit — the programmer must deliberately write the conversion. This prevents silent precision loss and makes all type changes visible, improving reliability."
+    },
+    {
+      "id": 8,
+      "question": "In short-circuit evaluation of `A and B`, what happens when `A` evaluates to false?",
+      "options": [
+        "B is always evaluated before the result is returned",
+        "B is not evaluated — the result is immediately false",
+        "B is evaluated and its value is used as the final result",
+        "A runtime error is generated"
+      ],
+      "answer": "B is not evaluated — the result is immediately false",
+      "explanation": "Short-circuit evaluation for `and` (logical AND): if the left operand is false, the overall result MUST be false regardless of the right operand — so the right operand is skipped entirely. This is important when the right operand has a side effect or could cause an error (like division by zero or null pointer access)."
+    },
+    {
+      "id": 9,
+      "question": "Consider `while ((count > 0) and (result = 10.0 / count))`. If `and` is NOT short-circuit evaluated and `count` reaches 0, what happens?",
+      "options": [
+        "The loop exits normally when count reaches 0",
+        "A division-by-zero error occurs because `10.0 / count` is evaluated when count = 0",
+        "The result is 0 because integer division produces 0",
+        "The condition evaluates to false safely"
+      ],
+      "answer": "A division-by-zero error occurs because `10.0 / count` is evaluated when count = 0",
+      "explanation": "Without short-circuit evaluation, BOTH sides of `and` are always evaluated. When `count = 0`, `10.0 / count` is evaluated and causes division by zero. With short-circuit evaluation, `count > 0` evaluates to false first, so the right side is skipped — no division by zero occurs. This illustrates why short-circuit evaluation is important for reliability."
+    },
+    {
+      "id": 10,
+      "question": "What is a compound assignment operator, and which evaluation criterion does it primarily improve?",
+      "options": [
+        "An operator that assigns multiple variables at once; improves readability",
+        "An operator like `+=` that combines an arithmetic operation with assignment; improves writability",
+        "An operator that checks types before assigning; improves reliability",
+        "An operator that assigns values conditionally; improves writability"
+      ],
+      "answer": "An operator like `+=` that combines an arithmetic operation with assignment; improves writability",
+      "explanation": "Compound operators like `+=`, `-=`, `*=` combine a binary operation with assignment: `x += 5` is equivalent to `x = x + 5`. They save typing (writability improvement) and can also give the compiler a hint about the programmer's intent. They originated in ALGOL 60 and appear in C, C++, Java, Python, etc."
+    },
+    {
+      "id": 11,
+      "question": "In C/C++, `i++` (postfix) and `++i` (prefix) are both unary assignment operators. What is the key difference between them?",
+      "options": [
+        "Postfix increments by 2; prefix increments by 1",
+        "Prefix returns the value AFTER incrementing; postfix returns the value BEFORE incrementing",
+        "Postfix can only be used with integers; prefix works with any numeric type",
+        "There is no functional difference — both produce the same result in all contexts"
+      ],
+      "answer": "Prefix returns the value AFTER incrementing; postfix returns the value BEFORE incrementing",
+      "explanation": "`++i` (prefix) increments `i` first, then returns the new value. `i++` (postfix) returns the current value of `i`, THEN increments it. In a simple statement `i++;` the difference doesn't matter, but in an expression like `a = i++;` the distinction is critical. This overloading of `++` reduces readability."
+    },
+    {
+      "id": 12,
+      "question": "Unary assignment operators like `++` are overloaded to provide both prefix and postfix forms. What evaluation criterion does this most negatively affect?",
+      "options": [
+        "Writability",
+        "Readability",
+        "Reliability",
+        "Execution cost"
+      ],
+      "answer": "Readability",
+      "explanation": "When `++` means different things depending on whether it appears before or after the variable (prefix vs postfix), a reader must pay careful attention to placement. The same symbol with different semantics in different positions reduces readability — the meaning is less obvious at a glance."
+    },
+    {
+      "id": 13,
+      "question": "Ruby supports multiple-target, multiple-source assignment: `a, b = b, a`. What evaluation criterion does this most improve?",
+      "options": [
+        "Reliability — ensures both variables are updated atomically",
+        "Readability — makes the swap operation more visible",
+        "Writability — allows common patterns like value swapping in one line",
+        "Execution cost — removes the need for a temporary variable in memory"
+      ],
+      "answer": "Writability — allows common patterns like value swapping in one line",
+      "explanation": "Multiple-target assignment allows swapping two variables in a single statement without a temporary variable: `a, b = b, c, a` or similar patterns. This is significantly more concise than writing three separate assignment statements. It is primarily a writability feature — writing common patterns is faster and shorter."
+    },
+    {
+      "id": 14,
+      "question": "A conditional target is a feature where the left-hand side of an assignment is a conditional expression. For example: `(flag ? x : y) = 10`. What criterion does this most reduce?",
+      "options": [
+        "Writability — more characters must be typed",
+        "Reliability — it becomes harder to determine which variable is being assigned",
+        "Readability — keywords are confusing",
+        "Execution cost — conditional expressions are slow to evaluate"
+      ],
+      "answer": "Reliability — it becomes harder to determine which variable is being assigned",
+      "explanation": "When the assignment target is a conditional expression, a reader (and programmer) must evaluate the condition to know which variable changes. It is easy to make mistakes about which variable actually receives the value. This reduces reliability. Writability may be slightly improved (more concise), but at the cost of clarity and correctness."
+    },
+    {
+      "id": 15,
+      "question": "In Python, assignment is a statement (not an expression), which means it cannot be used inside conditions like `while (x = getValue())`. What evaluation criterion does this most improve?",
+      "options": [
+        "Writability — assignments are simpler to write",
+        "Reliability — eliminates the classic `if (x = 0)` bug where assignment is confused with comparison",
+        "Execution cost — assignment expressions are slower to evaluate",
+        "Portability — the program behaves the same on all platforms"
+      ],
+      "answer": "Reliability — eliminates the classic `if (x = 0)` bug where assignment is confused with comparison",
+      "explanation": "In C/C++, accidentally writing `if (x = 0)` (assignment) instead of `if (x == 0)` (comparison) is a common, hard-to-spot bug — the assignment succeeds, the condition evaluates to 0, and the branch is never taken. Python making assignment a non-expression prevents this class of bug entirely, improving reliability."
+    },
+    {
+      "id": 16,
+      "question": "In Scheme, there are no operators — only functions. The expression `(+ 3 (* 4 5))` evaluates to what, and why is evaluation order unambiguous?",
+      "options": [
+        "35; because addition has lower precedence than multiplication",
+        "23; because inner function calls are always evaluated before outer ones",
+        "23; because all arithmetic is done left to right",
+        "35; because functions always evaluate all arguments before calling"
+      ],
+      "answer": "23; because inner function calls are always evaluated before outer ones",
+      "explanation": "In Scheme, every expression is a function call. `(* 4 5)` is the inner call — it evaluates to 20. Then `(+ 3 20)` evaluates to 23. The parenthesised prefix notation makes evaluation order completely unambiguous: the innermost parentheses are evaluated first. No precedence rules or associativity are needed."
+    },
+    {
+      "id": 17,
+      "question": "A narrowing conversion converts a value to a type that cannot represent all values of the original type (e.g., float to int). What is the primary concern with implicit narrowing conversions?",
+      "options": [
+        "They increase execution cost significantly",
+        "They can silently lose precision or data without any warning",
+        "They require more memory for the result",
+        "They cause the program to run slower"
+      ],
+      "answer": "They can silently lose precision or data without any warning",
+      "explanation": "An implicit narrowing conversion (like float to int) silently truncates the decimal part: `3.9` becomes `3` with no warning or error. This silent data loss is a reliability concern — the programmer may not realise the conversion happened. Some languages (like Java) require explicit casts for narrowing conversions precisely to make such losses visible."
+    },
+    {
+      "id": 18,
+      "question": "Which statement most correctly describes the purpose of coercions in expressions?",
+      "options": [
+        "Coercions convert between completely unrelated types to improve writability",
+        "Coercions implicitly convert operands to compatible types to allow mixed-mode expressions",
+        "Coercions are explicit type conversions that the programmer must write",
+        "Coercions prevent type errors by refusing mixed-type operations"
+      ],
+      "answer": "Coercions implicitly convert operands to compatible types to allow mixed-mode expressions",
+      "explanation": "A coercion is an IMPLICIT type conversion performed automatically by the language runtime/compiler. For example, in `3 + 4.5` (int + float), C coerces the int `3` to a float `3.0` so both operands have the same type. This improves writability (no need to write `(float)3 + 4.5`) but may reduce reliability (unexpected conversions can occur)."
+    },
+    {
+      "id": 19,
+      "question": "F# (a functional language) does not allow mixed-mode arithmetic — adding an int and a float requires an explicit conversion. Compared to C++, what does this mean for F#?",
+      "options": [
+        "F# is less writable but more reliable than C++",
+        "F# is more writable but less reliable than C++",
+        "F# is both more writable and more reliable than C++",
+        "F# is both less writable and less reliable than C++"
+      ],
+      "answer": "F# is less writable but more reliable than C++",
+      "explanation": "F# requires explicit conversions: `float 3 + 4.5` instead of just `3 + 4.5`. This makes F# less writable for mixed arithmetic (more to type). However, all type changes are explicit and visible — no silent coercions can cause unexpected results. This makes F# more reliable for arithmetic expressions than C++ where coercions happen invisibly."
+    },
+    {
+      "id": 20,
+      "question": "In C, the expression `a > b ? a : b` is a ternary conditional expression. It returns the larger of `a` and `b`. This is best classified as an example of:",
+      "options": [
+        "An assignment statement",
+        "A short-circuit evaluation",
+        "A conditional expression (not a statement)",
+        "A compound assignment operator"
+      ],
+      "answer": "A conditional expression (not a statement)",
+      "explanation": "The ternary `? :` operator is an EXPRESSION — it returns a value (either `a` or `b`). It can be used wherever any expression can be used, including as the right-hand side of an assignment. This distinguishes it from an `if` statement, which is a control flow statement and does not produce a value. Ruby's `if` is also an expression that returns a value."
+    }
+  ]
+}

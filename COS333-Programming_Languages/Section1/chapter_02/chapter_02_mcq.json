@@ -1,0 +1,247 @@
+{
+  "chapter": "Chapter 2",
+  "title": "Evolution of the Major Programming Languages",
+  "total_questions": 20,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Pseudocode languages of the late 1940s and early 1950s were eventually replaced by high-level languages like Fortran. Which factor most directly caused this replacement?",
+      "options": [
+        "Pseudocode languages had no support for indexing arrays",
+        "The IBM 704 introduced hardware floating-point support, removing the need for software FP simulation",
+        "Pseudocode languages were impossible to translate to machine code",
+        "High-level languages were faster to interpret than pseudocode languages"
+      ],
+      "answer": "The IBM 704 introduced hardware floating-point support, removing the need for software FP simulation",
+      "explanation": "Pseudocode languages ran on machines without hardware floating point, so the interpreter had to simulate it in software — making programs slow. When the IBM 704 arrived with hardware floating point, there was no longer a performance penalty, opening the way for compiled high-level languages like Fortran that could exploit the hardware directly."
+    },
+    {
+      "id": 2,
+      "question": "Fortran I was designed primarily with which concern in mind?",
+      "options": [
+        "Programmer productivity and ease of learning",
+        "Platform portability across different hardware",
+        "Machine efficiency — producing code competitive with hand-written assembly",
+        "Support for structured, modular programming"
+      ],
+      "answer": "Machine efficiency — producing code competitive with hand-written assembly",
+      "explanation": "Backus and his team at IBM designed Fortran specifically to overcome programmer resistance to high-level languages. The biggest concern was speed: programmers would not accept compiled code that was slower than their hand-coded assembly. Fortran I had to prove that a compiler could produce near-assembly-level performance."
+    },
+    {
+      "id": 3,
+      "question": "LISP was designed by John McCarthy primarily for which application domain?",
+      "options": [
+        "Business data processing",
+        "Scientific and engineering calculations",
+        "Artificial intelligence research",
+        "Systems programming and OS development"
+      ],
+      "answer": "Artificial intelligence research",
+      "explanation": "McCarthy designed LISP specifically for AI work at MIT. AI needed symbolic computation (not just numbers) and flexible list-based data structures to represent knowledge. LISP's atoms, lists, and dynamic memory allocation were ideal for the symbolic processing AI research required."
+    },
+    {
+      "id": 4,
+      "question": "Which two features of LISP most directly make it useful for artificial intelligence programming?",
+      "options": [
+        "Support for symbolic values and support for list processing",
+        "Support for recursion and support for first-class functions",
+        "Lack of variables and lambda calculus foundation",
+        "Dynamic typing and garbage collection"
+      ],
+      "answer": "Support for symbolic values and support for list processing",
+      "explanation": "AI represents knowledge as symbols (not just numbers) and processes that knowledge in linked lists. LISP's atoms represent symbolic concepts; its list structure enables representation and manipulation of complex symbolic data. These two features directly match AI's core needs."
+    },
+    {
+      "id": 5,
+      "question": "ALGOL 60 is considered one of the most influential programming languages ever, despite never being widely used commercially. What was its most significant lasting contribution?",
+      "options": [
+        "It was the first language with well-defined input/output operations",
+        "It introduced hardware-specific optimisations for IBM computers",
+        "It served as the standard notation for communicating algorithms in academic literature for over 20 years",
+        "It was the first language to support object-oriented programming"
+      ],
+      "answer": "It served as the standard notation for communicating algorithms in academic literature for over 20 years",
+      "explanation": "ALGOL 60 had no standard I/O (which limited commercial adoption), but its clean, structured, mathematical syntax made it perfect for expressing algorithms clearly. Computer science textbooks and papers used ALGOL 60 as the standard algorithm notation for decades. BNF (Backus-Naur Form) for formal syntax description was also a major contribution."
+    },
+    {
+      "id": 6,
+      "question": "COBOL was designed specifically for which programming domain, and which company/person was most influential in its development?",
+      "options": [
+        "Scientific computing, developed by John Backus at IBM",
+        "Business data processing, with Grace Hopper as a key contributor",
+        "Systems programming, developed at Bell Labs",
+        "Artificial intelligence, developed by John McCarthy at MIT"
+      ],
+      "answer": "Business data processing, with Grace Hopper as a key contributor",
+      "explanation": "COBOL (Common Business-Oriented Language) was designed for business data processing — managing payroll, inventory, and financial records. Grace Hopper was a key contributor and advocate. COBOL used English-like syntax to make programs readable by non-programmer business managers."
+    },
+    {
+      "id": 7,
+      "question": "PL/I was created by IBM in the 1960s by combining features from three major languages. Which languages were combined?",
+      "options": [
+        "LISP, COBOL, and Pascal",
+        "Fortran, COBOL, and ALGOL",
+        "BASIC, Fortran, and C",
+        "ALGOL, LISP, and COBOL"
+      ],
+      "answer": "Fortran, COBOL, and ALGOL",
+      "explanation": "PL/I aimed to be the single language for all domains by combining Fortran (scientific), COBOL (business), and ALGOL (structured programming). The goal was generality. In practice, the combination produced a very large, complex, and poorly defined language."
+    },
+    {
+      "id": 8,
+      "question": "APL (A Programming Language) designed by Iverson is notable for which characteristic?",
+      "options": [
+        "High readability due to its use of English keywords",
+        "Very poor readability but good writability due to many compact special operators",
+        "Being the first purely object-oriented language",
+        "Strong type checking that improves reliability"
+      ],
+      "answer": "Very poor readability but good writability due to many compact special operators",
+      "explanation": "APL uses a large set of special mathematical symbols (like ⍴, ↑, ⌿) that allow complex array operations to be expressed very concisely. Programs are short and quick to write (good writability), but the symbols are cryptic — programs are nearly impossible to read even by experienced APL programmers. APL is the classic demonstration of the readability/writability trade-off."
+    },
+    {
+      "id": 9,
+      "question": "SIMULA 67, designed by Nygaard and Dahl in Norway, pioneered which concepts that became fundamental to modern programming?",
+      "options": [
+        "Garbage collection and dynamic type binding",
+        "Coroutines and the concept of classes and objects",
+        "Structured programming and recursion",
+        "Functional programming and pattern matching"
+      ],
+      "answer": "Coroutines and the concept of classes and objects",
+      "explanation": "SIMULA 67 introduced the class construct (grouping data and methods together) and coroutines (subprograms with multiple resumable entry points). These were revolutionary concepts that directly led to all subsequent object-oriented languages. Smalltalk and C++ both credit SIMULA 67 as their OOP ancestor."
+    },
+    {
+      "id": 10,
+      "question": "Both PL/I and ALGOL 68 aimed to support general-purpose data structures, but ALGOL 68 used a superior approach. What made ALGOL 68's approach better?",
+      "options": [
+        "ALGOL 68 included more specific data structure types than PL/I",
+        "ALGOL 68 used orthogonality — a small set of constructs that could be freely combined — rather than adding many specific constructs",
+        "ALGOL 68 had better hardware support than PL/I",
+        "ALGOL 68 supported data abstraction with classes, while PL/I did not"
+      ],
+      "answer": "ALGOL 68 used orthogonality — a small set of constructs that could be freely combined — rather than adding many specific constructs",
+      "explanation": "PL/I took the 'include everything' approach: explicitly adding construct after construct for each use case. ALGOL 68 used orthogonality: a small core of primitives that could be freely combined to build any data structure needed. This was more elegant, more general, and less bloated."
+    },
+    {
+      "id": 11,
+      "question": "Pascal was designed by Niklaus Wirth in 1971 with which primary goal?",
+      "options": [
+        "Systems programming and OS development",
+        "Teaching structured programming to students",
+        "High-performance scientific computing",
+        "Business data processing"
+      ],
+      "answer": "Teaching structured programming to students",
+      "explanation": "Wirth designed Pascal specifically as a teaching language to demonstrate structured programming principles. Pascal emphasised clarity, structured control flow, strong typing, and reliability over flexibility. It became the dominant introductory programming language through the 1970s and 1980s."
+    },
+    {
+      "id": 12,
+      "question": "The C programming language was developed at Bell Labs and was primarily designed for which purpose?",
+      "options": [
+        "Artificial intelligence and symbolic processing",
+        "Business data processing",
+        "Systems programming, particularly to rewrite the UNIX operating system",
+        "Teaching programming concepts to students"
+      ],
+      "answer": "Systems programming, particularly to rewrite the UNIX operating system",
+      "explanation": "Dennis Ritchie developed C at Bell Labs to rewrite the UNIX OS in a high-level language rather than assembly. C was designed to give programmers low-level control over hardware (pointers, bitwise operations) while remaining more portable than assembly. Its combination of power and flexibility made it dominant in systems programming."
+    },
+    {
+      "id": 13,
+      "question": "Smalltalk, developed at Xerox PARC, is notable for being which kind of language?",
+      "options": [
+        "The first language to support structured programming",
+        "A purely functional programming language with no side effects",
+        "A purely object-oriented language where everything, including integers, is an object",
+        "The first compiled language to support garbage collection"
+      ],
+      "answer": "A purely object-oriented language where everything, including integers, is an object",
+      "explanation": "Smalltalk is the prototypical pure OOP language. Every value — integers, characters, booleans, arrays — is an object. All operations are performed by sending messages between objects. There are no stand-alone functions or primitive types. This pure uniformity influenced every subsequent OOP language."
+    },
+    {
+      "id": 14,
+      "question": "C++ was developed by Bjarne Stroustrup at Bell Labs as an extension of C. Which statement most correctly describes C++ as a language?",
+      "options": [
+        "C++ is a purely object-oriented language with no support for procedural programming",
+        "C++ is a hybrid language that supports both procedural and object-oriented programming",
+        "C++ is a functional language with optional support for object-oriented features",
+        "C++ is a logic programming language based on predicate calculus"
+      ],
+      "answer": "C++ is a hybrid language that supports both procedural and object-oriented programming",
+      "explanation": "Stroustrup added classes, virtual functions, operator overloading, and other OOP features to C while keeping all of C's procedural capabilities. C++ is explicitly a hybrid — you can write it as plain C, as OOP, or as a mix. This contrasts with pure OOP languages like Smalltalk or Java."
+    },
+    {
+      "id": 15,
+      "question": "Java was developed by Sun Microsystems in 1995. Which statement most correctly describes Java in comparison to C++?",
+      "options": [
+        "Java is less portable than C++ because it requires a JVM",
+        "Java is less reliable than C++ because it allows pointer arithmetic",
+        "Java uses the concepts of object-oriented programming more consistently than C++",
+        "Java is less efficient than C++ because it uses interpretation exclusively"
+      ],
+      "answer": "Java uses the concepts of object-oriented programming more consistently than C++",
+      "explanation": "Java was designed from scratch as an OOP language — everything (except primitives) is an object, there are no stand-alone functions, and OOP concepts are central. C++ grafted OOP onto C, leaving non-OOP elements intact. Java is also more portable (JVM) and more reliable (no pointers, garbage collection) than C++."
+    },
+    {
+      "id": 16,
+      "question": "Fortran 90 was the first version of Fortran to move away from the primary concern of earlier versions. Which features in Fortran 90 most clearly demonstrate this change in focus?",
+      "options": [
+        "Support for integer arithmetic and formatted output",
+        "Recursion, dynamic arrays, and relaxed code format requirements",
+        "Support for object-oriented programming and garbage collection",
+        "Introduction of a JVM-like virtual machine for portability"
+      ],
+      "answer": "Recursion, dynamic arrays, and relaxed code format requirements",
+      "explanation": "Earlier Fortran focused entirely on machine efficiency: no recursion (stack overhead), no dynamic allocation (all storage fixed at compile time), and fixed column-based format (punch-card era). Fortran 90 added all three — prioritising programmer convenience over raw execution speed for the first time."
+    },
+    {
+      "id": 17,
+      "question": "Plankalkül, designed by Konrad Zuse, is considered the first high-level programming language design. Which statement about Plankalkül compared to Fortran I is most correct?",
+      "options": [
+        "Plankalkül was more widely used than Fortran I",
+        "Plankalkül was more writable than Fortran I",
+        "Plankalkül had better support for data structures than Fortran I",
+        "Plankalkül had a simpler notation than Fortran I"
+      ],
+      "answer": "Plankalkül had better support for data structures than Fortran I",
+      "explanation": "Plankalkül supported arrays, matrices, and composite data structures — sophisticated for its time. Fortran I had minimal data structure support: no explicit type declarations (inferred from variable name), only basic array handling. However, Plankalkül was never implemented, used a complex table notation, and was far less known than Fortran I."
+    },
+    {
+      "id": 18,
+      "question": "BASIC was designed by Kemeny and Kurtz at Dartmouth College in 1964. What was its primary design goal?",
+      "options": [
+        "Systems programming for mainframe computers",
+        "A teaching language for science students at Dartmouth",
+        "An interactive, easy-to-use language for non-science students",
+        "A replacement for COBOL in business applications"
+      ],
+      "answer": "An interactive, easy-to-use language for non-science students",
+      "explanation": "BASIC (Beginners' All-purpose Symbolic Instruction Code) was created to allow non-science students at Dartmouth to use the time-sharing computer system. It was designed to be very simple to learn, with short keywords and immediate interactive feedback. It became the first widely used language on personal computers."
+    },
+    {
+      "id": 19,
+      "question": "Ruby, designed by Matsumoto in Japan, is most correctly described as which kind of language?",
+      "options": [
+        "A compiled, statically typed object-oriented language",
+        "A purely functional programming language",
+        "A purely object-oriented scripting language where everything is an object",
+        "An imperative language with optional object-oriented support"
+      ],
+      "answer": "A purely object-oriented scripting language where everything is an object",
+      "explanation": "Like Smalltalk, Ruby is a pure OOP language — everything is an object, all variables are typeless object references, and all computation is through message passing. Ruby also supports scripting use cases with clean syntax. It is interpreted (not compiled) and dynamically typed."
+    },
+    {
+      "id": 20,
+      "question": "Delphi is an object-oriented language based on which earlier language?",
+      "options": [
+        "C",
+        "BASIC",
+        "Pascal",
+        "ALGOL"
+      ],
+      "answer": "Pascal",
+      "explanation": "Delphi is based on Object Pascal — Pascal extended with object-oriented programming features (classes, inheritance, polymorphism). Pascal was originally designed for teaching structured programming; Delphi adapted it for GUI-based Windows application development by adding a full OOP class system. Delphi retains Pascal's emphasis on reliability and readability."
+    }
+  ]
+}

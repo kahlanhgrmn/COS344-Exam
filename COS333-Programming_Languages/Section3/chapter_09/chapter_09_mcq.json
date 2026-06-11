@@ -1,0 +1,247 @@
+{
+  "chapter": "Chapter 9",
+  "title": "Subprograms",
+  "total_questions": 20,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the difference between a subprogram's parameter profile and its protocol?",
+      "options": [
+        "They are synonyms — both describe the subprogram's return type",
+        "The parameter profile describes only the number, order, and types of parameters; the protocol also includes the return type",
+        "The protocol describes only the parameters; the parameter profile includes the return type",
+        "The parameter profile is the implementation; the protocol is the declaration"
+      ],
+      "answer": "The parameter profile describes only the number, order, and types of parameters; the protocol also includes the return type",
+      "explanation": "Parameter profile (also called the signature) = number, order, and types of formal parameters only. Protocol = parameter profile PLUS the return type of the subprogram. Both are used to describe a subprogram's interface without describing its body."
+    },
+    {
+      "id": 2,
+      "question": "Keyword parameters allow actual parameters to be matched to formal parameters by name. What is the key advantage over positional parameters?",
+      "options": [
+        "Keyword parameters execute faster than positional parameters",
+        "Keyword parameters can appear in any order, and any parameter with a default can be omitted regardless of position",
+        "Keyword parameters require fewer characters to type",
+        "Keyword parameters enforce stronger type checking than positional parameters"
+      ],
+      "answer": "Keyword parameters can appear in any order, and any parameter with a default can be omitted regardless of position",
+      "explanation": "Positional parameters must match by order — defaults are only useful for trailing parameters. Keyword parameters match by name, so they can be provided in any order, and any parameter with a default can be omitted regardless of its position in the list. This is far more flexible for subprograms with many optional parameters."
+    },
+    {
+      "id": 3,
+      "question": "In pass-by-value, the actual parameter's value is copied to the formal parameter. What is the primary disadvantage for large parameters?",
+      "options": [
+        "The original variable can be accidentally modified",
+        "The copy operation is costly in time and memory for large structures like arrays or objects",
+        "Type checking cannot be performed on the copied value",
+        "The formal parameter cannot be used in arithmetic expressions"
+      ],
+      "answer": "The copy operation is costly in time and memory for large structures like arrays or objects",
+      "explanation": "Pass-by-value creates a complete copy of the actual parameter. For small values like integers, this is cheap. For large objects, arrays, or records, copying takes significant time and uses duplicate memory. This is the main disadvantage of pass-by-value — also why pass-by-reference is preferred for large data structures when side effects are acceptable."
+    },
+    {
+      "id": 4,
+      "question": "In pass-by-result (out mode), when is the value of the formal parameter transmitted back to the actual parameter?",
+      "options": [
+        "At the start of the subprogram, before the body executes",
+        "Continuously throughout the subprogram execution",
+        "When control returns to the caller after the subprogram finishes",
+        "When the formal parameter is first assigned a value"
+      ],
+      "answer": "When control returns to the caller after the subprogram finishes",
+      "explanation": "Pass-by-result is one-directional: from subprogram BACK to caller. The formal parameter gets no initial value from the actual parameter (unlike pass-by-value). When the subprogram terminates, the final value of the formal parameter is copied to the actual parameter. The actual parameter is NOT affected during subprogram execution."
+    },
+    {
+      "id": 5,
+      "question": "Pass-by-reference passes an access path (pointer/reference) to the actual parameter. What is the key advantage over pass-by-value?",
+      "options": [
+        "Pass-by-reference prevents the actual parameter from being modified",
+        "Pass-by-reference is more efficient — no copying, and modifications to the formal parameter directly modify the actual parameter",
+        "Pass-by-reference enables stronger type checking than pass-by-value",
+        "Pass-by-reference is only available in compiled languages"
+      ],
+      "answer": "Pass-by-reference is more efficient — no copying, and modifications to the formal parameter directly modify the actual parameter",
+      "explanation": "Pass-by-reference passes only an address (a few bytes) rather than copying the entire actual parameter. Changes to the formal parameter directly change the actual parameter since they share the same memory. This is efficient for both time (no copy) and space (no duplicate storage). The disadvantage is potential for unintended side effects."
+    },
+    {
+      "id": 6,
+      "question": "In pass-by-name, every occurrence of a formal parameter in the subprogram body is replaced by the actual parameter expression textually. Consider `foo(val, arr[val])` where foo sets its first parameter to 1. Under pass-by-name, what does the second parameter evaluate to?",
+      "options": [
+        "The value of arr[val] at call time (before val is changed)",
+        "arr[1] — because val has been changed to 1 inside foo",
+        "arr[0] — because arrays are zero-indexed",
+        "An error — val cannot be used as an array index after being changed"
+      ],
+      "answer": "arr[1] — because val has been changed to 1 inside foo",
+      "explanation": "Pass-by-name textually substitutes: formal `b` becomes `arr[val]` in the body. When `a = 1` runs (formal `a` → textually substitutes to `val = 1`), val becomes 1. Now when `arr[val]` is evaluated (the substituted `b`), val is already 1 — so it reads `arr[1]`, not `arr[0]` (the original value). This late binding is the distinctive feature of pass-by-name."
+    },
+    {
+      "id": 7,
+      "question": "In Java, all parameters are passed by value. Objects appear to be passed by reference — what is actually happening?",
+      "options": [
+        "Java uses pass-by-reference for objects as an exception to the rule",
+        "The object reference (address) is passed by value — the reference itself is copied, not the object",
+        "Java uses pass-by-name for all object types",
+        "Java automatically converts object parameters to pass-by-result"
+      ],
+      "answer": "The object reference (address) is passed by value — the reference itself is copied, not the object",
+      "explanation": "In Java, the REFERENCE to an object is copied (pass-by-value of the reference). The formal parameter holds a copy of the reference — both formal and actual parameters point to the same object. Modifying the object's fields through the formal parameter affects the original object. However, reassigning the formal parameter (pointing it to a new object) does NOT affect the original reference."
+    },
+    {
+      "id": 8,
+      "question": "An overloaded subprogram shares its name with another subprogram in the same scope. What must be unique about each overloaded version?",
+      "options": [
+        "The return type",
+        "The subprogram name",
+        "The parameter profile (number, order, and types of parameters)",
+        "The number of local variables"
+      ],
+      "answer": "The parameter profile (number, order, and types of parameters)",
+      "explanation": "In C++, Java, and C#, overloaded subprograms share a name but must differ in parameter profile — the compiler uses the argument types and count at each call site to determine which version to call. Return type alone cannot disambiguate (you cannot see the expected return type at the call site without context). Ada additionally allows disambiguation by return type."
+    },
+    {
+      "id": 9,
+      "question": "Why is it illegal in C++ to overload two functions that differ only in their return type?\n`int foo(int x)` and `float foo(int x)`",
+      "options": [
+        "C++ does not support function overloading at all",
+        "Variables of different types cannot be added together",
+        "C++ performs many coercions, making return-type-based disambiguation unreliable",
+        "C++ requires all overloaded functions to have the same return type"
+      ],
+      "answer": "C++ performs many coercions, making return-type-based disambiguation unreliable",
+      "explanation": "Because C++ performs many implicit type coercions, the expected return type at a call site is often ambiguous — an `int` result might be coerced to `float` or vice versa. Disambiguation by return type would make overload resolution unpredictable. C++ therefore only uses parameter profiles for disambiguation, not return types."
+    },
+    {
+      "id": 10,
+      "question": "C++ templates allow generic subprograms like `template <class T> T max(T a, T b)`. When is a specific version of this template created?",
+      "options": [
+        "When the template is defined",
+        "At runtime, the first time the function is called",
+        "At compile time, whenever the function is called with a new type",
+        "Never — templates are interpreted at runtime each time they are used"
+      ],
+      "answer": "At compile time, whenever the function is called with a new type",
+      "explanation": "C++ templates are instantiated at COMPILE TIME. Each time `max` is called with a new type (e.g., `max(3, 5)` for int, `max(3.0, 5.0)` for double), the compiler generates a new version of the function with T replaced by that type. This produces optimised, type-specific code — but increases compile time and binary size."
+    },
+    {
+      "id": 11,
+      "question": "Java generics differ from C++ templates. How does Java instantiate generic methods?",
+      "options": [
+        "Java creates a new version for each type at compile time, like C++",
+        "Java creates ONE version using Object parameters at runtime, inserting casts to maintain type safety",
+        "Java generics are purely syntactic sugar with no runtime effect",
+        "Java creates new versions for each type at load time"
+      ],
+      "answer": "Java creates ONE version using Object parameters at runtime, inserting casts to maintain type safety",
+      "explanation": "Java generics use 'type erasure' — at runtime, generic type parameters are replaced with Object (or the upper bound). A SINGLE version of the method exists. The compiler inserts casts to ensure type safety at compile time. This differs from C++ which generates multiple type-specific versions. Java generics catch type errors at compile time without generating multiple method versions."
+    },
+    {
+      "id": 12,
+      "question": "A closure is a subprogram that can access variables from its enclosing scope even after that scope has ended. Which statement best describes why closures require 'unlimited extent' for captured variables?",
+      "options": [
+        "Closures need the variables to have global scope",
+        "The captured variables must outlive the enclosing scope because the closure may be called later when the original scope is gone",
+        "Closures require all variables to be statically allocated",
+        "The captured variables are copied into the closure when it is created"
+      ],
+      "answer": "The captured variables must outlive the enclosing scope because the closure may be called later when the original scope is gone",
+      "explanation": "Consider `var add10 = makeAdder(10)` in JavaScript. The `x=10` inside `makeAdder` would normally be deallocated when `makeAdder` returns. But `add10` still needs to access `x=10` every time it is called — even after `makeAdder` has finished. So `x` must remain allocated as long as the closure exists, giving it unlimited (heap-like) extent."
+    },
+    {
+      "id": 13,
+      "question": "A coroutine differs from a normal subprogram in which key way?",
+      "options": [
+        "A coroutine cannot accept parameters",
+        "A coroutine has multiple entry points and can be resumed from where it last paused",
+        "A coroutine runs concurrently on a separate CPU core",
+        "A coroutine cannot return values to the caller"
+      ],
+      "answer": "A coroutine has multiple entry points and can be resumed from where it last paused",
+      "explanation": "A normal subprogram has a single entry point (the beginning) and runs to completion. A coroutine can be 'resumed' (called) multiple times — the first resume starts at the beginning, but subsequent resumes continue from after the last `yield` or `resume` statement. Coroutines interleave execution ('quasi-concurrent') without true parallelism."
+    },
+    {
+      "id": 14,
+      "question": "When a subprogram is passed as a parameter, deep binding determines its referencing environment. What does deep binding use?",
+      "options": [
+        "The environment at the time the passed subprogram is called",
+        "The environment at the time the passed subprogram was defined",
+        "The environment at the time the pass (parameter binding) occurs",
+        "The global environment at the start of the program"
+      ],
+      "answer": "The environment at the time the passed subprogram was defined",
+      "explanation": "Deep binding captures the referencing environment from the subprogram's DEFINITION site. When the subprogram executes (even far later), it uses the scope where it was defined, not where it is called. This is natural for static-scoped languages and is what closures implement. Shallow binding uses the call site's environment (natural for dynamic scoping)."
+    },
+    {
+      "id": 15,
+      "question": "With shallow binding and a passed subprogram, whose referencing environment is used when the subprogram executes?",
+      "options": [
+        "The environment where the subprogram was defined",
+        "The environment where the subprogram was passed as a parameter",
+        "The environment of the subprogram that is currently executing the call",
+        "The global environment"
+      ],
+      "answer": "The environment of the subprogram that is currently executing the call",
+      "explanation": "Shallow binding: the referencing environment of the passed subprogram is determined by the subprogram that CALLS it (the call site at execution time). This matches dynamic scoping — the most recently active variables on the call stack are used. If `sub4` calls `subx`, shallow binding uses `sub4`'s environment."
+    },
+    {
+      "id": 16,
+      "question": "In C#, a `delegate` is used for indirect subprogram calls. How does it differ from a C/C++ function pointer?",
+      "options": [
+        "Delegates are faster than function pointers",
+        "Delegates are type-safe objects with a declared type, preventing misuse; C function pointers have less type safety",
+        "Delegates can only point to static methods; function pointers can point to any function",
+        "Delegates require explicit memory management; function pointers do not"
+      ],
+      "answer": "Delegates are type-safe objects with a declared type, preventing misuse; C function pointers have less type safety",
+      "explanation": "C function pointers are raw addresses with a type signature — misuse (calling with wrong argument types) is possible through casting. C# delegates are objects of a declared delegate type — the compiler enforces that only methods with the matching signature can be assigned. Delegates also support multicast (storing multiple method pointers)."
+    },
+    {
+      "id": 17,
+      "question": "A procedure in a programming language is defined as a subprogram that produces results only by:",
+      "options": [
+        "Returning a value from the subprogram",
+        "Modifying variables visible from the enclosing scope or through formal parameters",
+        "Creating new objects on the heap",
+        "Calling other subprograms"
+      ],
+      "answer": "Modifying variables visible from the enclosing scope or through formal parameters",
+      "explanation": "Procedures have no return value. They produce effects by modifying: (a) non-local variables visible from the enclosing scope, or (b) formal parameters that pass data back to the caller (via pass-by-reference or pass-by-result). Functions, by contrast, produce a result by returning a value and are expected to have no side effects."
+    },
+    {
+      "id": 18,
+      "question": "In C and C++, multidimensional arrays passed as parameters must include all dimension sizes except the first. Why is the first dimension NOT required?",
+      "options": [
+        "C always stores the first dimension at the start of the array in memory",
+        "The mapping function only needs to know the sizes of inner dimensions to compute element addresses",
+        "The first dimension is always assumed to be 1 in C",
+        "C does not support arrays with more than one dimension"
+      ],
+      "answer": "The mapping function only needs to know the sizes of inner dimensions to compute element addresses",
+      "explanation": "For `int a[rows][cols]`, elements are stored row by row in memory. To find `a[i][j]`, the compiler computes `base + i*cols*sizeof(int) + j*sizeof(int)`. It needs `cols` (the second dimension) for this calculation. The number of rows doesn't affect address computation — any number of rows follows the same pattern. Hence only inner dimensions are needed."
+    },
+    {
+      "id": 19,
+      "question": "Python and Ruby use pass-by-assignment for parameter passing. For immutable objects (like integers in Python), this effectively behaves like which passing mode?",
+      "options": [
+        "Pass-by-reference — the original object is directly modified",
+        "Pass-by-name — the expression is re-evaluated on each use",
+        "Pass-by-value — the formal parameter initially refers to the same object, but reassignment creates a new object",
+        "Pass-by-result — the value is copied back on return"
+      ],
+      "answer": "Pass-by-value — the formal parameter initially refers to the same object, but reassignment creates a new object",
+      "explanation": "In Python, `a += 1` on an integer doesn't modify the integer object (integers are immutable) — it creates a NEW integer object and rebinds `a`. The original variable in the caller still points to the old value. For mutable objects (like lists), modifying the object DOES affect the caller — behaving like pass-by-reference."
+    },
+    {
+      "id": 20,
+      "question": "Which of the following correctly describes a subprogram declaration (prototype) as used in C/C++?",
+      "options": [
+        "A declaration that provides both the interface and full body of the subprogram",
+        "A declaration that provides the subprogram's protocol (name, parameter types, return type) but not its body",
+        "A declaration that provides only the subprogram's name",
+        "A declaration that provides the subprogram's body but not its name"
+      ],
+      "answer": "A declaration that provides the subprogram's protocol (name, parameter types, return type) but not its body",
+      "explanation": "A subprogram declaration (prototype) in C/C++ provides the compiler with the information needed to check calls: name, parameter types, and return type. The body (implementation) is defined separately (usually in a .cpp file). This allows the compiler to type-check calls before seeing the implementation, enabling separate compilation."
+    }
+  ]
+}

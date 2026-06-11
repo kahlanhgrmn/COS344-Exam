@@ -1,0 +1,247 @@
+{
+  "chapter": "Chapter 16",
+  "title": "Logic Programming Languages (Prolog)",
+  "total_questions": 20,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Logic (declarative) programming is described as non-procedural. What does this mean?",
+      "options": [
+        "Logic programs cannot call subprograms",
+        "Logic programs describe WHAT the result looks like, not HOW to compute it step by step",
+        "Logic programs execute only one statement at a time",
+        "Logic programs do not use variables"
+      ],
+      "answer": "Logic programs describe WHAT the result looks like, not HOW to compute it step by step",
+      "explanation": "Declarative/logic programming specifies the FORM of the result (what must be true of the answer) using predicate calculus, not the algorithm to produce it. Prolog's inferencing engine finds a proof. This contrasts with imperative programming where the programmer specifies every step. For example: declaring 'a list is sorted if it is a permutation and its elements are ordered' rather than implementing bubble sort."
+    },
+    {
+      "id": 2,
+      "question": "In Prolog, how are constants distinguished from variables syntactically?",
+      "options": [
+        "Constants are enclosed in quotes; variables are not",
+        "Constants start with a lowercase letter or are numeric; variables start with an uppercase letter",
+        "Constants are integers; variables are atoms",
+        "There is no syntactic difference — context determines which is which"
+      ],
+      "answer": "Constants start with a lowercase letter or are numeric; variables start with an uppercase letter",
+      "explanation": "Prolog follows a strict naming convention: atoms (constants) start with a lowercase letter (e.g., `joe`, `apple`) or are numeric (e.g., `42`). Variables start with an uppercase letter (e.g., `X`, `MyVar`). This distinction is crucial — lowercase `x` is an atom (constant object), uppercase `X` is a variable that can be instantiated."
+    },
+    {
+      "id": 3,
+      "question": "Given the Prolog fact `father(bill, jake).`, what does this represent?",
+      "options": [
+        "A rule that bill is the father of jake if certain conditions are met",
+        "A query asking if bill is the father of jake",
+        "A headless Horn clause — a fact that bill is the father of jake",
+        "A headed Horn clause — a conditional relationship"
+      ],
+      "answer": "A headless Horn clause — a fact that bill is the father of jake",
+      "explanation": "A Prolog fact is a headless Horn clause — it has no left-hand side (no consequent). It unconditionally asserts a proposition as true. `father(bill, jake).` states that bill is the father of jake without any conditions. A headed Horn clause (rule) has the form `head :- body.` with conditions on the right side."
+    },
+    {
+      "id": 4,
+      "question": "Consider the Prolog rule: `grandparent(X, Z) :- parent(X, Y), parent(Y, Z).` How should this be read?",
+      "options": [
+        "X is the grandparent of Z if X is the parent of Y or Y is the parent of Z",
+        "If X is the grandparent of Z, then X is the parent of Y and Y is the parent of Z",
+        "X is the grandparent of Z if X is the parent of Y and Y is the parent of Z",
+        "X is the grandparent of Y and Y is the parent of Z"
+      ],
+      "answer": "X is the grandparent of Z if X is the parent of Y and Y is the parent of Z",
+      "explanation": "The `:-` operator means 'if' — the head (left side) is true IF the body (right side) is true. Commas in the body represent logical AND. So `grandparent(X, Z) :- parent(X, Y), parent(Y, Z)` reads: 'X is the grandparent of Z IF X is the parent of Y AND Y is the parent of Z.' The body is the antecedent; the head is the consequent."
+    },
+    {
+      "id": 5,
+      "question": "Prolog uses backward chaining (top-down resolution) as its inferencing strategy. Starting from `?- man(bob).` with rules `man(X) :- father(X).` and fact `father(bob).`, which approach describes backward chaining?",
+      "options": [
+        "Start with the fact `father(bob)`, apply the rule, conclude `man(bob)`",
+        "Start with the goal `man(bob)`, find a rule `man(X) :- father(X)`, unify X=bob, then verify `father(bob)` is a fact",
+        "Generate all possible facts and check if any lead to `man(bob)`",
+        "Start from the middle of the database and work both directions"
+      ],
+      "answer": "Start with the goal `man(bob)`, find a rule `man(X) :- father(X)`, unify X=bob, then verify `father(bob)` is a fact",
+      "explanation": "Backward chaining starts with the GOAL and works backward to facts. Goal: prove `man(bob)`. Find rule matching `man(X)` — unify X=bob, yielding subgoal `father(bob)`. Now prove `father(bob)` — found as a fact. Chain complete: `man(bob)` is proven. Forward chaining (bottom-up) starts from facts. Prolog uses backward chaining with depth-first search."
+    },
+    {
+      "id": 6,
+      "question": "Prolog uses depth-first search when proving goals with multiple subgoals. What does this mean?",
+      "options": [
+        "All subgoals are proved simultaneously in parallel",
+        "A complete proof is found for the first subgoal before moving to the second, and so on",
+        "Subgoals are sorted by difficulty before proving",
+        "The most recently added fact is tried first"
+      ],
+      "answer": "A complete proof is found for the first subgoal before moving to the second, and so on",
+      "explanation": "Depth-first search: Prolog fully attempts to prove the leftmost subgoal first. If it succeeds, it moves to the next subgoal. If any subgoal fails, Prolog backtracks to the previous subgoal and tries a different instantiation. Breadth-first would work on all subgoals in parallel — less efficient. Prolog's depth-first approach uses fewer computational resources."
+    },
+    {
+      "id": 7,
+      "question": "Consider the trace for `?- likes(jake, X), likes(darcie, X).` — X is first instantiated to `chocolate`, then `likes(darcie, chocolate)` fails. What happens next?",
+      "options": [
+        "Prolog reports `false` immediately",
+        "Prolog backtracks to the first subgoal and tries the next matching fact for `likes(jake, X)`",
+        "Prolog tries to prove `likes(darcie, X)` with a different X",
+        "Prolog swaps the order of the subgoals"
+      ],
+      "answer": "Prolog backtracks to the first subgoal and tries the next matching fact for `likes(jake, X)`",
+      "explanation": "When the second subgoal fails, Prolog BACKTRACKS — it returns to the most recent choice point (the first subgoal) and tries the NEXT fact. `likes(jake, chocolate)` was tried first. After failure on `likes(darcie, chocolate)`, Prolog backtracks and tries `likes(jake, apricots)`. This gives X=apricots. Then `likes(darcie, apricots)` succeeds."
+    },
+    {
+      "id": 8,
+      "question": "The Prolog `is` operator is used for arithmetic. Which statement correctly describes its usage?",
+      "options": [
+        "`A is B + C` assigns the value of B+C to A; A can be re-assigned later",
+        "`A is B + C` instantiates A (must be uninstantiated) to the value of B+C (B and C must be instantiated)",
+        "`A is B + C` is a fact stating that A always equals B+C",
+        "`A is B + C` compares A to the value of B+C and returns true or false"
+      ],
+      "answer": "`A is B + C` instantiates A (must be uninstantiated) to the value of B+C (B and C must be instantiated)",
+      "explanation": "The `is` operator evaluates its right-hand side arithmetically and instantiates the left-hand variable. Rules: (1) All variables on the RHS must be already instantiated; (2) The LHS variable must be UNINSTANTIATED. `Sum is Sum + Number` is always illegal — if Sum is instantiated, the LHS is instantiated (illegal); if not, the RHS uses it uninstantiated (illegal). Prolog variables are not mutable like imperative variables."
+    },
+    {
+      "id": 9,
+      "question": "In Prolog list syntax, `[Head | Tail]` is used in rules. What does `Tail` represent?",
+      "options": [
+        "The last element of the list",
+        "All elements of the list except the first (the rest of the list)",
+        "The head of the list, which is identical to Head",
+        "A single element that comes after Head"
+      ],
+      "answer": "All elements of the list except the first (the rest of the list)",
+      "explanation": "`[Head | Tail]` pattern-matches a non-empty list: `Head` is the FIRST element, and `Tail` is a list containing ALL REMAINING elements. For `[a, b, c]`: Head=a, Tail=[b, c]. For `[a]`: Head=a, Tail=[]. The `|` operator separates the head from the tail. This is equivalent to Scheme's `car`/`cdr` decomposition."
+    },
+    {
+      "id": 10,
+      "question": "The Prolog `member` proposition is:\n```\nmember(Element, [Element | _]).\nmember(Element, [_ | Lis]) :- member(Element, Lis).\n```\nWhat does the underscore `_` represent?",
+      "options": [
+        "A variable that must be proved to be false",
+        "An anonymous variable — a placeholder for a value we don't care about",
+        "An empty list",
+        "A special constant representing any atom"
+      ],
+      "answer": "An anonymous variable — a placeholder for a value we don't care about",
+      "explanation": "The underscore `_` is an anonymous variable — it matches anything but is never bound to a name. In `member(Element, [Element | _])`, we don't care what the tail of the list is — we just need to check if Element matches the head. In `[_ | Lis]`, we don't care what the head is — we want the tail `Lis`. Each `_` is a separate anonymous variable."
+    },
+    {
+      "id": 11,
+      "question": "Why must the base case `member(Element, [Element | _]).` appear BEFORE the recursive case in the `member` proposition?",
+      "options": [
+        "Prolog requires facts before rules alphabetically",
+        "Prolog matches from top to bottom — if the recursive case were first, it would recurse infinitely without ever matching the head",
+        "The base case is faster, so placing it first optimises performance",
+        "Prolog's compiler requires facts before recursive rules for type checking"
+      ],
+      "answer": "Prolog matches from top to bottom — if the recursive case were first, it would recurse infinitely without ever matching the head",
+      "explanation": "Prolog tries facts and rules from TOP to BOTTOM. If the recursive case came first, every call would immediately recursively strip the head and search the tail — the base case (head matches) would never be reached, causing infinite recursion. Placing the base case first ensures: (1) if the element IS the head, it matches and succeeds immediately; (2) only if it doesn't match the head do we recurse."
+    },
+    {
+      "id": 12,
+      "question": "Given facts `parent(bill, jake)` and `parent(bill, shelley)`, and rule `sibling(X, Y) :- parent(M, X), parent(M, Y).`, what does `?- sibling(X, Y).` return first?",
+      "options": [
+        "X = jake, Y = shelley",
+        "X = jake, Y = jake",
+        "false — no siblings found",
+        "X = bill, Y = bill"
+      ],
+      "answer": "X = jake, Y = jake",
+      "explanation": "Prolog instantiates M=bill (from `parent(bill, jake)`), X=jake. Then for `parent(M, Y)` with M=bill, the first match is `parent(bill, jake)` giving Y=jake. So X=jake, Y=jake is returned — a person is found to be their own sibling! To fix this, add `not(X=Y)` to the rule. This illustrates Prolog's negation problem."
+    },
+    {
+      "id": 13,
+      "question": "The closed-world assumption in Prolog means that if `?- man(fred).` returns `false`, what can we conclude?",
+      "options": [
+        "Fred is definitely not a man",
+        "Prolog cannot prove that Fred is a man given the current facts and rules, but Fred might still be a man",
+        "There is an error in the Prolog database",
+        "Fred is a woman"
+      ],
+      "answer": "Prolog cannot prove that Fred is a man given the current facts and rules, but Fred might still be a man",
+      "explanation": "The closed-world assumption: Prolog treats anything it CANNOT PROVE as false. If `man(fred).` is not in the database and no rule can derive it, Prolog answers `false`. This does NOT logically mean Fred is not a man — it means the information is missing or incomplete. The world is 'closed' to only what is in the database."
+    },
+    {
+      "id": 14,
+      "question": "The Prolog `not` operator is not a true logical negation. `not(X=Y)` succeeds when:",
+      "options": [
+        "X and Y are definitely different objects",
+        "Prolog cannot prove that X equals Y — meaning the equality cannot be derived from current facts",
+        "X and Y have been bound to different values",
+        "The unification of X and Y would create an infinite loop"
+      ],
+      "answer": "Prolog cannot prove that X equals Y — meaning the equality cannot be derived from current facts",
+      "explanation": "Prolog's `not(Goal)` succeeds if `Goal` FAILS (cannot be proved), and fails if `Goal` succeeds. `not(X=Y)` does not mean 'X is logically different from Y' — it means 'Prolog cannot prove X=Y'. This is a consequence of the closed-world assumption applied to negation. It works practically for simple cases but is philosophically not a true logical NOT."
+    },
+    {
+      "id": 15,
+      "question": "The ordering of subgoals in a Prolog query affects efficiency. Why is `?- parent(X, shelley), male(X).` more efficient than `?- male(X), parent(X, shelley).`?",
+      "options": [
+        "The `parent` predicate is always faster than `male`",
+        "`parent(X, shelley)` constrains X to at most 2 values (shelley's parents) before testing maleness, while `male(X)` may iterate over many males before finding shelley's parent",
+        "Prolog executes the second subgoal first in both versions",
+        "Using `parent` first reduces the number of facts Prolog needs to load"
+      ],
+      "answer": "`parent(X, shelley)` constrains X to at most 2 values (shelley's parents) before testing maleness, while `male(X)` may iterate over many males before finding shelley's parent",
+      "explanation": "Prolog works left-to-right on subgoals. `male(X)` first: tries every male in the database — if there are 1000 males and none are shelley's parent, all 1000 are checked. `parent(X, shelley)` first: at most 2 values of X (shelley's parents) are tried before testing maleness. Ordering subgoals to be most selective first dramatically reduces search. This is a deficiency — order should not matter in pure logic."
+    },
+    {
+      "id": 16,
+      "question": "The Prolog `append` proposition:\n```\nappend([], Lis, Lis).\nappend([Head | Lis_1], Lis_2, [Head | Lis_3]) :- append(Lis_1, Lis_2, Lis_3).\n```\nWhat does `?- append([a, b], X, [a, b, c, d]).` compute?",
+      "options": [
+        "X = [a, b, c, d]",
+        "X = [c, d]",
+        "X = [a, b]",
+        "false — X is on the wrong side"
+      ],
+      "answer": "X = [c, d]",
+      "explanation": "This query asks: 'What list X, when appended to [a, b], gives [a, b, c, d]?' Prolog unifies and works through the recursive rule: strip `a` from first list, head of result. Strip `b`, head of result. First list is empty — base case fires: `Lis = X` must equal `[c, d]` (the remaining result). So `X = [c, d]`. The append proposition can work BACKWARDS — a key feature of logic programming."
+    },
+    {
+      "id": 17,
+      "question": "In Prolog list processing, what is the key difference compared to Scheme list processing?",
+      "options": [
+        "Prolog uses recursive strategies but results are expressed as parameters, not return values; false cases are not explicitly stated",
+        "Prolog uses iterative loops while Scheme uses recursion",
+        "Prolog processes lists left to right; Scheme processes them right to left",
+        "Prolog only works with lists of atoms; Scheme works with any list"
+      ],
+      "answer": "Prolog uses recursive strategies but results are expressed as parameters, not return values; false cases are not explicitly stated",
+      "explanation": "Both Scheme and Prolog use recursive strategies for list processing. Key Prolog differences: (1) No return values — results are expressed as additional parameters (e.g., `append(X, Y, Z)` where Z is the result); (2) No explicit false cases — if no matching clause succeeds, the proposition is automatically false; (3) Separate clauses for base and recursive cases instead of `cond`."
+    },
+    {
+      "id": 18,
+      "question": "The Prolog tracing model has four events. Which event occurs when Prolog successfully proves a subgoal?",
+      "options": [
+        "Call",
+        "Exit",
+        "Redo",
+        "Fail"
+      ],
+      "answer": "Exit",
+      "explanation": "The four tracing events are: (1) **Call** — beginning of an attempt to satisfy a goal; (2) **Exit** — a goal has been successfully satisfied/proved; (3) **Redo** — backtracking occurs, and Prolog tries to re-satisfy a goal with a different instantiation; (4) **Fail** — a goal cannot be proved. In the trace, `(1) Exit: likes(jake, chocolate)` means that goal was satisfied."
+    },
+    {
+      "id": 19,
+      "question": "Prolog's intrinsic limitations mean some programs are highly inefficient. The sort-by-permutation program repeatedly generates permutations of a list and tests each one. What is the worst-case time complexity of this approach for a list of n elements?",
+      "options": [
+        "O(n log n) — same as comparison-based sorting",
+        "O(n²) — quadratic",
+        "O(n!) — factorial, since there are n! permutations to potentially check",
+        "O(2^n) — exponential"
+      ],
+      "answer": "O(n!) — factorial, since there are n! permutations to potentially check",
+      "explanation": "The permutation-based sort generates ALL permutations of the list and tests each for sortedness. A list of n elements has n! permutations. In the worst case (the sorted permutation is last), all n! permutations are checked. For n=10, that's 3,628,800 checks. An efficient sort (like mergesort) is O(n log n). This illustrates why Prolog programs can be extremely inefficient for some tasks."
+    },
+    {
+      "id": 20,
+      "question": "The `reverse` Prolog proposition uses `append` recursively. Given `?- reverse([a, b, c], X).`, which answer is correct?",
+      "options": [
+        "X = [a, b, c]",
+        "X = [c, b, a]",
+        "X = [b, a, c]",
+        "X = [c, a, b]"
+      ],
+      "answer": "X = [c, b, a]",
+      "explanation": "The reverse proposition strategy: 'The reverse of [Head | Tail] is the reverse of Tail, with Head appended at the end.' Working through [a, b, c]: reverse([b, c]) first = [c, b]; then append [c, b] with [a] to get [c, b, a]. The base case `reverse([], [])` terminates the recursion. So `reverse([a, b, c], X)` gives X = [c, b, a]."
+    }
+  ]
+}

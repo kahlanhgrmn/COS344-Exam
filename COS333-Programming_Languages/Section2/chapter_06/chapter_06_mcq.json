@@ -1,0 +1,247 @@
+{
+  "chapter": "Chapter 6",
+  "title": "Data Types",
+  "total_questions": 20,
+  "questions": [
+    {
+      "id": 1,
+      "question": "A programming language supports complex numbers as a primitive type. What is the most accurate implication of this support?",
+      "options": [
+        "Computations on complex numbers have very low execution cost because hardware directly supports them",
+        "Computations on complex numbers have a somewhat high execution cost because most hardware does not directly support them",
+        "Support for complex numbers greatly increases the readability of the language",
+        "Support for complex numbers greatly decreases the writability of the language"
+      ],
+      "answer": "Computations on complex numbers have a somewhat high execution cost because most hardware does not directly support them",
+      "explanation": "Most CPUs have no native complex arithmetic — the runtime must simulate it in software (separating real and imaginary parts). This adds execution overhead. However, having a primitive complex type greatly improves writability for scientific programs by allowing natural notation like `a + b` for complex addition."
+    },
+    {
+      "id": 2,
+      "question": "Boolean types are considered inefficient in terms of which resource?",
+      "options": [
+        "CPU execution time — Boolean operations are slow",
+        "Memory space — a Boolean only needs 1 bit but typically occupies a full byte or more",
+        "Compiler time — Boolean expressions are complex to analyse",
+        "Programmer time — Boolean types require explicit true/false declarations"
+      ],
+      "answer": "Memory space — a Boolean only needs 1 bit but typically occupies a full byte or more",
+      "explanation": "A Boolean value is logically 1 bit (true or false). However, most hardware cannot address individual bits — the smallest addressable unit is a byte. So a Boolean variable typically wastes 7 of its 8 bits. This makes Boolean types memory-inefficient relative to their information content."
+    },
+    {
+      "id": 3,
+      "question": "An enumeration type is defined as `enum Day {MON, TUE, WED, THU, FRI}`. If integer coercion is NOT allowed, what is the main benefit?",
+      "options": [
+        "Faster execution of programs using the type",
+        "Better readability because values have meaningful names",
+        "Better reliability — using an integer value outside the valid range is caught as an error",
+        "Better writability because fewer characters are needed"
+      ],
+      "answer": "Better reliability — using an integer value outside the valid range is caught as an error",
+      "explanation": "If integers can be freely coerced to enum types, a value like `6` could be assigned to a `Day` variable even though there is no Day with ordinal 6 — this would produce an invalid enum value. Disallowing coercion means only valid named enum values can be used, catching such errors as type errors."
+    },
+    {
+      "id": 4,
+      "question": "An array whose subscript range is set at compile time and whose memory is allocated before program execution is called:",
+      "options": [
+        "Fixed stack-dynamic",
+        "Stack-dynamic",
+        "Static",
+        "Fixed heap-dynamic"
+      ],
+      "answer": "Static",
+      "explanation": "Static arrays have their subscript bounds and storage allocated at compile time (before the program runs). They have the lowest runtime overhead — no allocation or deallocation ever occurs. C global arrays and FORTRAN arrays are classic examples. The trade-off is that storage size cannot adapt to runtime needs."
+    },
+    {
+      "id": 5,
+      "question": "A local array declared in a C++ function with a size specified by a variable (e.g., `int arr[n]` where `n` is determined at runtime) is which category?",
+      "options": [
+        "Static",
+        "Fixed stack-dynamic",
+        "Stack-dynamic",
+        "Fixed heap-dynamic"
+      ],
+      "answer": "Stack-dynamic",
+      "explanation": "Stack-dynamic arrays have their subscript range bound at runtime (when the declaration is reached), not at compile time. They are allocated on the stack and deallocated when the function returns. Because the size is not known until runtime, it cannot be 'fixed' at compile time — distinguishing it from fixed stack-dynamic arrays."
+    },
+    {
+      "id": 6,
+      "question": "A Java array created with `new int[n]` where `n` is computed at runtime, and whose size cannot change after creation, is which category?",
+      "options": [
+        "Static",
+        "Stack-dynamic",
+        "Fixed heap-dynamic",
+        "Heap-dynamic"
+      ],
+      "answer": "Fixed heap-dynamic",
+      "explanation": "Fixed heap-dynamic arrays are allocated on the heap at runtime (using `new`), so their size can be determined by a runtime value — but once created, the size is fixed (cannot grow or shrink). Java arrays are the canonical example: `new int[n]` creates a heap array of fixed size n."
+    },
+    {
+      "id": 7,
+      "question": "Python lists can grow and shrink freely during program execution. Which array category best describes a Python list?",
+      "options": [
+        "Static",
+        "Fixed stack-dynamic",
+        "Fixed heap-dynamic",
+        "Heap-dynamic"
+      ],
+      "answer": "Heap-dynamic",
+      "explanation": "Heap-dynamic arrays (also called fully dynamic or flexible arrays) can change both their subscript range and storage allocation during execution. Python lists grow when elements are appended and shrink when elements are removed. This maximum flexibility comes at the cost of higher runtime overhead."
+    },
+    {
+      "id": 8,
+      "question": "An associative array is best described as:",
+      "options": [
+        "An array that stores values in sorted order",
+        "An array indexed by keys rather than integer subscripts, mapping keys to values",
+        "An array that holds elements of different types",
+        "An array whose size is determined at runtime"
+      ],
+      "answer": "An array indexed by keys rather than integer subscripts, mapping keys to values",
+      "explanation": "Associative arrays (hash maps, dictionaries) use arbitrary keys (strings, integers, objects) as indices rather than sequential integers. Python dictionaries (`dict`), Perl hashes (`%hash`), and PHP arrays are examples. You look up a value by providing its key, not a numeric position."
+    },
+    {
+      "id": 9,
+      "question": "Which statement most correctly describes heterogeneous arrays?",
+      "options": [
+        "Arrays that can store elements of different types",
+        "Arrays with variable length that can grow during execution",
+        "Arrays that use string keys instead of integer indices",
+        "Arrays whose memory is allocated on the heap"
+      ],
+      "answer": "Arrays that can store elements of different types",
+      "explanation": "A heterogeneous array holds elements of different types at different positions — for example, position 0 holds an integer, position 1 holds a string, position 2 holds a float. Perl arrays and Python lists are heterogeneous. Most statically typed languages (C, Java) require homogeneous arrays — all elements must have the same type."
+    },
+    {
+      "id": 10,
+      "question": "In COBOL, the MOVE CORRESPONDING operation is used to copy fields between two records. What makes this particularly useful in COBOL's programming domain?",
+      "options": [
+        "It concatenates two records into one, which is common in business data processing",
+        "It copies only fields with matching names between records, which is a common operation in business data processing",
+        "It extracts sub-records from nested records",
+        "It is equivalent to a simple assignment between two records"
+      ],
+      "answer": "It copies only fields with matching names between records, which is a common operation in business data processing",
+      "explanation": "Business data processing constantly moves data between records of similar structure (e.g., input record to output record). MOVE CORRESPONDING copies only the fields whose names match — any fields present in one record but not the other are ignored. This is not a simple full assignment; it selectively copies only relevant data."
+    },
+    {
+      "id": 11,
+      "question": "C does not support array slices for matrices. What is the correct reason for this?",
+      "options": [
+        "C uses rectangular arrays that cannot support slice operations",
+        "C implements matrices as arrays containing other arrays, making row access easy with standard operations",
+        "C's type system is too simple to support slice operations",
+        "C arrays are always static and cannot be partially accessed"
+      ],
+      "answer": "C implements matrices as arrays containing other arrays, making row access easy with standard operations",
+      "explanation": "C 2D arrays like `int a[3][4]` are arrays of arrays — `a[1]` gives a pointer to the second row. This already provides 'slice-like' access at the row level using standard array indexing. There is no need for special slice syntax because the structure naturally provides it. Rectangular (contiguous) 2D arrays would require special support."
+    },
+    {
+      "id": 12,
+      "question": "A free union in C allows a variable to store values of different types at different times. What is the primary concern with free unions?",
+      "options": [
+        "They use too much memory because all variants are stored simultaneously",
+        "They are unreliable — the programmer can accidentally read the wrong type since there is no tag",
+        "They can only be used inside structures, not as standalone variables",
+        "They require garbage collection to manage their memory"
+      ],
+      "answer": "They are unreliable — the programmer can accidentally read the wrong type since there is no tag",
+      "explanation": "Free unions share memory across all member types. Without a 'tag' field indicating which type is currently stored, the programmer must manually track this — a common source of errors. Reading a union as the wrong type produces garbage values. Discriminated unions solve this by including a tag, making them safer but slightly larger."
+    },
+    {
+      "id": 13,
+      "question": "What is the key difference between a discriminated union and a free union?",
+      "options": [
+        "Discriminated unions use less memory than free unions",
+        "Discriminated unions include a type tag indicating which variant is currently active",
+        "Free unions can only store primitive types; discriminated unions can store any type",
+        "Free unions are only available in statically typed languages"
+      ],
+      "answer": "Discriminated unions include a type tag indicating which variant is currently active",
+      "explanation": "A discriminated union (like Ada's variant record) carries an extra field — the discriminant or tag — that records which type variant is currently stored. This allows the language/runtime to check that the correct variant is being accessed, improving reliability. Ada uses discriminated unions; C/C++ use free unions."
+    },
+    {
+      "id": 14,
+      "question": "In Java, the `String` class produces immutable strings while `StringBuffer` produces mutable strings. What does immutability mean for String?",
+      "options": [
+        "String objects cannot be printed",
+        "String objects cannot be assigned to a variable",
+        "Once created, the content of a String object cannot be changed",
+        "String objects are always stored on the stack"
+      ],
+      "answer": "Once created, the content of a String object cannot be changed",
+      "explanation": "An immutable String in Java cannot have its characters changed after creation. Operations like concatenation (`+`) produce a NEW String object rather than modifying the existing one. This is reliable (shared strings cannot be modified unexpectedly) but can be inefficient for programs that modify strings repeatedly — for which StringBuffer is preferred."
+    },
+    {
+      "id": 15,
+      "question": "Which statement about list comprehensions is most correct?",
+      "options": [
+        "List comprehensions greatly improve the readability of list operations",
+        "List comprehensions greatly improve the writability of list operations",
+        "List comprehensions improve the execution performance of list operations",
+        "List comprehensions are only supported in functional programming languages"
+      ],
+      "answer": "List comprehensions greatly improve the writability of list operations",
+      "explanation": "List comprehensions (like Python's `[x*2 for x in L if x > 0]`) allow filtering, transformation, and list creation to be expressed concisely in one line instead of multiple lines of loop code. This is a significant writability improvement. Readability is debatable — they can be cryptic when complex."
+    },
+    {
+      "id": 16,
+      "question": "Name type equivalence states that two variables are type-compatible only if they are declared with the same type name. How does this compare to structure type equivalence in terms of writability?",
+      "options": [
+        "Name equivalence is more writable because fewer type declarations are needed",
+        "Name equivalence is less writable because two structurally identical types are incompatible if named differently",
+        "Both approaches have exactly the same writability",
+        "Structure equivalence is less writable because all types must be structurally compared at runtime"
+      ],
+      "answer": "Name equivalence is less writable because two structurally identical types are incompatible if named differently",
+      "explanation": "Under name equivalence, `type A = int;` and `type B = int;` are INCOMPATIBLE — you cannot assign an A to a B even though both are integers under the hood. The programmer must use the exact same type name. Structure equivalence allows assignment as long as the structures match, making it more flexible and writable."
+    },
+    {
+      "id": 17,
+      "question": "Ada performs array index range checking at compile time when possible, while Java always checks at runtime. What is the implication for reliability?",
+      "options": [
+        "Ada's checking is always less reliable than Java's",
+        "Ada's checking can be more reliable than Java's because compile-time errors are caught before execution",
+        "Java's checking is always more reliable because it checks every access without exception",
+        "Both approaches offer identical reliability"
+      ],
+      "answer": "Ada's checking can be more reliable than Java's because compile-time errors are caught before execution",
+      "explanation": "When Ada can determine at compile time that an index is out of range, it reports the error BEFORE the program runs — preventing a buggy execution entirely. Java's runtime checking catches the error during execution (throwing ArrayIndexOutOfBoundsException). Preventing the program from running at all is more reliable than catching errors only when they occur."
+    },
+    {
+      "id": 18,
+      "question": "Pointers in C/C++ can be used for which two major purposes?",
+      "options": [
+        "Integer arithmetic and string processing",
+        "Dynamic storage management and indirect addressing",
+        "Type conversion and function overloading",
+        "Exception handling and garbage collection"
+      ],
+      "answer": "Dynamic storage management and indirect addressing",
+      "explanation": "Pointers serve two primary purposes: (1) Dynamic storage management — allocating and accessing heap memory (`malloc`/`new`); (2) Indirect addressing — pointing to variables and passing them by reference. Their power and flexibility come at the cost of reliability (dangling pointers, memory leaks, buffer overflows)."
+    },
+    {
+      "id": 19,
+      "question": "Implicitly dereferenced pointers (like Java references) have which effect on pointer arithmetic?",
+      "options": [
+        "Pointer arithmetic becomes faster because dereferencing is handled automatically",
+        "Pointer arithmetic is disallowed because the pointer's numeric address is never directly accessible",
+        "Pointer arithmetic is more reliable because the system checks bounds automatically",
+        "Pointer arithmetic must use special syntax not available in all languages"
+      ],
+      "answer": "Pointer arithmetic is disallowed because the pointer's numeric address is never directly accessible",
+      "explanation": "When a language only provides implicitly dereferenced references (like Java), the programmer never handles the raw memory address — only the reference to the object. Without access to the numeric address, you cannot add an integer to it to move through memory. This removes pointer arithmetic, which is a major source of bugs in C/C++."
+    },
+    {
+      "id": 20,
+      "question": "C++ is not considered a strongly typed language. Which feature most directly contributes to this?",
+      "options": [
+        "C++ supports explicit type declarations",
+        "C++ has a very large number of operators",
+        "C++ allows void pointers, which can bypass the entire type system",
+        "C++ supports multiple inheritance"
+      ],
+      "answer": "C++ allows void pointers, which can bypass the entire type system",
+      "explanation": "A `void*` pointer in C++ can hold a pointer to any type. When cast back to a typed pointer, there is no compiler verification that the original type matches. This allows type errors to go completely undetected. Void pointers are the primary reason C++ is not strongly typed — they create a hole in the type system."
+    }
+  ]
+}

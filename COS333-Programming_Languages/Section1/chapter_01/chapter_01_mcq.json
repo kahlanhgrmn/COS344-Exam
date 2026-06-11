@@ -1,0 +1,247 @@
+{
+  "chapter": "Chapter 1",
+  "title": "Reasons for Studying PLs, Evaluation Criteria, and Language Design",
+  "total_questions": 20,
+  "questions": [
+    {
+      "id": 1,
+      "question": "A senior developer has used only C for their entire career and must now learn Java for a new project. Which reason for studying programming language concepts is most applicable to this developer?",
+      "options": [
+        "Increased ability to express ideas in programs",
+        "Increased ability to learn new languages",
+        "Better understanding of the significance of implementation",
+        "Increased ability to choose appropriate languages for projects"
+      ],
+      "answer": "Increased ability to learn new languages",
+      "explanation": "The developer needs to learn a new language (Java). Understanding general PL concepts — type systems, control flow, OOP principles — means the developer does not need to re-learn fundamental ideas, only the new syntax and library. This is the most direct applicable reason."
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best defines orthogonality in a programming language?",
+      "options": [
+        "A language in which all keywords are reserved words",
+        "A language in which a small set of primitive constructs can be combined freely in any way",
+        "A language that supports both procedural and object-oriented programming",
+        "A language with no undefined behaviour"
+      ],
+      "answer": "A language in which a small set of primitive constructs can be combined freely in any way",
+      "explanation": "Orthogonality means constructs are independent of context — any combination of constructs is legal. The fewer exceptions, the more orthogonal. Fewer constructs with more legal combinations is more orthogonal than many constructs with restricted combinations."
+    },
+    {
+      "id": 3,
+      "question": "A programming language requires explicit type declarations for all variables. Which evaluation criterion is most directly improved by this feature?",
+      "options": [
+        "Writability",
+        "Readability",
+        "Reliability",
+        "Portability"
+      ],
+      "answer": "Reliability",
+      "explanation": "Explicit type declarations enable the compiler to perform type checking — detecting type errors at compile time. Catching errors early directly improves reliability. Writability is slightly reduced (more to type), and readability may be slightly improved, but reliability is the most directly improved criterion."
+    },
+    {
+      "id": 4,
+      "question": "Consider a language without a Boolean data type. Which is the most correct consequence?",
+      "options": [
+        "Readability is reduced because Boolean values cannot be represented",
+        "Readability is reduced because Boolean values must be represented in a less natural way",
+        "Writability is reduced because Boolean values cannot be represented",
+        "Writability is reduced because Boolean values must be represented in a less natural way"
+      ],
+      "answer": "Readability is reduced because Boolean values must be represented in a less natural way",
+      "explanation": "Boolean values CAN be represented (using integers 0 and 1 for example), so 'cannot be represented' is wrong. Using an integer to mean true/false is unnatural and harder to READ — a reader must interpret the numeric value as a logical meaning. Readability is therefore reduced."
+    },
+    {
+      "id": 5,
+      "question": "Which of the following most accurately describes a common trade-off when writability is improved in a programming language?",
+      "options": [
+        "Reliability often decreases",
+        "Readability often decreases",
+        "Execution cost always increases",
+        "Portability always decreases"
+      ],
+      "answer": "Readability often decreases",
+      "explanation": "Features that make writing programs easier — shorthand operators, operator overloading, implicit type coercions, concise syntax — often make programs harder to read. APL is the classic example: very writable (concise symbols), very poor readability. This readability/writability trade-off is one of the most fundamental in PL design."
+    },
+    {
+      "id": 6,
+      "question": "A language is described as 'strongly typed'. Which statement best describes what this means?",
+      "options": [
+        "All variables must be declared with explicit types",
+        "The language uses only static type binding",
+        "Type errors are always detected — either at compile time or runtime",
+        "The language performs no implicit type coercions"
+      ],
+      "answer": "Type errors are always detected — either at compile time or runtime",
+      "explanation": "A strongly typed language detects ALL type errors. This can happen at compile time (static) or runtime (dynamic), as long as no type error goes undetected. A language can be dynamically typed yet strongly typed (Python). A language can have no explicit declarations and still be strongly typed."
+    },
+    {
+      "id": 7,
+      "question": "Which programming language implementation method offers the best portability?",
+      "options": [
+        "Compilation to native machine code",
+        "Pure interpretation",
+        "Hybrid implementation (compile to intermediate code, then interpret)",
+        "All implementation methods offer equal portability"
+      ],
+      "answer": "Hybrid implementation (compile to intermediate code, then interpret)",
+      "explanation": "Hybrid systems (like Java's JVM) compile source to platform-independent bytecode. The bytecode runs anywhere a virtual machine is installed. Compilation to native code produces platform-specific binaries (low portability). Pure interpretation can also be portable, but hybrid systems combine portability with better performance."
+    },
+    {
+      "id": 8,
+      "question": "Which of the following is NOT one of the main factors that influenced programming language design historically?",
+      "options": [
+        "Computer architecture",
+        "Programming methodologies",
+        "Hardware manufacturing cost",
+        "Application domains"
+      ],
+      "answer": "Hardware manufacturing cost",
+      "explanation": "The three main language design influences discussed in the textbook are: computer architecture (von Neumann model), programming methodologies (structured, data-oriented, OOP), and application domains (scientific, business, AI, systems). Hardware manufacturing cost is not listed as a design influence."
+    },
+    {
+      "id": 9,
+      "question": "Which programming language category is most closely aligned with the von Neumann computer architecture?",
+      "options": [
+        "Functional languages",
+        "Logic languages",
+        "Imperative languages",
+        "Markup languages"
+      ],
+      "answer": "Imperative languages",
+      "explanation": "The von Neumann architecture fetches data and instructions from memory, executes instructions sequentially, and stores results back. Imperative languages mirror this: variables represent memory cells, assignment statements represent data movement, and sequential execution matches the fetch-execute cycle."
+    },
+    {
+      "id": 10,
+      "question": "In a modern computing context, which of the following costs associated with programming languages is generally considered most important?",
+      "options": [
+        "Cost of compiling programs",
+        "Cost of executing programs",
+        "Cost of reliability",
+        "Cost of the language implementation system"
+      ],
+      "answer": "Cost of reliability",
+      "explanation": "Modern hardware is cheap and fast; compilers are free. The dominant cost is unreliable software: financial losses, security breaches, maintenance of defective code, regulatory penalties. Hardware and compiler costs are trivial by comparison."
+    },
+    {
+      "id": 11,
+      "question": "Type checking performed at runtime increases which cost of a programming language?",
+      "options": [
+        "Cost of training programmers",
+        "Cost of execution",
+        "Cost of compilation",
+        "Cost of the implementation system"
+      ],
+      "answer": "Cost of execution",
+      "explanation": "Runtime type checking (e.g., Java's array bounds checking) adds overhead every time the checked operation executes. This directly increases the execution cost of the program. It improves reliability but at the price of execution performance."
+    },
+    {
+      "id": 12,
+      "question": "Which programming domain benefits most from a language with high well-definedness?",
+      "options": [
+        "Business applications",
+        "Artificial intelligence",
+        "Systems programming",
+        "Web software"
+      ],
+      "answer": "Systems programming",
+      "explanation": "Systems programming (operating systems, device drivers, embedded firmware) runs close to the hardware and depends on exact, deterministic language behaviour. Undefined behaviour in C-like languages is a primary source of critical vulnerabilities. A well-defined language removes ambiguities that could cause security exploits."
+    },
+    {
+      "id": 13,
+      "question": "Which of the following is a disadvantage of pure interpretation as an implementation method?",
+      "options": [
+        "Programs must be recompiled for every target platform",
+        "The source code cannot be portable across platforms",
+        "Execution speed is significantly slower than compiled code",
+        "Debugging support is more difficult to implement"
+      ],
+      "answer": "Execution speed is significantly slower than compiled code",
+      "explanation": "Pure interpreters must decode and execute each source statement each time it is encountered, including re-parsing control structures in loops. Compiled code runs as native machine instructions — dramatically faster. Pure interpretation sacrifices execution speed for flexibility and portability."
+    },
+    {
+      "id": 14,
+      "question": "Which statement most correctly describes the relationship between readability and maintainability?",
+      "options": [
+        "Improving readability increases the cost of maintenance",
+        "Improving readability reduces the cost of maintenance",
+        "Readability and maintainability are completely unrelated",
+        "Readability is a less important criterion than maintainability"
+      ],
+      "answer": "Improving readability reduces the cost of maintenance",
+      "explanation": "Programs spend most of their lifetime being maintained — fixed and extended. Readable programs are easier to understand, so developers can identify and fix bugs more quickly. Higher readability directly reduces the labour (and therefore cost) of maintenance."
+    },
+    {
+      "id": 15,
+      "question": "A language designed for artificial intelligence applications would most benefit from which language category?",
+      "options": [
+        "Imperative languages",
+        "Object-oriented languages",
+        "Functional or logic languages",
+        "Markup languages"
+      ],
+      "answer": "Functional or logic languages",
+      "explanation": "AI applications work with symbolic computation and logical inference — areas where functional languages (like LISP/Scheme) and logic languages (like Prolog) excel. Functional languages support list/symbol processing; logic languages support rule-based inference. Imperative languages are well-suited for numerical and procedural tasks, not symbolic reasoning."
+    },
+    {
+      "id": 16,
+      "question": "Which of the following language features is most associated with improved writability through expressiveness?",
+      "options": [
+        "Mandatory explicit type declarations",
+        "Operator overloading and default parameters",
+        "Strict scoping rules",
+        "Required semicolons at line endings"
+      ],
+      "answer": "Operator overloading and default parameters",
+      "explanation": "Operator overloading allows writing natural expressions (e.g., complex + complex) rather than verbose method calls. Default parameters reduce the number of arguments programmers must supply. Both features allow more to be expressed with less code — a core writability improvement."
+    },
+    {
+      "id": 17,
+      "question": "Using special reserved words like `begin` and `end` to mark compound statement boundaries (rather than braces) most directly affects which criterion?",
+      "options": [
+        "Writability (decreased)",
+        "Reliability (improved)",
+        "Execution cost (decreased)",
+        "Portability (improved)"
+      ],
+      "answer": "Reliability (improved)",
+      "explanation": "Explicit begin/end markers make block boundaries unambiguous and syntactically visible. There is no possibility of accidentally mismatching or misplacing delimiters. This eliminates a common class of subtle bugs from misaligned braces, improving reliability. Writability is slightly reduced (more to type)."
+    },
+    {
+      "id": 18,
+      "question": "Aliasing — where two or more variable names refer to the same memory location — most negatively affects which criteria?",
+      "options": [
+        "Writability and portability",
+        "Readability and reliability",
+        "Execution cost and writability",
+        "Portability and readability"
+      ],
+      "answer": "Readability and reliability",
+      "explanation": "With aliases, a change through one name silently changes what another name sees. Readers must track ALL names for the same memory location — decreasing readability. Unintended changes through aliases introduce bugs that are difficult to trace — decreasing reliability. Writability may be improved (shortcuts for long names), but readability and reliability suffer."
+    },
+    {
+      "id": 19,
+      "question": "An integrated development environment (IDE) like Eclipse is compared to a command-line UNIX environment with separate tools. Which statement is most correct?",
+      "options": [
+        "The UNIX environment is less time-consuming for most programmers",
+        "The IDE is less integrated than the UNIX environment",
+        "The IDE is more visual and less time-consuming for most programmers",
+        "Both environments take the same amount of time to use effectively"
+      ],
+      "answer": "The IDE is more visual and less time-consuming for most programmers",
+      "explanation": "IDEs combine editor, compiler, debugger, build tools, and other features in one graphical interface. UNIX requires switching between multiple command-line tools manually. For most programmers, the IDE's unified environment reduces time and cognitive overhead. UNIX has its strengths for experts, but IDEs are more efficient for the majority."
+    },
+    {
+      "id": 20,
+      "question": "Which of the following describes the primary design concern for the earliest high-level programming languages (like Fortran I)?",
+      "options": [
+        "Programmer productivity and ease of use",
+        "Support for object-oriented design",
+        "Machine efficiency — producing code as fast as assembly language",
+        "Platform portability and code reuse"
+      ],
+      "answer": "Machine efficiency — producing code as fast as assembly language",
+      "explanation": "Fortran I was designed by Backus specifically to overcome programmer resistance to high-level languages. The main concern was proving that compiled code could match hand-written assembly in speed. Machine efficiency was paramount — programmers at the time would not accept a language that produced slower code than they could write manually."
+    }
+  ]
+}

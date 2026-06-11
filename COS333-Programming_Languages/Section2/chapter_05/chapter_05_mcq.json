@@ -1,0 +1,247 @@
+{
+  "chapter": "Chapter 5",
+  "title": "Names, Bindings, and Scopes",
+  "total_questions": 20,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following correctly lists the six attributes that fully characterise a variable?",
+      "options": [
+        "Name, value, type, scope, lifetime, address",
+        "Name, type, size, scope, binding time, mutability",
+        "Identifier, type, address, value, lifetime, visibility",
+        "Name, type, value, address, scope, binding time"
+      ],
+      "answer": "Name, value, type, scope, lifetime, address",
+      "explanation": "The six attributes of a variable are: (1) Name — identifier used in code; (2) Address — memory location; (3) Value — data stored; (4) Type — set of values and operations; (5) Lifetime — duration it is bound to a memory cell; (6) Scope — range of statements where it is visible."
+    },
+    {
+      "id": 2,
+      "question": "A language uses special words that are only reserved in specific syntactic contexts but can be used as identifiers elsewhere. What are these called?",
+      "options": [
+        "Reserved words",
+        "Keywords",
+        "Predefined names",
+        "Special identifiers"
+      ],
+      "answer": "Keywords",
+      "explanation": "Keywords are special only in specific syntactic contexts — they can be redefined as variable names elsewhere (e.g., `class` used as a variable in some languages). Reserved words, by contrast, can NEVER be used as identifiers. Most modern languages use reserved words for safety."
+    },
+    {
+      "id": 3,
+      "question": "In which binding time is the type of a variable in a statically typed language (like Java) typically bound?",
+      "options": [
+        "Language design time",
+        "Language implementation time",
+        "Compile time",
+        "Runtime"
+      ],
+      "answer": "Compile time",
+      "explanation": "In statically typed languages, variable types are declared by the programmer and bound at compile time — the compiler checks and records the type of every variable before the program runs. The type does not change during execution."
+    },
+    {
+      "id": 4,
+      "question": "Consider the Python statement `x = [1, 2, 3]` followed by `x = 'hello'`. What kind of type binding does Python use?",
+      "options": [
+        "Explicit static type binding",
+        "Implicit static type binding with type inferencing",
+        "Dynamic type binding",
+        "Implicit static type binding without type inferencing"
+      ],
+      "answer": "Dynamic type binding",
+      "explanation": "Python variables have no fixed type. The first assignment makes x a list; the second assignment makes x a string — the type changes with each assignment at runtime. This is dynamic type binding. No compile-time type error is raised."
+    },
+    {
+      "id": 5,
+      "question": "Which category of variable has a lifetime that spans the entire execution of the program?",
+      "options": [
+        "Stack-dynamic variables",
+        "Explicit heap-dynamic variables",
+        "Static variables",
+        "Implicit heap-dynamic variables"
+      ],
+      "answer": "Static variables",
+      "explanation": "Static variables are bound to memory cells before program execution begins and remain bound for the entire execution. In C, a static local variable persists between function calls. This allows history-sensitive behaviour (the variable retains its value between activations)."
+    },
+    {
+      "id": 6,
+      "question": "A local variable in a C++ function is allocated on the call stack when the function is called and deallocated when it returns. Which category best describes this variable?",
+      "options": [
+        "Static variable",
+        "Stack-dynamic variable",
+        "Explicit heap-dynamic variable",
+        "Implicit heap-dynamic variable"
+      ],
+      "answer": "Stack-dynamic variable",
+      "explanation": "Stack-dynamic variables are bound to memory (on the runtime stack) when the enclosing subprogram is called and freed when it returns. Their storage is managed automatically by the runtime stack. Most local variables in C, C++, Java, and Pascal are stack-dynamic."
+    },
+    {
+      "id": 7,
+      "question": "In C++, a variable created with `new` (e.g., `int* p = new int(5);`) is which category of variable?",
+      "options": [
+        "Stack-dynamic",
+        "Static",
+        "Explicit heap-dynamic",
+        "Implicit heap-dynamic"
+      ],
+      "answer": "Explicit heap-dynamic",
+      "explanation": "Explicit heap-dynamic variables are created on the heap by explicit allocation operations (`new` in C++/Java, `malloc` in C). They are accessed through pointers/references and must be explicitly deallocated (`delete` in C++) or are garbage-collected. Crucially, they have NO name — only the pointer has a name."
+    },
+    {
+      "id": 8,
+      "question": "In JavaScript, the statement `var x = [1, 2, 3];` creates a variable whose type and value are both bound by the assignment, with storage allocated implicitly. Which variable category best describes this?",
+      "options": [
+        "Static variable",
+        "Stack-dynamic variable",
+        "Explicit heap-dynamic variable",
+        "Implicit heap-dynamic variable"
+      ],
+      "answer": "Implicit heap-dynamic variable",
+      "explanation": "Implicit heap-dynamic variables are bound to heap storage implicitly when a value is assigned — no explicit `new` or `malloc` required. Both type and value change with each new assignment. JavaScript arrays and strings are the classic examples. This offers maximum flexibility but at the cost of execution speed."
+    },
+    {
+      "id": 9,
+      "question": "Which category of variable has NO name associated with it?",
+      "options": [
+        "Static variables",
+        "Stack-dynamic variables",
+        "Explicit heap-dynamic variables",
+        "Implicit heap-dynamic variables"
+      ],
+      "answer": "Explicit heap-dynamic variables",
+      "explanation": "When you write `int* p = new int(5);`, the integer value 5 on the heap has no name — only the pointer `p` has a name. The heap-allocated value itself is anonymous; it can only be accessed through the pointer. This is a key characteristic of explicit heap-dynamic variables."
+    },
+    {
+      "id": 10,
+      "question": "In Fortran I, a variable whose name begins with the letter I is automatically treated as an integer without any explicit type declaration. What kind of type binding is this?",
+      "options": [
+        "Explicit type declaration",
+        "Implicit type declaration with type inferencing",
+        "Implicit type declaration without type inferencing",
+        "Dynamic type binding"
+      ],
+      "answer": "Implicit type declaration without type inferencing",
+      "explanation": "The type is determined implicitly (no declaration needed) by a fixed naming convention: names starting with I-N are integers, others are real. This is NOT type inferencing (which examines the context/values), but a simple naming rule. The type is still static (bound at compile time), just implied by the name."
+    },
+    {
+      "id": 11,
+      "question": "Static scoping (also called lexical scoping) determines scope based on which factor?",
+      "options": [
+        "The order in which subprograms are called at runtime",
+        "The physical structure of the program text",
+        "The type of values currently stored in variables",
+        "The operating system's memory allocation"
+      ],
+      "answer": "The physical structure of the program text",
+      "explanation": "With static scoping, the scope of a variable is determined by the lexical (textual) structure of the program — specifically, by which blocks nest inside which other blocks. A reference to a variable is resolved by searching outward through the enclosing blocks, based purely on the program text, before the program runs."
+    },
+    {
+      "id": 12,
+      "question": "Consider a function `f2` that references variable `X`. Under dynamic scoping, `X` is resolved by:",
+      "options": [
+        "Looking at the block where `f2` is textually defined",
+        "Searching the call stack for the most recently created binding of `X`",
+        "Using the global declaration of `X`",
+        "Always using the local copy of `X` inside `f2`"
+      ],
+      "answer": "Searching the call stack for the most recently created binding of `X`",
+      "explanation": "Dynamic scoping resolves variable references by searching the current call stack — the most recently called subprogram's variables are checked first, then its caller's, and so on. The binding used depends on which functions are active (on the stack) at the time of the reference, not on the textual structure."
+    },
+    {
+      "id": 13,
+      "question": "Consider the following program. Under static scoping, what does `f2` print when called from `f1`?\n\n```\nvar X = 1\nf1() { var X = 2; call f2() }\nf2() { print(X) }\nmain() { call f1() }\n```",
+      "options": [
+        "1",
+        "2",
+        "Error — X is not in scope in f2",
+        "Undefined — depends on implementation"
+      ],
+      "answer": "1",
+      "explanation": "Under static scoping, `f2` resolves `X` based on where `f2` is textually defined, not where it is called. `f2` is defined at the global level, so it looks for `X` in its static environment — the global `X = 1`. The `X = 2` inside `f1` is not accessible to `f2` under static scoping."
+    },
+    {
+      "id": 14,
+      "question": "A static local variable in C (declared with the `static` keyword inside a function) has which combination of scope and lifetime?",
+      "options": [
+        "Scope: entire program; Lifetime: entire program",
+        "Scope: local to function; Lifetime: entire program",
+        "Scope: local to function; Lifetime: single function call",
+        "Scope: entire program; Lifetime: single function call"
+      ],
+      "answer": "Scope: local to function; Lifetime: entire program",
+      "explanation": "A static local variable in C is only visible within its enclosing function (local scope), but its memory is allocated once at program start and persists for the entire execution (program lifetime). This allows the variable to retain its value between calls to the function. Scope and lifetime can be different!"
+    },
+    {
+      "id": 15,
+      "question": "Which of the following is a potential danger of dynamic type binding?",
+      "options": [
+        "Variables cannot be used in arithmetic expressions",
+        "Type errors that would be caught at compile time in static typing may only appear at runtime",
+        "Programs cannot use recursion",
+        "Variables cannot store numeric values"
+      ],
+      "answer": "Type errors that would be caught at compile time in static typing may only appear at runtime",
+      "explanation": "With dynamic type binding, the type of a variable is only known at runtime. Type errors (like calling a method that doesn't exist on an object) cannot be caught by the compiler and only surface during execution. This reduces reliability. Static type binding detects these errors before the program runs."
+    },
+    {
+      "id": 16,
+      "question": "C++ named constants declared with `const` are bound at compile time. What type of named constant is this?",
+      "options": [
+        "Dynamic named constant",
+        "Static named constant",
+        "Stack-dynamic named constant",
+        "Implicit named constant"
+      ],
+      "answer": "Static named constant",
+      "explanation": "Named constants bound at compile time (like C++ `const int MAX = 100;`) are static named constants — their values are fixed before the program runs. Dynamic named constants (like some Ada constants) can be bound at runtime, allowing their values to be computed expressions. C++ `constexpr` is even more explicitly a compile-time (static) constant."
+    },
+    {
+      "id": 17,
+      "question": "What is a 'dangling reference' or 'dangling pointer'?",
+      "options": [
+        "A pointer that has never been assigned a value",
+        "A pointer to heap memory that has already been freed/deallocated",
+        "A pointer that points to a stack variable that is still active",
+        "A pointer that stores the value null"
+      ],
+      "answer": "A pointer to heap memory that has already been freed/deallocated",
+      "explanation": "A dangling reference occurs when a pointer still holds the address of memory that has been freed (via `delete` or `free`). Accessing this memory is undefined behaviour — the memory may have been reallocated for something else. Dangling references are a major source of bugs and security vulnerabilities in C/C++."
+    },
+    {
+      "id": 18,
+      "question": "Which advantage do stack-dynamic local variables have over static local variables?",
+      "options": [
+        "Stack-dynamic variables are faster to access",
+        "Stack-dynamic variables allow recursion, since each call gets its own copy",
+        "Stack-dynamic variables have longer lifetimes",
+        "Stack-dynamic variables never cause memory leaks"
+      ],
+      "answer": "Stack-dynamic variables allow recursion, since each call gets its own copy",
+      "explanation": "With static locals, there is only ONE copy of each variable shared across all activations of the function — recursion is impossible because a recursive call would overwrite the data of the calling activation. Stack-dynamic variables create a new copy on the stack for EACH call, allowing independent data for each level of recursion."
+    },
+    {
+      "id": 19,
+      "question": "The referencing environment of a statement is best defined as:",
+      "options": [
+        "All variables declared anywhere in the program",
+        "All variables declared in the same file as the statement",
+        "The collection of all variables visible to that statement",
+        "All variables allocated on the heap at the time the statement executes"
+      ],
+      "answer": "The collection of all variables visible to that statement",
+      "explanation": "The referencing environment is the set of all variables that are currently in scope (visible) when a particular statement executes. For static scoping, this is determined by the lexical structure. For dynamic scoping, it is determined by the call stack. A statement can only refer to variables in its referencing environment."
+    },
+    {
+      "id": 20,
+      "question": "A language requires that every variable has its type explicitly declared by the programmer before use. What is this called?",
+      "options": [
+        "Dynamic type binding",
+        "Implicit type declaration with type inferencing",
+        "Explicit type declaration",
+        "Implicit type declaration without type inferencing"
+      ],
+      "answer": "Explicit type declaration",
+      "explanation": "Explicit type declaration means the programmer must write a declaration specifying the variable's type (e.g., `int x;` in C, `float y;` in Java). The type is bound at compile time based on this declaration. This contrasts with implicit declarations (type inferred from name or value) and dynamic binding (type changes at runtime)."
+    }
+  ]
+}

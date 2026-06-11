@@ -1,0 +1,247 @@
+{
+  "chapter": "Chapter 12",
+  "title": "Support for Object-Oriented Programming",
+  "total_questions": 20,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which three core features must every OOP language support, according to the Sebesta textbook?",
+      "options": [
+        "Classes, interfaces, and garbage collection",
+        "Abstract data types (classes), inheritance, and polymorphism with dynamic binding",
+        "Encapsulation, multiple inheritance, and static typing",
+        "Objects, procedures, and type hierarchies"
+      ],
+      "answer": "Abstract data types (classes), inheritance, and polymorphism with dynamic binding",
+      "explanation": "Any OOP language must support: (1) Abstract data types — in OOP these are called classes; (2) Inheritance — the central theme of OOP, allowing new classes to be defined in terms of existing ones; (3) Polymorphism via dynamic binding of method calls. ADTs alone (like structs) are NOT OOP — they lack inheritance and dynamic binding."
+    },
+    {
+      "id": 2,
+      "question": "An abstract data type (ADT) like a struct or class without OOP features has which limitation compared to a full OOP class?",
+      "options": [
+        "ADTs cannot store data",
+        "ADTs lack inheritance, polymorphism, and dynamic message binding",
+        "ADTs cannot define methods",
+        "ADTs must be instantiated as global variables"
+      ],
+      "answer": "ADTs lack inheritance, polymorphism, and dynamic message binding",
+      "explanation": "Basic ADTs (like C structs) package data and operations together in a single syntactic unit and provide abstraction — but they stand alone at the same level with no class hierarchy. They cannot inherit from one another, there is no polymorphism, and no dynamic message binding. These three OOP concepts require the full class/inheritance mechanism."
+    },
+    {
+      "id": 3,
+      "question": "A polymorphic variable in C++ is declared as `Shape* ptr`. Why must this be a pointer or reference rather than a stack-allocated object?",
+      "options": [
+        "Only pointers can store non-primitive types in C++",
+        "Stack-allocated objects cause truncation when a derived object is assigned to a base variable, and dynamic binding does not work",
+        "Pointers execute faster than stack-allocated objects",
+        "Stack-allocated objects cannot call any methods"
+      ],
+      "answer": "Stack-allocated objects cause truncation when a derived object is assigned to a base variable, and dynamic binding does not work",
+      "explanation": "If `Rectangle rect` (stack-allocated) and a derived `Square sqr` are used, `rect = sqr` slices the object — only base class data members are copied, the derived members are lost. Additionally, `rect.draw()` calls Rectangle's draw, not Square's — dynamic binding does not operate on stack-allocated objects. Pointers/references avoid both problems."
+    },
+    {
+      "id": 4,
+      "question": "In C++, a method declared `virtual` enables dynamic binding. What happens if a method is NOT declared virtual?",
+      "options": [
+        "The method cannot be overridden in any derived class",
+        "The method is bound statically at compile time — the version called depends on the declared type of the variable, not the actual object type",
+        "The method can only be called from within the class",
+        "The method is automatically made private"
+      ],
+      "answer": "The method is bound statically at compile time — the version called depends on the declared type of the variable, not the actual object type",
+      "explanation": "Non-virtual methods in C++ use static binding: the compiler decides which version to call based on the declared type of the pointer/reference. If `Shape* ptr = new Circle`, then `ptr->draw()` calls Shape's draw (not Circle's) if draw is not virtual. With `virtual`, the actual runtime type (Circle) is used."
+    },
+    {
+      "id": 5,
+      "question": "In C++, `virtual void draw() = 0;` declares a pure virtual function. What does this make the class?",
+      "options": [
+        "A template class",
+        "An abstract class that cannot be instantiated",
+        "A static class accessible without objects",
+        "A final class that cannot be derived from"
+      ],
+      "answer": "An abstract class that cannot be instantiated",
+      "explanation": "A class with at least one pure virtual function (`= 0`) is an abstract class — it cannot be instantiated directly. It exists to provide a common interface for derived classes. Derived classes must override all pure virtual functions to become concrete (instantiable). This is C++'s mechanism for abstract methods."
+    },
+    {
+      "id": 6,
+      "question": "C++ supports two inheritance access types: public derivation and private derivation. Which statement correctly describes private derivation?",
+      "options": [
+        "Private derivation makes all members of the derived class private",
+        "Private derivation causes inherited public and protected members to become private in the subclass, making the subclass NOT a subtype of the parent",
+        "Private derivation prevents the derived class from accessing any parent class members",
+        "Private derivation is the same as public derivation but faster"
+      ],
+      "answer": "Private derivation causes inherited public and protected members to become private in the subclass, making the subclass NOT a subtype of the parent",
+      "explanation": "With private derivation, the derived class inherits everything from the parent, but all inherited public/protected members become private. Clients of the derived class cannot access them. Since the derived class no longer exposes the same interface as the parent, it is NOT a subtype (does not satisfy the is-a relationship). Public derivation preserves the interface, making the subclass a subtype."
+    },
+    {
+      "id": 7,
+      "question": "Diamond inheritance in C++ (class D inherits from B and C, both of which inherit from A) causes which problem?",
+      "options": [
+        "The class hierarchy exceeds maximum depth",
+        "Ambiguity — D has two copies of A's members, and calls to A's methods are ambiguous",
+        "The compiler cannot generate code for class D",
+        "Class A cannot have any private members"
+      ],
+      "answer": "Ambiguity — D has two copies of A's members, and calls to A's methods are ambiguous",
+      "explanation": "In diamond inheritance, A's member `d()` is inherited by both B and C. D then inherits from both B and C — giving D two copies of `d()`. Any call to `d()` on a D object is ambiguous. C++ resolves this with the scope resolution operator (`B::d()` or `C::d()`) or virtual inheritance."
+    },
+    {
+      "id": 8,
+      "question": "In Smalltalk, everything is an object and all computation is through message passing. What is the primary performance implication?",
+      "options": [
+        "Smalltalk is approximately 10 times faster than C++",
+        "Smalltalk is approximately 10 times slower than C++ because all operations are dynamic and use heap objects",
+        "Smalltalk has the same performance as Java",
+        "Smalltalk is slower only when processing numbers"
+      ],
+      "answer": "Smalltalk is approximately 10 times slower than C++ because all operations are dynamic and use heap objects",
+      "explanation": "Smalltalk's uniformity (everything is an object, all operations are messages) has a performance cost: all objects are heap-allocated (no stack primitives), all message binding is dynamic (search the class hierarchy at runtime), and even basic operations like integer addition use message passing overhead. C++ uses direct hardware instructions for primitives, making it ~10x faster."
+    },
+    {
+      "id": 9,
+      "question": "In Smalltalk, all variables are typeless references and all objects are heap-allocated. What problem does this eliminate compared to C++?",
+      "options": [
+        "Infinite recursion",
+        "Object slicing (truncation) when assigning derived objects to base class variables",
+        "Memory leaks from explicit deallocation",
+        "Name collisions from multiple inheritance"
+      ],
+      "answer": "Object slicing (truncation) when assigning derived objects to base class variables",
+      "explanation": "Object slicing occurs in C++ when a derived object is assigned to a stack-allocated base variable (only base class data is copied; derived data is lost). Since Smalltalk has NO stack-allocated objects — everything is accessed through references — assigning one reference to another just copies the reference (pointing to the same object). No slicing is possible."
+    },
+    {
+      "id": 10,
+      "question": "In Smalltalk, all subclasses are subtypes. What constraint ensures this?",
+      "options": [
+        "Smalltalk has no inheritance at all",
+        "Nothing defined in a parent class can be removed or hidden in a subclass",
+        "Smalltalk only supports single inheritance for base classes",
+        "Smalltalk uses static binding for all method calls"
+      ],
+      "answer": "Nothing defined in a parent class can be removed or hidden in a subclass",
+      "explanation": "A subclass is a subtype only if it behaves like a superclass object — i.e., all of the parent's interface is preserved. Smalltalk guarantees this by never allowing a subclass to remove or hide a parent's entities. C++ allows private derivation which breaks the is-a relationship; Ruby allows changing parent access controls — so in those languages, subclasses are not necessarily subtypes."
+    },
+    {
+      "id": 11,
+      "question": "In Java, all objects are part of a class hierarchy rooted at `Object`. What implication does this have for the language?",
+      "options": [
+        "Java objects cannot be extended",
+        "Methods in `Object` (like equals(), toString()) are available on every Java object",
+        "Java does not support abstract classes",
+        "Java requires all classes to explicitly inherit from Object"
+      ],
+      "answer": "Methods in `Object` (like equals(), toString()) are available on every Java object",
+      "explanation": "Because all Java classes implicitly inherit from `Object`, every object has the methods defined in `Object`: `equals()`, `hashCode()`, `toString()`, `getClass()`, etc. This is a key benefit of the single-root hierarchy — polymorphism is always possible at the `Object` level, and common utility methods are always available."
+    },
+    {
+      "id": 12,
+      "question": "Java supports only single inheritance for classes but provides interfaces to compensate. What is the key advantage of Java's interface approach over C++ multiple inheritance?",
+      "options": [
+        "Interfaces are faster than multiple inheritance",
+        "Interfaces provide a simpler form of multiple inheritance with no name collision problems since interfaces contain no implementation",
+        "Interfaces allow multiple methods with the same name",
+        "Interfaces enable object slicing prevention"
+      ],
+      "answer": "Interfaces provide a simpler form of multiple inheritance with no name collision problems since interfaces contain no implementation",
+      "explanation": "C++ multiple inheritance can cause name collisions and the diamond problem because parent classes can have conflicting implementations. Java interfaces only declare method signatures (no body) and constants — there is no implementation to conflict. A class can implement many interfaces simultaneously without ambiguity. This is simpler and avoids C++'s multiple-inheritance complications."
+    },
+    {
+      "id": 13,
+      "question": "In Java, which THREE conditions result in static (not dynamic) binding of a method call?",
+      "options": [
+        "When the method is final, private, or static",
+        "When the method is public, protected, or abstract",
+        "When the method is overloaded, final, or abstract",
+        "When the method is synchronized, native, or transient"
+      ],
+      "answer": "When the method is final, private, or static",
+      "explanation": "Java uses dynamic binding by default. But three cases use static binding because dynamic binding serves no purpose: (1) `final` methods cannot be overridden, so there's only one version; (2) `private` methods are not accessible in subclasses, so they can't be overridden; (3) `static` (class) methods belong to the class, not an instance. In all three cases the compiler can determine the correct method at compile time."
+    },
+    {
+      "id": 14,
+      "question": "In C#, to override a method from the parent class, the overriding method must be marked with `override`. What is the advantage of this explicit keyword?",
+      "options": [
+        "It makes the method execute faster",
+        "It makes programmer intent explicit — a compiler error occurs if the method doesn't actually override anything, preventing accidental shadowing",
+        "It allows the method to be called statically",
+        "It prevents any derived class from further overriding the method"
+      ],
+      "answer": "It makes programmer intent explicit — a compiler error occurs if the method doesn't actually override anything, preventing accidental shadowing",
+      "explanation": "Without `override`, if you accidentally misspell a method name (intending to override but actually just defining a new method), no error is raised — the parent's method is silently used instead. With `override`, the compiler checks that the method actually overrides a parent method. If it doesn't match, it's a compile error. This improves reliability."
+    },
+    {
+      "id": 15,
+      "question": "In C#, abstract methods are marked with the `abstract` keyword. In C++, the equivalent is `virtual void draw() = 0`. How does C#'s approach compare in terms of readability?",
+      "options": [
+        "C++'s `= 0` syntax is more readable because it is shorter",
+        "C#'s `abstract` keyword is more readable because it explicitly expresses the programmer's intent",
+        "Both approaches are equally readable",
+        "Neither approach supports abstract methods — they both use interfaces"
+      ],
+      "answer": "C#'s `abstract` keyword is more readable because it explicitly expresses the programmer's intent",
+      "explanation": "C++'s `= 0` suffix is a cryptic notation — it doesn't obviously mean 'abstract method'. C#'s `abstract` keyword directly states that the method has no implementation and must be overridden. This is a readability improvement — a reader immediately understands the intent without knowing the C++ convention."
+    },
+    {
+      "id": 16,
+      "question": "In Ruby, all instance variables (data members) are private and this cannot be changed. What is the implication for client code that needs to access an object's data?",
+      "options": [
+        "Ruby client code must use direct memory access to read instance variables",
+        "Ruby client code must use getter/setter methods (accessors) to read or write instance variables",
+        "Ruby client code can read but not write instance variables",
+        "Ruby instance variables are automatically shared between all objects"
+      ],
+      "answer": "Ruby client code must use getter/setter methods (accessors) to read or write instance variables",
+      "explanation": "Since all Ruby data is private, any external access must go through methods. Ruby provides shortcut notation: `attr_reader :age` auto-creates a getter, `attr_writer :age` auto-creates a setter, and `attr_accessor :age` creates both. This enforces encapsulation — data can never be accessed directly from outside the class."
+    },
+    {
+      "id": 17,
+      "question": "Ruby class definitions are 'executable' and 'secondary definitions can add members'. What does this mean?",
+      "options": [
+        "Ruby classes can inherit from multiple parent classes at runtime",
+        "A Ruby class can be opened and extended with new methods anywhere in the program, even after the original definition",
+        "Ruby methods are compiled at runtime for performance",
+        "Ruby classes are automatically optimised by the interpreter at load time"
+      ],
+      "answer": "A Ruby class can be opened and extended with new methods anywhere in the program, even after the original definition",
+      "explanation": "Ruby's class definitions are executable statements, not fixed declarations. You can reopen any class (even built-in classes like Integer) and add new methods anywhere in the program. The class accumulates all definitions made across the program. This is powerful but can make programs hard to understand — method additions elsewhere affect the class globally."
+    },
+    {
+      "id": 18,
+      "question": "In C#, a `struct` differs significantly from a C++ `struct`. Which statement best describes a C# struct?",
+      "options": [
+        "C# structs support full inheritance and virtual methods, just like classes",
+        "C# structs are stack-dynamic, cannot use inheritance, and cannot have members that reference themselves",
+        "C# structs are heap-allocated and garbage collected",
+        "C# structs are identical to C# classes except for the keyword"
+      ],
+      "answer": "C# structs are stack-dynamic, cannot use inheritance, and cannot have members that reference themselves",
+      "explanation": "C# structs are value types — they are stack-allocated (unlike classes which are heap-allocated). They cannot participate in inheritance (can implement interfaces but cannot inherit from or be inherited by classes) and cannot have self-referential members (which would require heap allocation for the recursive structure). They are lightweight data containers."
+    },
+    {
+      "id": 19,
+      "question": "The 'exclusivity of objects' design issue asks whether primitives like integers should be objects. Smalltalk makes everything an object; Java uses a hybrid approach. What is the main advantage of Java's hybrid approach over Smalltalk's pure approach?",
+      "options": [
+        "Java programs are more correct than Smalltalk programs",
+        "Simple operations on primitives (like integer addition) execute fast because no object overhead is incurred",
+        "Java supports more data types than Smalltalk",
+        "Java has stronger type checking than Smalltalk"
+      ],
+      "answer": "Simple operations on primitives (like integer addition) execute fast because no object overhead is incurred",
+      "explanation": "In Smalltalk, even `3 + 4` is a message send — an object (3) receives the `+` message with argument (4), requiring heap allocation, method lookup, and virtual dispatch. Java uses hardware-native integer arithmetic for primitives — no object overhead. This makes numerical computation in Java dramatically faster than in pure-OOP Smalltalk."
+    },
+    {
+      "id": 20,
+      "question": "In OOP, a message sent to an object consists of two parts. Using `myStudent.writeExam()` as an example, what are the two parts?",
+      "options": [
+        "The class name (Student) and the method name (writeExam)",
+        "The destination object (myStudent) and the method name (writeExam)",
+        "The parameter list and the return type",
+        "The access modifier and the method body"
+      ],
+      "answer": "The destination object (myStudent) and the method name (writeExam)",
+      "explanation": "A message has two parts: (1) the method name — the operation to perform (`writeExam`); (2) the destination object — the object that receives the message (`myStudent`). The collection of all messages an object can accept is called its message protocol or message interface. In pure OOP (Smalltalk, Ruby), all computation is expressed as objects sending messages to objects."
+    }
+  ]
+}

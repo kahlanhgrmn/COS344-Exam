@@ -1,0 +1,247 @@
+{
+  "chapter": "Chapter 15",
+  "title": "Functional Programming Languages (Scheme)",
+  "total_questions": 20,
+  "questions": [
+    {
+      "id": 1,
+      "question": "A pure functional language has no variables and no functional side effects. What is the implication for referential transparency?",
+      "options": [
+        "Pure functional languages cannot compute results without variables",
+        "Pure functional languages are always referentially transparent because functions depend only on their parameters",
+        "Pure functional languages have weaker referential transparency than imperative languages",
+        "Referential transparency only applies to imperative languages"
+      ],
+      "answer": "Pure functional languages are always referentially transparent because functions depend only on their parameters",
+      "explanation": "In a pure functional language: no global variables exist (so none can be modified), and parameters are constants (no variables). Therefore a function called with the same arguments ALWAYS produces the same result. This is referential transparency — any two equivalent expressions can be substituted for one another without changing program behaviour. Imperative languages frequently violate this through side effects."
+    },
+    {
+      "id": 2,
+      "question": "In Scheme, data and function applications have the same syntactic form. What does this enable?",
+      "options": [
+        "Scheme can run faster because it doesn't need to parse different syntax for data and functions",
+        "Functions are first-class entities — they can be passed as parameters to and returned from other functions",
+        "Scheme programs require less memory than imperative programs",
+        "Scheme automatically converts data to functions when needed"
+      ],
+      "answer": "Functions are first-class entities — they can be passed as parameters to and returned from other functions",
+      "explanation": "Because `(a b c)` can be either a list (data) or a function call (applying `a` to `b` and `c`), Scheme treats functions as data — they can be stored in lists, passed as parameters, and returned as values. This is the definition of first-class functions and enables higher-order functions like `mapcar`."
+    },
+    {
+      "id": 3,
+      "question": "Evaluate: `(car '(a b c))`",
+      "options": [
+        "(b c)",
+        "a",
+        "(a)",
+        "An error — car cannot be applied to a list"
+      ],
+      "answer": "a",
+      "explanation": "`car` returns the FIRST element of a list. The list `(a b c)` has first element `a`. The quote prevents evaluation — `'(a b c)` is a list literal. `car` produces an error on an atom or empty list, but here it correctly returns `a`."
+    },
+    {
+      "id": 4,
+      "question": "Evaluate: `(cdr '((a b) c d))`",
+      "options": [
+        "(a b)",
+        "(c d)",
+        "((a b))",
+        "An error — cdr cannot remove a sublist"
+      ],
+      "answer": "(c d)",
+      "explanation": "`cdr` returns the list with the FIRST element removed. The first element of `((a b) c d)` is `(a b)`. Removing it leaves `(c d)`. Note that `cdr` returns a list, so even with only elements `c` and `d` remaining, the result is the list `(c d)`, not just `c`."
+    },
+    {
+      "id": 5,
+      "question": "Evaluate: `(cons 'a '(b c))`",
+      "options": [
+        "((a) b c)",
+        "(a b c)",
+        "((a b c))",
+        "A dotted pair (a . b c)"
+      ],
+      "answer": "(a b c)",
+      "explanation": "`cons` inserts its FIRST parameter as the new head of its SECOND parameter (which must be a list). `(cons 'a '(b c))` inserts atom `a` at the front of list `(b c)`, producing the new list `(a b c)`."
+    },
+    {
+      "id": 6,
+      "question": "What does `(cons '(a b) '(c d))` produce?",
+      "options": [
+        "(a b c d)",
+        "((a b) c d)",
+        "((a b) (c d))",
+        "A dotted pair ((a b) . (c d))"
+      ],
+      "answer": "((a b) c d)",
+      "explanation": "`cons` inserts its first parameter AS AN ELEMENT into its second parameter list. The first parameter here is the LIST `(a b)`. It is inserted as a single element at the head of `(c d)`. Result: `((a b) c d)` — a list where the first element is itself a list. `cons` does not flatten lists."
+    },
+    {
+      "id": 7,
+      "question": "Why must lists be quoted when passed as parameters in Scheme? For example: `(foo '(a b c))` instead of `(foo (a b c))`",
+      "options": [
+        "Quoting makes the list immutable so it cannot be modified",
+        "Without quoting, `(a b c)` is interpreted as a function call applying `a` to `b` and `c`",
+        "Quoting is required for all parameters in Scheme",
+        "Without quoting, the list is stored as a string instead of a list"
+      ],
+      "answer": "Without quoting, `(a b c)` is interpreted as a function call applying `a` to `b` and `c`",
+      "explanation": "Scheme interprets any list in parentheses as a function application by default — the first element is the function name, the rest are arguments. `(a b c)` means 'apply function `a` to arguments `b` and `c`'. To treat it as data (a list of three atoms), you must quote it: `'(a b c)` or `(quote (a b c))`. Without the quote, Scheme will try to look up and call function `a`."
+    },
+    {
+      "id": 8,
+      "question": "In Scheme, how is repetition (iteration) implemented? There are no loop constructs.",
+      "options": [
+        "Using goto statements to jump back to the beginning of a block",
+        "Using while loops with a boolean condition",
+        "Using recursion — the function calls itself",
+        "Using a special repeat-until keyword"
+      ],
+      "answer": "Using recursion — the function calls itself",
+      "explanation": "Scheme has no variables, and loops require variables (as loop counters or condition flags). Since variables do not exist in pure Scheme, loops cannot exist either. ALL repetition in Scheme is implemented through recursion — a function that calls itself with modified parameters, with a base case to terminate. The Scheme language definition requires tail-recursive functions to be optimised to iteration."
+    },
+    {
+      "id": 9,
+      "question": "What is a tail-recursive function, and why does the Scheme specification require tail recursion to be optimised?",
+      "options": [
+        "A function where all recursive calls are in the else branch; required because else branches are slow",
+        "A function where the recursive call is the last operation; optimised to iteration to avoid stack overflow and improve efficiency",
+        "A function that uses cdr to shorten a list on each call; optimised because cdr is slow",
+        "A function with only one recursive call; optimised because multiple calls waste memory"
+      ],
+      "answer": "A function where the recursive call is the last operation; optimised to iteration to avoid stack overflow and improve efficiency",
+      "explanation": "A tail-recursive function has the recursive call as the very last operation — there is nothing to do after it returns. The Scheme interpreter can convert this to iteration (a loop) because no stack frame needs to be kept for the calling function. This eliminates stack growth, preventing stack overflow on deep recursion and making execution as fast as an iterative loop."
+    },
+    {
+      "id": 10,
+      "question": "Consider the non-tail-recursive factorial: `(define (factorial n) (if (= n 0) 1 (* n (factorial (- n 1)))))`. Why is this NOT tail-recursive?",
+      "options": [
+        "Because it uses `if` instead of `cond`",
+        "Because the last operation is multiplication (`*`), not the recursive call to `factorial`",
+        "Because it has only one parameter",
+        "Because it does not use an accumulator"
+      ],
+      "answer": "Because the last operation is multiplication (`*`), not the recursive call to `factorial`",
+      "explanation": "In `(* n (factorial (- n 1)))`, the recursive call `factorial` executes first to get the sub-result, then `*` multiplies `n` by it. The multiplication happens AFTER the recursive call returns — so `*` is the last operation, not `factorial`. The interpreter must keep each stack frame to perform the pending multiplication, making it non-tail-recursive."
+    },
+    {
+      "id": 11,
+      "question": "Evaluate: `(null? '())` and `(null? '(()))`",
+      "options": [
+        "Both yield `#t`",
+        "`(null? '())` yields `#t`; `(null? '(()))` yields `#f`",
+        "Both yield `#f`",
+        "`(null? '())` yields `#f`; `(null? '(()))` yields `#t`"
+      ],
+      "answer": "`(null? '())` yields `#t`; `(null? '(()))` yields `#f`",
+      "explanation": "`null?` returns `#t` only for a COMPLETELY EMPTY list `()`. `'()` is the empty list — `null?` returns `#t`. `'(())` is a list with ONE element (an empty list inside it) — it is NOT empty, so `null?` returns `#f`. This distinction is critical for recursive functions that use `null?` as a base case."
+    },
+    {
+      "id": 12,
+      "question": "The `eqv?` function and `=` function are both equality comparisons. When should `=` be used instead of `eqv?`?",
+      "options": [
+        "`=` should be used to compare lists; `eqv?` should be used to compare atoms",
+        "`=` should be used for numeric comparisons (including comparing floats and integers); `eqv?` is more appropriate for symbolic atoms",
+        "`eqv?` should always be used instead of `=` because it is more general",
+        "`=` is only for integers; `eqv?` handles all types"
+      ],
+      "answer": "`=` should be used for numeric comparisons (including comparing floats and integers); `eqv?` is more appropriate for symbolic atoms",
+      "explanation": "`eqv?` compares by value but treats `3.0` and `3` as DIFFERENT (float vs integer). `(eqv? 3.0 3)` yields `#f`. The `=` function performs numeric comparison: `(= 3.0 3)` yields `#t` because numerically they are equal. Use `=` for all numeric comparisons; use `eqv?` for symbolic atom comparisons. Neither works reliably for lists."
+    },
+    {
+      "id": 13,
+      "question": "Evaluate the following Scheme expression: `(cond ((= 3 4) 'a) ((= 3 3) 'b) (else 'c))`",
+      "options": [
+        "a",
+        "b",
+        "c",
+        "An error — cond requires exactly two branches"
+      ],
+      "answer": "b",
+      "explanation": "`cond` evaluates predicates in order and returns the expression for the FIRST true predicate. First: `(= 3 4)` → `#f`, skip. Second: `(= 3 3)` → `#t`, return `'b`. The `else` is never reached. Result: `b`."
+    },
+    {
+      "id": 14,
+      "question": "The `let` function in Scheme creates name bindings. How does `let` differ from `define`?",
+      "options": [
+        "Names bound with `let` are only visible in the body of the `let`; names bound with `define` are visible throughout the entire program",
+        "Names bound with `define` are only visible in the body of the `define`; `let` bindings are global",
+        "`let` can only bind numeric values; `define` can bind any value",
+        "`let` and `define` create identical bindings"
+      ],
+      "answer": "Names bound with `let` are only visible in the body of the `let`; names bound with `define` are visible throughout the entire program",
+      "explanation": "`define` creates a program-wide name binding — the name is available from the point of definition until the end of the program. `let` creates local bindings — the names exist ONLY in the body of the `let` expression. Once the `let` finishes, those names are gone. This is analogous to local variables vs globals (though they are really name bindings, not variables)."
+    },
+    {
+      "id": 15,
+      "question": "Evaluate: `(append '(a b) '(c d))`",
+      "options": [
+        "((a b) c d)",
+        "((a b) (c d))",
+        "(a b c d)",
+        "((a b c d))"
+      ],
+      "answer": "(a b c d)",
+      "explanation": "`append` joins two lists end-to-end. `(append '(a b) '(c d))` produces a single flat list `(a b c d)` where all elements of the first list come before all elements of the second. This is NOT the same as `cons` (which would add the first list as a single element) or `list` (which would create a list of two sublists)."
+    },
+    {
+      "id": 16,
+      "question": "The `mapcar` function applies a function to every element of a list. What does `(mapcar square '(2 3 4))` produce, given that `square` returns `(* x x)`?",
+      "options": [
+        "(2 3 4)",
+        "(4 9 16)",
+        "24",
+        "((4) (9) (16))"
+      ],
+      "answer": "(4 9 16)",
+      "explanation": "`mapcar` applies the function (`square`) to each element of the list `(2 3 4)` in turn: `(square 2)` = 4, `(square 3)` = 9, `(square 4)` = 16. The results are collected into a new list `(4 9 16)`. The original list is unchanged (Scheme lists are immutable). `mapcar` is an example of an apply-to-all functional form."
+    },
+    {
+      "id": 17,
+      "question": "The `eval` function in Scheme allows a program to build a list and execute it as code. What makes this easy in Scheme but difficult in imperative languages?",
+      "options": [
+        "Scheme has a faster interpreter than imperative languages",
+        "In Scheme, functions and data share the same list representation, so a built list is syntactically valid code that eval can execute directly",
+        "Scheme has a built-in code generator that imperative languages lack",
+        "Scheme programs are interpreted; imperative languages are always compiled"
+      ],
+      "answer": "In Scheme, functions and data share the same list representation, so a built list is syntactically valid code that eval can execute directly",
+      "explanation": "Since Scheme programs are lists and lists are data, building a list IS building a program. `(cons '+ '(1 2 3))` produces `(+ 1 2 3)` — a valid Scheme function call. Passing this to `eval` executes it. In imperative languages, code and data have different representations — you cannot build executable code as easily from data structures."
+    },
+    {
+      "id": 18,
+      "question": "Which comparison is the PRIMARY advantage of functional languages over imperative languages?",
+      "options": [
+        "Functional languages execute faster due to simpler compilation",
+        "Functional languages have simpler syntax and semantics and can be made automatically concurrent",
+        "Functional languages produce smaller executables",
+        "Functional languages have better type checking than imperative languages"
+      ],
+      "answer": "Functional languages have simpler syntax and semantics and can be made automatically concurrent",
+      "explanation": "Functional programs have NO side effects and NO shared mutable state. Since every function call is independent (pure), calls can be executed in parallel automatically — no concurrency control (locks, semaphores) is needed. Imperative languages require programmer-designed concurrency because shared variables create race conditions. Functional languages also have simpler semantics (no state) at the cost of execution efficiency."
+    },
+    {
+      "id": 19,
+      "question": "In the `member` function below, what is the correct order of the three cases in the `cond`?\n```\n(define (member atm lis)\n  (cond\n    (CASE1)\n    (CASE2)\n    (CASE3)\n  )\n)\n```",
+      "options": [
+        "recursive case → null? check → eqv? check",
+        "eqv? check → null? check → recursive case",
+        "null? check → eqv? check → recursive case",
+        "eqv? check → recursive case → null? check"
+      ],
+      "answer": "null? check → eqv? check → recursive case",
+      "explanation": "The `null?` check MUST come first — if `lis` is empty and `car` is called, it causes an error. The `eqv?` check (finding the atom) is the second base case. The recursive case (`(member atm (cdr lis))`) is last. If the `eqv?` check were placed after the recursive case, the base case (found!) would never be reached — infinite recursion would occur."
+    },
+    {
+      "id": 20,
+      "question": "Evaluate: `(define (square x) (* x x))` followed by `(square 5)`. What is the result?",
+      "options": [
+        "square",
+        "x",
+        "25",
+        "10"
+      ],
+      "answer": "25",
+      "explanation": "`(define (square x) (* x x))` defines a function named `square` with one parameter `x` whose body is `(* x x)`. Applying `(square 5)` substitutes `x = 5` into the body: `(* 5 5) = 25`. The result is `25`. In Scheme, `define` for a function binds the name to a lambda expression — `(define (f x) body)` is shorthand for `(define f (lambda (x) body))`."
+    }
+  ]
+}
