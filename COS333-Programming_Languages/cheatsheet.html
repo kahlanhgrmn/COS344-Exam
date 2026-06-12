@@ -262,6 +262,43 @@
         <li><strong>Pass-by-reference</strong> disadvantage: unwanted side effects, aliasing (<code>fun(total, total)</code> → both alias same variable)</li>
         <li><strong>Pass-by-name</strong> example: <code>foo(val, arr[val])</code> — after <code>a = 1</code>, <code>b</code> becomes <code>arr[1]</code>, not <code>arr[0]</code></li>
       </ul>
+
+      <h4>Code Examples</h4>
+      <p><strong>Pass-by-value</strong> — caller's variable unchanged after call:</p>
+      <pre><code>void foo(int x) { x = 99; }   // modifies local copy only
+int a = 5;
+foo(a);
+// a is still 5</code></pre>
+
+      <p><strong>Pass-by-result</strong> — formal written back to actual only on return (Ada <code>out</code>):</p>
+      <pre><code>procedure foo(x : out Integer) is
+begin
+    x := 99;          -- writes to formal; actual unchanged until return
+end foo;
+-- a receives 99 after the call completes
+foo(a);</code></pre>
+
+      <p><strong>Pass-by-value-result</strong> — copy in on entry, copy back on return (Ada <code>in out</code>):</p>
+      <pre><code>procedure foo(x : in out Integer) is
+begin
+    x := x + 1;       -- reads incoming value (copy-in), writes back on return
+end foo;
+-- a was 5, becomes 6 after the call returns
+foo(a);</code></pre>
+
+      <p><strong>Pass-by-reference</strong> — alias to actual; changes visible immediately to caller:</p>
+      <pre><code>void foo(int &amp;x) { x = 99; }   // x is an alias for a
+int a = 5;
+foo(a);
+// a is now 99 (changed inside the function)</code></pre>
+
+      <p><strong>Pass-by-name</strong> — argument expression re-evaluated on every use (textual substitution):</p>
+      <pre><code>// foo(val, arr[val]) where formal params are a and b
+// "a" substitutes for "val", "b" substitutes for "arr[val]"
+procedure foo(a, b):
+    a = 1          // val becomes 1 — now b re-evaluates as arr[1], not arr[0]
+    print b        // prints arr[1], NOT arr[0]</code></pre>
+
       <h4>Language Examples</h4>
       <ul>
         <li><strong>C/C++</strong>: pass-by-value (default), pass-by-reference (pointers in C; pointers or references in C++)</li>
