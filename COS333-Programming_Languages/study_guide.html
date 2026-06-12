@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Guide · COS333</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+/* ── SESSION CARDS ── */
+.session-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.session-header {
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  user-select: none;
+  transition: background .15s;
+}
+.session-header:hover { background: var(--surface2); }
+.session-header-left { display: flex; align-items: center; gap: 1rem; }
+.session-num {
+  font-family: var(--mono);
+  font-size: .75rem;
+  font-weight: 700;
+  padding: .3em .75em;
+  border-radius: 5px;
+  white-space: nowrap;
+  letter-spacing: .04em;
+}
+.s1 .session-num { background: #eff4ff; color: var(--accent); border: 1px solid #bfdbfe; }
+.s2 .session-num { background: var(--accent2-bg); color: var(--accent2); border: 1px solid #6ee7be; }
+.s3 .session-num { background: var(--warn-bg); color: var(--warn); border: 1px solid #fcd34d; }
+.session-title { font-weight: 700; font-size: 1.05rem; color: var(--navy); }
+.session-subtitle { font-size: .82rem; color: var(--muted); margin-top: .15rem; }
+.session-meta { display: flex; align-items: center; gap: .75rem; }
+.session-marks {
+  font-family: var(--mono);
+  font-size: .72rem;
+  font-weight: 700;
+  background: var(--navy);
+  color: #c8d0e0;
+  padding: .25em .65em;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.session-progress-ring {
+  font-family: var(--mono);
+  font-size: .75rem;
+  color: var(--accent2);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.session-chevron { font-size: .85rem; color: var(--muted); transition: transform .2s; }
+.session-card.open .session-chevron { transform: rotate(90deg); }
+.session-body {
+  display: none;
+  border-top: 1px solid var(--border);
+  padding: 1.5rem;
+}
+.session-card.open .session-body { display: block; }
+
+/* ── PROGRESS BAR ── */
+.session-prog-bar {
+  height: 4px;
+  background: var(--surface2);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+}
+.session-prog-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--accent2);
+  transition: width .3s;
+  width: 0%;
+}
+
+/* ── CHAPTER BLOCK ── */
+.ch-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: .75rem;
+}
+.ch-row-left { display: flex; align-items: center; gap: .75rem; padding-top: .1rem; }
+.ch-badge {
+  font-family: var(--mono);
+  font-size: .7rem;
+  font-weight: 700;
+  background: var(--navy);
+  color: #c8d0e0;
+  padding: .2em .6em;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.ch-row-center { min-width: 0; }
+.ch-row-title { font-weight: 600; font-size: .95rem; color: var(--navy); margin-bottom: .35rem; }
+.ch-row-focus { font-size: .83rem; color: var(--muted); line-height: 1.5; }
+.ch-row-focus strong { color: var(--navy2); }
+.marks-pill {
+  font-family: var(--mono);
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .2em .55em;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: .1rem;
+}
+.marks-high { background: var(--danger-bg); color: var(--danger); border: 1px solid #fca5a5; }
+.marks-mid  { background: var(--warn-bg);   color: var(--warn);   border: 1px solid #fcd34d; }
+.marks-low  { background: var(--accent2-bg);color: var(--accent2);border: 1px solid #6ee7be; }
+
+/* ── STEP LIST ── */
+.step-list {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .7rem .9rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.step-item:hover { border-color: var(--accent); }
+.step-item.done { background: var(--accent2-bg); border-color: #6ee7be; }
+.step-cb {
+  width: 16px; height: 16px;
+  border: 2px solid var(--border2);
+  border-radius: 3px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .7rem; font-weight: 700;
+  transition: all .15s;
+  background: var(--surface);
+}
+.step-item.done .step-cb {
+  background: var(--accent2);
+  border-color: var(--accent2);
+  color: #fff;
+}
+.step-text { font-size: .88rem; color: var(--navy2); line-height: 1.4; flex: 1; }
+.step-item.done .step-text { text-decoration: line-through; color: var(--muted); }
+.step-link {
+  font-family: var(--mono);
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--accent);
+  border: 1px solid #bfdbfe;
+  background: var(--accent-bg);
+  padding: .2em .6em;
+  border-radius: 4px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: all .15s;
+}
+.step-link:hover { background: var(--accent); color: #fff; border-color: var(--accent); text-decoration: none; }
+
+/* ── DIVIDER ── */
+.step-divider {
+  font-family: var(--mono);
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--muted);
+  padding: .4rem 0 .1rem;
+}
+
+/* ── SUMMARY BAR ── */
+.overall-progress {
+  background: var(--navy);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.overall-num {
+  font-family: var(--mono);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent2);
+  line-height: 1;
+}
+.overall-label { font-size: .82rem; color: #8892a8; margin-top: .2rem; }
+.overall-bar-wrap { flex: 1; min-width: 200px; }
+.overall-bar-bg { height: 8px; background: #2c3654; border-radius: 99px; overflow: hidden; }
+.overall-bar-fill { height: 100%; background: var(--accent2); border-radius: 99px; transition: width .3s; }
+.overall-pct { font-family: var(--mono); font-size: .78rem; color: #8892a8; margin-top: .35rem; }
+.reset-btn {
+  font-family: var(--mono); font-size: .72rem; font-weight: 600;
+  padding: .4em .9em; border-radius: 4px;
+  border: 1px solid #3d4f72; background: transparent; color: #8892a8;
+  cursor: pointer; transition: all .15s;
+}
+.reset-btn:hover { border-color: var(--danger); color: var(--danger); }
+
+/* ── EXAM TAG ── */
+.exam-tag {
+  font-family: var(--mono); font-size: .62rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: var(--danger-bg); color: var(--danger);
+  border: 1px solid #fca5a5; border-radius: 3px;
+  padding: .15em .5em; white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .ch-row { grid-template-columns: auto 1fr; }
+  .ch-row .marks-pill { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">COS333 <span>// Study Guide</span></div>
+    <div class="topnav-links">
+      <a href="../index.html">Home</a>
+      <a href="PracticeQuestions/scheme_practice_questions.html">Scheme</a>
+      <a href="PracticeQuestions/prolog_practice_questions.html">Prolog</a>
+      <a href="PracticeQuestions/scheme_prolog_guide.html">Guide</a>
+      <a href="COS333_mcq_bank.html">MCQ Bank</a>
+      <a href="cheatsheet.html">Cheatsheet</a>
+      <a href="study_guide.html" class="active">Study Guide</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">University of Pretoria · COS333</div>
+    <h1>3-Session <em>Study Guide</em></h1>
+    <p class="hero-sub">
+      Tick off each task as you go. Progress is saved in your browser. Follow the order:<br>
+      <strong>Cheatsheet → Study slides/textbook → MCQs</strong> — repeat per chapter, then practice past papers.
+    </p>
+    <div class="hero-pills">
+      <span class="hero-pill">Session 1 — <strong>15 marks</strong></span>
+      <span class="hero-pill">Session 2 — <strong>10 marks</strong></span>
+      <span class="hero-pill">Session 3 — <strong>15 marks</strong></span>
+      <span class="hero-pill"><strong>4</strong> Past Papers</span>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- OVERALL PROGRESS -->
+  <div class="overall-progress">
+    <div>
+      <div class="overall-num" id="overallDone">0</div>
+      <div class="overall-label">tasks completed</div>
+    </div>
+    <div class="overall-bar-wrap">
+      <div class="overall-bar-bg">
+        <div class="overall-bar-fill" id="overallBar" style="width:0%"></div>
+      </div>
+      <div class="overall-pct" id="overallPct">0 of 0 tasks — 0%</div>
+    </div>
+    <button class="reset-btn" onclick="resetAll()">Reset all</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SESSION 1 — High-Value Theory
+  ══════════════════════════════════════════════════════════ -->
+  <div class="session-card s1 open" id="session-1">
+    <div class="session-header" onclick="toggleSession('session-1')">
+      <div class="session-header-left">
+        <span class="session-num">Session 1</span>
+        <div>
+          <div class="session-title">High-Value Theory</div>
+          <div class="session-subtitle">Ch9 · Ch12 · Ch1 — the three heaviest chapters by marks</div>
+        </div>
+      </div>
+      <div class="session-meta">
+        <span class="session-marks">~15 marks</span>
+        <span class="session-progress-ring" id="prog-session-1">0%</span>
+        <span class="session-chevron">▶</span>
+      </div>
+    </div>
+    <div class="session-body">
+      <div class="session-prog-bar"><div class="session-prog-fill" id="bar-session-1"></div></div>
+
+      <!-- Ch9 -->
+      <div class="ch-row">
+        <div class="ch-row-left">
+          <span class="ch-badge">Ch9</span>
+        </div>
+        <div class="ch-row-center">
+          <div class="ch-row-title">Subprograms</div>
+          <div class="ch-row-focus">
+            <strong>Must know:</strong> all parameter passing methods (in-mode, out-mode, in-out-mode, pass-by-value, pass-by-result, pass-by-value-result, pass-by-reference, pass-by-name) · referencing environments · generic subprograms in C++/Java/C# · <strong>closures in JavaScript</strong> (MakeAdder pattern — can be asked for output) · coroutines (be able to trace output from pseudocode) · Sections 9.6 &amp; 9.7 are critical.
+          </div>
+        </div>
+        <span class="marks-pill marks-high">~6 marks</span>
+      </div>
+
+      <div class="step-divider">Ch9 Steps</div>
+      <ul class="step-list">
+        <li class="step-item" data-id="s1-ch9-cs" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Read the Ch9 cheatsheet — scan all terminology before opening slides</span>
+          <a class="step-link" href="cheatsheet.html" onclick="event.stopPropagation()">Cheatsheet →</a>
+        </li>
+        <li class="step-item" data-id="s1-ch9-study" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Study slides + textbook: parameter passing (9.5), referencing environments (9.5.3 excluded), generic subprograms 9.10.1–9.10.3, closures 9.12, coroutines 9.13</span>
+        </li>
+        <li class="step-item" data-id="s1-ch9-mcq" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Do all Ch9 MCQs — note every wrong answer and re-read that section</span>
+          <a class="step-link" href="COS333_mcq_bank.html" onclick="event.stopPropagation()">MCQ Bank →</a>
+        </li>
+        <li class="step-item" data-id="s1-ch9-closure" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Trace through 2–3 closure examples (MakeAdder style) and write the output by hand before checking</span>
+        </li>
+        <li class="step-item" data-id="s1-ch9-coroutine" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Trace through a coroutine pseudocode example — track which coroutine is active at each yield/resume</span>
+        </li>
+      </ul>
+
+      <hr style="margin:1.5rem 0">
+
+      <!-- Ch12 -->
+      <div class="ch-row">
+        <div class="ch-row-left">
+          <span class="ch-badge">Ch12</span>
+        </div>
+        <div class="ch-row-center">
+          <div class="ch-row-title">Object-Oriented Programming</div>
+          <div class="ch-row-focus">
+            <strong>Must know:</strong> all OOP concepts (encapsulation, inheritance, polymorphism, dynamic dispatch/dynamic binding) · abstract classes vs interfaces · single vs multiple inheritance · Sections 12.5 and 12.6 are NOT examinable. Study Ch11 only if you need to clarify a term.
+          </div>
+        </div>
+        <span class="marks-pill marks-high">~5 marks</span>
+      </div>
+
+      <div class="step-divider">Ch12 Steps</div>
+      <ul class="step-list">
+        <li class="step-item" data-id="s1-ch12-cs" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Read the Ch12 cheatsheet — map out the OOP concept tree in your head</span>
+          <a class="step-link" href="cheatsheet.html" onclick="event.stopPropagation()">Cheatsheet →</a>
+        </li>
+        <li class="step-item" data-id="s1-ch12-study" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Study slides + textbook Ch12 (all except 12.5, 12.6) — pay attention to dynamic binding and how languages implement it differently</span>
+        </li>
+        <li class="step-item" data-id="s1-ch12-mcq" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Do all Ch12 MCQs</span>
+          <a class="step-link" href="COS333_mcq_bank.html" onclick="event.stopPropagation()">MCQ Bank →</a>
+        </li>
+      </ul>
+
+      <hr style="margin:1.5rem 0">
+
+      <!-- Ch1 -->
+      <div class="ch-row">
+        <div class="ch-row-left">
+          <span class="ch-badge">Ch1</span>
+        </div>
+        <div class="ch-row-center">
+          <div class="ch-row-title">Introduction — Language Evaluation</div>
+          <div class="ch-row-focus">
+            <strong>Must know:</strong> evaluation criteria (readability, writability, reliability, cost) · <strong>orthogonality</strong> (will definitely be tested) · reasons for studying PLs — apply to a given scenario, not just memorise the list · implementation methods overview (no detailed steps). Exclude: Figure 1.2, Section 1.7.4, Section 1.8.
+          </div>
+        </div>
+        <span class="marks-pill marks-high">~4 marks</span>
+      </div>
+
+      <div class="step-divider">Ch1 Steps</div>
+      <ul class="step-list">
+        <li class="step-item" data-id="s1-ch1-cs" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Read the Ch1 cheatsheet — focus on the evaluation criteria definitions</span>
+          <a class="step-link" href="cheatsheet.html" onclick="event.stopPropagation()">Cheatsheet →</a>
+        </li>
+        <li class="step-item" data-id="s1-ch1-study" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Study Ch1 slides + textbook — especially orthogonality examples and how criteria can conflict</span>
+        </li>
+        <li class="step-item" data-id="s1-ch1-mcq" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Do all Ch1 MCQs</span>
+          <a class="step-link" href="COS333_mcq_bank.html" onclick="event.stopPropagation()">MCQ Bank →</a>
+        </li>
+        <li class="step-item" data-id="s1-ch1-apply" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Practice: pick a real feature (e.g. C pointer arithmetic, Python operator overloading) and apply all 4 criteria to it — write a sentence per criterion</span>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SESSION 2 — Core Language Concepts
+  ══════════════════════════════════════════════════════════ -->
+  <div class="session-card s2" id="session-2">
+    <div class="session-header" onclick="toggleSession('session-2')">
+      <div class="session-header-left">
+        <span class="session-num">Session 2</span>
+        <div>
+          <div class="session-title">Core Language Concepts</div>
+          <div class="session-subtitle">Ch5 · Ch6 · Ch7 · Ch8 — names, types, expressions, control</div>
+        </div>
+      </div>
+      <div class="session-meta">
+        <span class="session-marks">~10 marks</span>
+        <span class="session-progress-ring" id="prog-session-2">0%</span>
+        <span class="session-chevron">▶</span>
+      </div>
+    </div>
+    <div class="session-body">
+      <div class="session-prog-bar"><div class="session-prog-fill" id="bar-session-2"></div></div>
+
+      <!-- Ch5 -->
+      <div class="ch-row">
+        <div class="ch-row-left">
+          <span class="ch-badge">Ch5</span>
+        </div>
+        <div class="ch-row-center">
+          <div class="ch-row-title">Names, Bindings, and Scopes</div>
+          <div class="ch-row-focus">
+            <strong>Must know:</strong> binding times · static vs dynamic scoping · referencing environments · static scoping rules (which variable declaration applies) · lifetime of variables · whole chapter is examinable.
+          </div>
+        </div>
+        <span class="marks-pill marks-high">~4 marks</span>
+      </div>
+
+      <div class="step-divider">Ch5 Steps</div>
+      <ul class="step-list">
+        <li class="step-item" data-id="s2-ch5-cs" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Read the Ch5 cheatsheet</span>
+          <a class="step-link" href="cheatsheet.html" onclick="event.stopPropagation()">Cheatsheet →</a>
+        </li>
+        <li class="step-item" data-id="s2-ch5-study" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Study Ch5 slides + full chapter — pay attention to static vs dynamic scoping code traces</span>
+        </li>
+        <li class="step-item" data-id="s2-ch5-mcq" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Do all Ch5 MCQs</span>
+          <a class="step-link" href="COS333_mcq_bank.html" onclick="event.stopPropagation()">MCQ Bank →</a>
+        </li>
+        <li class="step-item" data-id="s2-ch5-trace" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Trace a code example under both static and dynamic scoping — identify what each variable reference resolves to in each model</span>
+        </li>
+      </ul>
+
+      <hr style="margin:1.5rem 0">
+
+      <!-- Ch6 -->
+      <div class="ch-row">
+        <div class="ch-row-left">
+          <span class="ch-badge">Ch6</span>
+        </div>
+        <div class="ch-row-center">
+          <div class="ch-row-title">Data Types</div>
+          <div class="ch-row-focus">
+            <strong>Must know:</strong> type checking (static vs dynamic) · strong vs weak typing · coercion · type equivalence (name vs structural) · discriminated unions · array slices and indexing. Exclude: 6.3.5, 6.5.9, 6.6.2, 6.7.4, 6.10.5, 6.11.7, 6.4, 6.5.4, 6.12, 6.16. Section 6.15 slides only.
+          </div>
+        </div>
+        <span class="marks-pill marks-mid">~3 marks</span>
+      </div>
+
+      <div class="step-divider">Ch6 Steps</div>
+      <ul class="step-list">
+        <li class="step-item" data-id="s2-ch6-cs" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Read the Ch6 cheatsheet</span>
+          <a class="step-link" href="cheatsheet.html" onclick="event.stopPropagation()">Cheatsheet →</a>
+        </li>
+        <li class="step-item" data-id="s2-ch6-study" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Study Ch6 slides + relevant textbook sections — note discriminated union graphical example from slides</span>
+        </li>
+        <li class="step-item" data-id="s2-ch6-mcq" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Do all Ch6 MCQs</span>
+          <a class="step-link" href="COS333_mcq_bank.html" onclick="event.stopPropagation()">MCQ Bank →</a>
+        </li>
+      </ul>
+
+      <hr style="margin:1.5rem 0">
+
+      <!-- Ch7 -->
+      <div class="ch-row">
+        <div class="ch-row-left">
+          <span class="ch-badge">Ch7</span>
+        </div>
+        <div class="ch-row-center">
+          <div class="ch-row-title">Expressions and Assignment</div>
+          <div class="ch-row-focus">
+            <strong>Must know:</strong> side effects · referential transparency (also in Ch15 slides) · operator precedence/associativity · short-circuit evaluation · whole chapter is examinable.
+          </div>
+        </div>
+        <span class="marks-pill marks-low">~2 marks</span>
+      </div>
+
+      <div class="step-divider">Ch7 Steps</div>
+      <ul class="step-list">
+        <li class="step-item" data-id="s2-ch7-cs" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Read the Ch7 cheatsheet</span>
+          <a class="step-link" href="cheatsheet.html" onclick="event.stopPropagation()">Cheatsheet →</a>
+        </li>
+        <li class="step-item" data-id="s2-ch7-study" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Study Ch7 slides + full chapter — connect side effects and referential transparency to what you'll see in Ch15 (functional programming)</span>
+        </li>
+        <li class="step-item" data-id="s2-ch7-mcq" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Do all Ch7 MCQs</span>
+          <a class="step-link" href="COS333_mcq_bank.html" onclick="event.stopPropagation()">MCQ Bank →</a>
+        </li>
+      </ul>
+
+      <hr style="margin:1.5rem 0">
+
+      <!-- Ch8 -->
+      <div class="ch-row">
+        <div class="ch-row-left">
+          <span class="ch-badge">Ch8</span>
+        </div>
+        <div class="ch-row-center">
+          <div class="ch-row-title">Statement-Level Control</div>
+          <div class="ch-row-focus">
+            <strong>Must know:</strong> <strong>guarded commands</strong> (section 8.5 — pay special attention) · <strong>Ruby blocks</strong> (section 8.3.4) · selection and iterative structures. Exclude: 8.2.2.3, 8.3.1.4, last paragraph of 8.3.2.2.
+          </div>
+        </div>
+        <span class="marks-pill marks-low">~1 mark</span>
+      </div>
+
+      <div class="step-divider">Ch8 Steps</div>
+      <ul class="step-list">
+        <li class="step-item" data-id="s2-ch8-cs" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Read the Ch8 cheatsheet</span>
+          <a class="step-link" href="cheatsheet.html" onclick="event.stopPropagation()">Cheatsheet →</a>
+        </li>
+        <li class="step-item" data-id="s2-ch8-study" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Study Ch8 slides + chapter — focus on guarded commands (understand Dijkstra's notation) and Ruby blocks</span>
+        </li>
+        <li class="step-item" data-id="s2-ch8-mcq" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Do all Ch8 MCQs</span>
+          <a class="step-link" href="COS333_mcq_bank.html" onclick="event.stopPropagation()">MCQ Bank →</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SESSION 3 — Functional, Logic, History + Past Papers
+  ══════════════════════════════════════════════════════════ -->
+  <div class="session-card s3" id="session-3">
+    <div class="session-header" onclick="toggleSession('session-3')">
+      <div class="session-header-left">
+        <span class="session-num">Session 3</span>
+        <div>
+          <div class="session-title">Functional, Logic &amp; Past Papers</div>
+          <div class="session-subtitle">Ch15 · Ch16 · Ch2 — implementation questions + full paper practice</div>
+        </div>
+      </div>
+      <div class="session-meta">
+        <span class="session-marks">~15 marks</span>
+        <span class="session-progress-ring" id="prog-session-3">0%</span>
+        <span class="session-chevron">▶</span>
+      </div>
+    </div>
+    <div class="session-body">
+      <div class="session-prog-bar"><div class="session-prog-fill" id="bar-session-3"></div></div>
+
+      <!-- Ch15 -->
+      <div class="ch-row">
+        <div class="ch-row-left">
+          <span class="ch-badge">Ch15</span>
+          <span class="exam-tag">Code Q</span>
+        </div>
+        <div class="ch-row-center">
+          <div class="ch-row-title">Functional Programming — Scheme</div>
+          <div class="ch-row-focus">
+            <strong>Must know:</strong> all material up to and including Section 15.5.11 (Scheme list processing) · functional forms · referential transparency &amp; side effects (from Ch7/15 slides) · also note slides include material from sections 7.2.2, 8.2.2.4, 6.9, 5.5.2. Exclude: Common Lisp, ML, Haskell, F#, Section 15.2, 15.4, lambda expressions 15.5.4. One implementation question in DrRacket.
+          </div>
+        </div>
+        <span class="marks-pill marks-mid">~3 + 5 marks</span>
+      </div>
+
+      <div class="step-divider">Ch15 Steps</div>
+      <ul class="step-list">
+        <li class="step-item" data-id="s3-ch15-cs" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Read the Ch15 cheatsheet — identify the 4 list-processing patterns (Filter, Map, Filter+Map, Accumulate)</span>
+          <a class="step-link" href="cheatsheet.html" onclick="event.stopPropagation()">Cheatsheet →</a>
+        </li>
+        <li class="step-item" data-id="s3-ch15-study" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Study Ch15 slides + textbook up to 15.5.11 — understand car/cdr/cons, let/letrec, define, cond</span>
+        </li>
+        <li class="step-item" data-id="s3-ch15-guide" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Read the Scheme &amp; Prolog pattern guide — memorise the template for each of the 4 patterns</span>
+          <a class="step-link" href="PracticeQuestions/scheme_prolog_guide.html" onclick="event.stopPropagation()">Guide →</a>
+        </li>
+        <li class="step-item" data-id="s3-ch15-mcq" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Do all Ch15 MCQs</span>
+          <a class="step-link" href="COS333_mcq_bank.html" onclick="event.stopPropagation()">MCQ Bank →</a>
+        </li>
+        <li class="step-item" data-id="s3-ch15-pq" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Complete all 10 Scheme practice questions — write each answer before revealing the solution</span>
+          <a class="step-link" href="PracticeQuestions/scheme_practice_questions.html" onclick="event.stopPropagation()">Scheme Qs →</a>
+        </li>
+      </ul>
+
+      <hr style="margin:1.5rem 0">
+
+      <!-- Ch16 -->
+      <div class="ch-row">
+        <div class="ch-row-left">
+          <span class="ch-badge">Ch16</span>
+          <span class="exam-tag">Code Q</span>
+        </div>
+        <div class="ch-row-center">
+          <div class="ch-row-title">Logic Programming — Prolog</div>
+          <div class="ch-row-focus">
+            <strong>Must know:</strong> all of Chapter 16 · terms, facts, rules, goals, unification, backtracking · list processing (member, append, reverse) · resolution · only use language features described in the textbook and practical specs. One implementation question in SWI-Prolog. Whole chapter examinable.
+          </div>
+        </div>
+        <span class="marks-pill marks-mid">~2 + 5 marks</span>
+      </div>
+
+      <div class="step-divider">Ch16 Steps</div>
+      <ul class="step-list">
+        <li class="step-item" data-id="s3-ch16-cs" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Read the Ch16 cheatsheet</span>
+          <a class="step-link" href="cheatsheet.html" onclick="event.stopPropagation()">Cheatsheet →</a>
+        </li>
+        <li class="step-item" data-id="s3-ch16-study" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Study Ch16 slides + full chapter — trace unification and backtracking step by step on a simple example</span>
+        </li>
+        <li class="step-item" data-id="s3-ch16-guide" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Re-read the pattern guide for Prolog — compare Filter/Map/Accumulate templates in Prolog vs Scheme</span>
+          <a class="step-link" href="PracticeQuestions/scheme_prolog_guide.html" onclick="event.stopPropagation()">Guide →</a>
+        </li>
+        <li class="step-item" data-id="s3-ch16-mcq" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Do all Ch16 MCQs</span>
+          <a class="step-link" href="COS333_mcq_bank.html" onclick="event.stopPropagation()">MCQ Bank →</a>
+        </li>
+        <li class="step-item" data-id="s3-ch16-pq" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Complete all 10 Prolog practice questions — write each answer before revealing the solution</span>
+          <a class="step-link" href="PracticeQuestions/prolog_practice_questions.html" onclick="event.stopPropagation()">Prolog Qs →</a>
+        </li>
+      </ul>
+
+      <hr style="margin:1.5rem 0">
+
+      <!-- Ch2 -->
+      <div class="ch-row">
+        <div class="ch-row-left">
+          <span class="ch-badge">Ch2</span>
+        </div>
+        <div class="ch-row-center">
+          <div class="ch-row-title">Programming Language History</div>
+          <div class="ch-row-focus">
+            <strong>Must know:</strong> for each language — (1) environment/intended users/application area, (2) how the environment affected the language, (3) main contributions. Focus on what's in the slides (Section 2.20: slides only). Exclude: 2.1, 2.2, 2.6.2, 2.9.2. Do not memorise dates, model numbers, or developer names.
+          </div>
+        </div>
+        <span class="marks-pill marks-low">~1 mark</span>
+      </div>
+
+      <div class="step-divider">Ch2 Steps</div>
+      <ul class="step-list">
+        <li class="step-item" data-id="s3-ch2-cs" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Read the Ch2 cheatsheet — this is a quick chapter, focus on the 3-point framework for each language</span>
+          <a class="step-link" href="cheatsheet.html" onclick="event.stopPropagation()">Cheatsheet →</a>
+        </li>
+        <li class="step-item" data-id="s3-ch2-study" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Scan Ch2 slides — for each language, write 1 sentence per framework point (environment → effect → contribution)</span>
+        </li>
+        <li class="step-item" data-id="s3-ch2-mcq" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Do all Ch2 MCQs</span>
+          <a class="step-link" href="COS333_mcq_bank.html" onclick="event.stopPropagation()">MCQ Bank →</a>
+        </li>
+      </ul>
+
+      <hr style="margin:1.5rem 0">
+
+      <!-- Past Papers -->
+      <div class="ch-row" style="background:var(--navy);border-color:#2c3654;">
+        <div class="ch-row-left">
+          <span class="ch-badge" style="background:#2c3654;color:#c8d0e0;">Papers</span>
+        </div>
+        <div class="ch-row-center">
+          <div class="ch-row-title" style="color:#fff;">Past Papers — Exam Simulation</div>
+          <div class="ch-row-focus" style="color:#8892a8;">
+            Do <strong style="color:#c8d0e0;">2022 first</strong> (oldest, widest coverage) — then 2023, 2024. Do <strong style="color:#c8d0e0;">2025 last</strong> under timed conditions (3 hours, no notes). The 2025 paper includes the most recent Scheme and Prolog question patterns.
+          </div>
+        </div>
+        <span class="marks-pill marks-high">Full Papers</span>
+      </div>
+
+      <div class="step-divider">Past Paper Steps</div>
+      <ul class="step-list">
+        <li class="step-item" data-id="s3-pp2022" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Complete the 2022 exam — mark your own answers and note which chapters need review</span>
+          <a class="step-link" href="PastPapers/Exams/2022_examination.html" onclick="event.stopPropagation()">2022 Paper →</a>
+        </li>
+        <li class="step-item" data-id="s3-pp2023" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Complete the 2023 exam — compare difficulty and question style vs 2022</span>
+          <a class="step-link" href="PastPapers/Exams/2023_examination.html" onclick="event.stopPropagation()">2023 Paper →</a>
+        </li>
+        <li class="step-item" data-id="s3-pp2024" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">Complete the 2024 exam</span>
+          <a class="step-link" href="PastPapers/Exams/2024_examination.html" onclick="event.stopPropagation()">2024 Paper →</a>
+        </li>
+        <li class="step-item" data-id="s3-pp2025" onclick="toggle(this)">
+          <span class="step-cb"></span>
+          <span class="step-text">2025 exam — do this timed under exam conditions (3 hours, no open tabs) as a final dry run</span>
+          <a class="step-link" href="PastPapers/Exams/2025_examination.html" onclick="event.stopPropagation()">2025 Paper →</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+</div><!-- end page-wrap -->
+
+<footer>
+  <div class="footer-inner">
+    <p>COS333 · University of Pretoria · Study Hub</p>
+  </div>
+</footer>
+
+<script>
+const STORAGE_KEY = 'cos333_study_guide_v1';
+
+function loadState() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  catch { return {}; }
+}
+function saveState(state) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function toggle(el) {
+  const id = el.dataset.id;
+  const state = loadState();
+  const done = !el.classList.contains('done');
+  if (done) state[id] = true; else delete state[id];
+  el.classList.toggle('done', done);
+  el.querySelector('.step-cb').textContent = done ? '✓' : '';
+  saveState(state);
+  updateProgress();
+}
+
+function updateProgress() {
+  const state = loadState();
+  const sessions = ['session-1','session-2','session-3'];
+  let totalDone = 0, totalAll = 0;
+
+  sessions.forEach(sid => {
+    const card = document.getElementById(sid);
+    if (!card) return;
+    const items = card.querySelectorAll('.step-item');
+    const done = [...items].filter(i => i.classList.contains('done')).length;
+    const pct = items.length ? Math.round(done / items.length * 100) : 0;
+    const fill = document.getElementById('bar-' + sid);
+    const ring = document.getElementById('prog-' + sid);
+    if (fill) fill.style.width = pct + '%';
+    if (ring) ring.textContent = pct + '%';
+    totalDone += done;
+    totalAll  += items.length;
+  });
+
+  const overallPct = totalAll ? Math.round(totalDone / totalAll * 100) : 0;
+  document.getElementById('overallDone').textContent = totalDone;
+  document.getElementById('overallBar').style.width = overallPct + '%';
+  document.getElementById('overallPct').textContent =
+    `${totalDone} of ${totalAll} tasks — ${overallPct}%`;
+}
+
+function applyState() {
+  const state = loadState();
+  document.querySelectorAll('.step-item').forEach(el => {
+    if (state[el.dataset.id]) {
+      el.classList.add('done');
+      el.querySelector('.step-cb').textContent = '✓';
+    }
+  });
+  updateProgress();
+}
+
+function toggleSession(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+
+function resetAll() {
+  if (!confirm('Reset all progress?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  document.querySelectorAll('.step-item').forEach(el => {
+    el.classList.remove('done');
+    el.querySelector('.step-cb').textContent = '';
+  });
+  updateProgress();
+}
+
+applyState();
+</script>
+</body>
+</html>
