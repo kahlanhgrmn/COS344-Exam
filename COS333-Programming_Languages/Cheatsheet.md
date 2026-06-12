@@ -38,6 +38,53 @@
 - **Pass-by-reference** disadvantage: unwanted side effects, aliasing (`fun(total, total)` → first and second alias the same variable)
 - **Pass-by-name** example: `foo(val, arr[val])` — after `a = 1`, `b` becomes `arr[1]`, not `arr[0]`
 
+#### Code Examples
+
+**Pass-by-value** — caller's variable unchanged after call:
+```c
+void foo(int x) { x = 99; }   // modifies local copy only
+int a = 5;
+foo(a);
+// a is still 5
+```
+
+**Pass-by-result** — formal written back to actual only on return (Ada `out`):
+```ada
+procedure foo(x : out Integer) is
+begin
+    x := 99;          -- writes to formal; actual unchanged until return
+end foo;
+-- a receives 99 after the call completes
+foo(a);
+```
+
+**Pass-by-value-result** — copy in on entry, copy back on return (Ada `in out`):
+```ada
+procedure foo(x : in out Integer) is
+begin
+    x := x + 1;       -- reads incoming value (copy-in), writes back on return
+end foo;
+-- a was 5, becomes 6 after the call returns
+foo(a);
+```
+
+**Pass-by-reference** — alias to actual; changes visible immediately to caller:
+```c
+void foo(int &x) { x = 99; }   // x is an alias for a
+int a = 5;
+foo(a);
+// a is now 99 (changed inside the function)
+```
+
+**Pass-by-name** — argument expression re-evaluated on every use (textual substitution):
+```
+// Imagine foo(val, arr[val]) where formal params are a and b
+// "a" substitutes for "val", "b" substitutes for "arr[val]"
+procedure foo(a, b):
+    a = 1          // val becomes 1 — now b re-evaluates as arr[1], not arr[0]
+    print b        // prints arr[1], NOT arr[0]
+```
+
 #### Language examples
 - **C/C++**: pass-by-value (default), pass-by-reference (pointers in C; pointers or references in C++)
 - **Java**: all parameters passed by value — objects seem passed by reference, but object *references* are passed by value
