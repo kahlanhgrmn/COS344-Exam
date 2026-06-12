@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scheme &amp; Prolog Guide — COS 333</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .guide-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .guide-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.4rem;
+    cursor: pointer;
+    user-select: none;
+    background: var(--surface);
+    transition: background .15s;
+  }
+  .guide-section-header:hover { background: var(--surface2); }
+  .guide-section-header h3 { margin: 0; font-size: 1rem; }
+  .guide-chevron { font-size: .85rem; color: var(--muted); transition: transform .2s; }
+  .guide-section.open .guide-chevron { transform: rotate(180deg); }
+  .guide-section-body {
+    display: none;
+    border-top: 1px solid var(--border);
+    padding: 1.4rem;
+  }
+  .guide-section.open .guide-section-body { display: block; }
+
+  .pattern-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 1.2rem;
+  }
+  .pattern-card-header {
+    padding: .7rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+  }
+  .pattern-card-header.blue  { background: var(--accent-bg); border-bottom: 1px solid #bfdbfe; }
+  .pattern-card-header.green { background: var(--accent2-bg); border-bottom: 1px solid #6ee7be; }
+  .pattern-card-header.orange{ background: var(--warn-bg); border-bottom: 1px solid #fcd34d; }
+  .pattern-card-header.red   { background: var(--danger-bg); border-bottom: 1px solid #fca5a5; }
+  .pattern-letter {
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .pattern-letter.blue  { background: var(--accent); color: #fff; }
+  .pattern-letter.green { background: var(--accent2); color: #fff; }
+  .pattern-letter.orange{ background: var(--warn); color: #fff; }
+  .pattern-letter.red   { background: var(--danger); color: #fff; }
+  .pattern-name { font-weight: 700; font-size: .95rem; color: var(--navy); }
+  .pattern-desc { font-size: .82rem; color: var(--muted); }
+  .pattern-body { padding: 1rem 1.2rem; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+  @media (max-width: 680px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+  .col-label {
+    font-family: var(--mono);
+    font-size: .68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: .4rem;
+  }
+  .col-label.scheme { color: var(--accent2); }
+  .col-label.prolog { color: var(--accent); }
+
+  .cheat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: .5rem;
+  }
+  @media (max-width: 600px) { .cheat-grid { grid-template-columns: 1fr; } }
+
+  .mistake-item {
+    display: flex;
+    gap: .6rem;
+    align-items: flex-start;
+    padding: .5rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: .88rem;
+  }
+  .mistake-item:last-child { border-bottom: none; }
+  .mistake-icon { font-size: 1rem; flex-shrink: 0; margin-top: .1rem; }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+  .toc-list a {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: .88rem;
+    color: var(--navy2);
+    padding: .3rem .5rem;
+    border-radius: 4px;
+    transition: background .12s;
+  }
+  .toc-list a:hover { background: var(--surface2); text-decoration: none; }
+  .toc-num { font-family: var(--mono); font-size: .72rem; color: var(--muted); min-width: 1.5rem; }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">COS333 <span>// Programming Languages</span></div>
+    <div class="topnav-links">
+      <a href="../../index.html">Home</a>
+      <a href="scheme_practice_questions.html">Scheme Practice</a>
+      <a href="prolog_practice_questions.html">Prolog Practice</a>
+      <a href="scheme_prolog_guide.html" class="active">Guide</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">COS 333 · Exam Preparation</div>
+    <h1>Scheme &amp; Prolog<br><em>Long-Question Guide</em></h1>
+    <p class="hero-sub">
+      Everything you need for the 5-mark Scheme and Prolog questions: the 4 patterns, templates, cheat-sheets, and common mistakes.
+    </p>
+    <div class="hero-pills">
+      <span class="hero-pill"><strong>4</strong> Patterns</span>
+      <span class="hero-pill">Scheme · Prolog</span>
+      <span class="hero-pill">5 marks each</span>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap" style="padding-top:2rem;">
+
+  <!-- Table of Contents -->
+  <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;margin-bottom:2rem;">
+    <h4 style="margin:0 0 .6rem;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);">Contents</h4>
+    <ul class="toc-list">
+      <li><a href="#scheme-what"><span class="toc-num">1</span> What the Scheme exam asks</a></li>
+      <li><a href="#patterns"><span class="toc-num">2</span> The 4 patterns (Scheme + Prolog)</a></li>
+      <li><a href="#scheme-approach"><span class="toc-num">3</span> Step-by-step: Scheme</a></li>
+      <li><a href="#scheme-cheat"><span class="toc-num">4</span> Scheme predicate cheat-sheet</a></li>
+      <li><a href="#prolog-what"><span class="toc-num">5</span> What the Prolog exam asks</a></li>
+      <li><a href="#prolog-structure"><span class="toc-num">6</span> Prolog list proposition structure</a></li>
+      <li><a href="#prolog-approach"><span class="toc-num">7</span> Step-by-step: Prolog</a></li>
+      <li><a href="#prolog-cheat"><span class="toc-num">8</span> Prolog arithmetic cheat-sheet</a></li>
+      <li><a href="#mistakes"><span class="toc-num">9</span> Common mistakes</a></li>
+      <li><a href="#recognition"><span class="toc-num">10</span> Pattern recognition table</a></li>
+    </ul>
+  </div>
+
+  <!-- ── PART 1: SCHEME ── -->
+  <div class="section-head" id="scheme-what">
+    <h2>Part 1 — Scheme</h2>
+    <span class="section-badge">5 marks</span>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-label">What the exam asks</div>
+    <p>One 5-mark Scheme question per exam. You get a function name and a plain-English description of what to do to a simple numeric list. Write a complete recursive Scheme function that <strong>yields</strong> (returns) the result — never prints it.</p>
+  </div>
+
+  <div class="callout callout-warn">
+    <div class="callout-label">Key restriction</div>
+    <p><code>positive?</code> is <strong>NOT</strong> in the allowed list — use <code>(&gt; x 0)</code> instead. Everything else you expect is allowed: <code>negative?</code>, <code>zero?</code>, <code>even?</code>, <code>odd?</code>, <code>null?</code>, <code>abs</code>, <code>car</code>, <code>cdr</code>, <code>cons</code>, <code>cond</code>, <code>let</code>.</p>
+  </div>
+
+  <!-- ── THE 4 PATTERNS ── -->
+  <div id="patterns">
+    <h2 style="font-size:1.3rem;font-weight:700;color:var(--navy);margin:2rem 0 1rem;border-bottom:2px solid var(--border);padding-bottom:.4rem;">The 4 Patterns</h2>
+  </div>
+
+  <!-- Pattern A -->
+  <div class="pattern-card">
+    <div class="pattern-card-header blue">
+      <div class="pattern-letter blue">A</div>
+      <div>
+        <div class="pattern-name">Filter — keep or remove elements</div>
+        <div class="pattern-desc">Output list has ≤ input length. Clue words: "remove all X", "keep only X", "without X".</div>
+      </div>
+    </div>
+    <div class="pattern-body">
+      <div class="two-col">
+        <div>
+          <div class="col-label scheme">Scheme Template</div>
+          <pre><code>(define (functionName lst)
+  (cond
+    ((null? lst) '())
+    ((KEEP-CONDITION (car lst))
+     (cons (car lst)
+           (functionName (cdr lst))))
+    (else
+     (functionName (cdr lst)))
+  )
+)</code></pre>
+        </div>
+        <div>
+          <div class="col-label prolog">Prolog Template</div>
+          <pre><code>myProp([], []).
+
+myProp([H|T], [H|R]) :-
+    H > 0,
+    myProp(T, R).
+
+myProp([H|T], R) :-
+    H =< 0,
+    myProp(T, R).</code></pre>
+        </div>
+      </div>
+      <div class="callout callout-tip" style="margin-top:.8rem;">
+        <div class="callout-label">Rule</div>
+        <p>If condition true → <code>cons</code> the element and recurse. If false → just recurse (skip element).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern B -->
+  <div class="pattern-card">
+    <div class="pattern-card-header green">
+      <div class="pattern-letter green">B</div>
+      <div>
+        <div class="pattern-name">Map — transform every element</div>
+        <div class="pattern-desc">Output length = input length. Every element appears, possibly changed. Clue words: "transform every element", "double all", "square each".</div>
+      </div>
+    </div>
+    <div class="pattern-body">
+      <div class="two-col">
+        <div>
+          <div class="col-label scheme">Scheme Template</div>
+          <pre><code>(define (functionName lst)
+  (cond
+    ((null? lst) '())
+    (else
+     (cons (TRANSFORM (car lst))
+           (functionName (cdr lst))))
+  )
+)</code></pre>
+        </div>
+        <div>
+          <div class="col-label prolog">Prolog Template</div>
+          <pre><code>myProp([], []).
+
+myProp([H|T], [New|R]) :-
+    New is EXPRESSION,
+    myProp(T, R).</code></pre>
+        </div>
+      </div>
+      <div class="callout callout-tip" style="margin-top:.8rem;">
+        <div class="callout-label">Rule</div>
+        <p>No element is ever skipped. Only 2 clauses (Prolog) / 2 cond-cases (Scheme): base + single recursive.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern C -->
+  <div class="pattern-card">
+    <div class="pattern-card-header orange">
+      <div class="pattern-letter orange">C</div>
+      <div>
+        <div class="pattern-name">Filter+Map — 3-way split (exam favourite)</div>
+        <div class="pattern-desc">Some elements omitted, some kept, some transformed. This is what the 2025 exam used. Clue: "X unchanged, Y transformed, Z omitted".</div>
+      </div>
+    </div>
+    <div class="pattern-body">
+      <div class="two-col">
+        <div>
+          <div class="col-label scheme">Scheme Template</div>
+          <pre><code>(define (functionName lst)
+  (cond
+    ((null? lst) '())
+    ((OMIT-CONDITION (car lst))
+     (functionName (cdr lst)))
+    ((TRANSFORM-CONDITION (car lst))
+     (cons (TRANSFORM (car lst))
+           (functionName (cdr lst))))
+    (else
+     (cons (car lst)
+           (functionName (cdr lst))))
+  )
+)</code></pre>
+        </div>
+        <div>
+          <div class="col-label prolog">Prolog Template</div>
+          <pre><code>myProp([], []).
+
+% omit this element
+myProp([H|T], R) :-
+    H =:= 0,
+    myProp(T, R).
+
+% transform this element
+myProp([H|T], [New|R]) :-
+    H > 0,
+    New is H * 2,
+    myProp(T, R).
+
+% keep unchanged
+myProp([H|T], [H|R]) :-
+    H < 0,
+    myProp(T, R).</code></pre>
+        </div>
+      </div>
+      <div class="callout callout-warn" style="margin-top:.8rem;">
+        <div class="callout-label">Critical</div>
+        <p>Make conditions <strong>mutually exclusive</strong> — every element must match exactly one clause/branch. Use &lt;0, =:=0, &gt;0 (not ≥0 with &gt;0) to avoid overlaps.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern D -->
+  <div class="pattern-card">
+    <div class="pattern-card-header red">
+      <div class="pattern-letter red">D</div>
+      <div>
+        <div class="pattern-name">Accumulate — return a number (count or sum)</div>
+        <div class="pattern-desc">Returns a single number, not a list. Base case is 0. Clue words: "return the count of", "return the sum of".</div>
+      </div>
+    </div>
+    <div class="pattern-body">
+      <div class="two-col">
+        <div>
+          <div class="col-label scheme">Scheme Template</div>
+          <pre><code>(define (functionName lst)
+  (cond
+    ((null? lst) 0)
+    ((CONDITION (car lst))
+     (+ CONTRIBUTION
+        (functionName (cdr lst))))
+    (else
+     (functionName (cdr lst)))
+  )
+)</code></pre>
+        </div>
+        <div>
+          <div class="col-label prolog">Prolog Template</div>
+          <pre><code>myProp([], 0).
+
+myProp([H|T], N) :-
+    H > 0,
+    myProp(T, Rest),
+    N is Rest + 1.
+
+myProp([H|T], N) :-
+    H =< 0,
+    myProp(T, N).</code></pre>
+        </div>
+      </div>
+      <div class="callout callout-tip" style="margin-top:.8rem;">
+        <div class="callout-label">Rule</div>
+        <p>Base case returns <code>0</code> (not <code>'()</code>). For count: add 1. For sum: add the element value. Non-matching elements contribute nothing.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCHEME STEP-BY-STEP ── -->
+  <div id="scheme-approach">
+    <div class="section-head">
+      <h2>Step-by-Step: Scheme</h2>
+      <span class="section-badge">Exam technique</span>
+    </div>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem 1.4rem;box-shadow:var(--shadow);">
+    <ol style="padding-left:1.4rem;margin:0;">
+      <li style="margin-bottom:.75rem;"><strong>Identify the pattern</strong> from the description: "remove/keep" → A · "transform every" → B · "3 categories" → C · "return count/sum" → D</li>
+      <li style="margin-bottom:.75rem;"><strong>Write the base case first:</strong> <code>(null? lst)</code> → <code>'()</code> for A/B/C, <code>0</code> for D</li>
+      <li style="margin-bottom:.75rem;"><strong>Write condition cases</strong> using <code>cond</code> (prefer <code>cond</code> over nested <code>if</code> for 3+ cases)</li>
+      <li style="margin-bottom:.75rem;"><strong>Use <code>cons</code></strong> to build the output list — never wrap with <code>list</code></li>
+      <li style="margin-bottom:.75rem;"><strong>Double-check:</strong>
+        <ul style="margin-top:.3rem;">
+          <li>Is <code>positive?</code> needed? Use <code>(&gt; x 0)</code> instead</li>
+          <li>Is the function named exactly as stated?</li>
+          <li>Does it <em>yield</em>, not print? No <code>display</code> calls</li>
+          <li>Is the empty list quoted? <code>'()</code> not <code>()</code></li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <!-- ── SCHEME CHEAT-SHEET ── -->
+  <div id="scheme-cheat" style="margin-top:2rem;">
+    <h2 style="font-size:1.3rem;font-weight:700;color:var(--navy);margin:0 0 .75rem;border-bottom:2px solid var(--border);padding-bottom:.4rem;">Scheme Predicate Cheat-Sheet</h2>
+  </div>
+
+  <table>
+    <thead><tr><th>Test</th><th>Scheme code</th></tr></thead>
+    <tbody>
+      <tr><td>x is positive</td><td><code>(&gt; x 0)</code> — NOT <code>positive?</code></td></tr>
+      <tr><td>x is negative</td><td><code>(negative? x)</code> or <code>(&lt; x 0)</code></td></tr>
+      <tr><td>x is zero</td><td><code>(zero? x)</code></td></tr>
+      <tr><td>x is non-negative</td><td><code>(&gt;= x 0)</code></td></tr>
+      <tr><td>x is even</td><td><code>(even? x)</code></td></tr>
+      <tr><td>x is odd</td><td><code>(odd? x)</code></td></tr>
+      <tr><td>x is positive AND odd</td><td><code>(and (&gt; x 0) (odd? x))</code></td></tr>
+      <tr><td>absolute value of x</td><td><code>(abs x)</code></td></tr>
+      <tr><td>double x</td><td><code>(* 2 x)</code></td></tr>
+      <tr><td>negate x</td><td><code>(- x)</code> or <code>(* -1 x)</code></td></tr>
+      <tr><td>halve x (integer)</td><td><code>(quotient x 2)</code></td></tr>
+      <tr><td>square x</td><td><code>(* x x)</code></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ── PART 2: PROLOG ── -->
+  <div class="section-head" id="prolog-what" style="margin-top:3rem;">
+    <h2>Part 2 — Prolog</h2>
+    <span class="section-badge">5 marks each</span>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-label">What the exam asks</div>
+    <p>Every exam has <strong>one 5-mark Prolog question</strong>; ST2 has <strong>two</strong>. Always a list-processing proposition <code>name(L1, L2)</code> where L2 is L1 with some filter/map applied.</p>
+  </div>
+
+  <div class="callout callout-warn">
+    <div class="callout-label">Hard restrictions</div>
+    <p>No if-then, no if-then-else, no <code>;</code> outside lists, no built-in <code>member</code>/<code>append</code>/<code>reverse</code>. Use only: constants, variables, list patterns, arithmetic, relational expressions, <code>is</code>, cuts, and built-in <code>not</code>.</p>
+  </div>
+
+  <!-- ── PROLOG STRUCTURE ── -->
+  <div id="prolog-structure" style="margin-top:1.5rem;">
+    <h2 style="font-size:1.3rem;font-weight:700;color:var(--navy);margin:0 0 .75rem;border-bottom:2px solid var(--border);padding-bottom:.4rem;">Prolog List Proposition Structure</h2>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem 1.4rem;margin-bottom:1.2rem;box-shadow:var(--shadow);">
+    <p style="margin:0 0 .75rem;">Every list proposition follows this structure:</p>
+    <pre><code>% Base case: empty list
+myProp([], []).
+
+% Recursive cases: one clause per element outcome
+myProp([Head|Tail], Result) :-
+    % conditions on Head,
+    % compute transformed head,
+    % recurse on tail</code></pre>
+    <ul style="margin:.75rem 0 0;font-size:.9rem;">
+      <li>The second parameter <code>Result</code> is your "return value" — it gets built up</li>
+      <li>Each case is a <strong>separate clause</strong> (not nested if-then)</li>
+      <li>Always put the base case <code>[]</code> first</li>
+      <li>Use <code>[Head|Tail]</code> to decompose, <code>[Head|Result]</code> or <code>[NewHead|Result]</code> to construct</li>
+    </ul>
+  </div>
+
+  <div style="margin-bottom:1.2rem;">
+    <h3 style="font-size:1rem;margin-bottom:.5rem;">Result patterns per element outcome:</h3>
+    <table>
+      <thead><tr><th>Outcome for element H</th><th>Prolog result parameter</th></tr></thead>
+      <tbody>
+        <tr><td>Element is <strong>omitted</strong></td><td><code>R</code> (result = just the tail's result)</td></tr>
+        <tr><td>Element is <strong>kept unchanged</strong></td><td><code>[H|R]</code></td></tr>
+        <tr><td>Element is <strong>transformed</strong></td><td>Compute <code>New is ...</code>, then <code>[New|R]</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── PROLOG STEP-BY-STEP ── -->
+  <div id="prolog-approach">
+    <h2 style="font-size:1.3rem;font-weight:700;color:var(--navy);margin:2rem 0 .75rem;border-bottom:2px solid var(--border);padding-bottom:.4rem;">Step-by-Step: Prolog</h2>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem 1.4rem;box-shadow:var(--shadow);">
+    <ol style="padding-left:1.4rem;margin:0;">
+      <li style="margin-bottom:.75rem;"><strong>Write the base case first:</strong> <code>myProp([], []).</code></li>
+      <li style="margin-bottom:.75rem;"><strong>Count the cases</strong> for each element: how many different outcomes? 2 → Pattern A/B, 3 → Pattern C, counting/summing → Pattern D</li>
+      <li style="margin-bottom:.75rem;"><strong>Write one clause per case:</strong>
+        <ul style="margin-top:.3rem;">
+          <li>Omit: <code>myProp([H|T], R) :- Condition, myProp(T, R).</code></li>
+          <li>Keep: <code>myProp([H|T], [H|R]) :- Condition, myProp(T, R).</code></li>
+          <li>Transform: <code>myProp([H|T], [New|R]) :- Condition, New is Expr, myProp(T, R).</code></li>
+        </ul>
+      </li>
+      <li style="margin-bottom:.75rem;"><strong>Make conditions mutually exclusive:</strong> use <code>H &gt; 0</code>, <code>H &lt; 0</code>, <code>H =:= 0</code></li>
+      <li style="margin-bottom:.75rem;"><strong>Double-check:</strong>
+        <ul style="margin-top:.3rem;">
+          <li>Use <code>=:=</code> for numeric equality (not <code>=</code>)</li>
+          <li>Use <code>is</code> for arithmetic assignment</li>
+          <li>No <code>;</code> operators or if-then constructs</li>
+          <li>Base case first</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <!-- ── PROLOG CHEAT-SHEET ── -->
+  <div id="prolog-cheat" style="margin-top:2rem;">
+    <h2 style="font-size:1.3rem;font-weight:700;color:var(--navy);margin:0 0 .75rem;border-bottom:2px solid var(--border);padding-bottom:.4rem;">Prolog Arithmetic Cheat-Sheet</h2>
+  </div>
+
+  <table>
+    <thead><tr><th>Operation</th><th>Prolog syntax</th></tr></thead>
+    <tbody>
+      <tr><td>X is positive</td><td><code>X &gt; 0</code></td></tr>
+      <tr><td>X is negative</td><td><code>X &lt; 0</code></td></tr>
+      <tr><td>X is zero</td><td><code>X =:= 0</code></td></tr>
+      <tr><td>X is non-negative</td><td><code>X &gt;= 0</code></td></tr>
+      <tr><td>X is non-positive</td><td><code>X =&lt; 0</code></td></tr>
+      <tr><td>Compute absolute value</td><td><code>Abs is abs(H)</code></td></tr>
+      <tr><td>Double a value</td><td><code>Double is H * 2</code></td></tr>
+      <tr><td>Negate a value</td><td><code>Neg is -H</code> or <code>Neg is H * -1</code></td></tr>
+      <tr><td>Square a value</td><td><code>Sq is H * H</code></td></tr>
+      <tr><td>X equals Y (arithmetic)</td><td><code>X =:= Y</code></td></tr>
+      <tr><td>X not equals Y (arith.)</td><td><code>X =\= Y</code></td></tr>
+      <tr><td>Even check</td><td><code>0 is mod(H, 2)</code></td></tr>
+      <tr><td>Odd check</td><td><code>not(0 is mod(H, 2))</code></td></tr>
+      <tr><td>Integer division</td><td><code>Half is H // 2</code></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ── COMMON MISTAKES ── -->
+  <div id="mistakes" style="margin-top:2rem;">
+    <h2 style="font-size:1.3rem;font-weight:700;color:var(--navy);margin:0 0 .75rem;border-bottom:2px solid var(--border);padding-bottom:.4rem;">Common Mistakes</h2>
+  </div>
+
+  <div class="two-col">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;box-shadow:var(--shadow);">
+      <div style="font-family:var(--mono);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent2);margin-bottom:.75rem;">Scheme</div>
+      <div class="mistake-item"><span class="mistake-icon">✗</span><div>Returning <code>()</code> without quote → must be <code>'()</code></div></div>
+      <div class="mistake-item"><span class="mistake-icon">✗</span><div>Using <code>positive?</code> → not allowed; use <code>(&gt; x 0)</code></div></div>
+      <div class="mistake-item"><span class="mistake-icon">✗</span><div>Printing instead of yielding → no <code>display</code></div></div>
+      <div class="mistake-item"><span class="mistake-icon">✗</span><div>Using <code>(list ...)</code> to build output → use <code>cons</code></div></div>
+      <div class="mistake-item"><span class="mistake-icon">✗</span><div>Forgetting the quote in base case entirely</div></div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;box-shadow:var(--shadow);">
+      <div style="font-family:var(--mono);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:.75rem;">Prolog</div>
+      <div class="mistake-item"><span class="mistake-icon">✗</span><div>Using <code>=</code> for numeric equality → use <code>=:=</code></div></div>
+      <div class="mistake-item"><span class="mistake-icon">✗</span><div>Using <code>X = expr</code> for arithmetic → use <code>X is expr</code></div></div>
+      <div class="mistake-item"><span class="mistake-icon">✗</span><div>Using <code>;</code> for logical or → write separate clauses</div></div>
+      <div class="mistake-item"><span class="mistake-icon">✗</span><div>Using if-then <code>(cond -&gt; then ; else)</code> → separate clauses</div></div>
+      <div class="mistake-item"><span class="mistake-icon">✗</span><div>Overlapping conditions → backtracking gives multiple answers</div></div>
+    </div>
+  </div>
+
+  <!-- ── PATTERN RECOGNITION TABLE ── -->
+  <div id="recognition" style="margin-top:2rem;">
+    <h2 style="font-size:1.3rem;font-weight:700;color:var(--navy);margin:0 0 .75rem;border-bottom:2px solid var(--border);padding-bottom:.4rem;">Pattern Recognition Table</h2>
+  </div>
+
+  <table>
+    <thead><tr><th>Description clue</th><th>Pattern</th><th>Base case</th></tr></thead>
+    <tbody>
+      <tr><td>"remove all X" / "without X" / "keep only X"</td><td><span class="card-tag tag-blue">Filter A</span></td><td><code>'()</code> / <code>[]</code></td></tr>
+      <tr><td>"transform every element" / "double all" / "square each"</td><td><span class="card-tag tag-green">Map B</span></td><td><code>'()</code> / <code>[]</code></td></tr>
+      <tr><td>"X unchanged, Y transformed, Z omitted" (3 categories)</td><td><span class="card-tag tag-orange">Filter+Map C</span></td><td><code>'()</code> / <code>[]</code></td></tr>
+      <tr><td>"return the count of"</td><td><span class="card-tag tag-red">Accumulate D</span></td><td><code>0</code></td></tr>
+      <tr><td>"return the sum of"</td><td><span class="card-tag tag-red">Accumulate D</span></td><td><code>0</code></td></tr>
+      <tr><td>"succeeds if N is the number of…" (Prolog)</td><td><span class="card-tag tag-red">Accumulate D</span></td><td><code>0</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-exam" style="margin-top:1.5rem;">
+    <div class="callout-label">2025 Exam</div>
+    <p>The 2025 exam used <strong>Pattern C</strong> for both Scheme (<code>getZerosDoublePositives</code>) and Prolog (<code>getNegativesNegatePositives</code>). Pattern C is the most common exam pattern — practise it the most.</p>
+  </div>
+
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem;padding-top:1.5rem;border-top:2px solid var(--border);">
+    <a href="scheme_practice_questions.html" class="card" style="flex:1;min-width:200px;max-width:320px;">
+      <div style="font-size:.7rem;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">Practice</div>
+      <div style="font-weight:700;color:var(--navy);">Scheme Questions</div>
+      <div style="font-size:.82rem;color:var(--muted);">10 exam-style questions with memo and compare</div>
+    </a>
+    <a href="prolog_practice_questions.html" class="card" style="flex:1;min-width:200px;max-width:320px;">
+      <div style="font-size:.7rem;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">Practice</div>
+      <div style="font-weight:700;color:var(--navy);">Prolog Questions</div>
+      <div style="font-size:.82rem;color:var(--muted);">10 exam-style questions with memo and compare</div>
+    </a>
+  </div>
+
+  <div style="height:3rem;"></div>
+</div>
+
+</body>
+</html>

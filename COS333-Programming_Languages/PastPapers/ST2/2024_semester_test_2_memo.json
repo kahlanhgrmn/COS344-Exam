@@ -4,7 +4,11 @@
   "date": "14 May 2024",
   "duration": "1.5 hours",
   "total_marks": 35,
-  "source_chapters": ["Chapter 5 (Parts 1 & 2)", "Chapter 6 (Parts 1 & 2)", "Chapter 16 (Parts 1, 2 & 3)"],
+  "source_chapters": [
+    "Chapter 5 (Parts 1 & 2)",
+    "Chapter 6 (Parts 1 & 2)",
+    "Chapter 16 (Parts 1, 2 & 3)"
+  ],
   "questions": [
     {
       "question": 1,
@@ -14,35 +18,55 @@
         "step1": "Infer sportsPerson(angela) from tennis(angela) using the rule sportsPerson(X) :- tennis(X).",
         "step2": "No step performed (query is already proven)."
       },
-      "explanation": "Bottom-up (forward chaining) starts from known facts and applies rules to derive new facts until the query is proven. Known facts: tennis(angela) and soccer(gary). We can apply the rule `sportsPerson(X) :- tennis(X)` with X=angela because tennis(angela) is a fact — this derives sportsPerson(angela). The query `sportsPerson(angela)` is now proven as a derived fact. No second step is needed. (Top-down/backward chaining would work the other way: start from the query and try to match rules.)"
+      "explanation": "Bottom-up (forward chaining) starts from known facts and applies rules to derive new facts until the query is proven. Known facts: tennis(angela) and soccer(gary). We can apply the rule `sportsPerson(X) :- tennis(X)` with X=angela because tennis(angela) is a fact — this derives sportsPerson(angela). The query `sportsPerson(angela)` is now proven as a derived fact. No second step is needed. (Top-down/backward chaining would work the other way: start from the query and try to match rules.)",
+      "question_text": "Assume that the following Prolog-like program code is provided:\n\n```prolog\ntennis(angela).\nsoccer(gary).\nsportsPerson(X) :- soccer(X).\nsportsPerson(X) :- tennis(X).\n```\n\nAlso assume that the following query is provided:\n\n```prolog\n?- sportsPerson(angela).\n```\n\nSelect from the options to complete the following steps, if **bottom-up resolution (forward chaining)** is performed to prove the query. Select \"No step performed\" for any steps you do not use.\n\n**Step 1:** _______________\n\n**Step 2:** _______________",
+      "options": null
     },
     {
       "question": 2,
       "marks": 2,
       "topic": "Prolog — Query Efficiency",
       "answer": "?- cat(X), pet(X, peter).",
-      "explanation": "In Prolog, goals are evaluated left to right. `cat(X)` will unify X with every known cat — likely a small set. Then `pet(X, peter)` checks only those cats. This is more efficient than `pet(X, peter)` first (which finds ALL pets of peter, then checks if each is a cat). The most efficient order narrows the search space earliest. Starting with the more restrictive or smaller fact set (`cat`) before the larger one (`pet`) is the best strategy. Running two separate queries does not share variable bindings and is least efficient."
+      "explanation": "In Prolog, goals are evaluated left to right. `cat(X)` will unify X with every known cat — likely a small set. Then `pet(X, peter)` checks only those cats. This is more efficient than `pet(X, peter)` first (which finds ALL pets of peter, then checks if each is a cat). The most efficient order narrows the search space earliest. Starting with the more restrictive or smaller fact set (`cat`) before the larger one (`pet`) is the best strategy. Running two separate queries does not share variable bindings and is least efficient.",
+      "question_text": "Assume that you have a Prolog program with three kinds of facts: `cat(X)` (X is a cat), `dog(X)` (X is a dog), and `pet(X, Y)` (X is a pet owned by Y). You wish to write a query that determines whether `peter` owns a pet that is a cat. Select the query that **most efficiently** determines an instantiation for the pet of peter.",
+      "options": [
+        "?- cat(X), pet(X, peter).",
+        "?- pet(X, peter), cat(X).",
+        "?- cat(X). then ?- pet(X, peter).",
+        "?- pet(X, peter). then ?- cat(X)."
+      ]
     },
     {
       "question": 3,
       "marks": 5,
       "topic": "Prolog — ownsSharedProperty",
       "answer": "ownsSharedProperty(X) :-\n  tenant(T1, X),\n  tenant(T2, X),\n  not(T1 = T2),\n  address(T1, Addr),\n  address(T2, Addr).",
-      "explanation": "The proposition succeeds if X has two DIFFERENT tenants (T1 and T2) who live at the SAME address. Steps: (1) Find T1, a tenant of X. (2) Find T2, also a tenant of X. (3) Ensure T1 ≠ T2 using `not(T1 = T2)` — without this, the same person would match both. (4) Get the address of T1. (5) Unify the address of T2 with the same address (Prolog unification handles this). In the example: jane's tenants are tom (shillingLane15) and mary (shillingLane15) — same address → jane succeeds. tony's tenants are alice (pineStreet12) and joe (duncanRoad6) — different addresses → tony fails."
+      "explanation": "The proposition succeeds if X has two DIFFERENT tenants (T1 and T2) who live at the SAME address. Steps: (1) Find T1, a tenant of X. (2) Find T2, also a tenant of X. (3) Ensure T1 ≠ T2 using `not(T1 = T2)` — without this, the same person would match both. (4) Get the address of T1. (5) Unify the address of T2 with the same address (Prolog unification handles this). In the example: jane's tenants are tom (shillingLane15) and mary (shillingLane15) — same address → jane succeeds. tony's tenants are alice (pineStreet12) and joe (duncanRoad6) — different addresses → tony fails.",
+      "question_text": "Assume that you have Prolog facts describing tenants and addresses:\n\n```prolog\ntenant(alice, tony).\ntenant(tom, jane).\ntenant(joe, tony).\ntenant(mary, jane).\naddress(alice, pineStreet12).\naddress(tom, shillingLane15).\naddress(joe, duncanRoad6).\naddress(mary, shillingLane15).\naddress(jonathan, pineStreet12).\n```\n\n`tenant(X, Y)` means X rents from Y. `address(X, Y)` means X lives at Y.\n\nWrite a Prolog proposition called `ownsSharedProperty(X)`, which succeeds if atom X owns a property rented by two individuals who share the same address. In the above example, only `jane` satisfies this (tom and mary are both her tenants and both live at `shillingLane15`).\n\n**Requirements:**\n- You may **not** define any additional facts other than `tenant` and `address`.\n- You may define additional helper propositions.\n- Only use constants, variables, list manipulation, arithmetic, relational expressions, and built-in predicates from the textbook/slides. Do **not** use if-then, if-then-else, or complex system predicates.",
+      "options": null
     },
     {
       "question": 4,
       "marks": 5,
       "topic": "Prolog — countNonMatching",
       "answer": "countNonMatching(_, [], 0).\ncountNonMatching(E, [H|T], C) :-\n  E = H,\n  countNonMatching(E, T, C).\ncountNonMatching(E, [H|T], C) :-\n  not(E = H),\n  countNonMatching(E, T, C1),\n  C is C1 + 1.",
-      "explanation": "Three clauses: (1) Base case: empty list → count is 0. (2) If the head H matches E: don't increment, recurse on tail with same count C. (3) If H does NOT match E: recurse on tail to get C1, then C = C1 + 1. The `is` operator is used for arithmetic. Note: the count accumulates on the way BACK from the recursion (not a tail-recursive counter). Example: `countNonMatching(a, [a,b,a,c,d], X)` → b, c, d don't match → X=3. The `not(E = H)` check in clause 3 ensures mutual exclusivity with clause 2."
+      "explanation": "Three clauses: (1) Base case: empty list → count is 0. (2) If the head H matches E: don't increment, recurse on tail with same count C. (3) If H does NOT match E: recurse on tail to get C1, then C = C1 + 1. The `is` operator is used for arithmetic. Note: the count accumulates on the way BACK from the recursion (not a tail-recursive counter). Example: `countNonMatching(a, [a,b,a,c,d], X)` → b, c, d don't match → X=3. The `not(E = H)` check in clause 3 ensures mutual exclusivity with clause 2.",
+      "question_text": "Write a Prolog proposition called `countNonMatching(E, L, C)`, which succeeds if C is the number of elements in list L that **do not match** atom E. For example:\n\n```prolog\n?- countNonMatching(a, [a, a], X).\n% X = 0\n\n?- countNonMatching(a, [a, b, a, c, d], X).\n% X = 3\n```\n\n**Requirements:**\n- You may define additional helper propositions.\n- Only use constants, variables, list manipulation, arithmetic, relational expressions, and built-in predicates from the textbook/slides. Do **not** use if-then, if-then-else, or complex system predicates.",
+      "options": null
     },
     {
       "question": 5,
       "marks": 1,
       "topic": "Name Length and Writability",
       "answer": "C99",
-      "explanation": "Writability in terms of name length relates to how easily a programmer can choose and use variable names. C99 has no significant restriction on identifier length (effectively unlimited in practice) and uses concise naming conventions by tradition. Fortran 95 historically had a 31-character limit. Ada requires names to be meaningful and encourages verbose names. C++ is similar to C99 but more verbose by OOP conventions. For raw writability — typing the least while still expressing meaning — C99's short identifier tradition (single-letter variables, abbreviated names) and unlimited length give it the most flexibility."
+      "explanation": "Writability in terms of name length relates to how easily a programmer can choose and use variable names. C99 has no significant restriction on identifier length (effectively unlimited in practice) and uses concise naming conventions by tradition. Fortran 95 historically had a 31-character limit. Ada requires names to be meaningful and encourages verbose names. C++ is similar to C99 but more verbose by OOP conventions. For raw writability — typing the least while still expressing meaning — C99's short identifier tradition (single-letter variables, abbreviated names) and unlimited length give it the most flexibility.",
+      "question_text": "Consider the following programming languages, and select the one that is the **most writable** in terms of name length, in a real-world context.",
+      "options": [
+        "Fortran 95",
+        "C99",
+        "C++",
+        "Ada"
+      ]
     },
     {
       "question": 6,
@@ -52,21 +76,37 @@
         "compilation_error_on_line_11": "Reserved words",
         "no_compilation_error": "Keywords"
       },
-      "explanation": "Line 11 uses `class` as a variable name — `class` is also used as a special word on line 1. If a compilation error occurs (line 11 fails because `class` cannot be used as a variable name), then the language uses RESERVED WORDS — words that cannot be used for any other purpose. If no error occurs (the language allows `class` to be used as a variable name while also being a special word in the class definition context), then the language uses KEYWORDS — words that are only special in certain contexts and CAN be redefined as variable names."
+      "explanation": "Line 11 uses `class` as a variable name — `class` is also used as a special word on line 1. If a compilation error occurs (line 11 fails because `class` cannot be used as a variable name), then the language uses RESERVED WORDS — words that cannot be used for any other purpose. If no error occurs (the language allows `class` to be used as a variable name while also being a special word in the class definition context), then the language uses KEYWORDS — words that are only special in certain contexts and CAN be redefined as variable names.",
+      "question_text": "Consider the following program code in a hypothetical programming language:\n\n```\n1.  class MyClass {\n2.     int count;\n3.     MyClass(int aCount) {\n4.        count = aCount\n5.     }\n6.     int getCount() {\n7.        return count\n8.     }\n9.  }\n10. void main() {\n11.    int class = 5\n12.    MyClass m(class)\n13. }\n```\n\nIdentify the type of special words used in this programming language:\n\n- If a **compilation error occurs on line 11**: the special words are _______________\n- If **no compilation error occurs**: the special words are _______________",
+      "options": null
     },
     {
       "question": 7,
       "marks": 1,
       "topic": "Type Binding",
       "answer": "Implicit type declaration with type inferencing",
-      "explanation": "The code `myVariable = [1, 2, 3]` assigns a list on line 1 without any explicit type declaration — the type is inferred from the assigned value. The compilation error on line 2 (trying to assign an integer 14 to something typed as a list) means the type was FIXED at line 1 through inference and cannot change. This is 'implicit type declaration WITH type inferencing': the type is implicitly inferred from the value assigned (no explicit declaration), but once set it is static (compile-time error on mismatch). Dynamic type binding would allow the type to change at runtime, not cause a compile error."
+      "explanation": "The code `myVariable = [1, 2, 3]` assigns a list on line 1 without any explicit type declaration — the type is inferred from the assigned value. The compilation error on line 2 (trying to assign an integer 14 to something typed as a list) means the type was FIXED at line 1 through inference and cannot change. This is 'implicit type declaration WITH type inferencing': the type is implicitly inferred from the value assigned (no explicit declaration), but once set it is static (compile-time error on mismatch). Dynamic type binding would allow the type to change at runtime, not cause a compile error.",
+      "question_text": "Consider the following program code in a hypothetical programming language:\n\n```\n1. myVariable = [1, 2, 3]\n2. myVariable = 14\n```\n\nAssume the above code results in a **compilation error on line 2**. Select the kind of type binding most likely used for `myVariable`.",
+      "options": [
+        "Explicit type declaration",
+        "Implicit type declaration without type inferencing",
+        "Implicit type declaration with type inferencing",
+        "Dynamic type binding"
+      ]
     },
     {
       "question": 8,
       "marks": 1,
       "topic": "Variable Categories",
       "answer": "Explicit heap-dynamic variables",
-      "explanation": "Explicit heap-dynamic variables are allocated on the heap at runtime via explicit allocation calls (like `malloc` in C, or `new` in C++/Java). These variables have NO name associated with them — they are referenced only through pointers or references. The name belongs to the pointer variable, not to the heap-allocated value itself. Static, stack-dynamic, and implicit heap-dynamic variables all have names associated with them in the source code."
+      "explanation": "Explicit heap-dynamic variables are allocated on the heap at runtime via explicit allocation calls (like `malloc` in C, or `new` in C++/Java). These variables have NO name associated with them — they are referenced only through pointers or references. The name belongs to the pointer variable, not to the heap-allocated value itself. Static, stack-dynamic, and implicit heap-dynamic variables all have names associated with them in the source code.",
+      "question_text": "Consider the following categories of variables, and select the one that **has no name** associated with it.",
+      "options": [
+        "Static variables",
+        "Stack-dynamic variables",
+        "Explicit heap-dynamic variables",
+        "Implicit heap-dynamic variables"
+      ]
     },
     {
       "question": 9,
@@ -78,7 +118,9 @@
         "lifetime_of_integer_from_line": 2,
         "lifetime_of_integer_to_line": 3
       },
-      "explanation": "Scope: `myValue` is first used/declared on line 2 (inside `doSomething`) and the function ends at line 5 — scope is lines 2–5. With static scope, `myValue` is local to `doSomething`. Lifetime of the INTEGER value: on line 2 `myValue` is bound to the integer 2 — it is created at line 2. On line 4, `myValue` is rebound to a list `[5,7,9]`, which deallocates (or replaces) the integer value. So the integer value exists from line 2 up to and including line 3 (the last time it is used/alive before being replaced). The list value then exists from line 4 to line 5."
+      "explanation": "Scope: `myValue` is first used/declared on line 2 (inside `doSomething`) and the function ends at line 5 — scope is lines 2–5. With static scope, `myValue` is local to `doSomething`. Lifetime of the INTEGER value: on line 2 `myValue` is bound to the integer 2 — it is created at line 2. On line 4, `myValue` is rebound to a list `[5,7,9]`, which deallocates (or replaces) the integer value. So the integer value exists from line 2 up to and including line 3 (the last time it is used/alive before being replaced). The list value then exists from line 4 to line 5.",
+      "question_text": "Consider the following program code in a hypothetical programming language (line numbers for reference):\n\n```\n1. void doSomething()\n2.    myValue = 2\n3.    print myValue\n4.    myValue = [5, 7, 9]\n5.    print myValue\n\n7. int main()\n8.    doSomething()\n9.    return 0\n```\n\nAssume static scope, variables not explicitly declared, `main` executes first, and indentation indicates subprogram body. Fill in using line numbers only:\n\n**Scope of `myValue`:** From line ___ up to and including line ___\n\n**Lifetime of the single integer value stored by `myValue`:** From line ___ up to and including line ___",
+      "options": null
     },
     {
       "question": 10,
@@ -88,77 +130,153 @@
         "static_scoping": "Error",
         "dynamic_scoping": "8"
       },
-      "explanation": "Static scoping: The reference to X in `f2` is resolved in f2's static (lexical) scope — f2 has no local X, and f2 is not nested inside any function that has X. At the global level there is no X either (X is only defined locally in `f1` and `main`). Therefore, under static scoping, X in f2 is not visible → Error. Dynamic scoping: The reference to X in f2 is resolved in the call stack at the time f2 is called. Call chain: main calls f1 (X=8), f1 calls f2. The most recently bound X on the call stack is X=8 from f1 → output is 8."
+      "explanation": "Static scoping: The reference to X in `f2` is resolved in f2's static (lexical) scope — f2 has no local X, and f2 is not nested inside any function that has X. At the global level there is no X either (X is only defined locally in `f1` and `main`). Therefore, under static scoping, X in f2 is not visible → Error. Dynamic scoping: The reference to X in f2 is resolved in the call stack at the time f2 is called. Call chain: main calls f1 (X=8), f1 calls f2. The most recently bound X on the call stack is X=8 from f1 → output is 8.",
+      "question_text": "Consider the following program code in a hypothetical programming language:\n\n```\nvoid f1() {\n   var X = 8\n   call f2()\n}\n\nvoid f2() {\n   print(X)\n}\n\nvoid main() {\n   var X = 3\n   call f1()\n}\n```\n\nAssume the language implements variable hiding and execution starts with `main`. Provide **only the numeric output** (or `Error` if an error occurs):\n\n**Static scoping:** _______________\n\n**Dynamic scoping:** _______________",
+      "options": null
     },
     {
       "question": 11,
       "marks": 1,
       "topic": "Complex Number Primitive Type",
       "answer": "Computations using complex number types have a somewhat high cost of execution, because these computations are not directly supported by most hardware.",
-      "explanation": "Most CPUs do not have native hardware support for complex number arithmetic. When a language supports complex numbers as a primitive type (like Fortran), the language runtime must implement complex arithmetic in software (e.g., adding the real and imaginary parts separately). This software implementation adds some overhead compared to hardware-supported operations like integer or floating-point arithmetic. It does NOT greatly increase readability on its own (the notation is cleaner, but not dramatically so for general purposes), and it does NOT reduce writability."
+      "explanation": "Most CPUs do not have native hardware support for complex number arithmetic. When a language supports complex numbers as a primitive type (like Fortran), the language runtime must implement complex arithmetic in software (e.g., adding the real and imaginary parts separately). This software implementation adds some overhead compared to hardware-supported operations like integer or floating-point arithmetic. It does NOT greatly increase readability on its own (the notation is cleaner, but not dramatically so for general purposes), and it does NOT reduce writability.",
+      "question_text": "Some programming languages support complex numbers as a primitive data type. Select the statement that **most accurately describes an implication** of such support.",
+      "options": [
+        "Computations using complex number types have a somewhat high cost of execution, because these computations are not directly supported by most hardware.",
+        "Computations using complex number types have a very low cost of execution, because these computations are directly supported by most hardware.",
+        "Support for complex number types greatly increases the readability of a programming language.",
+        "Support for complex number types greatly decreases the writability of a programming language."
+      ]
     },
     {
       "question": 12,
       "marks": 1,
       "topic": "Boolean Data Types",
       "answer": "Boolean data types are inefficient in terms of memory space.",
-      "explanation": "A Boolean value only needs 1 bit (true or false). However, most hardware cannot address individual bits — the minimum addressable unit is typically a byte (8 bits). So a Boolean variable usually occupies a full byte (or even a word) of memory, wasting 7 bits. This makes Boolean types memory-inefficient relative to their actual information content. Boolean operations themselves have low execution cost (simple bit operations), Boolean types improve readability in modern languages (using true/false is clearer than 0/1), and Boolean types ARE considered ordinal in most languages (false < true)."
+      "explanation": "A Boolean value only needs 1 bit (true or false). However, most hardware cannot address individual bits — the minimum addressable unit is typically a byte (8 bits). So a Boolean variable usually occupies a full byte (or even a word) of memory, wasting 7 bits. This makes Boolean types memory-inefficient relative to their actual information content. Boolean operations themselves have low execution cost (simple bit operations), Boolean types improve readability in modern languages (using true/false is clearer than 0/1), and Boolean types ARE considered ordinal in most languages (false < true).",
+      "question_text": "Select the statement that most accurately describes a potential **drawback associated with Boolean data types**.",
+      "options": [
+        "Operations on Boolean data types have a high execution cost.",
+        "Boolean data types are inefficient in terms of memory space.",
+        "Boolean data types have low readability in most modern programming languages.",
+        "Boolean data types are never considered to be ordinal."
+      ]
     },
     {
       "question": 13,
       "marks": 1,
       "topic": "Enumeration Types and Coercion",
       "answer": "month myMonth = 4",
-      "explanation": "The enumeration `month` has three values: jan=0, feb=1, mar=2 (assuming 0-based indexing). If other types can be coerced into enumeration types, then `month myMonth = 1` (→ feb) and `month myMonth = 4` would both attempt to coerce integers to month. The value 1 maps to `feb` (valid), but 4 is OUT OF RANGE — there is no fourth month value in this enumeration. Coercing 4 to a month type would produce an invalid enumeration value, causing an error. `month myMonth = 1` is valid (maps to feb). Adding two months together is unusual but not necessarily an error if the result is a valid index. `print(jan)` just prints the enum value."
+      "explanation": "The enumeration `month` has three values: jan=0, feb=1, mar=2 (assuming 0-based indexing). If other types can be coerced into enumeration types, then `month myMonth = 1` (→ feb) and `month myMonth = 4` would both attempt to coerce integers to month. The value 1 maps to `feb` (valid), but 4 is OUT OF RANGE — there is no fourth month value in this enumeration. Coercing 4 to a month type would produce an invalid enumeration value, causing an error. `month myMonth = 1` is valid (maps to feb). Adding two months together is unusual but not necessarily an error if the result is a valid index. `print(jan)` just prints the enum value.",
+      "question_text": "Consider the following enumeration type definition:\n\n```\nenumeration month {jan, feb, mar}\n```\n\nAssume that other types can be coerced into enumeration types. Select the snippet that correctly represents an **error** that could occur due to this coercion.",
+      "options": [
+        "month firstMonth = feb / month secondMonth = mar / print(firstMonth + secondMonth)",
+        "month myMonth = 1",
+        "month myMonth = 4",
+        "print(jan)"
+      ]
     },
     {
       "question": 14,
       "marks": 1,
       "topic": "Array Index Range Checking",
       "answer": "Ada's index range checking can be more reliable than Java's range checking.",
-      "explanation": "Ada performs array index range checking at compile time when the index values are known — catching errors before the program even runs. Java performs index range checking only at runtime (throwing ArrayIndexOutOfBoundsException). Catching errors at compile time is generally more reliable than catching them at runtime, because compile-time errors prevent the buggy program from ever executing. However, Ada's compile-time checking only works when the index is statically determinable; runtime checks are still performed otherwise. So Ada 'can be' more reliable, not 'always' more reliable."
+      "explanation": "Ada performs array index range checking at compile time when the index values are known — catching errors before the program even runs. Java performs index range checking only at runtime (throwing ArrayIndexOutOfBoundsException). Catching errors at compile time is generally more reliable than catching them at runtime, because compile-time errors prevent the buggy program from ever executing. However, Ada's compile-time checking only works when the index is statically determinable; runtime checks are still performed otherwise. So Ada 'can be' more reliable, not 'always' more reliable.",
+      "question_text": "Consider the following statements about **index range checking** for arrays in Ada and Java, and select the most correct.",
+      "options": [
+        "Ada's index range checking is always less reliable than Java's range checking.",
+        "Ada's index range checking can be more reliable than Java's range checking.",
+        "Ada's index range checking is much less writable than Java's range checking.",
+        "Ada's index range checking is much more writable than Java's range checking."
+      ]
     },
     {
       "question": 15,
       "marks": 1,
       "topic": "Array Categories",
       "answer": "Stack-dynamic",
-      "explanation": "The array `myArray[myVar]` has its SIZE determined by the runtime value of `myVar` (which is a variable, not a constant). Its size is only known at runtime when `myVar` is evaluated. The array is declared inside the function `f()` (not globally), so it is allocated on the stack when the function is called, not on the heap. Stack-dynamic arrays have their subscript range (size) bound at runtime (when the declaration is reached) and are deallocated when the subprogram returns. 'Fixed stack-dynamic' would require the size to be fixed at compile time. 'Static' requires allocation before runtime. 'Fixed heap-dynamic' requires explicit heap allocation."
+      "explanation": "The array `myArray[myVar]` has its SIZE determined by the runtime value of `myVar` (which is a variable, not a constant). Its size is only known at runtime when `myVar` is evaluated. The array is declared inside the function `f()` (not globally), so it is allocated on the stack when the function is called, not on the heap. Stack-dynamic arrays have their subscript range (size) bound at runtime (when the declaration is reached) and are deallocated when the subprogram returns. 'Fixed stack-dynamic' would require the size to be fixed at compile time. 'Static' requires allocation before runtime. 'Fixed heap-dynamic' requires explicit heap allocation.",
+      "question_text": "Consider the following program code:\n\n```\nvoid f() {\n   integer myVar = 3\n   integer myArray[myVar]\n   myArray[0] = 5\n   myArray[1] = 2\n   myArray[2] = 4\n   print(myArray[1])\n}\n```\n\nSelect the statement that most correctly describes the **category of `myArray`**.",
+      "options": [
+        "Static",
+        "Fixed stack-dynamic",
+        "Stack-dynamic",
+        "Fixed heap-dynamic",
+        "Heap-dynamic"
+      ]
     },
     {
       "question": 16,
       "marks": 2,
       "topic": "Heterogeneous Arrays",
-      "answer": ["Using a normal array in a statically typed language which stores instances of an `Object` class, where all other classes inherit from `Object`.", "Using a normal array in a dynamically typed programming language."],
-      "explanation": "A heterogeneous array holds elements of different types. (1) In a statically typed language with a universal base class `Object` (like Java), an array of `Object` references can hold any object — each element is really an `Object` reference pointing to instances of different subclasses. This simulates heterogeneity. (2) In a dynamically typed language (like Python), variables have no fixed type — an array can hold any mix of types naturally. A 'normal array in a statically typed language with different primitive types' is NOT possible — static arrays must have a single element type. Using two arrays (keys and values) simulates an ASSOCIATIVE array, not a heterogeneous one."
+      "answer": [
+        "Using a normal array in a statically typed language which stores instances of an Object class, where all other classes inherit from Object.",
+        "Using a normal array in a dynamically typed programming language."
+      ],
+      "explanation": "A heterogeneous array holds elements of different types. (1) In a statically typed language with a universal base class `Object` (like Java), an array of `Object` references can hold any object — each element is really an `Object` reference pointing to instances of different subclasses. This simulates heterogeneity. (2) In a dynamically typed language (like Python), variables have no fixed type — an array can hold any mix of types naturally. A 'normal array in a statically typed language with different primitive types' is NOT possible — static arrays must have a single element type. Using two arrays (keys and values) simulates an ASSOCIATIVE array, not a heterogeneous one.",
+      "question_text": "Assume you wish to simulate a **heterogeneous array** in a language that does not directly support them. Select **only** the approaches that will correctly simulate this functionality. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "Using a normal array in a statically typed language which stores values of different primitive data types.",
+        "Using a normal array in a statically typed language which stores instances of an Object class, where all other classes inherit from Object.",
+        "Using two normal arrays in a statically typed language, where one stores keys and the other stores corresponding values.",
+        "Using a normal array in a dynamically typed programming language."
+      ]
     },
     {
       "question": 17,
       "marks": 1,
       "topic": "C Matrices and Array Slices",
       "answer": "C implements matrices using arrays containing other arrays. It is therefore easy to retrieve part of the matrix using standard array operations.",
-      "explanation": "C does not have a rectangular (true 2D) array type. Instead, C matrices are implemented as arrays-of-arrays: a 2D array like `int a[3][4]` is an array of 3 elements, each of which is an array of 4 integers. Since you can access any sub-array (a row) using the outer array subscript (e.g., `a[1]` gives a pointer to the second row), retrieving a row is easy with standard array operations. There is no need for special slice operations because the structure naturally provides row access. Rectangular arrays (contiguous memory) would actually be HARDER to slice."
+      "explanation": "C does not have a rectangular (true 2D) array type. Instead, C matrices are implemented as arrays-of-arrays: a 2D array like `int a[3][4]` is an array of 3 elements, each of which is an array of 4 integers. Since you can access any sub-array (a row) using the outer array subscript (e.g., `a[1]` gives a pointer to the second row), retrieving a row is easy with standard array operations. There is no need for special slice operations because the structure naturally provides row access. Rectangular arrays (contiguous memory) would actually be HARDER to slice.",
+      "question_text": "Matrices in C do not support array slices. Select the statement that most correctly describes the **reason** for this.",
+      "options": [
+        "C implements matrices using arrays containing other arrays. Arrays in C have built-in slice operations, meaning the matrix itself does not require support for slice operations.",
+        "C implements matrices using arrays containing other arrays. It is therefore easy to retrieve part of the matrix using standard array operations.",
+        "C implements matrices using rectangular arrays. Rectangular arrays cannot support slice operations.",
+        "C implements matrices using rectangular arrays. Rectangular arrays cannot represent matrices."
+      ]
     },
     {
       "question": 18,
       "marks": 1,
       "topic": "COBOL MOVE CORRESPONDING",
       "answer": "The MOVE CORRESPONDING operation in COBOL is useful because it copies only relevant data between two records, which is a common operation in COBOL's programming domain.",
-      "explanation": "COBOL was designed for business data processing where records with many fields are very common. MOVE CORRESPONDING copies fields from one record to another record that share the same name, ignoring fields that don't match. This is useful when you have two similar records (e.g., an input record and an output record) and need to copy matching fields. Business applications constantly move data between records of similar structure, so this is a domain-specific convenience. It is NOT equivalent to a simple assignment between records (which would copy all fields), and it does not concatenate records."
+      "explanation": "COBOL was designed for business data processing where records with many fields are very common. MOVE CORRESPONDING copies fields from one record to another record that share the same name, ignoring fields that don't match. This is useful when you have two similar records (e.g., an input record and an output record) and need to copy matching fields. Business applications constantly move data between records of similar structure, so this is a domain-specific convenience. It is NOT equivalent to a simple assignment between records (which would copy all fields), and it does not concatenate records.",
+      "question_text": "Select the statement about the **MOVE CORRESPONDING** operation in COBOL that is the most correct.",
+      "options": [
+        "The MOVE CORRESPONDING operation in COBOL is equivalent to an assignment between records in most modern imperative programming languages.",
+        "The MOVE CORRESPONDING operation in COBOL is useful because it concatenates two records, which is a common operation in COBOL's programming domain.",
+        "The MOVE CORRESPONDING operation in COBOL is useful because it extracts sub-records within another record, which is a common operation in COBOL's programming domain.",
+        "The MOVE CORRESPONDING operation in COBOL is useful because it copies only relevant data between two records, which is a common operation in COBOL's programming domain."
+      ]
     },
     {
       "question": 19,
       "marks": 1,
       "topic": "List Comprehensions",
       "answer": "Support for list comprehensions greatly increases the writability of lists and list operations.",
-      "explanation": "List comprehensions (like Python's `[x*2 for x in myList if x > 0]`) allow complex list creation and filtering to be expressed in a single, concise line. This replaces what would otherwise require multiple lines of loop code — making it much easier and faster to WRITE. The syntax is concise and expressive for programmers familiar with mathematical set-builder notation. Readability can actually be debated (list comprehensions can become hard to read when complex), but writability is clearly improved. Orthogonality and memory space are not significantly affected."
+      "explanation": "List comprehensions (like Python's `[x*2 for x in myList if x > 0]`) allow complex list creation and filtering to be expressed in a single, concise line. This replaces what would otherwise require multiple lines of loop code — making it much easier and faster to WRITE. The syntax is concise and expressive for programmers familiar with mathematical set-builder notation. Readability can actually be debated (list comprehensions can become hard to read when complex), but writability is clearly improved. Orthogonality and memory space are not significantly affected.",
+      "question_text": "Select the statement about **list comprehensions** that is the most correct.",
+      "options": [
+        "Support for list comprehensions greatly increases the writability of lists and list operations.",
+        "Support for list comprehensions greatly increases the readability of lists and list operations.",
+        "Support for list comprehensions greatly increases the orthogonality of lists and list operations.",
+        "Support for list comprehensions greatly decreases the amount of memory space occupied by lists."
+      ]
     },
     {
       "question": 20,
       "marks": 1,
       "topic": "Implicit Pointer Dereferencing",
       "answer": "Implicitly dereferenced pointers disallow pointer arithmetic.",
-      "explanation": "When a language implicitly dereferences pointers (like Java's references, which automatically refer to the object without explicit `*` dereferencing), the programmer never directly manipulates the pointer value (its numeric address). Pointer arithmetic (adding integers to a pointer to move through memory) requires explicit access to the pointer's numeric value, which implicit dereferencing hides. Therefore, implicit dereferencing removes the ability to do pointer arithmetic. This is actually a RELIABILITY benefit (pointer arithmetic is a common source of bugs in C/C++), but the specific consequence asked about is that pointer arithmetic is disallowed."
+      "explanation": "When a language implicitly dereferences pointers (like Java's references, which automatically refer to the object without explicit `*` dereferencing), the programmer never directly manipulates the pointer value (its numeric address). Pointer arithmetic (adding integers to a pointer to move through memory) requires explicit access to the pointer's numeric value, which implicit dereferencing hides. Therefore, implicit dereferencing removes the ability to do pointer arithmetic. This is actually a RELIABILITY benefit (pointer arithmetic is a common source of bugs in C/C++), but the specific consequence asked about is that pointer arithmetic is disallowed.",
+      "question_text": "Some programming languages implicitly dereference all pointers. Select the statement that is the most correct.",
+      "options": [
+        "Implicitly dereferenced pointers are more reliable than explicitly dereferenced pointers.",
+        "Implicitly dereferenced pointers prevent pointers from being used for indirect addressing.",
+        "Implicitly dereferenced pointers prevent pointers from being used for dynamic storage management.",
+        "Implicitly dereferenced pointers disallow pointer arithmetic."
+      ]
     }
   ]
 }

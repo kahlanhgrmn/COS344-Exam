@@ -1,0 +1,404 @@
+{
+  "exam": "COS333 – Programming Languages",
+  "paper": "Examination",
+  "date": "14 November 2023",
+  "duration": "3 hours",
+  "total_marks": 40,
+  "source_chapters": [
+    "Chapter 1",
+    "Chapter 2",
+    "Chapter 5",
+    "Chapter 6",
+    "Chapter 7",
+    "Chapter 8",
+    "Chapter 9",
+    "Chapter 11",
+    "Chapter 12",
+    "Chapter 15",
+    "Chapter 16"
+  ],
+  "questions": [
+    {
+      "question": 1,
+      "marks": 1,
+      "topic": "SIMULA 67 Design Influences",
+      "answer": "The move from process oriented programming to data oriented programming.",
+      "explanation": "SIMULA 67 was created by Dahl and Nygaard to model real-world systems (ships, factories, etc.). The key design influence was the shift from process-oriented thinking (like Fortran) to data-oriented thinking, where entities in the simulation are modelled as data objects with associated operations. This led to the concept of classes and objects. The move to OOP was the RESULT of SIMULA 67, not an influence on it. Computer architecture influenced early languages like Fortran I. Programmer efficiency becoming more important than machine efficiency influenced later languages in the 1970s-80s.",
+      "question_text": "Various factors can influence programming language design. Consider the following programming language design influences, and select the one that had its **earliest impact on the design of SIMULA 67**.",
+      "options": [
+        "Computer architecture.",
+        "Programmer efficiency becoming more important than machine efficiency.",
+        "The move from process oriented programming to data oriented programming.",
+        "The move to object-oriented programming."
+      ]
+    },
+    {
+      "question": 2,
+      "marks": 2,
+      "topic": "Hybrid Implementation System",
+      "answer": [
+        "Cost.",
+        "Portability."
+      ],
+      "explanation": "A hybrid implementation system compiles source code to an intermediate form (bytecode) which is then interpreted by a virtual machine. (1) Cost: a hybrid system reduces distribution and porting costs because a single bytecode distribution runs on any platform that has the virtual machine installed, eliminating the need to recompile for every target architecture. (2) Portability: programs compiled to an intermediate form can run on any machine with the VM, making them highly portable. Readability and writability are properties of the language syntax, not its implementation method.",
+      "question_text": "Consider the following programming language evaluation criteria, and select **only** those that benefit from the use of a **hybrid implementation system**. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "Readability.",
+        "Writability.",
+        "Cost.",
+        "Portability."
+      ]
+    },
+    {
+      "question": 3,
+      "marks": 1,
+      "topic": "Plankalkül Syntax",
+      "answer": "The syntax had poor readability.",
+      "explanation": "Plankalkül (Zuse, 1945) used a two-dimensional, multi-row notation for expressing operations involving arrays and subscripts. The subscript was written below the variable name, and the type was written in yet another row. This multi-level notation made even simple assignments very difficult to read. The syntax was notably of poor readability. While it was also not particularly writable, readability is the most clearly cited weakness in the textbook.",
+      "question_text": "Consider only the syntax used by **Plankalkül** for an assignment using arrays and subscripts. Consider the following statements, and select the one that is the most correct.",
+      "options": [
+        "The syntax had poor readability.",
+        "The syntax had poor writability.",
+        "The syntax had poor reliability.",
+        "The syntax had poor execution cost."
+      ]
+    },
+    {
+      "question": 4,
+      "marks": 1,
+      "topic": "ALGOL 60 and I/O",
+      "answer": "The machine independence of ALGOL 60 suffered.",
+      "explanation": "ALGOL 60's primary design goal was machine independence (portability). I/O operations are inherently machine-dependent, so the language designers intentionally left I/O out of the specification to maintain machine independence. However, every implementation then added its own non-standard I/O facilities, which meant that any ALGOL 60 program requiring I/O was NOT portable across different implementations. The very goal (machine independence) that motivated omitting I/O ended up suffering because programs needed I/O and got it through incompatible, implementation-specific mechanisms.",
+      "question_text": "The language specification of **ALGOL 60** lacked support for I/O operations. Consider the following statements, and select the one that most correctly describes a consequence this lack of support had on a main design goal of ALGOL 60.",
+      "options": [
+        "The reliability of ALGOL 60 suffered.",
+        "The execution cost of ALGOL 60 suffered.",
+        "The execution cost of ALGOL 60 improved.",
+        "The machine independence of ALGOL 60 suffered."
+      ]
+    },
+    {
+      "question": 5,
+      "marks": 1,
+      "topic": "Lua",
+      "answer": "Lua supports functional programming.",
+      "explanation": "Lua is a multi-paradigm scripting language that supports functional programming through first-class functions, closures, and higher-order functions. It does NOT use full compilation (it compiles to bytecode then interprets, a hybrid approach). Lua has automatic garbage collection, so heap-allocated variables do NOT need to be explicitly deallocated. Lua has some OOP support via metatables and prototypal inheritance, but it is not a 'fully featured' OOP language in the same sense as Java or C++.",
+      "question_text": "Consider the following statements about **Lua**, and select the one that is the most correct.",
+      "options": [
+        "Lua uses full compilation for the sake of reduced execution cost.",
+        "Lua requires heap allocated variables to be explicitly deallocated.",
+        "Lua supports functional programming.",
+        "Lua is a fully featured object-oriented programming language."
+      ]
+    },
+    {
+      "question": 6,
+      "marks": 5,
+      "topic": "Scheme — doublePositives",
+      "answer": "(define (doublePositives lst)\n  (cond\n    ((null? lst) '())\n    ((> (car lst) 0)\n     (cons (* 2 (car lst)) (doublePositives (cdr lst))))\n    (else\n     (cons (car lst) (doublePositives (cdr lst))))\n  )\n)",
+      "explanation": "Strategy: Recurse through the list. Base case: empty list → return empty list. For each head element: if it is positive (> 0), double it and cons it onto the result of recursing on the tail. Otherwise (zero or negative), keep it unchanged and cons it onto the result. The cond checks for null first, then positivity, then else handles zero and negatives. Example: (doublePositives '(2 -4 7 -3)) → 2 is positive → cons 4; -4 is not positive → cons -4; 7 is positive → cons 14; -3 is not positive → cons -3. Result: (4 -4 14 -3).",
+      "question_text": "Write a Scheme function named `doublePositives`, which receives one parameter: a simple list containing only numeric atoms. The function should yield (not print) a list containing the same values as the parameter list, but with **positive values doubled**. Negative and zero values remain unchanged.\n\n*Examples:*\n```scheme\n(doublePositives '())\n; => ()   (no elements in the parameter list)\n\n(doublePositives '(2 -4 7 -3))\n; => (4 -4 14 -3)   (2→4, 7→14; -4 and -3 are unchanged)\n```\n\n> *Note: Start your program with `#lang racket`.*\n\n**Allowed built-in functions:**\n- **Function construction:** `lambda`, `define`\n- **Binding:** `let`\n- **Arithmetic:** `+`, `-`, `*`, `/`, `abs`, `sqrt`, `remainder`, `modulo`, `min`, `max`\n- **Boolean values:** `#t`, `#f`\n- **Equality predicates:** `=`, `>`, `<`, `>=`, `<=`, `even?`, `odd?`, `zero?`, `negative?`, `eqv?`, `eq?`\n- **Logical predicates:** `and`, `or`, `not`\n- **List predicates:** `list?`, `null?`\n- **Conditionals:** `if`, `cond`, `else`\n- **Quoting:** `quote`, `'`\n- **List manipulation:** `list`, `car`, `cdr`, `cons`\n- **I/O:** `display`, `printf`, `newline`, `read`",
+      "options": null
+    },
+    {
+      "question": 7,
+      "marks": 5,
+      "topic": "Prolog — doubleNonMatching",
+      "answer": "doubleNonMatching([], _, []).\ndoubleNonMatching([H|T], X, [H|T2]) :-\n  H =:= X,\n  doubleNonMatching(T, X, T2).\ndoubleNonMatching([H|T], X, [D|T2]) :-\n  H =\\= X,\n  D is H * 2,\n  doubleNonMatching(T, X, T2).",
+      "explanation": "Three clauses: (1) Base case: empty list → empty result. (2) If head H equals X (H =:= X for numeric equality): keep H unchanged, prepend it to result, recurse on tail. (3) If head H does not equal X (H =\\= X): double it (D is H * 2), prepend D to result, recurse on tail. Example: doubleNonMatching([3, 2, 4, 4, 2], 2, X). 3 ≠ 2 → 6; 2 = 2 → 2; 4 ≠ 2 → 8; 4 ≠ 2 → 8; 2 = 2 → 2. Result: [6, 2, 8, 8, 2].",
+      "question_text": "Write a Prolog proposition called `doubleNonMatching(L1, X, L2)`, which succeeds if the list L2 contains the same values as the list L1, without their order being modified, but with all **values that do not match X doubled**. All values that do match X should remain unchanged.\n\n*Examples:*\n```prolog\n?- doubleNonMatching([], 2, X).\n% X = []\n\n?- doubleNonMatching([3, 2, 4, 4, 2], 2, X).\n% X = [6, 2, 8, 8, 2]\n```\n\n*Hint: In Prolog arithmetic, `*` represents multiplication.*\n\n**Requirements:**\n- You may define additional helper propositions.\n- Only use constants, variables, list manipulation, arithmetic, relational expressions, and built-in predicates from the textbook/slides. Do **not** use if-then, if-then-else, or complex system predicates.",
+      "options": null
+    },
+    {
+      "question": 8,
+      "marks": 1,
+      "topic": "Variable Lifetime Categories",
+      "answer": "Implicit heap-dynamic variable.",
+      "explanation": "myVariable is first assigned a string ('Test'), then later reassigned an integer (anotherVariable * 2). The variable changes type at runtime based on assignment, and storage is allocated implicitly by the assignment itself — the programmer does not explicitly allocate (no malloc/new). This is characteristic of an implicit heap-dynamic variable: storage is allocated on the heap automatically when the variable is assigned, and the type binding also occurs at assignment time. Static variables exist for the program lifetime. Stack-dynamic variables are created when their block is entered. Explicit heap-dynamic variables require explicit allocation calls.",
+      "question_text": "Consider the following program code in a hypothetical programming language:\n\n```\nvoid main() {\n   var myVariable = \"Test\"\n   print(myVariable)\n\n   var anotherVariable = 5\n   myVariable = anotherVariable * 2\n   print(myVariable)\n}\n```\n\nSelect the option that most correctly describes the **category of `myVariable`** in terms of lifetime.",
+      "options": [
+        "Static variable.",
+        "Stack-dynamic variable.",
+        "Explicit heap-dynamic variable.",
+        "Implicit heap-dynamic variable."
+      ]
+    },
+    {
+      "question": 9,
+      "marks": 1,
+      "topic": "Named Constants",
+      "answer": "Manifest constants",
+      "explanation": "f1 declares `constant LENGTH = 3` — the value 3 is known at compile time and is legal. f2 declares `constant INPUT_LENGTH` and then reads a value into it at runtime — the value is NOT known at compile time, which is illegal in this language. A language that only allows named constants whose values are known at compile time (literal values or constant expressions) supports only MANIFEST constants. Manifest constants must have their values specified at compile time, embedded directly in the source code.",
+      "question_text": "Consider the following two subprograms in a hypothetical programming language:\n\n```\nvoid f1() {\n   constant LENGTH = 3\n   var firstArray[LENGTH] = {6, 8, 7}\n}\nvoid f2() {\n   constant INPUT_LENGTH\n   readInteger(INPUT_LENGTH)\n   var secondArray[INPUT_LENGTH]\n}\n```\n\nThe special word `constant` is the only way to declare a named constant. Subprogram `f1` is legal, while subprogram `f2` is illegal and will not compile. Name the **type of named constants** supported in this programming language.",
+      "options": null
+    },
+    {
+      "question": 10,
+      "marks": 1,
+      "topic": "List Comprehensions in Python",
+      "answer": "List comprehensions increase the writability of Python.",
+      "explanation": "List comprehensions allow expressing list-construction operations concisely in a single expression, e.g., `[x*2 for x in lst if x > 0]` instead of a multi-line for-loop with append. This makes it easier and faster to write list-manipulation code, increasing writability. Readability is debatable — simple comprehensions are readable, but complex nested ones can reduce readability. Reliability is not obviously improved (comprehensions can silently produce empty lists). Execution cost is not reduced (comprehensions have similar cost to explicit loops).",
+      "question_text": "Consider the following statements about **list comprehensions in Python**, and select the one that is the most correct.",
+      "options": [
+        "List comprehensions increase the readability of Python.",
+        "List comprehensions increase the writability of Python.",
+        "List comprehensions improve the reliability of Python.",
+        "List comprehensions reduce the execution cost of Python."
+      ]
+    },
+    {
+      "question": 11,
+      "marks": 1,
+      "topic": "Weak Typing in C++",
+      "answer": "The way in which C++ supports pointers.",
+      "explanation": "C++ allows void pointers (void*) which can be cast to any pointer type, bypassing type checking entirely. C-style casts also allow arbitrary type reinterpretation. This means the type system can be circumvented at will through pointer manipulations, making C++ weakly typed. C++ does NOT support only discriminated unions — it supports free (undiscriminated) unions. C++ DOES perform parameter type checking. Array index range checking is a reliability/safety issue rather than a typing issue specifically.",
+      "question_text": "C++ is not considered a very strongly typed programming language. Consider the following reasons, and select the one that most correctly describes a reason contributing to the **weak typing of C++**.",
+      "options": [
+        "The way in which C++ supports pointers.",
+        "The fact that C++ supports only discriminated unions.",
+        "The fact that C++ performs no parameter type checking.",
+        "The fact that C++ does not perform index range checking in arrays."
+      ]
+    },
+    {
+      "question": 12,
+      "marks": 1,
+      "topic": "Arithmetic Operators in Ruby vs Java",
+      "answer": "Arithmetic operators in Ruby are implemented in a more orthogonal way than arithmetic operators in Java.",
+      "explanation": "In Ruby, arithmetic operators (+, -, *, /, etc.) are implemented as methods on objects. Every number is an object, and `2 + 3` is syntactic sugar for `2.+(3)`. This is highly orthogonal: one consistent mechanism (method calls) handles all operations. In Java, arithmetic operators are built-in special syntax that only applies to primitive types (int, float, etc.) and selected coercions — they cannot be overloaded or applied uniformly to objects. Ruby's uniform method-based approach is more orthogonal.",
+      "question_text": "Both Ruby and Java are object-oriented programming languages. Consider the following statements about **arithmetic operators in Ruby and Java**, and select the one that is the most correct.",
+      "options": [
+        "Arithmetic operators in Ruby are less flexible than arithmetic operators in Java.",
+        "Arithmetic operators in Ruby are always as reliable as arithmetic operators in Java.",
+        "Arithmetic operators in Ruby are implemented in a more orthogonal way than arithmetic operators in Java.",
+        "Arithmetic operators in Ruby have a lower execution cost than arithmetic operators in Java."
+      ]
+    },
+    {
+      "question": 13,
+      "marks": 1,
+      "topic": "Unary * Operator in C++",
+      "answer": "The unary * operator is poorly designed, because it is overloaded to produce very different results depending on the context in which it is used.",
+      "explanation": "The * symbol in C++ is used as: (1) the binary multiplication operator (a * b), (2) the unary dereference operator (*p), and (3) in declarations to indicate a pointer type (int *p). These produce very different semantic results — multiplication, memory access, and type declaration respectively. Using the same symbol for such different purposes is a form of overloading that reduces readability and can confuse programmers. The unary * IS effectively overloaded (different meaning in different contexts), so the option claiming it is well-designed because it is not overloaded is incorrect.",
+      "question_text": "Consider the following statements about the **unary `*` operator in C++**, and select the one that is the most correct.",
+      "options": [
+        "The unary * operator is poorly designed, because it is overloaded to produce very different results depending on the context in which it is used.",
+        "The unary * operator is poorly designed, because C++ could have been designed to avoid its use while leaving the language's flexibility and conciseness unchanged.",
+        "The unary * operator is well designed, because it is not overloaded.",
+        "The unary * operator is well designed, because it cannot be confused with any non-unary operators."
+      ]
+    },
+    {
+      "question": 14,
+      "marks": 1,
+      "topic": "Conditional Targets",
+      "answer": "Conditional targets improve the writability of assignments.",
+      "explanation": "A conditional target is when the left-hand side of an assignment is a conditional expression, e.g., `(flag ? a : b) = value`. Instead of writing two separate assignment statements (one for each case), a single assignment can target different variables depending on a condition. This makes it possible to write more concise code, improving writability. Readability is debatable. Reliability is not obviously improved. Execution cost is not decreased.",
+      "question_text": "Consider the following statements about **conditional targets**, and select the one that is the most correct.",
+      "options": [
+        "Conditional targets improve the readability of assignments.",
+        "Conditional targets improve the writability of assignments.",
+        "Conditional targets improve the reliability of assignments.",
+        "Conditional targets decrease the cost of execution of assignments."
+      ]
+    },
+    {
+      "question": 15,
+      "marks": 1,
+      "topic": "Mixed-Mode Assignments in Ada vs C",
+      "answer": "Mixed-mode assignments in Ada are less writable than mixed-mode assignments in C.",
+      "explanation": "Ada enforces very strict type rules with almost no implicit type coercions. Any assignment between different numeric types (e.g., assigning a float to an integer) requires an EXPLICIT type conversion in Ada. In C, many such mixed-mode assignments happen silently with implicit coercions. This means Ada programmers must write explicit conversions everywhere, which is more verbose and less writable than C's implicit approach. Ada is actually MORE reliable (explicit conversions prevent accidental data loss) and MORE readable (conversions are visible), but LESS writable.",
+      "question_text": "Consider the following statements about **mixed-mode assignments in Ada and C**, and select the one that is the most correct.",
+      "options": [
+        "Mixed-mode assignments in Ada are less readable than mixed-mode assignments in C.",
+        "Mixed-mode assignments in Ada are less writable than mixed-mode assignments in C.",
+        "Mixed-mode assignments in Ada are less reliable than mixed-mode assignments in C.",
+        "Mixed-mode assignments in Ada have a higher execution cost than mixed-mode assignments in C."
+      ]
+    },
+    {
+      "question": 16,
+      "marks": 1,
+      "topic": "Ruby vs Perl Nested Selector Disambiguation",
+      "answer": "Ruby uses a more writable approach than Perl.",
+      "explanation": "Ruby uses `if/elsif/else/end` keywords to delimit nested selection statements. There are no curly braces and parentheses around conditions are optional. Perl uses C-style `if (...) { ... } elsif (...) { ... }` with mandatory curly braces and parentheses. Ruby's approach requires less punctuation (no curly braces, no mandatory parentheses) and reads more like natural language, making it more writable. Both are explicit about nesting (no dangling-else ambiguity), so both are equally reliable. Ruby's keyword-based approach is generally considered more readable.",
+      "question_text": "Consider the following statements about the **approaches used by Ruby and Perl to disambiguate nested selectors**, and select the one that is the most correct.",
+      "options": [
+        "Ruby uses a less reliable approach than Perl.",
+        "Ruby uses a less readable approach than Perl.",
+        "Ruby uses a less writable approach than Perl.",
+        "Ruby uses a more writable approach than Perl."
+      ]
+    },
+    {
+      "question": 17,
+      "marks": 1,
+      "topic": "Selector Expressions and the Else Clause",
+      "answer": "Readability is reduced if the else clause is left out of a selector expression used in an assignment.",
+      "explanation": "A selector expression used in an assignment has the form `x = if condition then value1 else value2 end`. If the else clause is omitted, it is unclear what value x receives when the condition is false — does it get a default value, remain unchanged, or cause an error? This ambiguity makes the code harder to understand and reason about, reducing readability. The missing else does NOT improve readability, improve reliability, or leave evaluation criteria unaffected — the undefined/unclear semantics reduce both readability and reliability.",
+      "question_text": "Consider the following statements about **selector expressions used in assignments**, and select the one that is the most correct.",
+      "options": [
+        "Readability is improved if the else clause is left out of a selector expression used in an assignment.",
+        "Readability is reduced if the else clause is left out of a selector expression used in an assignment.",
+        "Reliability is improved if the else clause is left out of a selector expression used in an assignment.",
+        "The programming language evaluation criteria are not affected if the else clause is left out of a selector expression used in an assignment."
+      ]
+    },
+    {
+      "question": 18,
+      "marks": 1,
+      "topic": "Counter-Controlled Loops in Ada vs C",
+      "answer": "Counter-controlled loops are more reliable in Ada than in C.",
+      "explanation": "Ada's for loop (`for i in 1..10 loop`) implicitly declares the loop variable i, makes it READ-ONLY inside the loop body (it cannot be modified), and uses a fixed range. This prevents common loop bugs: accidentally modifying the counter, off-by-one errors from unusual increments, or unexpected loop termination. C's for loop `for (i=0; i<n; i++)` allows any expression in each control field and permits modifying the loop variable inside the body — very flexible but more error-prone. Ada's strict for loop is more reliable. C's loop is more writable (more expressive).",
+      "question_text": "Consider the following statements about **counter-controlled loops in Ada and C**, and select the one that is the most correct.",
+      "options": [
+        "Counter-controlled loops are more writable in Ada than in C.",
+        "Counter-controlled loops are less readable in Ada than in C.",
+        "Counter-controlled loops are more reliable in Ada than in C.",
+        "Counter-controlled loops have a higher cost of execution in Ada than in C."
+      ]
+    },
+    {
+      "question": 19,
+      "marks": 1,
+      "topic": "Ruby Iterators and yield",
+      "answer": "2 4 8",
+      "explanation": "Trace through doSomething with a block that prints the parameter followed by a space: Iteration 1: value = 1*2 = 2, count = 2, yield 2 → prints '2 '. Iteration 2: value = 2*2 = 4, count = 3, yield 4 → prints '4 '. Iteration 3: value = 4*2 = 8, count = 4, yield 8 → prints '8 '. count = 4, condition 4 <= 3 is false → loop ends. Output: '2 4 8 ' (with trailing space after each number).",
+      "question_text": "Consider the following program code in Ruby:\n\n```ruby\ndef doSomething()\n   count = 1\n   value = 1\n   while count <= 3\n      value = value * 2\n      count = count + 1\n      yield value\n   end\nend\n```\n\nProvide the **output** if the `doSomething` subprogram is used with a block that has a single formal parameter and prints it followed by a single space.",
+      "options": null
+    },
+    {
+      "question": 20,
+      "marks": 1,
+      "topic": "Default Parameter Values",
+      "answer": "It is possible for a default parameter to appear anywhere in a subprogram's list of parameters if keyword parameters are used.",
+      "explanation": "With keyword parameters, the caller names each argument explicitly (e.g., `func(second=10)`), so ANY parameter can be omitted regardless of its position — the language knows which argument corresponds to which parameter by name. With positional parameters, parameters must be provided in order — a default in the middle creates ambiguity about which parameter is being supplied. C++ requires defaults at the END to avoid ambiguity with positional parameters. Python supports defaults anywhere when keyword arguments are used.",
+      "question_text": "Consider the following statements about **default values for subprogram parameters**, and select the one that is the most correct.",
+      "options": [
+        "There is no way for a default parameter value to appear anywhere but the beginning of a subprogram's list of parameters.",
+        "There is no way for a default parameter value to appear anywhere but the end of a subprogram's list of parameters.",
+        "It is possible for a default parameter to appear anywhere in a subprogram's list of parameters if positional parameters are used.",
+        "It is possible for a default parameter to appear anywhere in a subprogram's list of parameters if keyword parameters are used."
+      ]
+    },
+    {
+      "question": 21,
+      "marks": 1,
+      "topic": "Lua Drawback",
+      "answer": "It is easy for a programmer to unintentionally create a global variable in Lua.",
+      "explanation": "In Lua, all variables are GLOBAL by default unless explicitly declared with the `local` keyword. A simple typo (e.g., `myVaiable = 5` instead of `myVariable = 5`) creates a new global variable silently instead of producing an error. This is a well-known pitfall of Lua: forgetting `local` inadvertently pollutes the global environment. Lua DOES support anonymous functions with closures that persist after definition. Lua DOES support variable-argument functions using `...`. Heap-allocated data in Lua is managed by garbage collection (not explicitly deallocated).",
+      "question_text": "Consider the following statements about a **drawback associated with Lua**, and select the one that is the most correct.",
+      "options": [
+        "Anonymous functions in Lua cannot be used after the function's definition.",
+        "It is easy for a programmer to unintentionally create a stack-dynamic variable in Lua.",
+        "It is easy for a programmer to unintentionally create a global variable in Lua.",
+        "Lua does not allow a function to receive a variable number of parameters."
+      ]
+    },
+    {
+      "question": 22,
+      "marks": 1,
+      "topic": "Pass-by-Result Parameters",
+      "answer": "Pass-by-result parameters can either copy a value to the caller, or transfer an access path to the caller.",
+      "explanation": "Pass-by-result parameters transfer a value ONE WAY: from the subprogram back to the caller (at the end of execution). There are two valid implementation strategies: (1) Physical copy — when the subprogram ends, the final value of the formal parameter is copied back into the actual parameter variable. (2) Access path — the actual parameter's address is passed; at the end of the subprogram, the formal parameter's value is written through the access path to the caller's variable. Both implementations achieve the same result. Neither 'only copy' nor 'only access path' is the unique method.",
+      "question_text": "Consider the following statements about **pass-by-result subprogram parameters**, and select the one that is the most correct.",
+      "options": [
+        "Pass-by-result parameters can only copy a value to the caller.",
+        "Pass-by-result parameters can only transfer an access path to the caller.",
+        "Pass-by-result parameters can either copy a value to the caller, or transfer an access path to the caller.",
+        "Pass-by-result can neither copy a value to the caller, nor transfer an access path to the caller."
+      ]
+    },
+    {
+      "question": 23,
+      "marks": 2,
+      "topic": "Referencing Environments — Ad-hoc and Shallow Binding",
+      "answer": {
+        "ad_hoc_binding": "12",
+        "shallow_binding": "35"
+      },
+      "explanation": "The language uses static scoping. sub1 is defined at global scope where var A = 12. When sub1 is passed to sub2 and then called via param(): (1) Ad-hoc binding: the referencing environment used is determined by sub1's lexical definition point (global scope). In the global scope, A = 12. So sub1 prints 12. (2) Shallow binding: the referencing environment is the CURRENT DYNAMIC ENVIRONMENT at the point where sub1 is actually called, which is inside sub2. sub2 has its own local A = 35. So sub1 sees sub2's A and prints 35. Note: Deep binding (not asked here) would capture the environment when sub1 is PASSED as a parameter — that would be main's scope where A = 22.",
+      "question_text": "Consider the following program code in a hypothetical programming language:\n\n```\nvar A = 12\nfun sub1() {\n   print A\n}\nfun sub2(param) {\n   var A = 35\n   call param()\n}\nfun main() {\n   var A = 22\n   sub2(sub1)\n}\n```\n\nAssume the programming language allows subprograms to be passed as parameters, uses **static scoping**, and that execution starts with `main`. Provide the **output** if the following types of binding are used to determine the referencing environment of the passed subprogram.",
+      "options": null
+    },
+    {
+      "question": 24,
+      "marks": 1,
+      "topic": "Coroutines",
+      "answer": "3 1 4 2",
+      "explanation": "Execution trace: (1) main resumes second → second starts from beginning. (2) second: prints '3 ', resumes first → first starts from beginning. (3) first: prints '1 ', resumes second → second continues from where it left off (after 'resume first'). (4) second continues: prints '4 ', second terminates. (5) first continues from where it left off (after 'resume second'): prints '2 ', first terminates. (6) main's resume completes, main terminates. Output: '3 1 4 2 ' (with trailing space after each number).",
+      "question_text": "Consider the following program code in a hypothetical programming language that supports **coroutines**:\n\n```\nsub main() {\n   resume second\n}\ncoroutine first {\n   print \"1 \"\n   resume second\n   print \"2 \"\n}\ncoroutine second {\n   print \"3 \"\n   resume first\n   print \"4 \"\n}\n```\n\nAssume execution starts with `main`. Provide the **output** of the program. If an error occurs, write `Error`. *(Note: there is a single space after each number that is printed.)*",
+      "options": null
+    },
+    {
+      "question": 25,
+      "marks": 1,
+      "topic": "C# Properties",
+      "answer": "Properties provide a more writable alternative to getters and setters within a C# class, from the perspective of a user of the class.",
+      "explanation": "In traditional OOP (Java style), getters and setters are called as methods: `obj.getName()` and `obj.setName(value)`. C# properties allow the user to write `obj.Name` for reading and `obj.Name = value` for writing — syntactically identical to field access. This is more writable (less syntax) and more readable for the class USER. Properties do NOT provide instance or class variables themselves — they are accessor mechanisms. They are a more writable (and readable) alternative to explicit getter/setter methods FROM THE CLIENT'S PERSPECTIVE.",
+      "question_text": "Consider the following statements about **properties in C# classes**, and select the one that is the most correct.",
+      "options": [
+        "Properties provide instance variables within a C# class.",
+        "Properties provide class variables within a C# class.",
+        "Properties provide a less writable alternative to getters and setters within a C# class, from the perspective of a user of the class.",
+        "Properties provide a more writable alternative to getters and setters within a C# class, from the perspective of a user of the class."
+      ]
+    },
+    {
+      "question": 26,
+      "marks": 1,
+      "topic": "Java ADT Representation Hiding",
+      "answer": "The ADT interface is automatically generated as documentation, which the user is allowed to see. The ADT implementation is compiled into a class file, and only the class file is provided to the user.",
+      "explanation": "Java's approach to ADT representation hiding: the source code is compiled into .class bytecode files, which are opaque to casual inspection and are what gets distributed. The PUBLIC interface (method signatures, access modifiers) is accessible via Javadoc — automatically generated API documentation that shows only the public/protected interface without revealing private implementation details. Clients see the Javadoc for the interface and receive the .class file for the implementation. This is NOT the C++ header-file approach. Java does NOT completely hide the interface — Javadoc makes it visible.",
+      "question_text": "Consider the following statements about the **approach used by Java to hide the representation of ADT objects** from the users of these objects, and select the one that is the most correct.",
+      "options": [
+        "The ADT interface is provided in a header file, which the user is allowed to see. The ADT implementation is compiled into a class file, and only the class file is provided to the user.",
+        "The ADT interface is not provided to the user. The ADT implementation is compiled into a class file, and only the class file is provided to the user.",
+        "The ADT interface is automatically generated as documentation, which the user is allowed to see. The ADT implementation is compiled into a class file, and only the class file is provided to the user.",
+        "Java does not hide the representation of ADT objects from the users of these objects."
+      ]
+    },
+    {
+      "question": 27,
+      "marks": 1,
+      "topic": "Java Generics — Number of Versions",
+      "answer": "1",
+      "explanation": "Java generics use TYPE ERASURE. At compile time, the type parameter T is erased and replaced with its upper bound (Object, since no bound is specified for MyClass<T>). The compiler creates exactly ONE version of MyClass — MyClass<Object> effectively — and inserts explicit casts wherever T is used. At runtime, the JVM has no knowledge of the original generic types. This differs from C# (which creates separate versions per type argument at runtime) and C++ (which creates separate versions per type argument at compile time). Java creates 1 version.",
+      "question_text": "Consider the following program code in Java:\n\n```java\npublic class MyClass<T> {\n   private T data;\n   public MyClass(T param) {\n      data = param;\n   }\n   public T getData() {\n      return data;\n   }\n}\n```\n\nAlso assume the following `main` method is provided:\n\n```java\npublic static void main(String[] args) {\n   MyClass<String> a = new MyClass<String>(\"test\");\n   Integer myInt = new Integer(12);\n   MyClass<Integer> b = new MyClass<Integer>(myInt);\n}\n```\n\nIdentify the **number of versions of `MyClass`** that exist after compile time. Type only the digit.",
+      "options": null
+    },
+    {
+      "question": 28,
+      "marks": 1,
+      "topic": "Multiple Inheritance — Implicit Name Collision",
+      "answer": [
+        "Defining a method named myMethod in class A."
+      ],
+      "explanation": "An IMPLICIT name collision arises when the same method name reaches D through MULTIPLE INHERITANCE PATHS without being explicitly redefined in B or C. If A defines myMethod, both B and C INHERIT it without modification. D then inherits from both B and C — getting two inherited paths to the same A method — creating a diamond problem / implicit collision. The compiler cannot determine which version to use without explicit disambiguation. If B or C redefined myMethod, the collision would be EXPLICIT (deliberately introduced by B or C). Defining in D itself resolves rather than causes a collision.",
+      "question_text": "Consider a hypothetical programming language that supports object-oriented programming with **multiple inheritance**. Four classes A, B, C, and D are defined. Classes B and C both inherit only from class A. Class D inherits from both B and C. An **implicit name collision** is possible. Select **only** the implementation details that together result in an implicit name collision (not explicit). *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "Defining a method named myMethod in class A.",
+        "Defining a method named myMethod in class B.",
+        "Defining a method named myMethod in class C.",
+        "Defining a method named myMethod in class D."
+      ]
+    },
+    {
+      "question": 29,
+      "marks": 2,
+      "topic": "C++ vs Smalltalk Execution Cost",
+      "answer": [
+        "The approach C++ uses in relation to the exclusivity of classes.",
+        "The approach C++ uses to perform message binding."
+      ],
+      "explanation": "(1) C++ does NOT require everything to be an object — primitive types (int, float, etc.) are not objects and have no object overhead. Smalltalk treats EVERYTHING as an object, including integers and booleans — every operation involves object method dispatch, adding significant overhead. C++'s non-exclusive use of objects reduces cost. (2) C++ uses STATIC binding by default — only methods explicitly declared `virtual` use dynamic dispatch. Smalltalk uses DYNAMIC binding for ALL message sends, always consulting a method lookup table at runtime. C++'s predominantly static binding is far more efficient. Heap allocation and subtype relationships do not significantly differentiate the two in terms of overall execution cost.",
+      "question_text": "C++ has a lower cost of execution than Smalltalk. Select **only** the factors that contribute to the **lower cost of execution in C++**. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "The approach C++ uses in relation to the exclusivity of classes.",
+        "The approach C++ uses to perform message binding.",
+        "The fact that C++ supports heap allocated objects.",
+        "The fact that subclasses are not necessarily subtypes in C++."
+      ]
+    }
+  ]
+}

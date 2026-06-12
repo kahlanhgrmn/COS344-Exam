@@ -3,98 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>COS344 — Computer Graphics Study Hub</title>
+<title>COS333 — Programming Languages Study Hub</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <nav class="topnav">
   <div class="topnav-inner">
-    <div class="topnav-logo">COS344 <span>// Computer Graphics</span></div>
+    <div class="topnav-logo">COS333 <span>// Programming Languages</span></div>
     <div class="topnav-links">
       <a href="index.html" class="active">Home</a>
-      <a href="guides/index.html">Guides</a>
-      <a href="guides/03_questions.html">Question Bank</a>
-      <a href="guides/04_situations.html">Situations</a>
-      <a href="guides/05_math.html">Math</a>
-      <a href="guides/exam_1.html">Exam 1</a>
-      <a href="guides/exam_2.html">Exam 2</a>
+      <a href="COS333-Programming_Languages/PracticeQuestions/scheme_practice_questions.html">Scheme</a>
+      <a href="COS333-Programming_Languages/PracticeQuestions/prolog_practice_questions.html">Prolog</a>
+      <a href="COS333-Programming_Languages/PracticeQuestions/scheme_prolog_guide.html">Guide</a>
+      <a href="COS333-Programming_Languages/COS333_mcq_bank.html">MCQ Bank</a>
     </div>
   </div>
 </nav>
 
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-eyebrow">University of Pretoria · COS344</div>
-    <h1>Computer Graphics<br><em>Study Hub</em></h1>
+    <div class="hero-eyebrow">University of Pretoria · COS333</div>
+    <h1>Programming Languages<br><em>Study Hub</em></h1>
     <p class="hero-sub">
-      7 interactive exam guides — 210 MCQs, 63 long questions, 2 full mock exams, situation-based decision tables, math walkthroughs, OpenGL &amp; shader references. Open-book exam: 11 June 2026.
+      Interactive exam preparation — 10 Scheme questions, 10 Prolog questions, a complete patterns guide, past papers with memos, and an MCQ bank.
     </p>
     <div class="hero-pills">
-      <span class="hero-pill"><strong>21</strong> Lectures</span>
-      <span class="hero-pill"><strong>7</strong> Guides</span>
-      <span class="hero-pill"><strong>210</strong> MCQs</span>
-      <span class="hero-pill"><strong>63</strong> Long Questions</span>
-      <span class="hero-pill">Chapters 1–23</span>
+      <span class="hero-pill"><strong>10</strong> Scheme Qs</span>
+      <span class="hero-pill"><strong>10</strong> Prolog Qs</span>
+      <span class="hero-pill"><strong>4</strong> Patterns</span>
+      <span class="hero-pill">Past Papers</span>
+      <span class="hero-pill">MCQ Bank</span>
     </div>
   </div>
 </div>
 
 <div class="site-wrap">
 
-  <!-- ── GUIDES ── -->
+  <!-- ── PRACTICE ── -->
   <div class="section-head">
-    <h2>Exam Guides</h2>
+    <h2>Practice Questions</h2>
     <span class="section-badge">Start Here</span>
   </div>
 
   <div class="guide-grid">
-    <a class="guide-card" href="guides/01_opengl.html">
-      <div class="guide-icon">⚙️</div>
-      <div class="guide-title">OpenGL State Machine</div>
-      <div class="guide-desc">VAO/VBO patterns, shader state, depth/blend toggles, the render loop checklist, and common state-leak mistakes explained simply.</div>
+    <a class="guide-card" href="COS333-Programming_Languages/PracticeQuestions/scheme_practice_questions.html">
+      <div class="guide-icon">λ</div>
+      <div class="guide-title">Scheme Practice</div>
+      <div class="guide-desc">10 exam-style recursive list functions — Filter, Map, Filter+Map, Accumulate. Write your answer, reveal the memo, and compare side by side. Includes the 2025 exam question.</div>
       <span class="guide-arrow">→</span>
     </a>
-    <a class="guide-card" href="guides/02_shaders.html">
-      <div class="guide-icon">🔦</div>
-      <div class="guide-title">Vertex &amp; Fragment Shaders</div>
-      <div class="guide-desc">Full annotated GLSL walkthroughs, coordinate space chain (Object → Screen), Phong shading line-by-line, GLSL built-ins cheat sheet.</div>
+    <a class="guide-card" href="COS333-Programming_Languages/PracticeQuestions/prolog_practice_questions.html">
+      <div class="guide-icon">?-</div>
+      <div class="guide-title">Prolog Practice</div>
+      <div class="guide-desc">10 exam-style list-processing propositions. Write your clauses, get a hint, reveal the solution, and compare your answer with the memo. Includes the 2025 exam question.</div>
       <span class="guide-arrow">→</span>
     </a>
-    <a class="guide-card" href="guides/03_questions.html">
+    <a class="guide-card" href="COS333-Programming_Languages/PracticeQuestions/scheme_prolog_guide.html">
+      <div class="guide-icon">📖</div>
+      <div class="guide-title">Scheme &amp; Prolog Guide</div>
+      <div class="guide-desc">Complete exam guide — the 4 patterns (Filter, Map, Filter+Map, Accumulate), templates for both languages, predicate cheat-sheets, step-by-step approach, and common mistakes.</div>
+      <span class="guide-arrow">→</span>
+    </a>
+    <a class="guide-card" href="COS333-Programming_Languages/COS333_mcq_bank.html">
       <div class="guide-icon">📝</div>
-      <div class="guide-title">Question Bank</div>
-      <div class="guide-desc">Interactive 210 MCQs + 63 long questions across all 21 lectures. Click to answer, get instant feedback, track your score.</div>
+      <div class="guide-title">MCQ Bank</div>
+      <div class="guide-desc">Multiple-choice questions covering all chapters — language design, data types, subprograms, OOP, functional programming, logic programming. Click to answer and check instantly.</div>
       <span class="guide-arrow">→</span>
     </a>
-    <a class="guide-card" href="guides/04_situations.html">
-      <div class="guide-icon">🗺️</div>
-      <div class="guide-title">Exam Strategy</div>
-      <div class="guide-desc">7-step approach for any scenario, 6 scene-type archetypes, and 8 decision tables (lighting, shadows, materials, transparency, animation, culling, effects, pipeline) — compact print-ready reference.</div>
-      <span class="guide-arrow">→</span>
-    </a>
-    <a class="guide-card" href="guides/04_situations_old.html">
-      <div class="guide-icon">🗺️</div>
-      <div class="guide-title">Advanced Situations (v1)</div>
-      <div class="guide-desc">Original 10 harder scenario walkthroughs — Deep Sea, Medieval Castle, Martian Colony, and more — with full technique decision tables.</div>
-      <span class="guide-arrow">→</span>
-    </a>
-    <a class="guide-card" href="guides/05_math.html">
-      <div class="guide-icon">∑</div>
-      <div class="guide-title">Math Guide</div>
-      <div class="guide-desc">Step-by-step walkthroughs of all course mathematics — vectors, dot products, matrix transforms, ray equations, barycentric coordinates.</div>
-      <span class="guide-arrow">→</span>
-    </a>
-    <a class="guide-card" href="guides/exam_1.html">
+  </div>
+
+  <!-- ── PAST PAPERS ── -->
+  <div class="section-head">
+    <h2>Past Papers</h2>
+    <span class="section-badge">Exam Style</span>
+  </div>
+
+  <div class="guide-grid">
+    <a class="guide-card" href="COS333-Programming_Languages/PastPapers/Exams/2025_examination.html" onclick="return checkFile(this)">
       <div class="guide-icon">📋</div>
-      <div class="guide-title">Mock Exam 1 — P1 &amp; P2</div>
-      <div class="guide-desc">Full mock exam covering Lectures 1–10: Raster Images, Ray Tracing, Shading, Hardware, Transformations, Pipeline, and Data Structures. 60 marks.</div>
+      <div class="guide-title">2025 Examination</div>
+      <div class="guide-desc">Full June 2025 exam — 31 questions, 40 marks. Includes the Scheme <code>getZerosDoublePositives</code> and Prolog <code>getNegativesNegatePositives</code> questions.</div>
+      <span class="card-tag tag-red" style="margin-top:.4rem;">Most Recent</span>
       <span class="guide-arrow">→</span>
     </a>
-    <a class="guide-card" href="guides/exam_2.html">
+    <a class="guide-card" href="COS333-Programming_Languages/PastPapers/Exams/2023_examination.html" onclick="return checkFile(this)">
       <div class="guide-icon">📋</div>
-      <div class="guide-title">Mock Exam 2 — P3 &amp; P4</div>
-      <div class="guide-desc">Full mock exam covering Lectures 11–21: Viewing, Rasterisation, Textures, Games, Visualisation, Animation, Perception, and PBR. 60 marks.</div>
+      <div class="guide-title">2023 Examination</div>
+      <div class="guide-desc">2023 exam paper with worked solutions and explanations across all question topics.</div>
+      <span class="guide-arrow">→</span>
+    </a>
+    <a class="guide-card" href="COS333-Programming_Languages/PastPapers/Exams/2022_examination.html" onclick="return checkFile(this)">
+      <div class="guide-icon">📋</div>
+      <div class="guide-title">2022 Examination</div>
+      <div class="guide-desc">2022 exam paper with worked solutions and explanations across all question topics.</div>
+      <span class="guide-arrow">→</span>
+    </a>
+    <a class="guide-card" href="COS333-Programming_Languages/03_questions.html">
+      <div class="guide-icon">🗂️</div>
+      <div class="guide-title">All Section Questions</div>
+      <div class="guide-desc">Section-by-section question bank covering all chapters of Sebesta's <em>Concepts of Programming Languages</em>.</div>
       <span class="guide-arrow">→</span>
     </a>
   </div>
@@ -102,52 +110,58 @@
   <!-- ── EXAM INFO ── -->
   <div class="section-head">
     <h2>Exam Info</h2>
-    <span class="section-badge">COS344 Final</span>
+    <span class="section-badge">COS333 Final</span>
   </div>
 
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-bottom:3rem;">
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-bottom:2rem;">
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow);">
-      <h4>📅 Date &amp; Time</h4>
-      <p style="margin:.3rem 0 0;font-size:.92rem;font-weight:600;color:var(--navy)">11 June 2026</p>
-      <p style="margin:0;font-size:.85rem;color:var(--muted)">07:30 – 10:30</p>
+      <h4>📅 Duration</h4>
+      <p style="margin:.3rem 0 0;font-size:.92rem;font-weight:600;color:var(--navy)">3 Hours</p>
+      <p style="margin:0;font-size:.85rem;color:var(--muted)">Closed book</p>
     </div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow);">
-      <h4>📖 Format</h4>
-      <p style="margin:.3rem 0 0;font-size:.92rem;font-weight:600;color:var(--navy)">Open-book</p>
-      <p style="margin:0;font-size:.85rem;color:var(--muted)">Non-electronic notes only</p>
+      <h4>📊 Total Marks</h4>
+      <p style="margin:.3rem 0 0;font-size:.92rem;font-weight:600;color:var(--navy)">40 Marks</p>
+      <p style="margin:0;font-size:.85rem;color:var(--muted)">MCQs + long questions</p>
     </div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow);">
-      <h4>📊 Final Mark</h4>
-      <p style="margin:.3rem 0 0;font-size:.92rem;color:var(--muted);font-family:var(--mono);font-size:.8rem;">semMark × 0.6 + examMark × 0.4</p>
+      <h4>🔑 Scheme &amp; Prolog</h4>
+      <p style="margin:.3rem 0 0;font-size:.92rem;font-weight:600;color:var(--navy)">10 marks</p>
+      <p style="margin:0;font-size:.85rem;color:var(--muted)">One of each, 5 marks each</p>
     </div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow);">
-      <h4>⚠️ To Pass</h4>
-      <p style="margin:.3rem 0 0;font-size:.85rem;color:var(--muted)">≥40% in exam &amp; ≥50% final mark</p>
+      <h4>📖 Textbook</h4>
+      <p style="margin:.3rem 0 0;font-size:.92rem;font-weight:600;color:var(--navy)">Sebesta</p>
+      <p style="margin:0;font-size:.85rem;color:var(--muted)">Concepts of Programming Languages</p>
     </div>
   </div>
 
-  <!-- ── SCOPE ── -->
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:3rem;box-shadow:var(--shadow)">
-    <h3 style="margin-top:0">Exam Scope</h3>
-    <p style="color:var(--muted);font-size:.88rem">Chapters 1, 3, 4, 5, 7, 8, 9, 11, 12, 14, 16, 17, 19, 22, 23 — plus practicals, homework, and guest lectures. Bigger focus on <strong>application of theory</strong>; minor focus on calculation. Scenario-based questions combine multiple topics.</p>
-    <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem">
-      <span class="card-tag tag-blue">L01 Introduction</span>
-      <span class="card-tag tag-blue">L02 Raster Images</span>
-      <span class="card-tag tag-red">L03 Ray Tracing</span>
-      <span class="card-tag tag-orange">L04 Surface Shading</span>
-      <span class="card-tag tag-blue">L05–L06 Hardware</span>
-      <span class="card-tag tag-green">L07–L08 Transforms</span>
-      <span class="card-tag tag-blue">L09 Pipeline</span>
-      <span class="card-tag tag-blue">L10 Data Structures</span>
-      <span class="card-tag tag-green">L11–L12 Viewing</span>
-      <span class="card-tag tag-blue">L13 ASSIMP</span>
-      <span class="card-tag tag-blue">L14 Rasterisation</span>
-      <span class="card-tag tag-orange">L15–L16 Textures</span>
-      <span class="card-tag tag-green">L17 Games</span>
-      <span class="card-tag tag-blue">L18 Visualisation</span>
-      <span class="card-tag tag-green">L19 Animation</span>
-      <span class="card-tag tag-orange">L20 Perception</span>
-      <span class="card-tag tag-red">L21 PBR</span>
+  <!-- ── QUICK REFERENCE ── -->
+  <div class="section-head">
+    <h2>Quick Pattern Reference</h2>
+    <span class="section-badge">Revision</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-bottom:3rem;">
+    <div style="background:var(--accent-bg);border:1px solid #bfdbfe;border-radius:var(--radius);padding:1.1rem;box-shadow:var(--shadow);">
+      <div style="font-family:var(--mono);font-size:1.2rem;font-weight:700;color:var(--accent);margin-bottom:.3rem;">A — Filter</div>
+      <p style="margin:0;font-size:.85rem;color:var(--navy2);">Keep or remove elements. Output ≤ input length. Base: <code>'()</code> / <code>[]</code>.</p>
+      <p style="margin:.4rem 0 0;font-size:.78rem;color:var(--muted);">"keep only X" · "remove all Y"</p>
+    </div>
+    <div style="background:var(--accent2-bg);border:1px solid #6ee7be;border-radius:var(--radius);padding:1.1rem;box-shadow:var(--shadow);">
+      <div style="font-family:var(--mono);font-size:1.2rem;font-weight:700;color:var(--accent2);margin-bottom:.3rem;">B — Map</div>
+      <p style="margin:0;font-size:.85rem;color:var(--navy2);">Transform every element. Output length = input. Base: <code>'()</code> / <code>[]</code>.</p>
+      <p style="margin:.4rem 0 0;font-size:.78rem;color:var(--muted);">"double all" · "square each"</p>
+    </div>
+    <div style="background:var(--warn-bg);border:1px solid #fcd34d;border-radius:var(--radius);padding:1.1rem;box-shadow:var(--shadow);">
+      <div style="font-family:var(--mono);font-size:1.2rem;font-weight:700;color:var(--warn);margin-bottom:.3rem;">C — Filter+Map</div>
+      <p style="margin:0;font-size:.85rem;color:var(--navy2);">3-way split. Exam favourite. Base: <code>'()</code> / <code>[]</code>.</p>
+      <p style="margin:.4rem 0 0;font-size:.78rem;color:var(--muted);">"X unchanged, Y transformed, Z omitted"</p>
+    </div>
+    <div style="background:var(--danger-bg);border:1px solid #fca5a5;border-radius:var(--radius);padding:1.1rem;box-shadow:var(--shadow);">
+      <div style="font-family:var(--mono);font-size:1.2rem;font-weight:700;color:var(--danger);margin-bottom:.3rem;">D — Accumulate</div>
+      <p style="margin:0;font-size:.85rem;color:var(--navy2);">Return a number (count or sum). Base: <code>0</code>.</p>
+      <p style="margin:.4rem 0 0;font-size:.78rem;color:var(--muted);">"return the count of" · "return the sum of"</p>
     </div>
   </div>
 
@@ -155,8 +169,8 @@
 
 <footer>
   <div class="footer-inner">
-    <span>COS344 Computer Graphics — Study Hub</span>
-    <span>Shirley &amp; Marschner, <em>Fundamentals of Computer Graphics</em></span>
+    <span>COS333 Programming Languages — Study Hub</span>
+    <span>Sebesta, <em>Concepts of Programming Languages</em></span>
   </div>
 </footer>
 

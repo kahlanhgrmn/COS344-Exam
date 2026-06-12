@@ -1,0 +1,401 @@
+{
+  "exam": "COS333 – Programming Languages",
+  "paper": "Examination",
+  "date": "15 November 2022",
+  "duration": "3 hours",
+  "total_marks": 40,
+  "source_chapters": [
+    "Chapter 1",
+    "Chapter 2",
+    "Chapter 5",
+    "Chapter 6",
+    "Chapter 7",
+    "Chapter 8",
+    "Chapter 9",
+    "Chapter 11",
+    "Chapter 12",
+    "Chapter 15",
+    "Chapter 16"
+  ],
+  "questions": [
+    {
+      "question": 1,
+      "marks": 1,
+      "topic": "Systems Programming Language Design",
+      "answer": "Reliability.",
+      "explanation": "For systems programming languages (operating systems, device drivers, embedded systems), the primary concern is efficiency — these programs must run as fast as possible with minimal overhead. The second most important concern is RELIABILITY. Systems software (OS kernels, drivers) must function correctly at all times; a crash or incorrect behavior can bring down an entire system. Portability is actually a low priority for systems code (often deliberately hardware-specific). Generality and orthogonality are secondary concerns not traditionally cited as second-most-important for systems programming.",
+      "question_text": "For programming languages that are designed for **systems programming** applications, the primary concern is efficiency. Consider the following statements, and select the one that most correctly identifies the **second most important concern** in programming languages designed for systems programming.",
+      "options": [
+        "Portability.",
+        "Generality.",
+        "Orthogonality.",
+        "Reliability."
+      ]
+    },
+    {
+      "question": 2,
+      "marks": 1,
+      "topic": "Pseudocode Language Interpretation",
+      "answer": "Certain operations were not supported in hardware at the time, meaning execution was slow regardless of whether interpretation was used.",
+      "explanation": "Early pseudocode languages (1950s) were interpreted rather than compiled. The key reason: many operations (particularly floating-point arithmetic) were NOT supported directly in hardware on early computers. Programs needed software routines to perform these operations, which were inherently slow regardless of whether the program was compiled or interpreted. Since execution was slow either way (due to hardware limitations), the overhead of interpretation was negligible relative to the software-emulated operations. Interpretation was therefore chosen for its simplicity and flexibility. Cross-platform compatibility was not a concern in that era.",
+      "question_text": "Pseudocode languages were interpreted rather than compiled. Consider the following statements, and select the option that most correctly identifies **why these languages were interpreted**.",
+      "options": [
+        "Interpretation offers the advantage of cross-platform compatibility.",
+        "Interpretation is more reliable in terms of error detection than compilation.",
+        "Certain operations were not supported in hardware at the time, meaning execution was slow regardless of whether interpretation was used.",
+        "Interpretation requires less computing resources than compilation does, meaning it worked better on the limited hardware of the time."
+      ]
+    },
+    {
+      "question": 3,
+      "marks": 1,
+      "topic": "Objective-C",
+      "answer": "Object-oriented programming in Objective-C is based on Smalltalk.",
+      "explanation": "Objective-C was developed by Brad Cox in the early 1980s by adding object-oriented programming capabilities to C. The OOP model chosen was based on SMALLTALK's message-passing paradigm, not C++ style. Objective-C uses dynamic message dispatch, objects identified by class, and the syntax for sending messages (`[object message]`) is derived from Smalltalk's approach. This is why Objective-C and Smalltalk share concepts like categories, protocols, and dynamic typing that are absent from C++.",
+      "question_text": "Consider the following statements, and select the option that most correctly describes **Objective-C**.",
+      "options": [
+        "Object-oriented programming in Objective-C is based on C.",
+        "Object-oriented programming in Objective-C is based on C++.",
+        "Object-oriented programming in Objective-C is based on Smalltalk.",
+        "Objective-C does not support object-oriented programming."
+      ]
+    },
+    {
+      "question": 4,
+      "marks": 5,
+      "topic": "Scheme — getPositiveOddValues",
+      "answer": "(define (getPositiveOddValues lst)\n  (cond\n    ((null? lst) '())\n    ((and (> (car lst) 0) (odd? (car lst)))\n     (cons (car lst) (getPositiveOddValues (cdr lst))))\n    (else\n     (getPositiveOddValues (cdr lst)))\n  )\n)",
+      "explanation": "Strategy: Recurse through the list element by element. Base case: empty list → return empty list. For each head element: if it is BOTH positive (> 0) AND odd (odd?), include it by consing it onto the result of recursing on the tail. Otherwise (zero, negative, or even), skip it and recurse on the tail without including it. The and predicate checks both conditions. Example: (getPositiveOddValues '(1 2 7 -3 4)) → 1 is positive AND odd → include; 2 is even → skip; 7 is positive AND odd → include; -3 is negative → skip; 4 is even → skip. Result: (1 7).",
+      "question_text": "Write a Scheme function named `getPositiveOddValues`, which receives one parameter: a simple list containing only numeric atoms. The function should yield (not print) a list containing only the **positive (non-zero) odd values** contained in the parameter list.\n\n*Examples:*\n```scheme\n(getPositiveOddValues '())\n; => ()   (no elements in the parameter list)\n\n(getPositiveOddValues '(1 2 7 -3 4))\n; => (1 7)   (1 and 7 are the only positive odd values; 2 and 4 are positive even; -3 is negative)\n```\n\n**Allowed built-in functions:**\n- **Function construction:** `lambda`, `define`\n- **Binding:** `let`\n- **Arithmetic:** `+`, `-`, `*`, `/`, `abs`, `sqrt`, `remainder`, `modulo`, `min`, `max`\n- **Boolean values:** `#t`, `#f`\n- **Equality predicates:** `=`, `>`, `<`, `>=`, `<=`, `even?`, `odd?`, `zero?`, `negative?`, `eqv?`, `eq?`\n- **Logical predicates:** `and`, `or`, `not`\n- **List predicates:** `list?`, `null?`\n- **Conditionals:** `if`, `cond`, `else`\n- **Quoting:** `quote`, `'`\n- **List manipulation:** `list`, `car`, `cdr`, `cons`\n- **I/O:** `display`, `printf`, `newline`, `read`",
+      "options": null
+    },
+    {
+      "question": 5,
+      "marks": 5,
+      "topic": "Prolog — stripOccurrences",
+      "answer": "stripOccurrences(_, [], []).\nstripOccurrences(X, [X|T], L2) :-\n  stripOccurrences(X, T, L2).\nstripOccurrences(X, [H|T], [H|L2]) :-\n  H \\= X,\n  stripOccurrences(X, T, L2).",
+      "explanation": "Three clauses: (1) Base case: empty list → empty result (regardless of X). (2) If the head of L1 unifies with X (i.e., equals X): skip it and recurse on the tail, passing the same L2 accumulator. (3) If the head H does NOT equal X (H \\= X): keep H in the result list, and recurse on the tail. Example: stripOccurrences(a, [a, b, a, c, a], X). First a matches X → skip; b ≠ a → keep; a matches → skip; c ≠ a → keep; a matches → skip. Result: [b, c].",
+      "question_text": "Write a Prolog proposition called `stripOccurrences(X, L1, L2)`, which succeeds if the list L2 contains all the elements in the list L1, in order, with **all occurrences of X removed**.\n\n*Examples:*\n```prolog\n?- stripOccurrences(a, [b, c, d], X).\n% X = [b, c, d]\n\n?- stripOccurrences(a, [a, b, a, c, a], X).\n% X = [b, c]\n```\n\n**Requirements:**\n- You may define additional helper propositions.\n- Only use constants, variables, list manipulation, arithmetic, relational expressions, and built-in predicates from the textbook/slides. Do **not** use if-then, if-then-else, or complex system predicates.",
+      "options": null
+    },
+    {
+      "question": 6,
+      "marks": 1,
+      "topic": "Scope and Lifetime of Static Variables",
+      "answer": "The scope of the variable is from the point of the variable declaration until the end of its scope, while the lifetime is from the start of program execution until the end of program execution.",
+      "explanation": "Static variables have a SPLIT between scope and lifetime. SCOPE (visibility) is limited: the variable is visible only from its declaration point to the end of the enclosing block/function (e.g., a static local variable in C is only accessible within the function). LIFETIME is unlimited: the variable is allocated when the program starts and persists until the program terminates — it retains its value between function calls. This distinguishes static variables from stack-dynamic variables (whose lifetime matches their scope) and heap-dynamic variables.",
+      "question_text": "Consider the following statements about the **scope and lifetime of static variables**, and select the one that is most correct.",
+      "options": [
+        "The scope of the variable is from the point of the variable declaration until the end of its scope, while the lifetime is from the start of program execution until the end of program execution.",
+        "The scope of the variable is from the start of program execution until the end of program execution, while the lifetime is from the point of the variable declaration until the end of its scope.",
+        "The scope and lifetime are both from the point of the variable declaration until the end of its scope.",
+        "The scope and lifetime are both from the start of program execution until the end of program execution."
+      ]
+    },
+    {
+      "question": 7,
+      "marks": 1,
+      "topic": "Implicitly Dereferenced Pointers",
+      "answer": "Pointer arithmetic is disallowed.",
+      "explanation": "If a programming language implicitly dereferences pointers (writing `p` gives the value pointed to, not the pointer itself), then there is no way to operate on the POINTER VALUE directly. Pointer arithmetic requires accessing the pointer's address value (e.g., advancing by sizeof(T) bytes to move to the next element). If `p` always gives the dereferenced value, you cannot compute `p + 1` as 'advance the pointer by one element' — the addition would apply to the pointed-to value instead. Therefore, implicit dereferencing effectively disallows meaningful pointer arithmetic. Void pointers, indirect addressing, and dynamic memory management can still be supported through other mechanisms.",
+      "question_text": "It is possible for pointers to be implicitly dereferenced by a programming language. Consider the following possible **disadvantages associated with implicitly dereferenced pointers**, and select the one that is most correct.",
+      "options": [
+        "Void pointers cannot be used.",
+        "Pointer arithmetic is disallowed.",
+        "Pointers cannot be used for indirect addressing.",
+        "Pointers cannot be used for dynamic memory management."
+      ]
+    },
+    {
+      "question": 8,
+      "marks": 1,
+      "topic": "Operator Precedence and Associativity in APL",
+      "answer": "Precedence and associativity rules in APL are both more orthogonal than precedence and associativity rules in other programming languages.",
+      "explanation": "APL uses a single, completely uniform rule for all operators: ALL operators have the SAME precedence level (no hierarchy) and ALL operators associate RIGHT to LEFT. This is maximally orthogonal — one consistent rule applies to every operator without exceptions or special cases. Most other languages have multiple precedence levels (e.g., * before +) and mixed associativity rules (left-to-right for most, right-to-left for assignment), creating many special cases. APL's single rule is more orthogonal (though arguably less intuitive for mathematical expressions).",
+      "question_text": "Consider the following statements about **operator precedence and associativity in APL**, and select the one that is most correct.",
+      "options": [
+        "Precedence rules in APL are more orthogonal than precedence rules in other programming languages, but associativity rules in APL are less orthogonal than associativity rules in other programming languages.",
+        "Associativity rules in APL are more orthogonal than associativity rules in other programming languages, but precedence rules in APL are less orthogonal than precedence rules in other programming languages.",
+        "Precedence and associativity rules in APL are both more orthogonal than precedence and associativity rules in other programming languages.",
+        "Precedence and associativity rules in APL are both less orthogonal than precedence and associativity rules in other programming languages."
+      ]
+    },
+    {
+      "question": 9,
+      "marks": 1,
+      "topic": "Dynamic Typing and Operator Overloading in Scheme",
+      "answer": "Dynamic typing means Scheme operators can receive operands of any type.",
+      "explanation": "In Scheme, all variables are dynamically typed — the type of a value is determined at runtime, not at compile time. This means the arithmetic operators (+, -, *, /) can already receive operands of any numeric type (integer, float, rational, complex) without needing separate overloaded versions. The RUNTIME type system dispatches the correct operation based on the actual types of the operands. There is no need for static overloading (which resolves at compile time based on declared types) because the language handles type polymorphism dynamically. Overloading in the traditional sense (separate compile-time versions per type) doesn't make sense when types aren't known until runtime.",
+      "question_text": "In Scheme, operator overloading isn't supported due to Scheme's reliance on dynamic typing. Select the reason that most correctly explains why **dynamic typing results in a lack of operator overloading in Scheme**.",
+      "options": [
+        "Dynamic typing means Scheme operators can receive operands of any type.",
+        "Dynamic typing means overloaded operators would be very unreliable.",
+        "Dynamic typing means overloaded versions of operators are automatically generated.",
+        "Dynamic typing means operator support doesn't make sense in Scheme."
+      ]
+    },
+    {
+      "question": 10,
+      "marks": 1,
+      "topic": "Ada and Assignment Coercions",
+      "answer": "Ada is more reliable.",
+      "explanation": "Ada was designed with minimal implicit type coercions — all type conversions must be EXPLICIT in source code. This means the compiler catches type mismatches at compile time rather than silently coercing values. For example, assigning a float to an integer variable requires an explicit `Integer(floatVar)` conversion call. This prevents accidental precision loss, overflow, or unexpected value changes from silent coercions. The result is a MORE RELIABLE language because type errors are detected early. Ada is actually LESS writable (more verbose explicit conversions) and not more orthogonal due to this restriction.",
+      "question_text": "Ada supports no assignment coercions. Consider the following statements, and select one that most correctly describes a **result of this lack of assignment coercions**.",
+      "options": [
+        "Ada is more writable.",
+        "Ada is more orthogonal.",
+        "Ada is more reliable.",
+        "Ada has lower cost."
+      ]
+    },
+    {
+      "question": 11,
+      "marks": 1,
+      "topic": "Perl Multiple Assignments",
+      "answer": "Perl is more writable.",
+      "explanation": "Perl's support for multiple simultaneous assignments (e.g., `($a, $b, $c) = (1, 2, 3)` or swapping with `($a, $b) = ($b, $a)`) allows expressing multi-variable operations in a single concise statement. Without this, each assignment would require a separate statement or a temporary variable for swapping. This directly improves WRITABILITY by allowing more things to be expressed with less code. Multiple assignments don't inherently improve orthogonality (it's an additional special construct), cost (execution is similar), or reliability.",
+      "question_text": "Perl supports multiple assignments. Consider the following statements, and select one that most correctly describes an **advantage of this support**.",
+      "options": [
+        "Perl is more writable.",
+        "Perl is more orthogonal.",
+        "Perl has reduced cost.",
+        "Perl is more reliable."
+      ]
+    },
+    {
+      "question": 12,
+      "marks": 1,
+      "topic": "Short-Circuit Evaluation and Side Effects",
+      "answer": "If the or operator is short-circuit evaluated, a side effect will not occur, which causes a problem.",
+      "explanation": "The condition is: `(myArr[index] == threshold) or (++index < length)`. The `++index` in the second operand is a side effect (it increments index). If `or` IS short-circuit evaluated: when `myArr[index] == threshold` is TRUE, the second operand is NOT evaluated, so `++index` does NOT execute. Index stays at the same position → the loop re-evaluates the same element repeatedly → if the condition remains true, the loop never advances → INFINITE LOOP. The side effect failing to occur causes a problem. If not short-circuit: `++index` always executes, advancing through the array normally.",
+      "question_text": "Consider the following program code fragment in a hypothetical programming language:\n\n```\nint [] myArr = {3, 4, 1, 6, 2}\nint index = 0\nint length = 5\nint threshold = 10\nwhile ((myArr[index] == threshold) or (++index < length))\n{ ... }\n```\n\nSelect the option that most correctly describes a **problem** with the above program code.",
+      "options": [
+        "If the or operator is short-circuit evaluated, a side effect will not occur, which causes a problem.",
+        "If the or operator is short-circuit evaluated, a side effect occurs, which causes a problem.",
+        "If the or operator is not short-circuit evaluated, a side effect will not occur, which causes a problem.",
+        "If the or operator is not short-circuit evaluated, a side effect occurs, which causes a problem."
+      ]
+    },
+    {
+      "question": 13,
+      "marks": 2,
+      "topic": "Fortran Three-Way Selection Statement",
+      "answer": [
+        "The three-way selection statement is very efficient.",
+        "The three-way selection statement is too closely based on the IBM 704 hardware."
+      ],
+      "explanation": "(1) The Fortran I arithmetic IF (`IF (expr) label1, label2, label3`) compiled directly to a single IBM 704 conditional branch instruction (CAS — Compare and Select), which simultaneously evaluated the sign and branched to one of three targets. This was very efficient — a single machine instruction replaced what would otherwise require multiple comparisons and jumps. (2) The IBM 704 had specific hardware support for three-way branching based on sign (negative/zero/positive), and the arithmetic IF was designed to map directly to this instruction — making it hardware-specific and not portable. The control cannot express flow that two-way selection cannot (option A is false). Programmer time was NOT more important than execution time in Fortran I design (option C is false — machine efficiency was paramount).",
+      "question_text": "Fortran I had a three-way selection statement. In this statement, one branch would be executed if the control variable value was above zero, a second branch would be executed if the control variable value was equal to zero, and a third branch would be executed if the control variable value was below zero. Select **only** the statements that are **properties of the three-way selection statement**. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "The three-way selection statement allows flow control to be written, which cannot be written using two-way selection and pretest logical loops.",
+        "The three-way selection statement is very efficient.",
+        "The three-way selection statement is an example of programmer time being considered more important than execution time.",
+        "The three-way selection statement is too closely based on the IBM 704 hardware."
+      ]
+    },
+    {
+      "question": 14,
+      "marks": 1,
+      "topic": "Counter-Controlled Loops in C vs Ada",
+      "answer": "Counter-controlled loops in C are less reliable than counter-controlled loops in Ada.",
+      "explanation": "C's for loop (`for (i=0; i<n; i++)`) allows: modifying the loop variable inside the body, any expression in each control field, break/continue, and non-standard step values. This flexibility enables subtle bugs (accidentally skipping iterations, off-by-one errors, infinite loops from modified counters). Ada's for loop (`for i in 1..10 loop`) implicitly declares the loop variable (READ-ONLY — cannot be modified in the body), uses a fixed range, and has clear semantics. This makes Ada's loop more reliable. C's loop is more writable (more expressive and concise) but less reliable.",
+      "question_text": "Counter-controlled loops are supported in **C and Ada**. Consider the following statements, and select the one that is most correct.",
+      "options": [
+        "Counter-controlled loops in C are less writable than counter-controlled loops in Ada.",
+        "Counter-controlled loops in C are more costly than counter-controlled loops in Ada.",
+        "Counter-controlled loops in C are less reliable than counter-controlled loops in Ada.",
+        "Counter-controlled loops in C are more orthogonal than counter-controlled loops in Ada."
+      ]
+    },
+    {
+      "question": 15,
+      "marks": 1,
+      "topic": "Conditional Break in a Loop",
+      "answer": "Readability is reduced.",
+      "explanation": "When a break statement has a conditional attached (`if condition then break`), the loop now has TWO possible exit conditions: the normal loop-terminating condition AND the conditional break. A reader must understand both conditions and their interaction to understand when the loop terminates. This additional complexity reduces READABILITY — the control flow is no longer clear from the loop header alone. The programmer must trace through the body to find all exit points. Writability might actually be slightly improved (can exit in the middle), but readability suffers.",
+      "question_text": "It is possible for a conditional to be part of a break used in a loop. Consider the following drawbacks, and select the one that applies to situations in which **a conditional is part of a break**.",
+      "options": [
+        "Writability is reduced.",
+        "Readability is reduced.",
+        "Orthogonality is reduced.",
+        "Cost is reduced."
+      ]
+    },
+    {
+      "question": 16,
+      "marks": 1,
+      "topic": "Guarded Commands Output",
+      "answer": "Runtime error",
+      "explanation": "var a = 11. Evaluate guards: (1) a < 0 → 11 < 0 → FALSE. (2) a mod 2 == 0 → 11 mod 2 = 1 → 1 == 0 → FALSE. In Dijkstra's guarded command `if...fi` construct, if NO guard evaluates to true, the result is a RUNTIME ERROR (the program aborts/fails). This differs from `do...od` where all-false guards simply terminate the loop. The `if...fi` construct is non-deterministic but REQUIRES at least one guard to be true; if none is, it is an error condition. No output is produced before the error.",
+      "question_text": "Consider the following program code in a hypothetical programming language that supports **guarded commands**:\n\n```\nvar a = 11\n\nif (a < 0) -> print(\"Negative\")\n[] (a mod 2 == 0) -> print(\"Even\")\nfi\n```\n\nProvide the **output** of the program. If the program produces no output, write `Nothing`. If there is a compile-time error, write `Compilation error`. If there is a runtime error, write `Runtime error`.",
+      "options": null
+    },
+    {
+      "question": 17,
+      "marks": 1,
+      "topic": "Python Executable Subprogram Definitions",
+      "answer": "Readability is reduced.",
+      "explanation": "In Python, function definitions (`def`) are executable statements that create function objects at runtime. Unlike C or Java where all function/method definitions are processed at compile time and are always available, Python functions are created when their `def` statement executes. This means functions can be defined inside conditionals, loops, and other functions — making it potentially unclear to a reader WHICH functions are defined at any given point in execution, and WHEN they become available. The dynamic, execution-order-dependent nature of function creation can make programs harder to reason about statically, reducing readability.",
+      "question_text": "In Python, subprogram definitions are executable. Consider the following statements about the **implications of executable subprogram definitions**, and select the one that is most correct.",
+      "options": [
+        "Writability is reduced.",
+        "Readability is reduced.",
+        "Cost is reduced.",
+        "There is no effect on the programming language, because all languages that support subprograms have executable subprogram definitions."
+      ]
+    },
+    {
+      "question": 18,
+      "marks": 1,
+      "topic": "Default Parameters Anywhere in Parameter List",
+      "answer": "Use keyword parameters, if the programming language supports them.",
+      "explanation": "With KEYWORD parameters, the caller specifies each argument by name (e.g., `func(third=10, first=5)`), so ANY parameter can be omitted regardless of its position in the list — the runtime matches arguments to parameters by name rather than position. With positional parameters, all arguments must be provided in order, so a default in the middle creates ambiguity (which positional parameter corresponds to which argument?). Languages like C++ restrict defaults to the END of the parameter list specifically because they use positional parameters.",
+      "question_text": "In programming languages like C++, default parameters must appear last in the list of parameters. Consider the following solutions for **allowing default parameters to appear anywhere in the list of parameters**, and select the one that is most correct.",
+      "options": [
+        "Use a variable number of parameters, if the programming language supports them.",
+        "Use positional parameters, if the programming language supports them.",
+        "Use keyword parameters, if the programming language supports them.",
+        "It is not possible to allow default parameters to appear anywhere in the list of parameters."
+      ]
+    },
+    {
+      "question": 19,
+      "marks": 1,
+      "topic": "Procedures and Side Effects",
+      "answer": "Procedures have a high probability of having side effects, unless they are written carefully.",
+      "explanation": "Procedures are subprograms that do NOT return a value through a return statement. Their primary purpose is to PRODUCE EFFECTS — modifying parameters, global variables, files, or other state. Because procedures have no return value mechanism, producing effects (side effects) IS their intended mechanism for returning results. However, they are not GUARANTEED to have side effects — a procedure could technically do nothing or perform only internal computation. Procedures are NOT guaranteed to never have side effects (that would make them useless), nor guaranteed to always have side effects, nor do they produce them unpredictably.",
+      "question_text": "Procedures are a specific kind of subprogram. Consider the following statements, and select the one that is most correct.",
+      "options": [
+        "Procedures are guaranteed to never have side effects.",
+        "Procedures are guaranteed to always have side effects.",
+        "Procedures have a high probability of having side effects, unless they are written carefully.",
+        "Procedures generate side effects unpredictably."
+      ]
+    },
+    {
+      "question": 20,
+      "marks": 1,
+      "topic": "Ad-hoc Binding with Static Scoping",
+      "answer": "9",
+      "explanation": "The language uses STATIC SCOPING + ad-hoc binding. A = 4 (global). main executes: sets global A = 2, then calls f(g). f executes: sets global A = 9, then calls sub() which is g. With static scoping, g is defined at global scope and its reference to A is to the GLOBAL A. At the time g executes, the global A has been set to 9 by f. So g prints 9. With ad-hoc binding in a statically scoped language, the referencing environment is the subprogram's lexical definition environment (global scope), and in that environment A is currently 9. Output: 9.",
+      "question_text": "Consider the following program code in a hypothetical programming language that allows subprogram names to be passed as parameters:\n\n```\nA = 4\nsubprogram f(sub) {\n    A = 9\n    call sub()\n}\nsubprogram g() {\n    print A\n}\nsubprogram main() {\n    A = 2\n    call f(g)\n}\n```\n\nAssume execution starts with `main` and the programming language uses **static scoping**. Provide the **output** if **ad-hoc binding** is used.",
+      "options": null
+    },
+    {
+      "question": 21,
+      "marks": 1,
+      "topic": "Coroutines",
+      "answer": "C A D B",
+      "explanation": "Execution trace: (1) main resumes g() → g starts from beginning. (2) g: prints 'C ', resumes f() → f starts from beginning. (3) f: prints 'A ', resumes g() → g continues from where it left off (after 'resume f()'). (4) g continues: prints 'D ', g terminates. (5) f continues from where it left off (after 'resume g()'): prints 'B ', f terminates. (6) main continues after resume g() → main terminates. Output: 'C A D B ' (with trailing space after each letter).",
+      "question_text": "Consider the following program code in a hypothetical programming language that supports **coroutines**:\n\n```\nsubprogram main() {\n    resume g()\n}\ncoroutine f() {\n    print \"A \"\n    resume g()\n    print \"B \"\n}\ncoroutine g() {\n    print \"C \"\n    resume f()\n    print \"D \"\n}\n```\n\nAssume execution starts with `main`. Provide the **output** of the program. *(Note: there is a single space at the end of each print output.)*",
+      "options": null
+    },
+    {
+      "question": 22,
+      "marks": 1,
+      "topic": "Java ADT Client Independence",
+      "answer": "Javadoc and bytecode.",
+      "explanation": "Java's mechanism for preventing client dependence on ADT implementation: the source code is compiled to .class bytecode files. Only the bytecode (not source) is distributed to clients. The public interface is accessible through JAVADOC — automatically generated API documentation derived from source comments and public declarations. Clients see only the Javadoc (the interface: method names, parameter types, return types) and the bytecode (the implementation: opaque). This cleanly separates interface from implementation — the implementation can change as long as the interface stays constant, and clients are unaffected. Header/implementation files are C++'s approach.",
+      "question_text": "Java supports a mechanism for ensuring that clients can't depend on the implementation of ADTs. Consider the following language features, and select the one that **ensures a lack of client dependence on implementation**.",
+      "options": [
+        "Header files and implementation files.",
+        "Base classes and derived classes.",
+        "Classes implementing interfaces.",
+        "Javadoc and bytecode."
+      ]
+    },
+    {
+      "question": 23,
+      "marks": 1,
+      "topic": "Dynamic Classes in Ruby",
+      "answer": "Dynamic classes increase writability.",
+      "explanation": "Ruby's dynamic classes (open classes) allow adding new methods to or modifying existing classes AT RUNTIME, even built-in classes like String, Integer, etc. This is known as monkey patching. A programmer can extend any existing class without subclassing, adding convenience methods directly to the class they need to modify. This makes it easier and faster to write programs that customise or extend existing functionality — directly improving WRITABILITY. It does not obviously improve readability (dynamic modifications can make code harder to follow), and it actually REDUCES reliability (unpredictable class modifications can break contracts).",
+      "question_text": "Classes are dynamic in Ruby. Consider the following statements about the **implications of dynamic classes in Ruby**, and select the one that is most correct.",
+      "options": [
+        "Dynamic classes increase writability.",
+        "Dynamic classes increase readability.",
+        "Dynamic classes decrease cost.",
+        "Dynamic classes increase reliability."
+      ]
+    },
+    {
+      "question": 24,
+      "marks": 3,
+      "topic": "Java Parameterised Classes (Generics)",
+      "answer": "Java 5.0 uses type erasure. The compiler replaces all type parameters with their upper bounds (typically Object), inserts explicit casts at usage sites, and produces a single compiled .class file. Generic type information is not retained at runtime.",
+      "explanation": "Java 5.0 generics use TYPE ERASURE for implementation: (1) All type parameters (T, E, K, V, etc.) are replaced by their upper bounds — if no bound is specified, they become Object; if bounded (e.g., T extends Comparable), they become the bound type. (2) The compiler inserts explicit casts wherever a typed value is extracted from a generic structure. (3) Only ONE compiled version of the class is created (unlike C++ templates which create a separate version per type argument). (4) At runtime, the JVM has no knowledge of the original generic type parameters — they are completely erased. This maintains backwards compatibility with pre-Java 5.0 code (which expected Object-based collections), but means runtime type checks on generic parameters are impossible.",
+      "question_text": "Briefly outline how the **compiler handles parameterised classes in Java 5.0**.",
+      "options": null
+    },
+    {
+      "question": 25,
+      "marks": 1,
+      "topic": "Smalltalk OOP",
+      "answer": "Smalltalk's support for object-oriented programming is highly orthogonal.",
+      "explanation": "Smalltalk achieves exceptional orthogonality in its OOP support through two uniform principles: (1) EVERYTHING is an object — integers, booleans, classes, methods, blocks — there is no separate primitive type system. (2) ALL operations are messages sent to objects — there is a single consistent mechanism for every interaction. These two uniform rules apply consistently without exceptions. Smalltalk is NOT efficient (dynamic binding for everything, garbage collection, no primitives → significant overhead). It is NOT 'essentially equivalent' to Java/C++ — it has unique characteristics (pure OOP, dynamic classes, etc.).",
+      "question_text": "Smalltalk supports object-oriented programming. Consider the following statements, and select the one that is most correct.",
+      "options": [
+        "Smalltalk's support for object-oriented programming is very writable.",
+        "Smalltalk's support for object-oriented programming is quite efficient.",
+        "Smalltalk's support for object-oriented programming is highly orthogonal.",
+        "Smalltalk is essentially equivalent in terms of programming language evaluation criteria to other object-oriented programming languages such as C++ and Java."
+      ]
+    },
+    {
+      "question": 26,
+      "marks": 1,
+      "topic": "Multiple Inheritance Implicit Problem",
+      "answer": "If any class member is defined in class A.",
+      "explanation": "In the diamond pattern (D inherits B and C, both inherit A), if A defines a member (method or field), both B and C INHERIT it without modification. D then has TWO inherited paths to A's member — through B and through C. The compiler cannot determine which version D should use, creating an IMPLICIT collision (the collision arises from the inheritance structure, not from explicit redefinitions in B or C). If B or C explicitly redefined the member (different versions), the collision would be explicit. The solution in C++ without virtual inheritance is to have the member exist twice in D.",
+      "question_text": "Assume a programming language that supports **multiple inheritance**. There is a parent class called A. Two classes, called B and C, both inherit directly from A. Finally, a class called D inherits from both B and C. Consider the following statements, and select the one that causes an **implicit problem** with the described inheritance hierarchy.",
+      "options": [
+        "If any class member is defined in class A.",
+        "If any class member is defined in class B.",
+        "If any class member is defined in class C.",
+        "If any class member with the same name is defined in classes B and C."
+      ]
+    },
+    {
+      "question": 27,
+      "marks": 1,
+      "topic": "C++ Private Derivation",
+      "answer": "When a derived class wishes to only make part of its base class interface publicly visible.",
+      "explanation": "Private derivation makes ALL inherited public and protected members PRIVATE in the derived class — the entire base class interface is hidden from outside users of the derived class. The derived class then selectively re-exposes specific base class members as public using `using` declarations. This technique is used when you want to use a base class's implementation (reuse the code) but only expose a SUBSET of the base's interface publicly. Adding to the interface means public derivation. Modifying one part means overriding. Ensuring subtype means public derivation. Private derivation deliberately prevents the subtype relationship.",
+      "question_text": "C++ provides support for **private derivation**. Consider the following statements, and select the one that describes a **valid use for private derivation**.",
+      "options": [
+        "When a derived class wishes to only add to the public interface of its base class.",
+        "When a derived class wishes to only modify how one part of the public interface provided by its base class works.",
+        "When a derived class wishes to only make part of its base class interface publicly visible.",
+        "When a derived class wishes to ensure that it is a subtype of its base class."
+      ]
+    },
+    {
+      "question": 28,
+      "marks": 1,
+      "topic": "C++ vs Java Message Binding",
+      "answer": "C++ support for message binding is more readable than Java's support.",
+      "explanation": "C++ requires the `virtual` keyword to explicitly mark methods for dynamic (late) binding. Methods NOT marked virtual are statically bound (resolved at compile time). When reading C++ code, the presence or absence of `virtual` immediately tells the programmer how binding works. Java makes ALL non-static, non-final methods dynamically bound by default with no explicit marker — you cannot tell from a single method declaration whether it will be dynamically dispatched. C++'s explicit `virtual` keyword makes binding behaviour more readable. Java's approach is more writable (less to type) but less readable. C++ is also more efficient (not less).",
+      "question_text": "C++ and Java both support **object-oriented message binding**. Consider the following statements, and select the one that is most correct.",
+      "options": [
+        "C++ support for message binding is more writable than Java's support.",
+        "C++ support for message binding is more readable than Java's support.",
+        "C++ support for message binding is less efficient than Java's support.",
+        "C++ support for message binding is more reliable than Java's support."
+      ]
+    },
+    {
+      "question": 29,
+      "marks": 1,
+      "topic": "Classes vs Structs in C#",
+      "answer": "Classes and structs are equally writable in C#.",
+      "explanation": "In C#, the syntactic structure for defining and using classes and structs is nearly identical — both use fields, properties, methods, and constructors with the same declaration syntax, differing only in the keyword (`class` vs `struct`). For simple data types, the writability experience is essentially the same. The key differences are semantic (value vs reference type, no inheritance for structs, stack vs heap allocation) rather than syntactic. C# only supports classes is false — structs ARE supported. 'Classes more writable' would only be relevant for polymorphic/inheritance scenarios; 'structs more writable' might apply for simple value types, but generally the syntax parity makes them equally writable.",
+      "question_text": "Consider the following statements about **classes and structs in C#**, and select the one that is most correct.",
+      "options": [
+        "C# only supports classes, and not structs.",
+        "Classes are more writable than structs in C#.",
+        "Structs are more writable than classes in C#.",
+        "Classes and structs are equally writable in C#."
+      ]
+    }
+  ]
+}

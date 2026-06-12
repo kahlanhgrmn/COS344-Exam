@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scheme Practice Questions — COS 333</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .q-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.4rem;
+    cursor: pointer;
+    user-select: none;
+    gap: 1rem;
+    background: var(--surface);
+    transition: background .15s;
+  }
+  .q-header:hover { background: var(--surface2); }
+  .q-header-left {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+  }
+  .q-num {
+    font-family: var(--mono);
+    font-size: .7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: .2em .65em;
+    white-space: nowrap;
+  }
+  .q-title {
+    font-weight: 600;
+    font-size: .97rem;
+    color: var(--navy);
+    font-family: var(--mono);
+  }
+  .q-badge {
+    font-family: var(--mono);
+    font-size: .68rem;
+    font-weight: 600;
+    background: var(--accent2-bg);
+    color: var(--accent2);
+    border-radius: 3px;
+    padding: .15em .6em;
+    white-space: nowrap;
+  }
+  .q-chevron {
+    font-size: .85rem;
+    color: var(--muted);
+    transition: transform .2s;
+    flex-shrink: 0;
+  }
+  .q-card.open .q-chevron { transform: rotate(180deg); }
+  .q-body {
+    display: none;
+    border-top: 1px solid var(--border);
+    padding: 1.4rem;
+  }
+  .q-card.open .q-body { display: block; }
+
+  .q-description {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.2rem;
+    font-size: .92rem;
+  }
+  .q-description p { margin: 0 0 .6rem; }
+  .q-description p:last-child { margin: 0; }
+
+  .q-examples {
+    margin-bottom: 1.2rem;
+  }
+  .q-examples h4 {
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+    margin: 0 0 .5rem;
+    font-weight: 600;
+  }
+
+  /* ── ANSWER AREA ── */
+  .answer-section { margin-bottom: 1.2rem; }
+  .answer-label {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: .5rem;
+  }
+  .answer-label span {
+    background: var(--warn-bg);
+    color: var(--warn);
+    border-radius: 3px;
+    padding: .1em .5em;
+    font-family: var(--mono);
+  }
+  .code-editor {
+    width: 100%;
+    min-height: 160px;
+    background: var(--code-bg);
+    color: var(--code-text);
+    font-family: var(--mono);
+    font-size: .82rem;
+    line-height: 1.6;
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    resize: vertical;
+    outline: none;
+    transition: border-color .2s;
+    tab-size: 2;
+  }
+  .code-editor:focus { border-color: var(--accent2); }
+  .code-editor::placeholder { color: #4a5568; }
+
+  /* ── ACTIONS ── */
+  .q-actions {
+    display: flex;
+    gap: .6rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .btn {
+    font-family: var(--sans);
+    font-size: .8rem;
+    font-weight: 500;
+    padding: .45em 1em;
+    border-radius: 6px;
+    border: 1px solid;
+    cursor: pointer;
+    transition: all .15s;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+  }
+  .btn-primary {
+    background: var(--accent2);
+    border-color: var(--accent2);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #0b8c68; border-color: #0b8c68; }
+  .btn-ghost {
+    background: transparent;
+    border-color: var(--border2);
+    color: var(--muted);
+  }
+  .btn-ghost:hover { border-color: var(--accent2); color: var(--accent2); background: var(--accent2-bg); }
+  .btn-compare {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .btn-compare:hover { background: #1d4ed8; border-color: #1d4ed8; }
+  .btn-danger {
+    background: transparent;
+    border-color: var(--border2);
+    color: var(--muted);
+  }
+  .btn-danger:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-bg); }
+
+  /* ── SOLUTION ── */
+  .solution-section { display: none; }
+  .solution-section.visible { display: block; }
+  .solution-header {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    margin-bottom: .75rem;
+  }
+  .solution-label {
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--accent2);
+    font-weight: 600;
+  }
+  .solution-divider {
+    border: none;
+    border-top: 1px dashed var(--border2);
+    margin: 1.2rem 0;
+  }
+
+  /* ── COMPARE VIEW ── */
+  .compare-section { display: none; }
+  .compare-section.visible { display: block; }
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: .75rem;
+  }
+  @media (max-width: 720px) {
+    .compare-grid { grid-template-columns: 1fr; }
+  }
+  .compare-pane {}
+  .compare-pane-label {
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 600;
+    margin-bottom: .4rem;
+    padding: .25em .7em;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .compare-pane-label.yours { background: var(--warn-bg); color: var(--warn); }
+  .compare-pane-label.memo  { background: var(--accent2-bg); color: var(--accent2); }
+  .compare-code {
+    background: var(--code-bg);
+    color: var(--code-text);
+    font-family: var(--mono);
+    font-size: .8rem;
+    line-height: 1.6;
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    white-space: pre;
+    overflow-x: auto;
+    min-height: 120px;
+    border: 1px solid var(--border2);
+  }
+  .compare-code.empty { color: #4a5568; font-style: italic; }
+
+  /* ── HINT ── */
+  .hint-section { display: none; }
+  .hint-section.visible {
+    display: block;
+    background: var(--warn-bg);
+    border: 1px solid #fcd34d;
+    border-radius: var(--radius);
+    padding: .75rem 1rem;
+    margin-bottom: 1rem;
+    font-size: .88rem;
+    color: var(--navy2);
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar-wrap {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: .4rem;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent2);
+    border-radius: 99px;
+    transition: width .4s;
+  }
+  .progress-label {
+    font-family: var(--mono);
+    font-size: .72rem;
+    color: var(--muted);
+  }
+
+  /* Allowed list toggle */
+  .allowed-toggle {
+    font-family: var(--mono);
+    font-size: .72rem;
+    color: var(--accent);
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    border-radius: 4px;
+    padding: .15em .6em;
+    display: inline-block;
+    margin-bottom: .75rem;
+    user-select: none;
+  }
+  .allowed-toggle:hover { border-color: var(--accent); }
+  .allowed-list { display: none; }
+  .allowed-list.visible {
+    display: block;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: .7rem 1rem;
+    font-size: .8rem;
+    margin-bottom: 1rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .allowed-list code { font-size: .78rem; }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">COS333 <span>// Programming Languages</span></div>
+    <div class="topnav-links">
+      <a href="../../index.html">COS344 Home</a>
+      <a href="scheme_practice_questions.html" class="active">Scheme Practice</a>
+      <a href="prolog_practice_questions.html">Prolog Practice</a>
+      <a href="scheme_prolog_guide.html">Guide</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero" style="background: linear-gradient(135deg, #1a2035 0%, #0e3b2c 100%);">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">COS 333 · Scheme</div>
+    <h1>Scheme<br><em>Practice Questions</em></h1>
+    <p class="hero-sub">
+      5 exam-style recursive list functions. Write your answer, then reveal the memo and compare side by side.
+    </p>
+    <div class="hero-pills">
+      <span class="hero-pill"><strong>10</strong> Questions</span>
+      <span class="hero-pill"><strong>5 marks</strong> each</span>
+      <span class="hero-pill">Filter · Map · Accumulate</span>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap" style="padding-top: 2rem;">
+
+  <!-- Allowed builtins reference -->
+  <div style="margin-bottom: 1.5rem;">
+    <span class="allowed-toggle" onclick="document.getElementById('allowed-global').classList.toggle('visible')">
+      Allowed Built-ins (click to expand)
+    </span>
+    <div class="allowed-list" id="allowed-global">
+      <strong>Function construction:</strong> <code>lambda</code>, <code>define</code> &nbsp;·&nbsp;
+      <strong>Binding:</strong> <code>let</code><br>
+      <strong>Arithmetic:</strong> <code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>abs</code> <code>sqrt</code> <code>remainder</code> <code>modulo</code> <code>min</code> <code>max</code><br>
+      <strong>Predicates:</strong> <code>=</code> <code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code> <code>even?</code> <code>odd?</code> <code>zero?</code> <code>negative?</code> <code>eqv?</code> <code>eq?</code><br>
+      <strong>Logical:</strong> <code>and</code> <code>or</code> <code>not</code> &nbsp;·&nbsp;
+      <strong>List predicates:</strong> <code>list?</code> <code>null?</code><br>
+      <strong>Conditionals:</strong> <code>if</code> <code>cond</code> <code>else</code> &nbsp;·&nbsp;
+      <strong>List:</strong> <code>list</code> <code>car</code> <code>cdr</code> <code>cons</code><br>
+      <strong>Note:</strong> <code>positive?</code> is <strong>NOT</strong> allowed — use <code>(&gt; x 0)</code> instead.
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div style="margin-bottom: 2rem;">
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-label"><span id="progressText">0 / 5 attempted</span></div>
+  </div>
+
+  <!-- ── Q1 ── -->
+  <div class="q-card" id="q1">
+    <div class="q-header" onclick="toggleQ('q1')">
+      <div class="q-header-left">
+        <span class="q-num">Q1</span>
+        <span class="q-title">keepNonNegatives</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Filter</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Scheme function named <code>keepNonNegatives</code>, which receives one parameter: a simple list of numeric atoms. The function should <strong>yield</strong> (not print) a list containing only the <strong>non-negative values</strong> from the parameter list, in their original order.</p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>(keepNonNegatives '())
+; => ()
+
+(keepNonNegatives '(-3 -1 -5))
+; => ()
+
+(keepNonNegatives '(-4 0 7 -2 3))
+; => (0 7 3)</code></pre>
+      </div>
+
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Scheme</span></div>
+        <textarea class="code-editor" id="q1-answer" placeholder="(define (keepNonNegatives lst)
+  (cond
+    ((null? lst) '())
+    ; your cases here...
+  )
+)"></textarea>
+      </div>
+
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q1')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q1')">Show Solution</button>
+        <button class="btn btn-compare" onclick="compare('q1')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q1')">Clear</button>
+      </div>
+
+      <div class="hint-section" id="q1-hint">
+        <strong>Hint:</strong> This is <strong>Pattern A (Filter)</strong>. Keep if <code>(&gt;= (car lst) 0)</code>, skip otherwise. Base case returns <code>'()</code>.
+      </div>
+
+      <div class="solution-section" id="q1-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-blue">Filter A — keep non-negatives</span>
+        </div>
+        <pre><code>(define (keepNonNegatives lst)
+  (cond
+    ((null? lst) '())
+    ((>= (car lst) 0)
+     (cons (car lst) (keepNonNegatives (cdr lst))))
+    (else
+     (keepNonNegatives (cdr lst)))
+  )
+)</code></pre>
+        <div class="callout callout-info">
+          <div class="callout-label">Trace for (-4 0 7)</div>
+          <p>-4 &lt; 0 → skip · 0 ≥ 0 → cons · 7 ≥ 0 → cons → <code>(0 7)</code></p>
+        </div>
+      </div>
+
+      <div class="compare-section" id="q1-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q1-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">(define (keepNonNegatives lst)
+  (cond
+    ((null? lst) '())
+    ((>= (car lst) 0)
+     (cons (car lst) (keepNonNegatives (cdr lst))))
+    (else
+     (keepNonNegatives (cdr lst)))
+  )
+)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q2 ── -->
+  <div class="q-card" id="q2">
+    <div class="q-header" onclick="toggleQ('q2')">
+      <div class="q-header-left">
+        <span class="q-num">Q2</span>
+        <span class="q-title">absoluteValueAll</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Map</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Scheme function named <code>absoluteValueAll</code>, which receives one parameter: a simple list of numeric atoms. The function should <strong>yield</strong> a list containing the <strong>absolute value of every element</strong> in the parameter list, in their original order.</p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>(absoluteValueAll '())
+; => ()
+
+(absoluteValueAll '(-3 -9))
+; => (3 9)
+
+(absoluteValueAll '(-5 0 4 -2 7))
+; => (5 0 4 2 7)</code></pre>
+      </div>
+
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Scheme</span></div>
+        <textarea class="code-editor" id="q2-answer" placeholder="(define (absoluteValueAll lst)
+  (cond
+    ((null? lst) '())
+    ; your case here...
+  )
+)"></textarea>
+      </div>
+
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q2')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q2')">Show Solution</button>
+        <button class="btn btn-compare" onclick="compare('q2')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q2')">Clear</button>
+      </div>
+
+      <div class="hint-section" id="q2-hint">
+        <strong>Hint:</strong> Pure <strong>Map (Pattern B)</strong> — every element stays. Just 2 cases: null and else. Use <code>(abs (car lst))</code>.
+      </div>
+
+      <div class="solution-section" id="q2-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-blue">Map B — transform every element</span>
+        </div>
+        <pre><code>(define (absoluteValueAll lst)
+  (cond
+    ((null? lst) '())
+    (else
+     (cons (abs (car lst)) (absoluteValueAll (cdr lst))))
+  )
+)</code></pre>
+        <div class="callout callout-info">
+          <div class="callout-label">Trace for (-5 0 4)</div>
+          <p><code>(cons 5 (cons 0 (cons 4 '())))</code> → <code>(5 0 4)</code></p>
+        </div>
+      </div>
+
+      <div class="compare-section" id="q2-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q2-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">(define (absoluteValueAll lst)
+  (cond
+    ((null? lst) '())
+    (else
+     (cons (abs (car lst)) (absoluteValueAll (cdr lst))))
+  )
+)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q3 ── -->
+  <div class="q-card" id="q3">
+    <div class="q-header" onclick="toggleQ('q3')">
+      <div class="q-header-left">
+        <span class="q-num">Q3</span>
+        <span class="q-title">doubleNegativesRemoveZeros</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Filter+Map</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Scheme function named <code>doubleNegativesRemoveZeros</code>, which receives one parameter: a simple list of numeric atoms. The function should <strong>yield</strong> a list where <strong>zero values are omitted</strong>, <strong>negative values are doubled</strong>, and <strong>positive values remain unchanged</strong>, in their original order.</p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>(doubleNegativesRemoveZeros '())
+; => ()
+
+(doubleNegativesRemoveZeros '(0 0 0))
+; => ()
+
+(doubleNegativesRemoveZeros '(-3 0 5 -1 0 2))
+; => (-6 5 -2 2)</code></pre>
+      </div>
+
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Scheme</span></div>
+        <textarea class="code-editor" id="q3-answer" placeholder="(define (doubleNegativesRemoveZeros lst)
+  (cond
+    ((null? lst) '())
+    ; omit zeros...
+    ; double negatives...
+    ; keep positives...
+  )
+)"></textarea>
+      </div>
+
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q3')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q3')">Show Solution</button>
+        <button class="btn btn-compare" onclick="compare('q3')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q3')">Clear</button>
+      </div>
+
+      <div class="hint-section" id="q3-hint">
+        <strong>Hint:</strong> <strong>Pattern C (Filter+Map)</strong> — 3 cases after null. Use <code>(zero? (car lst))</code> to skip, <code>(negative? (car lst))</code> to double with <code>(* 2 (car lst))</code>, and <code>else</code> to keep.
+      </div>
+
+      <div class="solution-section" id="q3-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-green">Filter+Map C — 3-way split</span>
+        </div>
+        <pre><code>(define (doubleNegativesRemoveZeros lst)
+  (cond
+    ((null? lst) '())
+    ((zero? (car lst))
+     (doubleNegativesRemoveZeros (cdr lst)))
+    ((negative? (car lst))
+     (cons (* 2 (car lst)) (doubleNegativesRemoveZeros (cdr lst))))
+    (else
+     (cons (car lst) (doubleNegativesRemoveZeros (cdr lst))))
+  )
+)</code></pre>
+        <div class="callout callout-info">
+          <div class="callout-label">Trace for (-3 0 5)</div>
+          <p>-3 negative → cons -6 · 0 zero → skip · 5 positive → cons 5 → <code>(-6 5)</code></p>
+        </div>
+      </div>
+
+      <div class="compare-section" id="q3-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q3-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">(define (doubleNegativesRemoveZeros lst)
+  (cond
+    ((null? lst) '())
+    ((zero? (car lst))
+     (doubleNegativesRemoveZeros (cdr lst)))
+    ((negative? (car lst))
+     (cons (* 2 (car lst)) (doubleNegativesRemoveZeros (cdr lst))))
+    (else
+     (cons (car lst) (doubleNegativesRemoveZeros (cdr lst))))
+  )
+)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q4 ── -->
+  <div class="q-card" id="q4">
+    <div class="q-header" onclick="toggleQ('q4')">
+      <div class="q-header-left">
+        <span class="q-num">Q4</span>
+        <span class="q-title">countEvens</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Accumulate</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Scheme function named <code>countEvens</code>, which receives one parameter: a simple list of numeric atoms. The function should <strong>yield</strong> (not print) the <strong>count</strong> of even-valued atoms in the parameter list.</p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>(countEvens '())
+; => 0
+
+(countEvens '(1 3 5 7))
+; => 0
+
+(countEvens '(2 3 4 5 6))
+; => 3</code></pre>
+      </div>
+
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Scheme</span></div>
+        <textarea class="code-editor" id="q4-answer" placeholder="(define (countEvens lst)
+  (cond
+    ((null? lst) ???)
+    ; your cases here...
+  )
+)"></textarea>
+      </div>
+
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q4')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q4')">Show Solution</button>
+        <button class="btn btn-compare" onclick="compare('q4')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q4')">Clear</button>
+      </div>
+
+      <div class="hint-section" id="q4-hint">
+        <strong>Hint:</strong> <strong>Pattern D (Accumulate)</strong> — base case returns <code>0</code>. If <code>(even? (car lst))</code> then <code>(+ 1 (countEvens (cdr lst)))</code>, else just recurse.
+      </div>
+
+      <div class="solution-section" id="q4-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-orange">Accumulate D — count</span>
+        </div>
+        <pre><code>(define (countEvens lst)
+  (cond
+    ((null? lst) 0)
+    ((even? (car lst))
+     (+ 1 (countEvens (cdr lst))))
+    (else
+     (countEvens (cdr lst)))
+  )
+)</code></pre>
+        <div class="callout callout-info">
+          <div class="callout-label">Trace for (2 3 4)</div>
+          <p>2 even → +1 · 3 odd → +0 · 4 even → +1 · base 0 → unwind: 0+1=1 → 1 → 1+1=2</p>
+        </div>
+      </div>
+
+      <div class="compare-section" id="q4-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q4-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">(define (countEvens lst)
+  (cond
+    ((null? lst) 0)
+    ((even? (car lst))
+     (+ 1 (countEvens (cdr lst))))
+    (else
+     (countEvens (cdr lst)))
+  )
+)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q5 ── -->
+  <div class="q-card" id="q5">
+    <div class="q-header" onclick="toggleQ('q5')">
+      <div class="q-header-left">
+        <span class="q-num">Q5</span>
+        <span class="q-title">squareNonNegativesNegateNegatives</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Map</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Scheme function named <code>squareNonNegativesNegateNegatives</code>, which receives one parameter: a simple list of numeric atoms. The function should <strong>yield</strong> a list where <strong>non-negative values are squared</strong> and <strong>negative values are negated</strong> (made positive by multiplying by −1), in their original order.</p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>(squareNonNegativesNegateNegatives '())
+; => ()
+
+(squareNonNegativesNegateNegatives '(-3))
+; => (3)
+
+(squareNonNegativesNegateNegatives '(-4 0 3 -2))
+; => (4 0 9 2)</code></pre>
+      </div>
+
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Scheme</span></div>
+        <textarea class="code-editor" id="q5-answer" placeholder="(define (squareNonNegativesNegateNegatives lst)
+  (cond
+    ((null? lst) '())
+    ; negative case...
+    ; non-negative case...
+  )
+)"></textarea>
+      </div>
+
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q5')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q5')">Show Solution</button>
+        <button class="btn btn-compare" onclick="compare('q5')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q5')">Clear</button>
+      </div>
+
+      <div class="hint-section" id="q5-hint">
+        <strong>Hint:</strong> Map with 2 transform branches. Use <code>(negative? (car lst))</code> to negate with <code>(* -1 (car lst))</code> or <code>(abs (car lst))</code>. Else square with <code>(* (car lst) (car lst))</code>.
+      </div>
+
+      <div class="solution-section" id="q5-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-blue">Map B — conditional transform</span>
+        </div>
+        <pre><code>(define (squareNonNegativesNegateNegatives lst)
+  (cond
+    ((null? lst) '())
+    ((negative? (car lst))
+     (cons (* -1 (car lst)) (squareNonNegativesNegateNegatives (cdr lst))))
+    (else
+     (cons (* (car lst) (car lst)) (squareNonNegativesNegateNegatives (cdr lst))))
+  )
+)</code></pre>
+        <div class="callout callout-tip">
+          <div class="callout-label">Alternative</div>
+          <p>Use <code>(abs (car lst))</code> instead of <code>(* -1 (car lst))</code> for the negative case — both are correct.</p>
+        </div>
+        <div class="callout callout-info">
+          <div class="callout-label">Trace for (-4 0 3)</div>
+          <p>-4 negative → cons 4 · 0 non-neg → cons 0 · 3 non-neg → cons 9 → <code>(4 0 9)</code></p>
+        </div>
+      </div>
+
+      <div class="compare-section" id="q5-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q5-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">(define (squareNonNegativesNegateNegatives lst)
+  (cond
+    ((null? lst) '())
+    ((negative? (car lst))
+     (cons (* -1 (car lst)) (squareNonNegativesNegateNegatives (cdr lst))))
+    (else
+     (cons (* (car lst) (car lst)) (squareNonNegativesNegateNegatives (cdr lst))))
+  )
+)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q6 ── -->
+  <div class="q-card" id="q6">
+    <div class="q-header" onclick="toggleQ('q6')">
+      <div class="q-header-left">
+        <span class="q-num">Q6</span>
+        <span class="q-title">getZerosDoublePositives</span>
+        <span style="font-family:var(--mono);font-size:.65rem;background:#fff0f0;color:var(--danger);border:1px solid #fca5a5;border-radius:3px;padding:.1em .5em;">2025 Exam</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Filter+Map</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Scheme function named <code>getZerosDoublePositives</code>, which receives one parameter: a simple list of numeric atoms. The function should <strong>yield</strong> a list where <strong>zero values remain unchanged</strong>, <strong>positive values are doubled</strong>, and <strong>negative values are omitted</strong>, in their original order.</p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>(getZerosDoublePositives '())
+; => ()
+
+(getZerosDoublePositives '(-5))
+; => ()
+
+(getZerosDoublePositives '(-1 4 0 -3 12))
+; => (8 0 24)</code></pre>
+      </div>
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Scheme</span></div>
+        <textarea class="code-editor" id="q6-answer" placeholder="(define (getZerosDoublePositives lst)
+  (cond
+    ((null? lst) '())
+    ; negative: omit...
+    ; zero: keep...
+    ; positive: double...
+  )
+)"></textarea>
+      </div>
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q6')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q6')">Show Solution</button>
+        <button class="btn btn-compare" onclick="compare('q6')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q6')">Clear</button>
+      </div>
+      <div class="hint-section" id="q6-hint">
+        <strong>Hint:</strong> Pattern C. Use <code>(negative? (car lst))</code> to skip, <code>(zero? (car lst))</code> to cons unchanged, and <code>else</code> to cons <code>(* 2 (car lst))</code>.
+      </div>
+      <div class="solution-section" id="q6-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-green">Filter+Map C — 2025 Exam</span>
+        </div>
+        <pre><code>(define (getZerosDoublePositives lst)
+  (cond
+    ((null? lst) '())
+    ((negative? (car lst))
+     (getZerosDoublePositives (cdr lst)))
+    ((zero? (car lst))
+     (cons (car lst) (getZerosDoublePositives (cdr lst))))
+    (else
+     (cons (* 2 (car lst)) (getZerosDoublePositives (cdr lst))))
+  )
+)</code></pre>
+        <div class="callout callout-info">
+          <div class="callout-label">Trace for (-1 4 0 12)</div>
+          <p>-1 negative → skip · 4 positive → cons 8 · 0 zero → cons 0 · 12 positive → cons 24 → <code>(8 0 24)</code></p>
+        </div>
+      </div>
+      <div class="compare-section" id="q6-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q6-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">(define (getZerosDoublePositives lst)
+  (cond
+    ((null? lst) '())
+    ((negative? (car lst))
+     (getZerosDoublePositives (cdr lst)))
+    ((zero? (car lst))
+     (cons (car lst) (getZerosDoublePositives (cdr lst))))
+    (else
+     (cons (* 2 (car lst)) (getZerosDoublePositives (cdr lst))))
+  )
+)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q7 ── -->
+  <div class="q-card" id="q7">
+    <div class="q-header" onclick="toggleQ('q7')">
+      <div class="q-header-left">
+        <span class="q-num">Q7</span>
+        <span class="q-title">sumPositives</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Accumulate</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Scheme function named <code>sumPositives</code>, which receives one parameter: a simple list of numeric atoms. The function should <strong>yield</strong> the <strong>sum of only the positive elements</strong>. Non-positive elements are ignored.</p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>(sumPositives '())
+; => 0
+
+(sumPositives '(-3 -1 0))
+; => 0
+
+(sumPositives '(3 -1 4 0 2))
+; => 9</code></pre>
+      </div>
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Scheme</span></div>
+        <textarea class="code-editor" id="q7-answer" placeholder="(define (sumPositives lst)
+  (cond
+    ((null? lst) ???)
+    ; positive case...
+    ; else...
+  )
+)"></textarea>
+      </div>
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q7')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q7')">Show Solution</button>
+        <button class="btn btn-compare" onclick="compare('q7')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q7')">Clear</button>
+      </div>
+      <div class="hint-section" id="q7-hint">
+        <strong>Hint:</strong> Pattern D — base returns <code>0</code>. If <code>(&gt; (car lst) 0)</code> then <code>(+ (car lst) (sumPositives (cdr lst)))</code>, else just recurse without adding.
+      </div>
+      <div class="solution-section" id="q7-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-orange">Accumulate D — conditional sum</span>
+        </div>
+        <pre><code>(define (sumPositives lst)
+  (cond
+    ((null? lst) 0)
+    ((> (car lst) 0)
+     (+ (car lst) (sumPositives (cdr lst))))
+    (else
+     (sumPositives (cdr lst)))
+  )
+)</code></pre>
+      </div>
+      <div class="compare-section" id="q7-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q7-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">(define (sumPositives lst)
+  (cond
+    ((null? lst) 0)
+    ((> (car lst) 0)
+     (+ (car lst) (sumPositives (cdr lst))))
+    (else
+     (sumPositives (cdr lst)))
+  )
+)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q8 ── -->
+  <div class="q-card" id="q8">
+    <div class="q-header" onclick="toggleQ('q8')">
+      <div class="q-header-left">
+        <span class="q-num">Q8</span>
+        <span class="q-title">keepOdds</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Filter</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Scheme function named <code>keepOdds</code>, which receives one parameter: a simple list of numeric atoms. The function should <strong>yield</strong> a list containing <strong>only the odd-valued elements</strong>, in their original order.</p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>(keepOdds '())
+; => ()
+
+(keepOdds '(2 4 6))
+; => ()
+
+(keepOdds '(1 2 3 -5 4))
+; => (1 3 -5)</code></pre>
+      </div>
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Scheme</span></div>
+        <textarea class="code-editor" id="q8-answer" placeholder="(define (keepOdds lst)
+  (cond
+    ((null? lst) '())
+    ; odd: keep...
+    ; else: skip...
+  )
+)"></textarea>
+      </div>
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q8')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q8')">Show Solution</button>
+        <button class="btn btn-compare" onclick="compare('q8')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q8')">Clear</button>
+      </div>
+      <div class="hint-section" id="q8-hint">
+        <strong>Hint:</strong> Pattern A — Filter. Use <code>(odd? (car lst))</code> to keep with cons; else skip and recurse on <code>(cdr lst)</code> without consing.
+      </div>
+      <div class="solution-section" id="q8-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-blue">Filter A — keep odds</span>
+        </div>
+        <pre><code>(define (keepOdds lst)
+  (cond
+    ((null? lst) '())
+    ((odd? (car lst))
+     (cons (car lst) (keepOdds (cdr lst))))
+    (else
+     (keepOdds (cdr lst)))
+  )
+)</code></pre>
+      </div>
+      <div class="compare-section" id="q8-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q8-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">(define (keepOdds lst)
+  (cond
+    ((null? lst) '())
+    ((odd? (car lst))
+     (cons (car lst) (keepOdds (cdr lst))))
+    (else
+     (keepOdds (cdr lst)))
+  )
+)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q9 ── -->
+  <div class="q-card" id="q9">
+    <div class="q-header" onclick="toggleQ('q9')">
+      <div class="q-header-left">
+        <span class="q-num">Q9</span>
+        <span class="q-title">negateAll</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Map</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Scheme function named <code>negateAll</code>, which receives one parameter: a simple list of numeric atoms. The function should <strong>yield</strong> a list where <strong>every element is negated</strong> (multiplied by −1), in their original order.</p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>(negateAll '())
+; => ()
+
+(negateAll '(3 -2 0 -5))
+; => (-3 2 0 5)</code></pre>
+      </div>
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Scheme</span></div>
+        <textarea class="code-editor" id="q9-answer" placeholder="(define (negateAll lst)
+  (cond
+    ((null? lst) '())
+    (else
+     ; cons the negated head onto recursive result...
+    )
+  )
+)"></textarea>
+      </div>
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q9')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q9')">Show Solution</button>
+        <button class="btn btn-compare" onclick="compare('q9')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q9')">Clear</button>
+      </div>
+      <div class="hint-section" id="q9-hint">
+        <strong>Hint:</strong> Pure Map B — no filtering. Use <code>(- (car lst))</code> or <code>(* -1 (car lst))</code> to negate. Single recursive case.
+      </div>
+      <div class="solution-section" id="q9-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-blue">Map B — negate every element</span>
+        </div>
+        <pre><code>(define (negateAll lst)
+  (cond
+    ((null? lst) '())
+    (else
+     (cons (- (car lst)) (negateAll (cdr lst))))
+  )
+)</code></pre>
+      </div>
+      <div class="compare-section" id="q9-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q9-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">(define (negateAll lst)
+  (cond
+    ((null? lst) '())
+    (else
+     (cons (- (car lst)) (negateAll (cdr lst))))
+  )
+)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q10 ── -->
+  <div class="q-card" id="q10">
+    <div class="q-header" onclick="toggleQ('q10')">
+      <div class="q-header-left">
+        <span class="q-num">Q10</span>
+        <span class="q-title">tripleNegativesRemovePositives</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Filter+Map</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Scheme function named <code>tripleNegativesRemovePositives</code>, which receives one parameter: a simple list of numeric atoms. The function should <strong>yield</strong> a list where <strong>positive values are omitted</strong>, <strong>negative values are tripled</strong>, and <strong>zero values remain unchanged</strong>, in their original order.</p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>(tripleNegativesRemovePositives '())
+; => ()
+
+(tripleNegativesRemovePositives '(1 5 3))
+; => ()
+
+(tripleNegativesRemovePositives '(-2 0 5 -1 3))
+; => (-6 0 -3)</code></pre>
+      </div>
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Scheme</span></div>
+        <textarea class="code-editor" id="q10-answer" placeholder="(define (tripleNegativesRemovePositives lst)
+  (cond
+    ((null? lst) '())
+    ; positive: omit...
+    ; negative: triple...
+    ; zero: keep...
+  )
+)"></textarea>
+      </div>
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q10')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q10')">Show Solution</button>
+        <button class="btn btn-compare" onclick="compare('q10')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q10')">Clear</button>
+      </div>
+      <div class="hint-section" id="q10-hint">
+        <strong>Hint:</strong> Pattern C. Check <code>(&gt; (car lst) 0)</code> first to skip. Then <code>(negative? (car lst))</code> to triple. <code>else</code> keeps zero.
+      </div>
+      <div class="solution-section" id="q10-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-green">Filter+Map C — 3-way split</span>
+        </div>
+        <pre><code>(define (tripleNegativesRemovePositives lst)
+  (cond
+    ((null? lst) '())
+    ((> (car lst) 0)
+     (tripleNegativesRemovePositives (cdr lst)))
+    ((negative? (car lst))
+     (cons (* 3 (car lst)) (tripleNegativesRemovePositives (cdr lst))))
+    (else
+     (cons (car lst) (tripleNegativesRemovePositives (cdr lst))))
+  )
+)</code></pre>
+        <div class="callout callout-info">
+          <div class="callout-label">Trace for (-2 0 5 -1)</div>
+          <p>-2 negative → cons -6 · 0 zero → cons 0 · 5 positive → skip · -1 negative → cons -3 → <code>(-6 0 -3)</code></p>
+        </div>
+      </div>
+      <div class="compare-section" id="q10-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q10-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">(define (tripleNegativesRemovePositives lst)
+  (cond
+    ((null? lst) '())
+    ((> (car lst) 0)
+     (tripleNegativesRemovePositives (cdr lst)))
+    ((negative? (car lst))
+     (cons (* 3 (car lst)) (tripleNegativesRemovePositives (cdr lst))))
+    (else
+     (cons (car lst) (tripleNegativesRemovePositives (cdr lst))))
+  )
+)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:3rem;"></div>
+</div>
+
+<script>
+  const attempted = new Set();
+
+  function toggleQ(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  function toggleHint(qId) {
+    const el = document.getElementById(qId + '-hint');
+    el.classList.toggle('visible');
+  }
+
+  function showSolution(qId) {
+    const sol = document.getElementById(qId + '-solution');
+    sol.classList.add('visible');
+    attempted.add(qId);
+    updateProgress();
+  }
+
+  function compare(qId) {
+    const textarea = document.getElementById(qId + '-answer');
+    const compareYours = document.getElementById(qId + '-compare-yours');
+    const compareSection = document.getElementById(qId + '-compare');
+    const val = textarea.value.trim();
+    if (val === '') {
+      compareYours.textContent = '(no answer written yet)';
+      compareYours.classList.add('empty');
+    } else {
+      compareYours.textContent = val;
+      compareYours.classList.remove('empty');
+    }
+    compareSection.classList.add('visible');
+    attempted.add(qId);
+    updateProgress();
+
+    // Also show solution when comparing
+    document.getElementById(qId + '-solution').classList.add('visible');
+  }
+
+  function clearAnswer(qId) {
+    document.getElementById(qId + '-answer').value = '';
+    document.getElementById(qId + '-compare').classList.remove('visible');
+  }
+
+  function updateProgress() {
+    const total = 10;
+    const done = attempted.size;
+    document.getElementById('progressFill').style.width = (done / total * 100) + '%';
+    document.getElementById('progressText').textContent = done + ' / ' + total + ' attempted';
+  }
+
+  // Tab key inserts 2 spaces in textareas (Scheme style)
+  document.querySelectorAll('.code-editor').forEach(ta => {
+    ta.addEventListener('keydown', e => {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const start = ta.selectionStart;
+        const end = ta.selectionEnd;
+        ta.value = ta.value.substring(0, start) + '  ' + ta.value.substring(end);
+        ta.selectionStart = ta.selectionEnd = start + 2;
+      }
+    });
+  });
+</script>
+</body>
+</html>

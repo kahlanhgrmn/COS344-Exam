@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prolog Practice Questions — COS 333</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .q-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.4rem;
+    cursor: pointer;
+    user-select: none;
+    gap: 1rem;
+    background: var(--surface);
+    transition: background .15s;
+  }
+  .q-header:hover { background: var(--surface2); }
+  .q-header-left {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+  }
+  .q-num {
+    font-family: var(--mono);
+    font-size: .7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: .2em .65em;
+    white-space: nowrap;
+  }
+  .q-title {
+    font-weight: 600;
+    font-size: .97rem;
+    color: var(--navy);
+    font-family: var(--mono);
+  }
+  .q-badge {
+    font-family: var(--mono);
+    font-size: .68rem;
+    font-weight: 600;
+    background: var(--accent-bg);
+    color: var(--accent);
+    border-radius: 3px;
+    padding: .15em .6em;
+    white-space: nowrap;
+  }
+  .q-chevron {
+    font-size: .85rem;
+    color: var(--muted);
+    transition: transform .2s;
+    flex-shrink: 0;
+  }
+  .q-card.open .q-chevron { transform: rotate(180deg); }
+  .q-body {
+    display: none;
+    border-top: 1px solid var(--border);
+    padding: 1.4rem;
+  }
+  .q-card.open .q-body { display: block; }
+
+  .q-description {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.2rem;
+    font-size: .92rem;
+  }
+  .q-description p { margin: 0 0 .6rem; }
+  .q-description p:last-child { margin: 0; }
+
+  .q-examples {
+    margin-bottom: 1.2rem;
+  }
+  .q-examples h4 {
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+    margin: 0 0 .5rem;
+    font-weight: 600;
+  }
+
+  /* ── ANSWER AREA ── */
+  .answer-section { margin-bottom: 1.2rem; }
+  .answer-label {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: .5rem;
+  }
+  .answer-label span {
+    background: var(--warn-bg);
+    color: var(--warn);
+    border-radius: 3px;
+    padding: .1em .5em;
+    font-family: var(--mono);
+  }
+  .code-editor {
+    width: 100%;
+    min-height: 160px;
+    background: var(--code-bg);
+    color: var(--code-text);
+    font-family: var(--mono);
+    font-size: .82rem;
+    line-height: 1.6;
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    resize: vertical;
+    outline: none;
+    transition: border-color .2s;
+    tab-size: 4;
+  }
+  .code-editor:focus { border-color: var(--accent); }
+  .code-editor::placeholder { color: #4a5568; }
+
+  /* ── ACTIONS ── */
+  .q-actions {
+    display: flex;
+    gap: .6rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .btn {
+    font-family: var(--sans);
+    font-size: .8rem;
+    font-weight: 500;
+    padding: .45em 1em;
+    border-radius: 6px;
+    border: 1px solid;
+    cursor: pointer;
+    transition: all .15s;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+  }
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #1d4ed8; border-color: #1d4ed8; }
+  .btn-ghost {
+    background: transparent;
+    border-color: var(--border2);
+    color: var(--muted);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+  .btn-success {
+    background: var(--accent2);
+    border-color: var(--accent2);
+    color: #fff;
+  }
+  .btn-success:hover { background: #0b8c68; border-color: #0b8c68; }
+  .btn-danger {
+    background: transparent;
+    border-color: var(--border2);
+    color: var(--muted);
+  }
+  .btn-danger:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-bg); }
+
+  /* ── SOLUTION ── */
+  .solution-section { display: none; }
+  .solution-section.visible { display: block; }
+  .solution-header {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    margin-bottom: .75rem;
+  }
+  .solution-label {
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--accent2);
+    font-weight: 600;
+  }
+  .solution-divider {
+    border: none;
+    border-top: 1px dashed var(--border2);
+    margin: 1.2rem 0;
+  }
+
+  /* ── COMPARE VIEW ── */
+  .compare-section { display: none; }
+  .compare-section.visible { display: block; }
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: .75rem;
+  }
+  @media (max-width: 720px) {
+    .compare-grid { grid-template-columns: 1fr; }
+  }
+  .compare-pane {}
+  .compare-pane-label {
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 600;
+    margin-bottom: .4rem;
+    padding: .25em .7em;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .compare-pane-label.yours { background: var(--warn-bg); color: var(--warn); }
+  .compare-pane-label.memo  { background: var(--accent2-bg); color: var(--accent2); }
+  .compare-code {
+    background: var(--code-bg);
+    color: var(--code-text);
+    font-family: var(--mono);
+    font-size: .8rem;
+    line-height: 1.6;
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    white-space: pre;
+    overflow-x: auto;
+    min-height: 120px;
+    border: 1px solid var(--border2);
+  }
+  .compare-code.empty { color: #4a5568; font-style: italic; }
+
+  /* ── HINT ── */
+  .hint-section { display: none; }
+  .hint-section.visible {
+    display: block;
+    background: var(--warn-bg);
+    border: 1px solid #fcd34d;
+    border-radius: var(--radius);
+    padding: .75rem 1rem;
+    margin-bottom: 1rem;
+    font-size: .88rem;
+    color: var(--navy2);
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar-wrap {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: .4rem;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent2);
+    border-radius: 99px;
+    transition: width .4s;
+  }
+  .progress-label {
+    font-family: var(--mono);
+    font-size: .72rem;
+    color: var(--muted);
+  }
+
+  /* ── PAGE HERO ── */
+  .page-hero-inner { padding: 2rem 0 1.5rem; }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">COS333 <span>// Programming Languages</span></div>
+    <div class="topnav-links">
+      <a href="../../index.html">COS344 Home</a>
+      <a href="scheme_practice_questions.html">Scheme Practice</a>
+      <a href="prolog_practice_questions.html" class="active">Prolog Practice</a>
+      <a href="scheme_prolog_guide.html">Guide</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">COS 333 · Prolog</div>
+    <h1>Prolog<br><em>Practice Questions</em></h1>
+    <p class="hero-sub">
+      5 exam-style list-processing propositions. Write your answer, then reveal the memo and compare side by side.
+    </p>
+    <div class="hero-pills">
+      <span class="hero-pill"><strong>10</strong> Questions</span>
+      <span class="hero-pill"><strong>5 marks</strong> each</span>
+      <span class="hero-pill">Filter · Map · Accumulate</span>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap" style="padding-top: 2rem;">
+
+  <!-- Progress -->
+  <div style="margin-bottom: 2rem;">
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-label"><span id="progressText">0 / 5 attempted</span></div>
+  </div>
+
+  <!-- ── Q1 ── -->
+  <div class="q-card" id="q1">
+    <div class="q-header" onclick="toggleQ('q1')">
+      <div class="q-header-left">
+        <span class="q-num">Q1</span>
+        <span class="q-title">triplePositivesRemoveNegatives</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Filter+Map</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Prolog proposition called <code>triplePositivesRemoveNegatives(L1, L2)</code>, which succeeds if L2 is a list containing all the elements in L1 in their original order, where <strong>positive values are tripled</strong>, <strong>zero values remain unchanged</strong>, and <strong>negative values are omitted</strong>.</p>
+        <p><em>Only use: constants, variables, list manipulation, arithmetic, relational expressions, <code>is</code> operator, cuts, and built-in <code>not</code>. No if-then, no <code>;</code>, no <code>member</code>/<code>append</code>/<code>reverse</code>.</em></p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>?- triplePositivesRemoveNegatives([], X).
+% X = []
+
+?- triplePositivesRemoveNegatives([-3, -7], X).
+% X = []
+
+?- triplePositivesRemoveNegatives([-2, 0, 4, -1, 3], X).
+% X = [0, 12, 9]</code></pre>
+      </div>
+
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Prolog</span></div>
+        <textarea class="code-editor" id="q1-answer" placeholder="triplePositivesRemoveNegatives([], []).
+
+triplePositivesRemoveNegatives([H|T], ???) :-
+    % your code here
+    ..."></textarea>
+      </div>
+
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q1')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q1')">Show Solution</button>
+        <button class="btn btn-success" onclick="compare('q1')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q1')">Clear</button>
+      </div>
+
+      <div class="hint-section" id="q1-hint">
+        <strong>Hint:</strong> This is a <strong>3-way Filter+Map (Pattern C)</strong>. Write 4 clauses: base case, one for H&lt;0 (omit), one for H=:=0 (keep), one for H&gt;0 (triple). Use <code>Triple is H * 3</code>.
+      </div>
+
+      <div class="solution-section" id="q1-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-green">Filter+Map C — 3-way split</span>
+        </div>
+        <pre><code>triplePositivesRemoveNegatives([], []).
+
+triplePositivesRemoveNegatives([H|T], R) :-
+    H < 0,
+    triplePositivesRemoveNegatives(T, R).
+
+triplePositivesRemoveNegatives([H|T], [H|R]) :-
+    H =:= 0,
+    triplePositivesRemoveNegatives(T, R).
+
+triplePositivesRemoveNegatives([H|T], [Triple|R]) :-
+    H > 0,
+    Triple is H * 3,
+    triplePositivesRemoveNegatives(T, R).</code></pre>
+        <div class="callout callout-info">
+          <div class="callout-label">Trace</div>
+          <p><code>[-2, 0, 4]</code>: H=-2 → skip → H=0 → keep → H=4 → Triple=12 → <code>[0, 12]</code></p>
+        </div>
+      </div>
+
+      <div class="compare-section" id="q1-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q1-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">triplePositivesRemoveNegatives([], []).
+
+triplePositivesRemoveNegatives([H|T], R) :-
+    H &lt; 0,
+    triplePositivesRemoveNegatives(T, R).
+
+triplePositivesRemoveNegatives([H|T], [H|R]) :-
+    H =:= 0,
+    triplePositivesRemoveNegatives(T, R).
+
+triplePositivesRemoveNegatives([H|T], [Triple|R]) :-
+    H &gt; 0,
+    Triple is H * 3,
+    triplePositivesRemoveNegatives(T, R).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q2 ── -->
+  <div class="q-card" id="q2">
+    <div class="q-header" onclick="toggleQ('q2')">
+      <div class="q-header-left">
+        <span class="q-num">Q2</span>
+        <span class="q-title">squareAll</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Map</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Prolog proposition called <code>squareAll(L1, L2)</code>, which succeeds if L2 is a list containing the <strong>square of every element</strong> in L1, in their original order.</p>
+        <p><em>Same restrictions as above.</em></p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>?- squareAll([], X).
+% X = []
+
+?- squareAll([-3, 0, 4], X).
+% X = [9, 0, 16]
+
+?- squareAll([2, -5, 1], X).
+% X = [4, 25, 1]</code></pre>
+      </div>
+
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Prolog</span></div>
+        <textarea class="code-editor" id="q2-answer" placeholder="squareAll([], []).
+
+squareAll([H|T], ???) :-
+    % your code here
+    ..."></textarea>
+      </div>
+
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q2')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q2')">Show Solution</button>
+        <button class="btn btn-success" onclick="compare('q2')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q2')">Clear</button>
+      </div>
+
+      <div class="hint-section" id="q2-hint">
+        <strong>Hint:</strong> This is a pure <strong>Map (Pattern B)</strong> — no filtering. Just 2 clauses. Use <code>Sq is H * H</code> and prepend <code>Sq</code> to the result.
+      </div>
+
+      <div class="solution-section" id="q2-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-blue">Map B — transform every element</span>
+        </div>
+        <pre><code>squareAll([], []).
+
+squareAll([H|T], [Sq|R]) :-
+    Sq is H * H,
+    squareAll(T, R).</code></pre>
+        <div class="callout callout-info">
+          <div class="callout-label">Trace</div>
+          <p><code>[-3, 0, 4]</code>: Sq=9 → Sq=0 → Sq=16 → <code>[9, 0, 16]</code></p>
+        </div>
+      </div>
+
+      <div class="compare-section" id="q2-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q2-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">squareAll([], []).
+
+squareAll([H|T], [Sq|R]) :-
+    Sq is H * H,
+    squareAll(T, R).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q3 ── -->
+  <div class="q-card" id="q3">
+    <div class="q-header" onclick="toggleQ('q3')">
+      <div class="q-header-left">
+        <span class="q-num">Q3</span>
+        <span class="q-title">absNonNegativesRemovePositives</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Filter+Map</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Prolog proposition called <code>absNonNegativesRemovePositives(L1, L2)</code>, which succeeds if L2 is a list containing the elements of L1 in their original order, where <strong>positive values are omitted</strong>, <strong>zero values remain unchanged</strong>, and <strong>negative values are replaced by their absolute value</strong>.</p>
+        <p><em>Same restrictions as above.</em></p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>?- absNonNegativesRemovePositives([], X).
+% X = []
+
+?- absNonNegativesRemovePositives([1, 5, 3], X).
+% X = []
+
+?- absNonNegativesRemovePositives([-4, 2, 0, -1, 7], X).
+% X = [4, 0, 1]</code></pre>
+      </div>
+
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Prolog</span></div>
+        <textarea class="code-editor" id="q3-answer" placeholder="absNonNegativesRemovePositives([], []).
+
+% your clauses here..."></textarea>
+      </div>
+
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q3')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q3')">Show Solution</button>
+        <button class="btn btn-success" onclick="compare('q3')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q3')">Clear</button>
+      </div>
+
+      <div class="hint-section" id="q3-hint">
+        <strong>Hint:</strong> Pattern C again — 4 clauses total. Omit if H&gt;0 (no head in result). Keep H if H=:=0. Use <code>Abs is abs(H)</code> if H&lt;0.
+      </div>
+
+      <div class="solution-section" id="q3-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-green">Filter+Map C — 3-way split</span>
+        </div>
+        <pre><code>absNonNegativesRemovePositives([], []).
+
+absNonNegativesRemovePositives([H|T], R) :-
+    H > 0,
+    absNonNegativesRemovePositives(T, R).
+
+absNonNegativesRemovePositives([H|T], [H|R]) :-
+    H =:= 0,
+    absNonNegativesRemovePositives(T, R).
+
+absNonNegativesRemovePositives([H|T], [Abs|R]) :-
+    H < 0,
+    Abs is abs(H),
+    absNonNegativesRemovePositives(T, R).</code></pre>
+      </div>
+
+      <div class="compare-section" id="q3-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q3-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">absNonNegativesRemovePositives([], []).
+
+absNonNegativesRemovePositives([H|T], R) :-
+    H &gt; 0,
+    absNonNegativesRemovePositives(T, R).
+
+absNonNegativesRemovePositives([H|T], [H|R]) :-
+    H =:= 0,
+    absNonNegativesRemovePositives(T, R).
+
+absNonNegativesRemovePositives([H|T], [Abs|R]) :-
+    H &lt; 0,
+    Abs is abs(H),
+    absNonNegativesRemovePositives(T, R).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q4 ── -->
+  <div class="q-card" id="q4">
+    <div class="q-header" onclick="toggleQ('q4')">
+      <div class="q-header-left">
+        <span class="q-num">Q4</span>
+        <span class="q-title">sumList</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Accumulate</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Prolog proposition called <code>sumList(L, S)</code>, which succeeds if S is the <strong>sum of all elements</strong> in the numeric list L.</p>
+        <p><em>Same restrictions as above.</em></p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>?- sumList([], S).
+% S = 0
+
+?- sumList([5], S).
+% S = 5
+
+?- sumList([3, -1, 4, -2], S).
+% S = 4</code></pre>
+      </div>
+
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Prolog</span></div>
+        <textarea class="code-editor" id="q4-answer" placeholder="sumList([], ???).
+
+sumList([H|T], S) :-
+    % your code here..."></textarea>
+      </div>
+
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q4')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q4')">Show Solution</button>
+        <button class="btn btn-success" onclick="compare('q4')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q4')">Clear</button>
+      </div>
+
+      <div class="hint-section" id="q4-hint">
+        <strong>Hint:</strong> Pattern D — Accumulate. Base case is <code>sumList([], 0).</code> Recursive: recurse to get <code>Rest</code>, then <code>S is H + Rest</code>.
+      </div>
+
+      <div class="solution-section" id="q4-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-orange">Accumulate D — sum</span>
+        </div>
+        <pre><code>sumList([], 0).
+
+sumList([H|T], S) :-
+    sumList(T, Rest),
+    S is H + Rest.</code></pre>
+        <div class="callout callout-info">
+          <div class="callout-label">Trace for [3, -1, 4]</div>
+          <p>Recurse to base (0), unwind: S=4+0=4 → S=−1+4=3 → S=3+3=6. Answer: S=6.</p>
+        </div>
+      </div>
+
+      <div class="compare-section" id="q4-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q4-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">sumList([], 0).
+
+sumList([H|T], S) :-
+    sumList(T, Rest),
+    S is H + Rest.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q5 ── -->
+  <div class="q-card" id="q5">
+    <div class="q-header" onclick="toggleQ('q5')">
+      <div class="q-header-left">
+        <span class="q-num">Q5</span>
+        <span class="q-title">halfEvensNegateOdds</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Map</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Prolog proposition called <code>halfEvensNegateOdds(L1, L2)</code>, which succeeds if L2 is a list containing all the elements in L1 in their original order, where <strong>even values are halved</strong> (integer division by 2) and <strong>odd values are negated</strong> (multiplied by −1). Zero is considered even.</p>
+        <p><em>Hint: <code>mod(X, 2)</code> gives the remainder. Integer division is <code>//</code>. Same restrictions as above.</em></p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>?- halfEvensNegateOdds([], X).
+% X = []
+
+?- halfEvensNegateOdds([4, 3, 6, -5, 0], X).
+% X = [2, -3, 3, 5, 0]</code></pre>
+      </div>
+
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Prolog</span></div>
+        <textarea class="code-editor" id="q5-answer" placeholder="halfEvensNegateOdds([], []).
+
+% clause for even numbers...
+% clause for odd numbers..."></textarea>
+      </div>
+
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q5')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q5')">Show Solution</button>
+        <button class="btn btn-success" onclick="compare('q5')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q5')">Clear</button>
+      </div>
+
+      <div class="hint-section" id="q5-hint">
+        <strong>Hint:</strong> Map pattern with 2 cases. Even check: <code>0 is mod(H, 2)</code>. Odd check: <code>not(0 is mod(H, 2))</code>. Half: <code>Half is H // 2</code>. Negate: <code>Neg is H * -1</code>.
+      </div>
+
+      <div class="solution-section" id="q5-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-blue">Map B — conditional transform</span>
+        </div>
+        <pre><code>halfEvensNegateOdds([], []).
+
+halfEvensNegateOdds([H|T], [Half|R]) :-
+    0 is mod(H, 2),
+    Half is H // 2,
+    halfEvensNegateOdds(T, R).
+
+halfEvensNegateOdds([H|T], [Neg|R]) :-
+    not(0 is mod(H, 2)),
+    Neg is H * -1,
+    halfEvensNegateOdds(T, R).</code></pre>
+        <div class="callout callout-info">
+          <div class="callout-label">Trace for [4, 3, 6]</div>
+          <p>H=4 even → Half=2 · H=3 odd → Neg=−3 · H=6 even → Half=3 → <code>[2, −3, 3]</code></p>
+        </div>
+      </div>
+
+      <div class="compare-section" id="q5-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q5-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">halfEvensNegateOdds([], []).
+
+halfEvensNegateOdds([H|T], [Half|R]) :-
+    0 is mod(H, 2),
+    Half is H // 2,
+    halfEvensNegateOdds(T, R).
+
+halfEvensNegateOdds([H|T], [Neg|R]) :-
+    not(0 is mod(H, 2)),
+    Neg is H * -1,
+    halfEvensNegateOdds(T, R).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q6 ── -->
+  <div class="q-card" id="q6">
+    <div class="q-header" onclick="toggleQ('q6')">
+      <div class="q-header-left">
+        <span class="q-num">Q6</span>
+        <span class="q-title">countPositives</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Accumulate</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Prolog proposition called <code>countPositives(L, N)</code>, which succeeds if N is the <strong>count of positive elements</strong> in the numeric list L. Zero is not positive.</p>
+        <p><em>Same restrictions as above.</em></p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>?- countPositives([], N).
+% N = 0
+
+?- countPositives([-3, 0, -1], N).
+% N = 0
+
+?- countPositives([4, -1, 0, 7, 2], N).
+% N = 3</code></pre>
+      </div>
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Prolog</span></div>
+        <textarea class="code-editor" id="q6-answer" placeholder="countPositives([], ???).
+
+countPositives([H|T], N) :-
+    % your code here..."></textarea>
+      </div>
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q6')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q6')">Show Solution</button>
+        <button class="btn btn-success" onclick="compare('q6')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q6')">Clear</button>
+      </div>
+      <div class="hint-section" id="q6-hint">
+        <strong>Hint:</strong> Pattern D — Accumulate. Base: <code>countPositives([], 0).</code> Two recursive clauses: H&gt;0 → recurse on T, then N is Rest + 1. H =&lt; 0 → recurse, pass count unchanged.
+      </div>
+      <div class="solution-section" id="q6-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-orange">Accumulate D — count</span>
+        </div>
+        <pre><code>countPositives([], 0).
+
+countPositives([H|T], N) :-
+    H > 0,
+    countPositives(T, Rest),
+    N is Rest + 1.
+
+countPositives([H|T], N) :-
+    H =< 0,
+    countPositives(T, N).</code></pre>
+        <div class="callout callout-info">
+          <div class="callout-label">Trace for [4, -1, 0, 7]</div>
+          <p>4&gt;0 → +1 · -1&lt;0 → skip · 0=&lt;0 → skip · 7&gt;0 → +1 · base=0 → N=2</p>
+        </div>
+      </div>
+      <div class="compare-section" id="q6-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q6-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">countPositives([], 0).
+
+countPositives([H|T], N) :-
+    H &gt; 0,
+    countPositives(T, Rest),
+    N is Rest + 1.
+
+countPositives([H|T], N) :-
+    H =&lt; 0,
+    countPositives(T, N).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q7 ── -->
+  <div class="q-card" id="q7">
+    <div class="q-header" onclick="toggleQ('q7')">
+      <div class="q-header-left">
+        <span class="q-num">Q7</span>
+        <span class="q-title">doubleEvensKeepOdds</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Map</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Prolog proposition called <code>doubleEvensKeepOdds(L1, L2)</code>, which succeeds if L2 is L1 in original order where <strong>even values are doubled</strong> and <strong>odd values remain unchanged</strong>. Zero is considered even.</p>
+        <p><em>Hint: <code>mod(X, 2)</code> gives the remainder. Same restrictions as above.</em></p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>?- doubleEvensKeepOdds([], X).
+% X = []
+
+?- doubleEvensKeepOdds([3, 5, -1], X).
+% X = [3, 5, -1]
+
+?- doubleEvensKeepOdds([4, 3, -2, 0, 7], X).
+% X = [8, 3, -4, 0, 7]</code></pre>
+      </div>
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Prolog</span></div>
+        <textarea class="code-editor" id="q7-answer" placeholder="doubleEvensKeepOdds([], []).
+
+% clause for evens...
+% clause for odds..."></textarea>
+      </div>
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q7')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q7')">Show Solution</button>
+        <button class="btn btn-success" onclick="compare('q7')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q7')">Clear</button>
+      </div>
+      <div class="hint-section" id="q7-hint">
+        <strong>Hint:</strong> Map B with 2 branches. Even: <code>0 is mod(H, 2)</code> → <code>Double is H * 2</code>. Odd: <code>not(0 is mod(H, 2))</code> → keep H unchanged.
+      </div>
+      <div class="solution-section" id="q7-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-blue">Map B — conditional transform</span>
+        </div>
+        <pre><code>doubleEvensKeepOdds([], []).
+
+doubleEvensKeepOdds([H|T], [Double|R]) :-
+    0 is mod(H, 2),
+    Double is H * 2,
+    doubleEvensKeepOdds(T, R).
+
+doubleEvensKeepOdds([H|T], [H|R]) :-
+    not(0 is mod(H, 2)),
+    doubleEvensKeepOdds(T, R).</code></pre>
+      </div>
+      <div class="compare-section" id="q7-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q7-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">doubleEvensKeepOdds([], []).
+
+doubleEvensKeepOdds([H|T], [Double|R]) :-
+    0 is mod(H, 2),
+    Double is H * 2,
+    doubleEvensKeepOdds(T, R).
+
+doubleEvensKeepOdds([H|T], [H|R]) :-
+    not(0 is mod(H, 2)),
+    doubleEvensKeepOdds(T, R).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q8 ── -->
+  <div class="q-card" id="q8">
+    <div class="q-header" onclick="toggleQ('q8')">
+      <div class="q-header-left">
+        <span class="q-num">Q8</span>
+        <span class="q-title">getNegativesNegatePositives</span>
+        <span style="font-family:var(--mono);font-size:.65rem;background:#fff0f0;color:var(--danger);border:1px solid #fca5a5;border-radius:3px;padding:.1em .5em;">2025 Exam</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Filter+Map</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Prolog proposition called <code>getNegativesNegatePositives(L1, L2)</code>, which succeeds if L2 contains the values in L1 in their original order, where <strong>negative values remain unchanged</strong>, <strong>positive values are negated</strong>, and <strong>zero values are omitted</strong>.</p>
+        <p><em>Same restrictions as above.</em></p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>?- getNegativesNegatePositives([0], X).
+% X = []
+
+?- getNegativesNegatePositives([1, 0, -2, 0], X).
+% X = [-1, -2]</code></pre>
+      </div>
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Prolog</span></div>
+        <textarea class="code-editor" id="q8-answer" placeholder="getNegativesNegatePositives([], []).
+
+% clause for zeros (omit)...
+% clause for positives (negate)...
+% clause for negatives (keep)..."></textarea>
+      </div>
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q8')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q8')">Show Solution</button>
+        <button class="btn btn-success" onclick="compare('q8')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q8')">Clear</button>
+      </div>
+      <div class="hint-section" id="q8-hint">
+        <strong>Hint:</strong> Pattern C — 4 clauses. H=:=0 → omit (result=R). H&gt;0 → <code>N is -H</code>, prepend N. H&lt;0 → keep H, prepend H.
+      </div>
+      <div class="solution-section" id="q8-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-green">Filter+Map C — 2025 Exam</span>
+        </div>
+        <pre><code>getNegativesNegatePositives([], []).
+
+getNegativesNegatePositives([H|T], R) :-
+    H =:= 0,
+    getNegativesNegatePositives(T, R).
+
+getNegativesNegatePositives([H|T], [N|R]) :-
+    H > 0,
+    N is -H,
+    getNegativesNegatePositives(T, R).
+
+getNegativesNegatePositives([H|T], [H|R]) :-
+    H < 0,
+    getNegativesNegatePositives(T, R).</code></pre>
+      </div>
+      <div class="compare-section" id="q8-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q8-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">getNegativesNegatePositives([], []).
+
+getNegativesNegatePositives([H|T], R) :-
+    H =:= 0,
+    getNegativesNegatePositives(T, R).
+
+getNegativesNegatePositives([H|T], [N|R]) :-
+    H &gt; 0,
+    N is -H,
+    getNegativesNegatePositives(T, R).
+
+getNegativesNegatePositives([H|T], [H|R]) :-
+    H &lt; 0,
+    getNegativesNegatePositives(T, R).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q9 ── -->
+  <div class="q-card" id="q9">
+    <div class="q-header" onclick="toggleQ('q9')">
+      <div class="q-header-left">
+        <span class="q-num">Q9</span>
+        <span class="q-title">sumPositives</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Accumulate</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Prolog proposition called <code>sumPositives(L, S)</code>, which succeeds if S is the <strong>sum of only the positive elements</strong> in the numeric list L. Non-positive elements contribute 0.</p>
+        <p><em>Same restrictions as above.</em></p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>?- sumPositives([], S).
+% S = 0
+
+?- sumPositives([-3, -1, 0], S).
+% S = 0
+
+?- sumPositives([3, -1, 4, 0, 2], S).
+% S = 9</code></pre>
+      </div>
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Prolog</span></div>
+        <textarea class="code-editor" id="q9-answer" placeholder="sumPositives([], 0).
+
+% two recursive clauses..."></textarea>
+      </div>
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q9')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q9')">Show Solution</button>
+        <button class="btn btn-success" onclick="compare('q9')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q9')">Clear</button>
+      </div>
+      <div class="hint-section" id="q9-hint">
+        <strong>Hint:</strong> Pattern D — two clauses. H&gt;0: recurse on T, <code>S is Rest + H</code>. H =&lt; 0: recurse and pass S unchanged (don't add H).
+      </div>
+      <div class="solution-section" id="q9-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-orange">Accumulate D — conditional sum</span>
+        </div>
+        <pre><code>sumPositives([], 0).
+
+sumPositives([H|T], S) :-
+    H > 0,
+    sumPositives(T, Rest),
+    S is Rest + H.
+
+sumPositives([H|T], S) :-
+    H =< 0,
+    sumPositives(T, S).</code></pre>
+        <div class="callout callout-info">
+          <div class="callout-label">Trace for [3, -1, 4]</div>
+          <p>3&gt;0 → add · -1&lt;0 → skip · 4&gt;0 → add · base=0 → S=4+0=4 → S=4 → S=3+4=7</p>
+        </div>
+      </div>
+      <div class="compare-section" id="q9-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q9-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">sumPositives([], 0).
+
+sumPositives([H|T], S) :-
+    H &gt; 0,
+    sumPositives(T, Rest),
+    S is Rest + H.
+
+sumPositives([H|T], S) :-
+    H =&lt; 0,
+    sumPositives(T, S).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Q10 ── -->
+  <div class="q-card" id="q10">
+    <div class="q-header" onclick="toggleQ('q10')">
+      <div class="q-header-left">
+        <span class="q-num">Q10</span>
+        <span class="q-title">removeZerosTripleNegatives</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="q-badge">5 pts · Filter+Map</span>
+        <span class="q-chevron">▼</span>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-description">
+        <p>Write a Prolog proposition called <code>removeZerosTripleNegatives(L1, L2)</code>, which succeeds if L2 is L1 in original order where <strong>zero values are omitted</strong>, <strong>negative values are tripled</strong>, and <strong>positive values remain unchanged</strong>.</p>
+        <p><em>Same restrictions as above.</em></p>
+      </div>
+      <div class="q-examples">
+        <h4>Examples</h4>
+        <pre><code>?- removeZerosTripleNegatives([], X).
+% X = []
+
+?- removeZerosTripleNegatives([0, 0], X).
+% X = []
+
+?- removeZerosTripleNegatives([-2, 0, 5, -1, 0, 3], X).
+% X = [-6, 5, -3, 3]</code></pre>
+      </div>
+      <div class="answer-section">
+        <div class="answer-label">Your Answer <span>Prolog</span></div>
+        <textarea class="code-editor" id="q10-answer" placeholder="removeZerosTripleNegatives([], []).
+
+% your clauses here..."></textarea>
+      </div>
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="toggleHint('q10')">Hint</button>
+        <button class="btn btn-primary" onclick="showSolution('q10')">Show Solution</button>
+        <button class="btn btn-success" onclick="compare('q10')">Compare</button>
+        <button class="btn btn-danger" onclick="clearAnswer('q10')">Clear</button>
+      </div>
+      <div class="hint-section" id="q10-hint">
+        <strong>Hint:</strong> Pattern C — 4 clauses. H=:=0 → omit. H&lt;0 → <code>Triple is H * 3</code>, prepend. H&gt;0 → keep H unchanged, prepend.
+      </div>
+      <div class="solution-section" id="q10-solution">
+        <hr class="solution-divider">
+        <div class="solution-header">
+          <span class="solution-label">Memo Solution</span>
+          <span class="card-tag tag-green">Filter+Map C — 3-way split</span>
+        </div>
+        <pre><code>removeZerosTripleNegatives([], []).
+
+removeZerosTripleNegatives([H|T], R) :-
+    H =:= 0,
+    removeZerosTripleNegatives(T, R).
+
+removeZerosTripleNegatives([H|T], [Triple|R]) :-
+    H < 0,
+    Triple is H * 3,
+    removeZerosTripleNegatives(T, R).
+
+removeZerosTripleNegatives([H|T], [H|R]) :-
+    H > 0,
+    removeZerosTripleNegatives(T, R).</code></pre>
+      </div>
+      <div class="compare-section" id="q10-compare">
+        <hr class="solution-divider">
+        <div class="compare-grid">
+          <div class="compare-pane">
+            <div class="compare-pane-label yours">Your Answer</div>
+            <div class="compare-code" id="q10-compare-yours"></div>
+          </div>
+          <div class="compare-pane">
+            <div class="compare-pane-label memo">Memo</div>
+            <div class="compare-code">removeZerosTripleNegatives([], []).
+
+removeZerosTripleNegatives([H|T], R) :-
+    H =:= 0,
+    removeZerosTripleNegatives(T, R).
+
+removeZerosTripleNegatives([H|T], [Triple|R]) :-
+    H &lt; 0,
+    Triple is H * 3,
+    removeZerosTripleNegatives(T, R).
+
+removeZerosTripleNegatives([H|T], [H|R]) :-
+    H &gt; 0,
+    removeZerosTripleNegatives(T, R).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:3rem;"></div>
+</div>
+
+<script>
+  const attempted = new Set();
+
+  function toggleQ(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  function toggleHint(qId) {
+    const el = document.getElementById(qId + '-hint');
+    el.classList.toggle('visible');
+  }
+
+  function showSolution(qId) {
+    const sol = document.getElementById(qId + '-solution');
+    sol.classList.add('visible');
+    attempted.add(qId);
+    updateProgress();
+  }
+
+  function compare(qId) {
+    const textarea = document.getElementById(qId + '-answer');
+    const compareYours = document.getElementById(qId + '-compare-yours');
+    const compareSection = document.getElementById(qId + '-compare');
+    const val = textarea.value.trim();
+    if (val === '') {
+      compareYours.textContent = '(no answer written yet)';
+      compareYours.classList.add('empty');
+    } else {
+      compareYours.textContent = val;
+      compareYours.classList.remove('empty');
+    }
+    compareSection.classList.add('visible');
+    attempted.add(qId);
+    updateProgress();
+
+    // Also show solution when comparing
+    document.getElementById(qId + '-solution').classList.add('visible');
+  }
+
+  function clearAnswer(qId) {
+    document.getElementById(qId + '-answer').value = '';
+    document.getElementById(qId + '-compare').classList.remove('visible');
+  }
+
+  function updateProgress() {
+    const total = 10;
+    const done = attempted.size;
+    document.getElementById('progressFill').style.width = (done / total * 100) + '%';
+    document.getElementById('progressText').textContent = done + ' / ' + total + ' attempted';
+  }
+
+  // Tab key inserts spaces in textareas
+  document.querySelectorAll('.code-editor').forEach(ta => {
+    ta.addEventListener('keydown', e => {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const start = ta.selectionStart;
+        const end = ta.selectionEnd;
+        ta.value = ta.value.substring(0, start) + '    ' + ta.value.substring(end);
+        ta.selectionStart = ta.selectionEnd = start + 4;
+      }
+    });
+  });
+</script>
+</body>
+</html>

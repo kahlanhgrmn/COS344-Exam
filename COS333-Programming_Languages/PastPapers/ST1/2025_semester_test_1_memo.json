@@ -4,154 +4,308 @@
   "date": "25 March 2025",
   "duration": "1.5 hours",
   "total_marks": 35,
-  "source_chapters": ["Chapter 1 (all parts)", "Chapter 2 (all parts)", "Chapter 15 (Parts 1, 2 & 3)"],
+  "source_chapters": [
+    "Chapter 1 (all parts)",
+    "Chapter 2 (all parts)",
+    "Chapter 15 (Parts 1, 2 & 3)"
+  ],
   "questions": [
     {
       "question": 1,
       "marks": 2,
       "topic": "Reasons for Studying Programming Languages",
-      "answer": ["Increased ability to learn new languages (to understand Python despite only knowing Java)", "Better understanding of the significance of implementation (to evaluate execution performance issues when testing)"],
-      "explanation": "The graduate learned Java but the company uses Python — so Reason 1 is 'Increased ability to learn new languages': understanding PL concepts makes it easier to pick up Python quickly enough to test code written in it. Reason 2 is 'Better understanding of the significance of implementations': since the company considers execution performance very important, the tester must understand WHY programs run fast or slow (e.g., compilation vs. interpretation, garbage collection overhead) in order to give meaningful performance-related feedback. Other reasons like 'choosing appropriate languages' do not apply because the tester does not make language decisions."
+      "answer": [
+        "Increased ability to learn new languages (to understand Python despite only knowing Java)",
+        "Better understanding of the significance of implementation (to evaluate execution performance issues when testing)"
+      ],
+      "explanation": "The graduate learned Java but the company uses Python — so Reason 1 is 'Increased ability to learn new languages': understanding PL concepts makes it easier to pick up Python quickly enough to test code written in it. Reason 2 is 'Better understanding of the significance of implementations': since the company considers execution performance very important, the tester must understand WHY programs run fast or slow (e.g., compilation vs. interpretation, garbage collection overhead) in order to give meaningful performance-related feedback. Other reasons like 'choosing appropriate languages' do not apply because the tester does not make language decisions.",
+      "question_text": "Imagine that a recent graduate joins a company as a **software tester** (providing high- and low-level feedback on software errors, but not developing new systems). The graduate learned Java during their studies. The company uses Python and considers execution performance very important.\n\nIdentify **two reasons for studying concepts of programming languages** applicable to this graduate.\n\n**Reason 1:** _______________\n\n**Reason 2:** _______________",
+      "options": null
     },
     {
       "question": 2,
       "marks": 1,
       "topic": "Orthogonality",
       "answer": "Programming language B is more orthogonal than A because B allows more legal return values than A.",
-      "explanation": "Orthogonality means a small set of constructs that can be freely combined — every combination is legal. Language A allows functions to return only numeric types; Language B also allows functions to return functions. This means B's constructs (numeric values and functions) can be freely combined as return values, whereas A restricts this. More legal combinations = more orthogonal. Having a 'larger set of constructs' alone does not define orthogonality — what matters is how freely they combine."
+      "explanation": "Orthogonality means a small set of constructs that can be freely combined — every combination is legal. Language A allows functions to return only numeric types; Language B also allows functions to return functions. This means B's constructs (numeric values and functions) can be freely combined as return values, whereas A restricts this. More legal combinations = more orthogonal. Having a 'larger set of constructs' alone does not define orthogonality — what matters is how freely they combine.",
+      "question_text": "Assume two hypothetical programming languages, A and B, both supporting primitive numeric types and functions. Language A allows functions to return only numeric types. Language B allows functions to return numeric types and functions. Select the most correct statement.",
+      "options": [
+        "Programming language A is more orthogonal than B because A supports a smaller set of constructs than B.",
+        "Programming language A is more orthogonal than B because returning functions makes no sense.",
+        "Programming language B is more orthogonal than A because B supports a larger set of constructs than A.",
+        "Programming language B is more orthogonal than A because B allows more legal return values than A."
+      ]
     },
     {
       "question": 3,
       "marks": 1,
       "topic": "Special Words and Compound Statements",
       "answer": "Reliability is improved.",
-      "explanation": "Using explicit special words (like begin/end or do/end) to mark the start and end of compound statements makes block boundaries unambiguous. This removes the chance of accidentally mismatching delimiters (like forgetting a closing brace in C-like languages). Explicit block markers make it impossible for the programmer to accidentally nest statements incorrectly, which improves reliability. Writability is slightly reduced (more to type), not improved, and readability is generally improved (not decreased) by explicit markers."
+      "explanation": "Using explicit special words (like begin/end or do/end) to mark the start and end of compound statements makes block boundaries unambiguous. This removes the chance of accidentally mismatching delimiters (like forgetting a closing brace in C-like languages). Explicit block markers make it impossible for the programmer to accidentally nest statements incorrectly, which improves reliability. Writability is slightly reduced (more to type), not improved, and readability is generally improved (not decreased) by explicit markers.",
+      "question_text": "Some programming languages use special words to mark the start and end of a compound statement (block). Select the option that most correctly describes a **consequence** of using special words to mark compound statements.",
+      "options": [
+        "Readability is decreased.",
+        "Writability is improved.",
+        "Writability is decreased.",
+        "Reliability is improved."
+      ]
     },
     {
       "question": 4,
       "marks": 1,
       "topic": "Aliasing",
       "answer": "Writability is improved.",
-      "explanation": "Aliasing means having multiple names refer to the same memory location (e.g., via pointers or references). This allows a programmer to create shorter or more convenient names for the same data, which can make certain code easier to write — improving writability. However, aliasing is generally harmful to readability (hard to track which name refers to what) and reliability (unexpected changes through one alias affect all others). Overall aliasing is a trade-off that favours writability at the cost of readability and reliability."
+      "explanation": "Aliasing means having multiple names refer to the same memory location (e.g., via pointers or references). This allows a programmer to create shorter or more convenient names for the same data, which can make certain code easier to write — improving writability. However, aliasing is generally harmful to readability (hard to track which name refers to what) and reliability (unexpected changes through one alias affect all others). Overall aliasing is a trade-off that favours writability at the cost of readability and reliability.",
+      "question_text": "Many programming languages support some kind of **aliasing**. Select the option that most correctly describes a **consequence** of including support for aliasing.",
+      "options": [
+        "Readability is improved.",
+        "Writability is improved.",
+        "Reliability is increased.",
+        "The overall cost of the programming language decreases."
+      ]
     },
     {
       "question": 5,
       "marks": 1,
       "topic": "Type Checking",
       "answer": "Type checking increases the cost of execution for a programming language.",
-      "explanation": "Type checking — especially runtime type checking — adds overhead at execution time. For example, Java checks every array access at runtime to verify the index is within bounds. This makes programs more reliable but costs execution time. Type checking does NOT increase writability (it restricts what you can write), does NOT increase the cost of reliability (it reduces errors, improving reliability), and clearly has an impact on the language evaluation criteria."
+      "explanation": "Type checking — especially runtime type checking — adds overhead at execution time. For example, Java checks every array access at runtime to verify the index is within bounds. This makes programs more reliable but costs execution time. Type checking does NOT increase writability (it restricts what you can write), does NOT increase the cost of reliability (it reduces errors, improving reliability), and clearly has an impact on the language evaluation criteria.",
+      "question_text": "Type checking is generally considered beneficial to reliability. Select the most correct statement about **type checking**.",
+      "options": [
+        "Type checking increases the cost of execution for a programming language.",
+        "Type checking increases the cost of reliability for a programming language.",
+        "Type checking increases the writability of a programming language, because it gives the programmer more flexibility.",
+        "Type checking has no impact on any of the programming language evaluation criteria."
+      ]
     },
     {
       "question": 6,
       "marks": 1,
       "topic": "Implementation Methods",
       "answer": "Web software",
-      "explanation": "Hybrid implementation systems (like Java's bytecode compiled to JVM, or Python's .pyc files) compile source to a platform-independent intermediate form, then interpret it on a virtual machine. This gives portability across different server hardware — critical for web software, which must run on many platforms. Scientific applications favour compiled languages (speed). Systems programming requires compiled languages (hardware access). Business applications use compiled or interpreted languages. Web software uniquely benefits from the portability of hybrid systems."
+      "explanation": "Hybrid implementation systems (like Java's bytecode compiled to JVM, or Python's .pyc files) compile source to a platform-independent intermediate form, then interpret it on a virtual machine. This gives portability across different server hardware — critical for web software, which must run on many platforms. Scientific applications favour compiled languages (speed). Systems programming requires compiled languages (hardware access). Business applications use compiled or interpreted languages. Web software uniquely benefits from the portability of hybrid systems.",
+      "question_text": "Consider the following programming domains, and select the one that a **hybrid implementation system** is most suitable for.",
+      "options": [
+        "Scientific applications",
+        "Business applications",
+        "Systems programming",
+        "Web software"
+      ]
     },
     {
       "question": 7,
       "marks": 2,
       "topic": "Scheme Execution Performance",
-      "answer": ["The implementation method that is most often used for Scheme.", "Modern computer architecture."],
-      "explanation": "Scheme is most often purely interpreted (not compiled), which is significantly slower than compiled code — this is a direct performance cost. Modern computer architecture (the von Neumann architecture) is designed around the imperative programming model: sequential, assignment-based operations with mutable memory. Functional languages like Scheme — which avoid mutation, rely on recursion, and perform heavy list allocation — are a poor fit for this architecture and execute slowly as a result. 'The programming domain Scheme was designed for' (AI) does not itself cause poor performance. 'The programming methodology' (functional) contributes but is a consequence of the language design, not the primary independent factor."
+      "answer": [
+        "The implementation method that is most often used for Scheme.",
+        "Modern computer architecture."
+      ],
+      "explanation": "Scheme is most often purely interpreted (not compiled), which is significantly slower than compiled code — this is a direct performance cost. Modern computer architecture (the von Neumann architecture) is designed around the imperative programming model: sequential, assignment-based operations with mutable memory. Functional languages like Scheme — which avoid mutation, rely on recursion, and perform heavy list allocation — are a poor fit for this architecture and execute slowly as a result. 'The programming domain Scheme was designed for' (AI) does not itself cause poor performance. 'The programming methodology' (functional) contributes but is a consequence of the language design, not the primary independent factor.",
+      "question_text": "Scheme has **poor execution performance**. Select **only** the factors that contribute to this poor performance. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "The implementation method that is most often used for Scheme.",
+        "The programming domain that Scheme was designed for.",
+        "The programming methodology that is most often used with Scheme.",
+        "Modern computer architecture."
+      ]
     },
     {
       "question": 8,
       "marks": 1,
       "topic": "Language Design Influences",
       "answer": "The move to object-oriented programming",
-      "explanation": "Smalltalk (designed early 1970s) was built specifically as a pure object-oriented programming language. Its entire design — everything is an object, all computation is message passing, classes and inheritance — was shaped by the OOP movement, which itself was sparked by Simula 67 (1967). The other influences are valid historically but predate Smalltalk or relate to other language families: computer architecture influenced Fortran (1950s); programmer efficiency over machine efficiency influenced ALGOL 60 (1960s); data-oriented programming influenced Pascal and Simula. For Smalltalk specifically, the move to OOP was the earliest and most direct design influence."
+      "explanation": "Smalltalk (designed early 1970s) was built specifically as a pure object-oriented programming language. Its entire design — everything is an object, all computation is message passing, classes and inheritance — was shaped by the OOP movement, which itself was sparked by Simula 67 (1967). The other influences are valid historically but predate Smalltalk or relate to other language families: computer architecture influenced Fortran (1950s); programmer efficiency over machine efficiency influenced ALGOL 60 (1960s); data-oriented programming influenced Pascal and Simula. For Smalltalk specifically, the move to OOP was the earliest and most direct design influence.",
+      "question_text": "Various factors can influence programming language design. Select the programming language design influence that had its **earliest impact** on the design of **Smalltalk**.",
+      "options": [
+        "Computer architecture",
+        "Programmer efficiency becoming more important than machine efficiency",
+        "The move from process-oriented programming to data-oriented programming",
+        "The move to object-oriented programming"
+      ]
     },
     {
       "question": 9,
       "marks": 1,
       "topic": "Fortran 90",
       "answer": "Fortran 90 introduced language features that improved writability at the expense of the execution speed of compiled program code.",
-      "explanation": "Earlier Fortran versions prioritised machine efficiency above all: fixed code format (punch-card columns), no recursion, no dynamic arrays. Fortran 90 moved away from this: it relaxed the fixed format (more writability), added recursion (requires runtime stack overhead — slower), added dynamic arrays (runtime allocation — slower), and added a CASE statement. All of these features make Fortran programs easier to write but sacrifice some of the raw compiled speed that earlier versions achieved. Fortran 90 was NOT only focused on speed, did NOT require punch-card structure (it removed that requirement), and did NOT reduce writability."
+      "explanation": "Earlier Fortran versions prioritised machine efficiency above all: fixed code format (punch-card columns), no recursion, no dynamic arrays. Fortran 90 moved away from this: it relaxed the fixed format (more writability), added recursion (requires runtime stack overhead — slower), added dynamic arrays (runtime allocation — slower), and added a CASE statement. All of these features make Fortran programs easier to write but sacrifice some of the raw compiled speed that earlier versions achieved. Fortran 90 was NOT only focused on speed, did NOT require punch-card structure (it removed that requirement), and did NOT reduce writability.",
+      "question_text": "Consider the following statements about **Fortran 90**, and select the most correct.",
+      "options": [
+        "Fortran 90 was only focused on the execution speed of compiled program code.",
+        "Fortran 90 introduced language features that improved writability at the expense of the execution speed of compiled program code.",
+        "Fortran 90 introduced language features that reduced writability in order to improve the execution speed of compiled program code.",
+        "Fortran 90 required code to be structured in a way that facilitated code execution from punch cards."
+      ]
     },
     {
       "question": 10,
       "marks": 1,
       "topic": "ALGOL 60",
       "answer": "ALGOL 60 served as a very readable standard for documenting algorithms.",
-      "explanation": "ALGOL 60's most enduring contribution was its use as the standard notation for publishing algorithms in academic papers and textbooks for over 20 years. Its clean, structured, mathematical syntax made it ideal for communicating algorithms clearly. It was NOT successful in terms of wide adoption as a practical language (IBM didn't support it, and it had no I/O), so it was not successful across many programming domains. It was 'machine-independent' by design, but this was not 'complete' success. BNF formal syntax was a contribution, but 'describing algorithms' is the most celebrated and specific achievement."
+      "explanation": "ALGOL 60's most enduring contribution was its use as the standard notation for publishing algorithms in academic papers and textbooks for over 20 years. Its clean, structured, mathematical syntax made it ideal for communicating algorithms clearly. It was NOT successful in terms of wide adoption as a practical language (IBM didn't support it, and it had no I/O), so it was not successful across many programming domains. It was 'machine-independent' by design, but this was not 'complete' success. BNF formal syntax was a contribution, but 'describing algorithms' is the most celebrated and specific achievement.",
+      "question_text": "Consider the following statements about the **successes of ALGOL 60**, and select the most correct.",
+      "options": [
+        "ALGOL 60 was successful as a programming language that was applicable to many different programming domains.",
+        "ALGOL 60 was completely successful as a machine-independent programming language.",
+        "ALGOL 60 served as a very readable standard for documenting algorithms.",
+        "ALGOL 60 had a formal syntax description that was widely accepted at the time ALGOL 60 was created."
+      ]
     },
     {
       "question": 11,
       "marks": 1,
       "topic": "PL/I",
       "answer": "PL/I aimed to have better generality than programming languages developed in previous years.",
-      "explanation": "PL/I was designed in the 1960s to combine the best features of Fortran (scientific computing), COBOL (business computing), and ALGOL (structured programming) into one language. The goal was generality: one language that could be used for all application domains. PL/I was NOT intended only for scientific applications — it was explicitly multi-domain. It was actually famously POORLY defined (many undefined or ambiguous behaviours), not better defined. Portability was not its primary goal. Generality — supporting many different kinds of programming — was its explicit design aim."
+      "explanation": "PL/I was designed in the 1960s to combine the best features of Fortran (scientific computing), COBOL (business computing), and ALGOL (structured programming) into one language. The goal was generality: one language that could be used for all application domains. PL/I was NOT intended only for scientific applications — it was explicitly multi-domain. It was actually famously POORLY defined (many undefined or ambiguous behaviours), not better defined. Portability was not its primary goal. Generality — supporting many different kinds of programming — was its explicit design aim.",
+      "question_text": "Consider the following statements about **PL/I**, and select the most correct.",
+      "options": [
+        "PL/I was intended for scientific applications.",
+        "PL/I aimed to be more well-defined than programming languages developed in previous years.",
+        "PL/I aimed to have better generality than programming languages developed in previous years.",
+        "PL/I aimed to have better portability than programming languages developed in previous years."
+      ]
     },
     {
       "question": 12,
       "marks": 1,
       "topic": "APL",
       "answer": "APL demonstrates that there is often a tradeoff between readability and writability, because APL has poor readability and good writability.",
-      "explanation": "APL uses a very large set of special mathematical symbols (like ⍴, ⌿, ↑) that allow very concise expressions — you can write complex array operations in very few characters. This makes APL extremely writable (compact to write). However, these symbols are not widely known and programmes are extremely cryptic, making APL very difficult to read, especially after time has passed. This is a classic demonstration of the readability/writability trade-off: what makes a language easy to write (conciseness, symbols) can make it hard to read."
+      "explanation": "APL uses a very large set of special mathematical symbols (like ⍴, ⌿, ↑) that allow very concise expressions — you can write complex array operations in very few characters. This makes APL extremely writable (compact to write). However, these symbols are not widely known and programmes are extremely cryptic, making APL very difficult to read, especially after time has passed. This is a classic demonstration of the readability/writability trade-off: what makes a language easy to write (conciseness, symbols) can make it hard to read.",
+      "question_text": "Consider the following statements about **APL**, and select the most correct.",
+      "options": [
+        "APL demonstrates that there is not necessarily a tradeoff between readability and writability, because it has both good readability and good writability.",
+        "APL demonstrates that there is often a tradeoff between readability and writability, because APL has good readability and poor writability.",
+        "APL demonstrates that there is often a tradeoff between readability and writability, because APL has poor readability and good writability.",
+        "APL demonstrates that there is not necessarily a tradeoff between readability and writability, because it has both poor readability and poor writability."
+      ]
     },
     {
       "question": 13,
       "marks": 2,
       "topic": "Simula 67 Contributions",
-      "answer": ["Coroutines", "Classes and objects"],
-      "explanation": "Simula 67 is historically important for two pioneering contributions: (1) It introduced the concept of classes and objects — the foundation of all object-oriented programming. (2) It introduced coroutines — subprograms with multiple entry points that can resume each other. 'Systems programming support' was not a Simula contribution (C was the systems language). 'Inheritance and polymorphism' as fully developed OOP concepts were more completely developed in Smalltalk; Simula had class hierarchies but Smalltalk refined polymorphism into the form we recognise today."
+      "answer": [
+        "Coroutines",
+        "Classes and objects"
+      ],
+      "explanation": "Simula 67 is historically important for two pioneering contributions: (1) It introduced the concept of classes and objects — the foundation of all object-oriented programming. (2) It introduced coroutines — subprograms with multiple entry points that can resume each other. 'Systems programming support' was not a Simula contribution (C was the systems language). 'Inheritance and polymorphism' as fully developed OOP concepts were more completely developed in Smalltalk; Simula had class hierarchies but Smalltalk refined polymorphism into the form we recognise today.",
+      "question_text": "Select **only** the language features that were **pioneered by Simula 67**. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "Systems programming support",
+        "Coroutines",
+        "Classes and objects",
+        "Inheritance and polymorphism"
+      ]
     },
     {
       "question": 14,
       "marks": 1,
       "topic": "Delphi",
       "answer": "Delphi is an imperative programming language that was extended with support for object-oriented programming.",
-      "explanation": "Delphi is based on Object Pascal — Pascal is a classic imperative structured programming language, and Delphi extended it with OOP features (classes, inheritance, polymorphism). This is exactly the same pattern as C++ extending C with OOP. Delphi is NOT purely OOP (unlike Smalltalk or Ruby). It definitely DOES support OOP. And Delphi is considered MORE reliable than C++, not less — it inherited Pascal's strong type checking and safe design."
+      "explanation": "Delphi is based on Object Pascal — Pascal is a classic imperative structured programming language, and Delphi extended it with OOP features (classes, inheritance, polymorphism). This is exactly the same pattern as C++ extending C with OOP. Delphi is NOT purely OOP (unlike Smalltalk or Ruby). It definitely DOES support OOP. And Delphi is considered MORE reliable than C++, not less — it inherited Pascal's strong type checking and safe design.",
+      "question_text": "Consider the following statements about **Delphi**, and select the most correct.",
+      "options": [
+        "Delphi is an imperative programming language that was extended with support for object-oriented programming.",
+        "Delphi is a purely object-oriented programming language.",
+        "Delphi has no support for object-oriented programming.",
+        "Delphi is less reliable than C++."
+      ]
     },
     {
       "question": 15,
       "marks": 1,
       "topic": "Ruby",
       "answer": "Ruby is unreliable because its classes and objects can have different structures at different times.",
-      "explanation": "In Ruby, class definitions are executable — you can add or redefine methods to a class at runtime, even built-in classes like String. This means a Ruby object's message interface can change during execution. While this is very flexible, it makes it hard to guarantee that an object will always respond to a particular message in the same way, reducing reliability. Ruby is interpreted (not compiled), is a PURE OOP language (not 'primarily imperative'), and DOES support full inheritance and polymorphism. The dynamic modifiability of classes is the reliability concern."
+      "explanation": "In Ruby, class definitions are executable — you can add or redefine methods to a class at runtime, even built-in classes like String. This means a Ruby object's message interface can change during execution. While this is very flexible, it makes it hard to guarantee that an object will always respond to a particular message in the same way, reducing reliability. Ruby is interpreted (not compiled), is a PURE OOP language (not 'primarily imperative'), and DOES support full inheritance and polymorphism. The dynamic modifiability of classes is the reliability concern.",
+      "question_text": "Consider the following statements about **Ruby**, and select the most correct.",
+      "options": [
+        "Ruby is a compiled programming language.",
+        "Ruby is primarily an imperative programming language with optional support for object-oriented programming.",
+        "Ruby supports classes and objects, but does not support inheritance and polymorphism.",
+        "Ruby is unreliable because its classes and objects can have different structures at different times."
+      ]
     },
     {
       "question": 16,
       "marks": 2,
       "topic": "Orthogonality of Scheme",
-      "answer": ["The fact that functions and lists are represented the same way.", "The fact that functions can be used as parameters."],
-      "explanation": "Orthogonality means constructs can be freely combined. (1) In Scheme, both function applications and data lists use the same list syntax — the same structure represents both code and data. This is highly orthogonal: the list construct is used consistently for everything. (2) Functions in Scheme are first-class values — they can be passed as parameters, returned, or stored, just like any other value. This means the 'function' construct freely combines with the 'parameter' construct, which is orthogonal. 'Only symbolic and numeric atoms are supported' limits data types — this restricts, not expands, combinations. 'Functional side effects are not allowed' is about purity/safety, not about free combination of constructs."
+      "answer": [
+        "The fact that functions and lists are represented the same way.",
+        "The fact that functions can be used as parameters."
+      ],
+      "explanation": "Orthogonality means constructs can be freely combined. (1) In Scheme, both function applications and data lists use the same list syntax — the same structure represents both code and data. This is highly orthogonal: the list construct is used consistently for everything. (2) Functions in Scheme are first-class values — they can be passed as parameters, returned, or stored, just like any other value. This means the 'function' construct freely combines with the 'parameter' construct, which is orthogonal. 'Only symbolic and numeric atoms are supported' limits data types — this restricts, not expands, combinations. 'Functional side effects are not allowed' is about purity/safety, not about free combination of constructs.",
+      "question_text": "Select **only** the programming language features that improve the **orthogonality of Scheme**. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "The fact that only symbolic and numeric atoms are supported.",
+        "The fact that functions and lists are represented the same way.",
+        "The fact that functions can be used as parameters.",
+        "The fact that functional side effects are not allowed."
+      ]
     },
     {
       "question": 17,
       "marks": 2,
       "topic": "Scheme — What `thing` Can Be",
-      "answer": ["A name to which a value has been bound, and for which the binding can change at a later time.", "The name of a function."],
-      "explanation": "In `(doSomething thing)`, the identifier `thing` is evaluated before being passed to `doSomething`. Scheme looks up `thing` in the current environment and passes whatever value is bound to it. (1) `thing` is a name bound to a value — and Scheme allows rebinding via `define`, so the binding CAN change. (2) `thing` could be bound to a function (lambda), since functions are first-class values in Scheme. 'A symbolic atom' is wrong because without a quote, `thing` is not passed as the symbol itself — it is evaluated. A name whose binding CANNOT change does not match Scheme's `define` semantics (which allow rebinding)."
+      "answer": [
+        "A name to which a value has been bound, and for which the binding can change at a later time.",
+        "The name of a function."
+      ],
+      "explanation": "In `(doSomething thing)`, the identifier `thing` is evaluated before being passed to `doSomething`. Scheme looks up `thing` in the current environment and passes whatever value is bound to it. (1) `thing` is a name bound to a value — and Scheme allows rebinding via `define`, so the binding CAN change. (2) `thing` could be bound to a function (lambda), since functions are first-class values in Scheme. 'A symbolic atom' is wrong because without a quote, `thing` is not passed as the symbol itself — it is evaluated. A name whose binding CANNOT change does not match Scheme's `define` semantics (which allow rebinding).",
+      "question_text": "Consider the following Scheme code:\n\n```scheme\n(doSomething thing)\n```\n\nSelect **only** the options that describe what `thing` can be. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "A symbolic atom.",
+        "A name to which a value has been bound, and for which the binding can change at a later time.",
+        "A name to which a value has been bound, and for which the binding cannot change.",
+        "The name of a function."
+      ]
     },
     {
       "question": 18,
       "marks": 2,
       "topic": "Referential Transparency — Other Breakdowns",
-      "answer": ["When a function returns a random value.", "When a function reads a user input, and returns this value."],
-      "explanation": "Referential transparency means: the same function called with the same arguments always returns the same result. Functional side effects (modifying external state) are one way this breaks down — the question asks for OTHER ways. (1) A function that returns a random value will return different results on different calls with the same arguments — this breaks referential transparency without necessarily having a side effect. (2) A function that reads user input and returns it will also return different values depending on what the user types — again breaking referential transparency through external input, not a traditional side effect. 'When a variable is used' is vague and relates more to side effects. 'When a function returns no value' is about void functions, which are not subject to referential transparency at all."
+      "answer": [
+        "When a function returns a random value.",
+        "When a function reads a user input, and returns this value."
+      ],
+      "explanation": "Referential transparency means: the same function called with the same arguments always returns the same result. Functional side effects (modifying external state) are one way this breaks down — the question asks for OTHER ways. (1) A function that returns a random value will return different results on different calls with the same arguments — this breaks referential transparency without necessarily having a side effect. (2) A function that reads user input and returns it will also return different values depending on what the user types — again breaking referential transparency through external input, not a traditional side effect. 'When a variable is used' is vague and relates more to side effects. 'When a function returns no value' is about void functions, which are not subject to referential transparency at all.",
+      "question_text": "One way referential transparency can break down is through **functional side effects**. Select **only** the options that describe a **different way** in which referential transparency could break down (i.e. not a functional side effect). *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "When a variable is used in a function.",
+        "When a function returns no value.",
+        "When a function returns a random value.",
+        "When a function reads a user input, and returns this value."
+      ]
     },
     {
       "question": 19,
       "marks": 1,
       "topic": "Scheme — eval",
-      "answer": "The Scheme interpreter evaluates the list `(+ 2 3)` as if it is a function application, producing the result `5`.",
-      "explanation": "The quote (`'`) prevents automatic evaluation — `'(+ 2 3)` is a list of three atoms: the symbol `+`, the number `2`, and the number `3`. When passed to `eval`, the interpreter treats this list as a Scheme expression and evaluates it, applying `+` to `2` and `3` to produce `5`. The `eval` function returns 5 — it does not print it. `eval` is a built-in Scheme function (it is defined). The list is not automatically evaluated before being passed (that is what the quote prevents), and `eval` does not convert results back into lists."
+      "answer": "The Scheme interpreter evaluates the list (+ 2 3) as if it is a function application, producing the result 5.",
+      "explanation": "The quote (`'`) prevents automatic evaluation — `'(+ 2 3)` is a list of three atoms: the symbol `+`, the number `2`, and the number `3`. When passed to `eval`, the interpreter treats this list as a Scheme expression and evaluates it, applying `+` to `2` and `3` to produce `5`. The `eval` function returns 5 — it does not print it. `eval` is a built-in Scheme function (it is defined). The list is not automatically evaluated before being passed (that is what the quote prevents), and `eval` does not convert results back into lists.",
+      "question_text": "Consider the following Scheme code:\n\n```scheme\n(eval '(+ 2 3))\n```\n\nSelect the option that most correctly explains what happens when this code is executed.",
+      "options": [
+        "The code fails to execute because the eval function is undefined.",
+        "The Scheme interpreter evaluates the list (+ 2 3) as if it is a function application, producing the result 5.",
+        "The function application (+ 2 3) is evaluated, producing the result 5. The function eval prints out this result.",
+        "The function application (+ 2 3) is evaluated, producing the result 5. The result is converted into the list (5). The function eval prints out the content of this list, which is the value 5."
+      ]
     },
     {
       "question": 20,
       "marks": 5,
       "topic": "Scheme — Arithmetic Function (coneArea)",
       "answer": "(define (coneArea radius slantHeight)\n  (let\n    ((pi (/ 22 7))\n     (rSquared (* radius radius)))\n    (if (or (negative? radius) (negative? slantHeight))\n      0\n      (+ (* pi rSquared) (* pi radius slantHeight))\n    )\n  )\n)",
-      "explanation": "Key points: (1) Use `let` (not `define`) to bind `pi` to `(/ 22 7)` and `rSquared` to `(* radius radius)` — both are local bindings. The `let` bindings are evaluated using the parameters from the outer scope (this works because `radius` is a parameter). (2) Use `negative?` to test both parameters with `or` — if either is negative, yield 0. (3) The area formula `pi*r^2 + pi*r*l` is written as `(+ (* pi rSquared) (* pi radius slantHeight))`. (4) The function yields (returns) the result — not printing it. Example: `(coneArea 1.2 2.1)` → `pi=22/7`, `rSquared=1.44`, `area = (22/7)*1.44 + (22/7)*1.2*2.1 ≈ 4.537 + 7.908 ≈ 12.446`."
+      "explanation": "Key points: (1) Use `let` (not `define`) to bind `pi` to `(/ 22 7)` and `rSquared` to `(* radius radius)` — both are local bindings. The `let` bindings are evaluated using the parameters from the outer scope (this works because `radius` is a parameter). (2) Use `negative?` to test both parameters with `or` — if either is negative, yield 0. (3) The area formula `pi*r^2 + pi*r*l` is written as `(+ (* pi rSquared) (* pi radius slantHeight))`. (4) The function yields (returns) the result — not printing it. Example: `(coneArea 1.2 2.1)` → `pi=22/7`, `rSquared=1.44`, `area = (22/7)*1.44 + (22/7)*1.2*2.1 ≈ 4.537 + 7.908 ≈ 12.446`.",
+      "question_text": "Write a Scheme function named `coneArea`, which receives two numeric parameters: the **radius** of the circular base and the **slant height** of the cone. The function should yield (not print) the area of the cone:\n\n```\narea = pi * r^2 + pi * r * l\n```\n\nThe function should yield `0` if either the radius or slant height is negative. Use a `let` (not `define`) to bind `22/7` to the name `pi` and the result of `r^2` to the name `rSquared`.\n\n*Example:* `(display (coneArea 1.2 2.1))` should yield approximately `12.445714285714285`.\n\n**Allowed built-in functions:**\n- **Function construction:** `lambda`, `define`\n- **Binding:** `let`\n- **Arithmetic:** `+`, `-`, `*`, `/`, `abs`, `sqrt`, `remainder`, `modulo`, `min`, `max`\n- **Boolean values:** `#t`, `#f`\n- **Equality predicates:** `=`, `>`, `<`, `>=`, `<=`, `even?`, `odd?`, `zero?`, `negative?`, `eqv?`, `eq?`\n- **Logical predicates:** `and`, `or`, `not`\n- **List predicates:** `list?`, `null?`\n- **Conditionals:** `if`, `cond`, `else`\n- **Quoting:** `quote`, `'`\n- **List manipulation:** `list`, `car`, `cdr`, `cons`\n- **I/O:** `display`, `printf`, `newline`, `read`",
+      "options": null
     },
     {
       "question": 21,
       "marks": 5,
       "topic": "Scheme — List Processing Function (countDivisors)",
       "answer": "(define (countDivisors atm lst)\n  (cond\n    ((null? lst) 0)\n    ((= (remainder atm (car lst)) 0)\n     (+ 1 (countDivisors atm (cdr lst))))\n    (else\n     (countDivisors atm (cdr lst)))\n  )\n)",
-      "explanation": "Strategy: Recurse through the list element by element. Base case: empty list → return 0. For each element: if `(remainder atm (car lst)) = 0`, the head divides evenly into `atm` — count it (add 1) and recurse on the tail. Otherwise skip it and recurse on the tail. Example trace for `(countDivisors 6 '(1 4 3 12))`: remainder(6,1)=0 → 1 + recurse; remainder(6,4)=2 → recurse; remainder(6,3)=0 → 1 + recurse; remainder(6,12)=6 → recurse; null → 0. Total = 2. `remainder` is used instead of `modulo` because both work for positive integers, and `remainder` matches the allowed built-in list."
+      "explanation": "Strategy: Recurse through the list element by element. Base case: empty list → return 0. For each element: if `(remainder atm (car lst)) = 0`, the head divides evenly into `atm` — count it (add 1) and recurse on the tail. Otherwise skip it and recurse on the tail. Example trace for `(countDivisors 6 '(1 4 3 12))`: remainder(6,1)=0 → 1 + recurse; remainder(6,4)=2 → recurse; remainder(6,3)=0 → 1 + recurse; remainder(6,12)=6 → recurse; null → 0. Total = 2. `remainder` is used instead of `modulo` because both work for positive integers, and `remainder` matches the allowed built-in list.",
+      "question_text": "Write a Scheme function named `countDivisors`, which is applied to two parameters: a numeric atom `atm` and a simple numeric list `lst`. The function should yield (not print) the **number of divisors of `atm`** contained in `lst`. A divisor of `a` is a value that divides perfectly into `a`.\n\n*Examples:*\n```scheme\n(countDivisors 6 '())\n; => 0   (empty list contains no divisors)\n\n(countDivisors 6 '(4 12))\n; => 0   (4 and 12 are not divisors of 6)\n\n(countDivisors 6 '(1 4 3 12))\n; => 2   (only 1 and 3 are divisors of 6)\n```\n\n**Allowed built-in functions:** *(same as Question 20)*",
+      "options": null
     }
   ]
 }

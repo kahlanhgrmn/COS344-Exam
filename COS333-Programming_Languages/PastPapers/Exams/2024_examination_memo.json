@@ -4,203 +4,393 @@
   "date": "25 June 2024",
   "duration": "3 hours",
   "total_marks": 40,
-  "source_chapters": ["Chapter 1", "Chapter 2", "Chapter 5", "Chapter 6", "Chapter 7", "Chapter 8", "Chapter 9", "Chapter 12", "Chapter 15", "Chapter 16"],
+  "source_chapters": [
+    "Chapter 1",
+    "Chapter 2",
+    "Chapter 5",
+    "Chapter 6",
+    "Chapter 7",
+    "Chapter 8",
+    "Chapter 9",
+    "Chapter 12",
+    "Chapter 15",
+    "Chapter 16"
+  ],
   "questions": [
     {
       "question": 1,
       "marks": 1,
       "topic": "Evaluation Criteria Trade-offs",
       "answer": "The cost of implementation becomes worse.",
-      "explanation": "When readability improves, programs are easier to understand — but this often requires additional language constructs, syntactic sugar, or verbose syntax that a compiler/interpreter must parse and process. This increases the complexity of the language implementation (the compiler/interpreter itself becomes more complex and expensive to build). Improved readability generally helps reliability (errors are easier to spot) and maintenance (easier to understand and fix). Execution cost is not directly worsened by readability."
+      "explanation": "When readability improves, programs are easier to understand — but this often requires additional language constructs, syntactic sugar, or verbose syntax that a compiler/interpreter must parse and process. This increases the complexity of the language implementation (the compiler/interpreter itself becomes more complex and expensive to build). Improved readability generally helps reliability (errors are easier to spot) and maintenance (easier to understand and fix). Execution cost is not directly worsened by readability.",
+      "question_text": "There are often trade-offs between the programming language evaluation criteria. Select the statement that most correctly describes a likely **trade-off when readability improves**.",
+      "options": [
+        "The cost of execution becomes worse.",
+        "The cost of maintenance becomes worse.",
+        "The cost of implementation becomes worse.",
+        "Reliability becomes worse."
+      ]
     },
     {
       "question": 2,
       "marks": 1,
       "topic": "Generality",
       "answer": "PL/I",
-      "explanation": "Generality refers to how widely applicable a language is across different programming domains. PL/I was explicitly designed to combine features from Fortran (scientific), COBOL (business), and ALGOL (structured programming) into a single, general-purpose language. Fortran I was designed specifically for scientific computation (poor generality). ALGOL 60 was for algorithm description and had no I/O (limited generality). SIMULA 67 was for simulation. PL/I aimed to be the 'one language for everything' — the best generality of these options."
+      "explanation": "Generality refers to how widely applicable a language is across different programming domains. PL/I was explicitly designed to combine features from Fortran (scientific), COBOL (business), and ALGOL (structured programming) into a single, general-purpose language. Fortran I was designed specifically for scientific computation (poor generality). ALGOL 60 was for algorithm description and had no I/O (limited generality). SIMULA 67 was for simulation. PL/I aimed to be the 'one language for everything' — the best generality of these options.",
+      "question_text": "An additional evaluation criterion not heavily focused on in this course is **generality**. Select the programming language that has the **best generality**.",
+      "options": [
+        "Fortran I",
+        "ALGOL 60",
+        "SIMULA 67",
+        "PL/I"
+      ]
     },
     {
       "question": 3,
       "marks": 1,
       "topic": "Pascal vs C",
       "answer": "Pascal is more readable than C.",
-      "explanation": "Pascal was designed by Niklaus Wirth for teaching structured programming with an emphasis on clarity and correct style. It has clean, keyword-heavy syntax (begin/end, then/else), strong type checking, and structured control flow. C uses concise but cryptic syntax (curly braces, pointer arithmetic, implicit coercions, weak typing). Pascal is more readable. Pascal is LESS writable than C (more verbose, more restrictions). Pascal is MORE reliable than C (not less). Pascal's maintenance cost is LOWER (more readable code), not higher."
+      "explanation": "Pascal was designed by Niklaus Wirth for teaching structured programming with an emphasis on clarity and correct style. It has clean, keyword-heavy syntax (begin/end, then/else), strong type checking, and structured control flow. C uses concise but cryptic syntax (curly braces, pointer arithmetic, implicit coercions, weak typing). Pascal is more readable. Pascal is LESS writable than C (more verbose, more restrictions). Pascal is MORE reliable than C (not less). Pascal's maintenance cost is LOWER (more readable code), not higher.",
+      "question_text": "Consider the following statements about **Pascal and C**, and select the most correct.",
+      "options": [
+        "Pascal is more readable than C.",
+        "Pascal is more writable than C.",
+        "Pascal is less reliable than C.",
+        "Pascal has a higher cost of maintenance than C."
+      ]
     },
     {
       "question": 4,
       "marks": 1,
       "topic": "Portability",
       "answer": "JavaScript",
-      "explanation": "JavaScript runs inside every web browser regardless of the underlying operating system or hardware — any device with a browser can execute JavaScript. This makes it the most portable of the options. Fortran 90 compiles to machine-specific code. C++ compiles to platform-specific binaries. PL/I was not widely standardised across platforms. JavaScript's model (bytecode-like interpretation in every browser) gives it near-universal portability. Note: Java (not listed here) is also very portable, but among these four, JavaScript runs everywhere a web browser runs."
+      "explanation": "JavaScript runs inside every web browser regardless of the underlying operating system or hardware — any device with a browser can execute JavaScript. This makes it the most portable of the options. Fortran 90 compiles to machine-specific code. C++ compiles to platform-specific binaries. PL/I was not widely standardised across platforms. JavaScript's model (bytecode-like interpretation in every browser) gives it near-universal portability. Note: Java (not listed here) is also very portable, but among these four, JavaScript runs everywhere a web browser runs.",
+      "question_text": "An additional evaluation criterion not heavily focused on in this course is **portability**. Select the programming language that is the **most portable**.",
+      "options": [
+        "Fortran 90",
+        "C++",
+        "PL/I",
+        "JavaScript"
+      ]
     },
     {
       "question": 5,
       "marks": 5,
       "topic": "Scheme — removePositiveOddValues",
       "answer": "(define (removePositiveOddValues lst)\n  (cond\n    ((null? lst) '())\n    ((and (> (car lst) 0) (odd? (car lst)))\n     (removePositiveOddValues (cdr lst)))\n    (else\n     (cons (car lst) (removePositiveOddValues (cdr lst))))\n  )\n)",
-      "explanation": "Strategy: Recurse through the list element by element. Base case: empty list → return empty list. For each element: if it is BOTH positive (`> 0`) AND odd (`odd?`), skip it (don't include it) and recurse on the tail. Otherwise, include it (cons it onto the result) and recurse. Example: `(removePositiveOddValues '(-5 3 0 5 9))` → -5 is not positive odd → include; 3 is positive odd → skip; 0 is not positive odd → include; 5 is positive odd → skip; 9 is positive odd → skip. Result: (-5 0). The `and` predicate checks both conditions simultaneously."
+      "explanation": "Strategy: Recurse through the list element by element. Base case: empty list → return empty list. For each element: if it is BOTH positive (`> 0`) AND odd (`odd?`), skip it (don't include it) and recurse on the tail. Otherwise, include it (cons it onto the result) and recurse. Example: `(removePositiveOddValues '(-5 3 0 5 9))` → -5 is not positive odd → include; 3 is positive odd → skip; 0 is not positive odd → include; 5 is positive odd → skip; 9 is positive odd → skip. Result: (-5 0). The `and` predicate checks both conditions simultaneously.",
+      "question_text": "Write a Scheme function named `removePositiveOddValues`, which receives one parameter: a simple list containing only numeric atoms. The function should yield (not print) a list containing the values in the parameter list, in their original order, with all **positive odd values removed**.\n\n*Examples:*\n```scheme\n(removePositiveOddValues '(3 9))\n; => ()   (all values are positive odd)\n\n(removePositiveOddValues '(-5 3 0 5 9))\n; => (-5 0)   (3, 5, 9 are positive odd and are removed)\n```\n\n**Allowed built-in functions:**\n- **Function construction:** `lambda`, `define`\n- **Binding:** `let`\n- **Arithmetic:** `+`, `-`, `*`, `/`, `abs`, `sqrt`, `remainder`, `modulo`, `min`, `max`\n- **Boolean values:** `#t`, `#f`\n- **Equality predicates:** `=`, `>`, `<`, `>=`, `<=`, `even?`, `odd?`, `zero?`, `negative?`, `eqv?`, `eq?`\n- **Logical predicates:** `and`, `or`, `not`\n- **List predicates:** `list?`, `null?`\n- **Conditionals:** `if`, `cond`, `else`\n- **Quoting:** `quote`, `'`\n- **List manipulation:** `list`, `car`, `cdr`, `cons`\n- **I/O:** `display`, `printf`, `newline`, `read`",
+      "options": null
     },
     {
       "question": 6,
       "marks": 5,
       "topic": "Prolog — doublePositives",
       "answer": "doublePositives([], []).\ndoublePositives([H|T], [D|T2]) :-\n  H > 0,\n  D is H * 2,\n  doublePositives(T, T2).\ndoublePositives([H|T], [H|T2]) :-\n  H =< 0,\n  doublePositives(T, T2).",
-      "explanation": "Three clauses: (1) Base case: empty list → empty result. (2) If head H is positive (H > 0): double it (D is H * 2), prepend D to result, recurse on tail. (3) If head H is non-positive (H =< 0): keep H unchanged, prepend to result, recurse on tail. The `is` operator performs arithmetic. Example: `doublePositives([-3, 6, 7, -1, -5], X)` → -3 unchanged, 6→12, 7→14, -1 unchanged, -5 unchanged → X=[-3, 12, 14, -1, -5]."
+      "explanation": "Three clauses: (1) Base case: empty list → empty result. (2) If head H is positive (H > 0): double it (D is H * 2), prepend D to result, recurse on tail. (3) If head H is non-positive (H =< 0): keep H unchanged, prepend to result, recurse on tail. The `is` operator performs arithmetic. Example: `doublePositives([-3, 6, 7, -1, -5], X)` → -3 unchanged, 6→12, 7→14, -1 unchanged, -5 unchanged → X=[-3, 12, 14, -1, -5].",
+      "question_text": "Write a Prolog proposition called `doublePositives(L1, L2)`, which succeeds if L2 is a list containing all the elements in L1 in their original order, with every **positive value doubled** and every **non-positive value unchanged**.\n\n*Examples:*\n```prolog\n?- doublePositives([-4, -9], X).\n% X = [-4, -9]\n\n?- doublePositives([-3, 6, 7, -1, -5], X).\n% X = [-3, 12, 14, -1, -5]\n```\n\n*Hint: Comparison operators (`<`, `=<`, `>`, `>=`) can be used as terms in Prolog. Multiplication is represented by `*`.*\n\n**Requirements:**\n- You may define additional helper propositions.\n- Only use constants, variables, list manipulation, arithmetic, relational expressions, and built-in predicates from the textbook/slides and hints. Do **not** use if-then, if-then-else, or complex system predicates.",
+      "options": null
     },
     {
       "question": 7,
       "marks": 1,
       "topic": "Binding Time",
       "answer": "Language implementation time",
-      "explanation": "The binding of a standard 32-bit signed integer to either sign-and-magnitude or two's complement representation is NOT defined by the language standard itself (language design time) — the C standard, for example, historically left integer representation implementation-defined. The specific representation (two's complement in practice for all modern systems) is chosen by the compiler/runtime implementor. This happens at LANGUAGE IMPLEMENTATION TIME: when the compiler for a specific platform is built, the implementors decide which internal representation to use. It is not decided at compile time (when your specific program is compiled) or runtime."
+      "explanation": "The binding of a standard 32-bit signed integer to either sign-and-magnitude or two's complement representation is NOT defined by the language standard itself (language design time) — the C standard, for example, historically left integer representation implementation-defined. The specific representation (two's complement in practice for all modern systems) is chosen by the compiler/runtime implementor. This happens at LANGUAGE IMPLEMENTATION TIME: when the compiler for a specific platform is built, the implementors decide which internal representation to use. It is not decided at compile time (when your specific program is compiled) or runtime.",
+      "question_text": "Binding can occur at different times. Select the option that most correctly describes the **binding time** of a standard 32-bit signed integer type in a statically typed language to either a sign-and-magnitude or two's complement representation.",
+      "options": [
+        "Language design time",
+        "Language implementation time",
+        "Compile time",
+        "Load time",
+        "Runtime"
+      ]
     },
     {
       "question": 8,
       "marks": 1,
       "topic": "C# Scope Rules",
       "answer": "The provided program code compiles and runs successfully.",
-      "explanation": "In C#, the scope of a local variable is from its declaration to the end of its enclosing block. `x` on line 4 is declared inside the inner block (lines 3–5) — its scope ends at line 5. `x` on line 6 is declared in the OUTER block after the inner block ends. These are in DIFFERENT scopes and don't overlap. In C# (unlike Java), this is perfectly legal because the inner `x` is out of scope by the time the outer `x` is declared. C# does NOT flag this as a hiding error the same way Java does. `y` is declared but not initialised, however C# only requires initialisation before USE — if `y` is never used after declaration, no compile error occurs."
+      "explanation": "In C#, the scope of a local variable is from its declaration to the end of its enclosing block. `x` on line 4 is declared inside the inner block (lines 3–5) — its scope ends at line 5. `x` on line 6 is declared in the OUTER block after the inner block ends. These are in DIFFERENT scopes and don't overlap. In C# (unlike Java), this is perfectly legal because the inner `x` is out of scope by the time the outer `x` is declared. C# does NOT flag this as a hiding error the same way Java does. `y` is declared but not initialised, however C# only requires initialisation before USE — if `y` is never used after declaration, no compile error occurs.",
+      "question_text": "Consider the following program code in C# (line numbers for reference):\n\n```csharp\n1. {\n2.    int y;\n3.    {\n4.       int x = 5;\n5.    }\n6.    int x = 2;\n7. }\n```\n\nSelect the most correct statement.",
+      "options": [
+        "The provided program code does not compile because the variable y is not initialised.",
+        "The provided program code does not compile because the variable x on line 4 hides the variable x on line 6.",
+        "The provided program code does not compile because the variable x on line 6 hides the variable x on line 4.",
+        "The provided program code compiles and runs successfully."
+      ]
     },
     {
       "question": 9,
       "marks": 1,
       "topic": "Character String Types",
       "answer": "Limited dynamic length strings have a higher overall hardware resource cost than static length strings, and a lower overall hardware resource cost than dynamic length strings.",
-      "explanation": "Static length strings have fixed size — simple and cheap. Limited dynamic length strings can grow up to a maximum size — they require extra memory for tracking current length and maximum length, and some runtime overhead for bounds checking. Fully dynamic length strings (like Python strings or Java StringBuffers) can grow without limit — they require heap allocation, possibly reallocation (when capacity is exceeded), and garbage collection overhead. So the ordering is: static < limited dynamic < fully dynamic in terms of hardware resource cost. Strings represented as classes can be either mutable or immutable — this is a language design choice, not mandatory either way."
+      "explanation": "Static length strings have fixed size — simple and cheap. Limited dynamic length strings can grow up to a maximum size — they require extra memory for tracking current length and maximum length, and some runtime overhead for bounds checking. Fully dynamic length strings (like Python strings or Java StringBuffers) can grow without limit — they require heap allocation, possibly reallocation (when capacity is exceeded), and garbage collection overhead. So the ordering is: static < limited dynamic < fully dynamic in terms of hardware resource cost. Strings represented as classes can be either mutable or immutable — this is a language design choice, not mandatory either way.",
+      "question_text": "Consider the following statements about **character string types** in programming languages, and select the most correct.",
+      "options": [
+        "In programming languages that represent character strings using only classes, character strings are always mutable.",
+        "In programming languages that represent character strings using only classes, character strings are always immutable.",
+        "Limited dynamic length strings have a higher overall hardware resource cost than static length strings, and a lower overall hardware resource cost than dynamic length strings.",
+        "C supports character strings as a primitive type."
+      ]
     },
     {
       "question": 10,
       "marks": 1,
       "topic": "Unions",
       "answer": "Unions are used when memory cost is of great concern.",
-      "explanation": "The primary purpose of a union is to save memory by allowing multiple fields to share the same memory space. Only one field is valid at a time, but all fields overlay the same bytes — the union occupies only the size of its largest member, not the sum of all member sizes. This is useful in memory-constrained environments. Unions are NOT closely related to classes (classes support encapsulation, inheritance, and methods; unions are purely about memory layout). Discriminated unions are LESS memory efficient (they add a tag field). Unions can store one value at a time — they cannot return multiple values simultaneously."
+      "explanation": "The primary purpose of a union is to save memory by allowing multiple fields to share the same memory space. Only one field is valid at a time, but all fields overlay the same bytes — the union occupies only the size of its largest member, not the sum of all member sizes. This is useful in memory-constrained environments. Unions are NOT closely related to classes (classes support encapsulation, inheritance, and methods; unions are purely about memory layout). Discriminated unions are LESS memory efficient (they add a tag field). Unions can store one value at a time — they cannot return multiple values simultaneously.",
+      "question_text": "Consider the following statements about **unions**, and select the most correct.",
+      "options": [
+        "Unions are closely related to classes in object-oriented programming, but are more limited in terms of functionality.",
+        "Discriminated unions are more memory efficient than free unions.",
+        "Unions can be used as a mechanism for returning multiple values from a subprogram.",
+        "Unions are used when memory cost is of great concern."
+      ]
     },
     {
       "question": 11,
       "marks": 1,
       "topic": "Arithmetic in Scheme",
       "answer": "The order in which arithmetic operations are evaluated in Scheme is unambiguously determined based on function and parameter evaluation.",
-      "explanation": "In Scheme, there are no operators — everything is a function call using prefix notation. The structure `(+ (* 2 3) (- 5 1))` unambiguously means: evaluate `(* 2 3)` and `(- 5 1)` as parameters first, then call `+` on the results. The nesting of function calls (parentheses) completely determines evaluation order — there is no ambiguity from precedence or associativity rules. The order is determined by the function/parameter structure, not by precedence rules. It is NOT ambiguous (the parentheses are explicit), and it is NOT 'left to right same precedence' (it's nested function calls)."
+      "explanation": "In Scheme, there are no operators — everything is a function call using prefix notation. The structure `(+ (* 2 3) (- 5 1))` unambiguously means: evaluate `(* 2 3)` and `(- 5 1)` as parameters first, then call `+` on the results. The nesting of function calls (parentheses) completely determines evaluation order — there is no ambiguity from precedence or associativity rules. The order is determined by the function/parameter structure, not by precedence rules. It is NOT ambiguous (the parentheses are explicit), and it is NOT 'left to right same precedence' (it's nested function calls).",
+      "question_text": "Consider the following statements about **arithmetic operations in Scheme**, and select the most correct.",
+      "options": [
+        "The order in which arithmetic operations are evaluated in Scheme is unambiguously determined based on clear precedence levels and associativity rules.",
+        "The order in which arithmetic operations are evaluated in Scheme is unambiguously determined based on function and parameter evaluation.",
+        "The order in which arithmetic operations are evaluated in Scheme is unambiguously determined because all operators have the same precedence level and associate from left to right.",
+        "The order in which arithmetic operations are evaluated in Scheme is ambiguous because function parameters are evaluated in no particular order."
+      ]
     },
     {
       "question": 12,
       "marks": 1,
       "topic": "Coercions in Ada",
       "answer": "The lack of coercions in Ada makes the language more readable.",
-      "explanation": "Ada was deliberately designed with very few implicit type coercions. This means every type conversion must be EXPLICIT in the source code. When a programmer reads Ada code, they can see exactly what types are being used and when conversions happen — nothing is hidden. This improves readability because there are no hidden, implicit changes of type that could confuse a reader. Lack of coercions also improves reliability (no accidental type conversions causing unexpected results). It does NOT make Ada less reliable (it improves reliability) and does NOT commonly use coercions (it avoids them)."
+      "explanation": "Ada was deliberately designed with very few implicit type coercions. This means every type conversion must be EXPLICIT in the source code. When a programmer reads Ada code, they can see exactly what types are being used and when conversions happen — nothing is hidden. This improves readability because there are no hidden, implicit changes of type that could confuse a reader. Lack of coercions also improves reliability (no accidental type conversions causing unexpected results). It does NOT make Ada less reliable (it improves reliability) and does NOT commonly use coercions (it avoids them).",
+      "question_text": "Consider the following statements about **expressions in Ada**, and select the most correct.",
+      "options": [
+        "The lack of coercions in Ada makes the language more readable.",
+        "The lack of coercions in Ada makes the language less reliable.",
+        "The common use of coercions in Ada makes the language more writable.",
+        "The common use of coercions in Ada makes the language less reliable."
+      ]
     },
     {
       "question": 13,
       "marks": 1,
       "topic": "Short-Circuit Evaluation",
-      "answer": "The provided program code produces an error if the logical `and` is **not** short-circuit evaluated.",
-      "explanation": "The while condition is `(count > 0) and (result = (10.0 / count))`. When `count` reaches 0: if `and` IS short-circuit evaluated, `count > 0` is false → the second operand `10.0/count` is NOT evaluated → no division by zero. If `and` is NOT short-circuit evaluated, BOTH operands are always evaluated → `10.0 / 0` is evaluated when count=0 → division by zero error. The assignment `result = (10.0/count)` is a side effect inside the condition — this is intentional for reading the next value. So the error ONLY occurs when short-circuit evaluation is absent."
+      "answer": "The provided program code produces an error if the logical and is **not** short-circuit evaluated.",
+      "explanation": "The while condition is `(count > 0) and (result = (10.0 / count))`. When `count` reaches 0: if `and` IS short-circuit evaluated, `count > 0` is false → the second operand `10.0/count` is NOT evaluated → no division by zero. If `and` is NOT short-circuit evaluated, BOTH operands are always evaluated → `10.0 / 0` is evaluated when count=0 → division by zero error. The assignment `result = (10.0/count)` is a side effect inside the condition — this is intentional for reading the next value. So the error ONLY occurs when short-circuit evaluation is absent.",
+      "question_text": "Consider the following program code in a hypothetical programming language:\n\n```\nint count = 5\ndouble result = 0.0\n\nwhile ((count > 0) and (result = (10.0 / count))) {\n   print result\n   count = count - 1\n}\n```\n\nAssume C-like syntax, assignment as an expression, `and` for logical AND, and integers are interpreted as Boolean values like in C. Select the most correct statement.",
+      "options": [
+        "The provided program code produces an error regardless of whether the logical and is short-circuit evaluated or not.",
+        "The provided program code produces an error if the logical and is short-circuit evaluated.",
+        "The provided program code produces an error if the logical and is **not** short-circuit evaluated.",
+        "The provided program code produces no error regardless of whether the logical and is short-circuit evaluated or not."
+      ]
     },
     {
       "question": 14,
       "marks": 1,
       "topic": "Unary Assignment Operators",
       "answer": "Unary assignment operators reduce readability, if they are overloaded to provide prefix and postfix versions.",
-      "explanation": "Unary assignment operators like `++` and `--` in C/C++ can be used as both prefix (`++i`) and postfix (`i++`) — the same symbol means different things depending on position. Prefix increments then returns the NEW value; postfix returns the OLD value then increments. This overloading of meaning for the same symbol reduces readability: a reader must pay close attention to which form is used. They do NOT reduce writability (they make common operations more concise). They do reduce execution cost slightly (combine read-modify-write). They are NOT essential — languages without them (like Python) work fine."
+      "explanation": "Unary assignment operators like `++` and `--` in C/C++ can be used as both prefix (`++i`) and postfix (`i++`) — the same symbol means different things depending on position. Prefix increments then returns the NEW value; postfix returns the OLD value then increments. This overloading of meaning for the same symbol reduces readability: a reader must pay close attention to which form is used. They do NOT reduce writability (they make common operations more concise). They do reduce execution cost slightly (combine read-modify-write). They are NOT essential — languages without them (like Python) work fine.",
+      "question_text": "Consider the following statements about **unary assignment operators**, and select the most correct.",
+      "options": [
+        "Unary assignment operators reduce readability, if they are overloaded to provide prefix and postfix versions.",
+        "Unary assignment operators reduce writability, if they are overloaded to provide prefix and postfix versions.",
+        "Unary assignment operators reduce the execution cost of a programming language.",
+        "Unary assignment operators are essential within a programming language."
+      ]
     },
     {
       "question": 15,
       "marks": 2,
       "topic": "Counter-Controlled Loops",
-      "answer": ["Counter-controlled loops in Python are more reliable than counter-controlled loops in C.", "Counter-controlled loops are not directly supported in purely functional programming languages."],
-      "explanation": "(1) Counter-controlled loops are NOT required to implement any flowchart algorithm — logically-controlled (while) loops can implement anything a for loop can. (2) Python's for loop iterates over a range/iterable — you cannot accidentally modify the loop variable or skip values through arithmetic errors. C's for loop allows modifying everything (loop variable, limit, step) inside the body, which can cause subtle bugs → Python's is more reliable. (3) C's for loop uses arbitrary expressions, Java's uses only Boolean control — Java is more restrictive but arguably more reliable. C is NOT more readable than Java here. (4) Functional languages (Scheme, Haskell) use RECURSION instead of iteration — they have no counter-controlled loop construct."
+      "answer": [
+        "Counter-controlled loops in Python are more reliable than counter-controlled loops in C.",
+        "Counter-controlled loops are not directly supported in purely functional programming languages."
+      ],
+      "explanation": "(1) Counter-controlled loops are NOT required to implement any flowchart algorithm — logically-controlled (while) loops can implement anything a for loop can. (2) Python's for loop iterates over a range/iterable — you cannot accidentally modify the loop variable or skip values through arithmetic errors. C's for loop allows modifying everything (loop variable, limit, step) inside the body, which can cause subtle bugs → Python's is more reliable. (3) C's for loop uses arbitrary expressions, Java's uses only Boolean control — Java is more restrictive but arguably more reliable. C is NOT more readable than Java here. (4) Functional languages (Scheme, Haskell) use RECURSION instead of iteration — they have no counter-controlled loop construct.",
+      "question_text": "Select **only** the statements that are true about **counter-controlled loops**. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "Counter-controlled loops are required in order to implement any flowchart-represented algorithm.",
+        "Counter-controlled loops in Python are more reliable than counter-controlled loops in C.",
+        "Counter-controlled loops in C are more readable than counter-controlled loops in Java.",
+        "Counter-controlled loops are not directly supported in purely functional programming languages."
+      ]
     },
     {
       "question": 16,
       "marks": 2,
       "topic": "Disambiguating Nested Selectors",
-      "answer": ["Python's approach to disambiguating nested selection statements is less readable than Java's approach.", "Ruby and Perl use very similar approaches to disambiguating nested selection statements, but Perl's approach is more writable than Ruby's approach."],
-      "explanation": "(1) Java uses the 'dangling else' rule (else matches nearest if) with optional braces — clear and well-defined. Python uses indentation to show nesting — very readable (no dangling else ambiguity) but indentation-based structure can be less readable for deep nesting. Wait, actually Python is generally MORE readable than Java for this. Let me reconsider: Java uses explicit braces or 'else if' chains — clear. Python uses indentation/elif. Both options (A) and (C) need careful evaluation. (A) says Python is LESS readable than Java — Python's indentation-based approach is actually considered more readable by many. But in terms of the course material: Python uses indentation (no special syntax), Java uses 'else-if' or dangling-else rule. The course suggests Python's approach can be less readable because indentation errors are silent. (C) Ruby uses 'elsif' and 'end' keywords (explicit), Perl uses 'elsif' as well but with different syntax. Perl's shorter keywords (e.g., `elsif` vs Ruby's `elsif end`) might make it more writable. Among the given options, (B) says Python less reliable than Java — Python's indentation is actually MORE reliable (no dangling else). (D) says Python and Ruby use similar approaches — they both use keyword-based disambiguation but Python uses indentation while Ruby uses explicit end keywords; they are NOT very similar. Answer: options A and C."
+      "answer": [
+        "Python's approach to disambiguating nested selection statements is less readable than Java's approach.",
+        "Ruby and Perl use very similar approaches to disambiguating nested selection statements, but Perl's approach is more writable than Ruby's approach."
+      ],
+      "explanation": "(1) Java uses the 'dangling else' rule (else matches nearest if) with optional braces — clear and well-defined. Python uses indentation to show nesting — very readable (no dangling else ambiguity) but indentation-based structure can be less readable for deep nesting. Wait, actually Python is generally MORE readable than Java for this. Let me reconsider: Java uses explicit braces or 'else if' chains — clear. Python uses indentation/elif. Both options (A) and (C) need careful evaluation. (A) says Python is LESS readable than Java — Python's indentation-based approach is actually considered more readable by many. But in terms of the course material: Python uses indentation (no special syntax), Java uses 'else-if' or dangling-else rule. The course suggests Python's approach can be less readable because indentation errors are silent. (C) Ruby uses 'elsif' and 'end' keywords (explicit), Perl uses 'elsif' as well but with different syntax. Perl's shorter keywords (e.g., `elsif` vs Ruby's `elsif end`) might make it more writable. Among the given options, (B) says Python less reliable than Java — Python's indentation is actually MORE reliable (no dangling else). (D) says Python and Ruby use similar approaches — they both use keyword-based disambiguation but Python uses indentation while Ruby uses explicit end keywords; they are NOT very similar. Answer: options A and C.",
+      "question_text": "Select **only** the correct statements about **disambiguating nested selection statements**. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "Python's approach to disambiguating nested selection statements is less readable than Java's approach.",
+        "Python's approach to disambiguating nested selection statements is less reliable than Java's approach.",
+        "Ruby and Perl use very similar approaches to disambiguating nested selection statements, but Perl's approach is more writable than Ruby's approach.",
+        "Python and Ruby use very similar approaches to disambiguating nested selection statements, but Python's approach is more writable than Ruby's approach."
+      ]
     },
     {
       "question": 17,
       "marks": 1,
       "topic": "Guarded Commands",
       "answer": "B B",
-      "explanation": "Initial: myVal = 2. Execute do: evaluate all guards. Guard 1: `myVal < 0` → 2 < 0 → FALSE. Guard 2: `myVal > 0` → 2 > 0 → TRUE. Only guard 2 is true → execute: print('B '), myVal = 2-1 = 1. Iteration 2: Guard 1: 1 < 0 → FALSE. Guard 2: 1 > 0 → TRUE → print('B '), myVal = 0. Iteration 3: Guard 1: 0 < 0 → FALSE. Guard 2: 0 > 0 → FALSE. Both guards false → exit loop. Output: 'B B ' (two 'B ' prints). Written as: B B"
+      "explanation": "Initial: myVal = 2. Execute do: evaluate all guards. Guard 1: `myVal < 0` → 2 < 0 → FALSE. Guard 2: `myVal > 0` → 2 > 0 → TRUE. Only guard 2 is true → execute: print('B '), myVal = 2-1 = 1. Iteration 2: Guard 1: 1 < 0 → FALSE. Guard 2: 1 > 0 → TRUE → print('B '), myVal = 0. Iteration 3: Guard 1: 0 < 0 → FALSE. Guard 2: 0 > 0 → FALSE. Both guards false → exit loop. Output: 'B B ' (two 'B ' prints). Written as: B B",
+      "question_text": "Consider the following program code in a hypothetical programming language that supports **guarded commands**:\n\n```\nvar myVal = 2\n\ndo (myVal < 0) -> print(\"A \")\n                  myVal = 1\n[] (myVal > 0) -> print(\"B \")\n                  myVal = myVal - 1\nod\n```\n\nProvide the **output** of the program. If the program produces no output, write `Nothing`. If there is a compile-time error, write `Compilation error`. If there is a runtime error, write `Runtime error` at the point where it occurs. *(Note: there is a single space at the end of each print output.)*",
+      "options": null
     },
     {
       "question": 18,
       "marks": 1,
       "topic": "Subprograms Defined Outside a Class",
       "answer": "Ruby subprograms defined outside a class definition are more orthogonal than C++ subprograms defined outside a class definition.",
-      "explanation": "In Ruby, functions defined outside a class are actually methods of the Object class — they are treated consistently as methods (everything in Ruby is a method of some object). In C++, functions defined outside a class are stand-alone functions that are NOT methods — they exist outside the object system entirely. Ruby's approach is more orthogonal because it uses a single, consistent mechanism (everything is a method on an object) rather than having two separate mechanisms (free functions AND methods). Ruby subprograms outside a class behave differently than C++ ones (not 'exactly the same') — Ruby ones are secretly methods of Object."
+      "explanation": "In Ruby, functions defined outside a class are actually methods of the Object class — they are treated consistently as methods (everything in Ruby is a method of some object). In C++, functions defined outside a class are stand-alone functions that are NOT methods — they exist outside the object system entirely. Ruby's approach is more orthogonal because it uses a single, consistent mechanism (everything is a method on an object) rather than having two separate mechanisms (free functions AND methods). Ruby subprograms outside a class behave differently than C++ ones (not 'exactly the same') — Ruby ones are secretly methods of Object.",
+      "question_text": "Consider the following statements about **subprograms defined outside a class definition**, and select the most correct.",
+      "options": [
+        "Ruby subprograms defined outside a class definition are more writable than C++ subprograms defined outside a class definition.",
+        "Ruby subprograms defined outside a class definition are less writable than C++ subprograms defined outside a class definition.",
+        "Ruby subprograms defined outside a class definition are more orthogonal than C++ subprograms defined outside a class definition.",
+        "Ruby subprograms defined outside a class definition behave in exactly the same way as C++ subprograms defined outside a class definition."
+      ]
     },
     {
       "question": 19,
       "marks": 1,
       "topic": "Procedures vs Functions",
       "answer": "A procedure can more easily produce multiple results than a function can.",
-      "explanation": "A function returns a single value. A procedure has no return value but can produce results by modifying multiple out/inout parameters or modifying variables in an enclosing scope — this allows it to effectively produce multiple results simultaneously. A procedure with pass-by-reference parameters can modify multiple values in the caller, which is 'multiple results.' A function CAN produce results via side effects (bad practice but allowed), so it is NOT guaranteed to have no side effects. A procedure does NOT guarantee no side effects (it deliberately modifies things). A procedure cannot produce results with ONLY pass-by-value parameters (by-value parameters are copies — the originals are unchanged)."
+      "explanation": "A function returns a single value. A procedure has no return value but can produce results by modifying multiple out/inout parameters or modifying variables in an enclosing scope — this allows it to effectively produce multiple results simultaneously. A procedure with pass-by-reference parameters can modify multiple values in the caller, which is 'multiple results.' A function CAN produce results via side effects (bad practice but allowed), so it is NOT guaranteed to have no side effects. A procedure does NOT guarantee no side effects (it deliberately modifies things). A procedure cannot produce results with ONLY pass-by-value parameters (by-value parameters are copies — the originals are unchanged).",
+      "question_text": "Consider the following statements about **procedures and functions**, and select the most correct.",
+      "options": [
+        "A procedure can produce a result if all its parameters use pass-by-value semantics.",
+        "A procedure is guaranteed to produce no side effect if it produces a result.",
+        "A function is guaranteed to produce a side effect if it produces a result.",
+        "A procedure can more easily produce multiple results than a function can."
+      ]
     },
     {
       "question": 20,
       "marks": 1,
       "topic": "Pass-by-Name",
       "answer": "2 6",
-      "explanation": "Pass-by-name: every occurrence of a formal parameter in the subprogram body is textually replaced by the actual parameter. `doSomething(val1, val2)` → actual parameters are `val1` and `val2`. After substitution: `first = 2` becomes `val1 = 2`; `print(first)` becomes `print(val1)`; `print(second)` becomes `print(val2)`. Execution: val1=5, val2=6 initially. Then val1 = 2 (val1 changes to 2). print(val1) → prints 2. But val2 was originally `val1 + 1` — with pass-by-name, `val2` is the NAME 'val2', and val2 was computed as val1+1 = 5+1 = 6 BEFORE the call. However, with pass-by-name, the second actual parameter is the expression `val2` (a variable name), not `val1 + 1`. So `second` → `val2` (which still = 6 at this point, since val2 = val1+1 was computed at declaration time and val1 was 5 then). print(val2) → 6. Output: 2 6."
+      "explanation": "Pass-by-name: every occurrence of a formal parameter in the subprogram body is textually replaced by the actual parameter. `doSomething(val1, val2)` → actual parameters are `val1` and `val2`. After substitution: `first = 2` becomes `val1 = 2`; `print(first)` becomes `print(val1)`; `print(second)` becomes `print(val2)`. Execution: val1=5, val2=6 initially. Then val1 = 2 (val1 changes to 2). print(val1) → prints 2. But val2 was originally `val1 + 1` — with pass-by-name, `val2` is the NAME 'val2', and val2 was computed as val1+1 = 5+1 = 6 BEFORE the call. However, with pass-by-name, the second actual parameter is the expression `val2` (a variable name), not `val1 + 1`. So `second` → `val2` (which still = 6 at this point, since val2 = val1+1 was computed at declaration time and val1 was 5 then). print(val2) → 6. Output: 2 6.",
+      "question_text": "Consider the following program code in a hypothetical programming language:\n\n```\ndoSomething(int first, int second) {\n   first = 2\n   print(first)\n   print(\" \")\n   print(second)\n}\nvoid main() {\n   int val1 = 5\n   int val2 = val1 + 1\n   foo(val1, val2)\n}\n```\n\nProvide the **output** of the program if the language uses **pass-by-name** for all parameter passing. If an error occurs, write `Error`. *(Note: the second `print` call outputs a single space.)*",
+      "options": null
     },
     {
       "question": 21,
       "marks": 1,
       "topic": "Deep Binding + Dynamic Scoping",
       "answer": "5",
-      "explanation": "Deep binding: the referencing environment of the passed subprogram is determined by where the subprogram is DEFINED, not where it is called. `sub2` is defined in the outer scope where `var A = 5` (main's A). Even though the language uses dynamic scoping (which would normally use the call stack), DEEP BINDING means sub2's referencing environment is fixed at its DEFINITION point. At the time sub2 is defined (main's scope), A=5 in the current dynamic scope. So when sub2 executes via `param()` inside sub1, it uses the A from sub2's captured environment = 5. Output: 5."
+      "explanation": "Deep binding: the referencing environment of the passed subprogram is determined by where the subprogram is DEFINED, not where it is called. `sub2` is defined in the outer scope where `var A = 5` (main's A). Even though the language uses dynamic scoping (which would normally use the call stack), DEEP BINDING means sub2's referencing environment is fixed at its DEFINITION point. At the time sub2 is defined (main's scope), A=5 in the current dynamic scope. So when sub2 executes via `param()` inside sub1, it uses the A from sub2's captured environment = 5. Output: 5.",
+      "question_text": "Consider the following program code in a hypothetical programming language:\n\n```\nvar A = 2\n\nmain() {\n   var A = 5\n   call sub1(sub2)\n}\n\nsub1(param) {\n   var A = 3\n   call param()\n}\n\nsub2() {\n   print(A)\n}\n```\n\nAssume subprograms can be passed as parameters, execution starts with `main`. Provide the **output** if **deep binding** is used to determine the referencing environment of the passed subprogram, but the language uses **dynamic scoping**. If an error occurs, write `Error`.",
+      "options": null
     },
     {
       "question": 22,
       "marks": 1,
       "topic": "C# Generics",
-      "answer": "Two versions of the `doSomething` method are created at runtime. One is used with `int` parameters, while the other is used with `bool` parameters.",
-      "explanation": "C# creates generic method versions at RUNTIME (not compile time like C++). For primitive types (int, bool), C# creates a SEPARATE version for each primitive type used — similar to C++'s approach. For object types, a single Object version is shared. Here: `doSomething(5, 2)` uses int (a primitive) → one version created at runtime for int. `doSomething(false, true)` uses bool (a primitive) → a second version created at runtime for bool. Two versions, created at runtime. This differs from Java (which creates ONE Object version at runtime and inserts casts)."
+      "answer": "Two versions of the doSomething method are created at runtime. One is used with int parameters, while the other is used with bool parameters.",
+      "explanation": "C# creates generic method versions at RUNTIME (not compile time like C++). For primitive types (int, bool), C# creates a SEPARATE version for each primitive type used — similar to C++'s approach. For object types, a single Object version is shared. Here: `doSomething(5, 2)` uses int (a primitive) → one version created at runtime for int. `doSomething(false, true)` uses bool (a primitive) → a second version created at runtime for bool. Two versions, created at runtime. This differs from Java (which creates ONE Object version at runtime and inserts casts).",
+      "question_text": "Consider the following program code in C#:\n\n```csharp\npublic static void doSomething<T>(T p1, T p2) {\n   Console.WriteLine(p1 + \" \" + p2);\n}\n```\n\nAssume the following calls are made:\n\n```csharp\nProgram.doSomething(5, 2);\nProgram.doSomething(false, true);\n```\n\nSelect the most correct statement about the use of the `doSomething` method.",
+      "options": [
+        "One version of the doSomething method is created at compile time, and is used with int and bool parameters.",
+        "Two versions of the doSomething method are created at compile time. One is used with int parameters, while the other is used with bool parameters.",
+        "One version of the doSomething method is created at runtime, and is used with Object parameters.",
+        "Two versions of the doSomething method are created at runtime. One is used with int parameters, while the other is used with bool parameters."
+      ]
     },
     {
       "question": 23,
       "marks": 1,
       "topic": "Coroutines",
       "answer": "X A Y B",
-      "explanation": "Execution trace: main calls `resume first`. Coroutine first: print('X '), resume second. Coroutine second (first resume, starts at beginning): print('A '), resume first. Coroutine first resumes AFTER `resume second` → print('Y '). First finishes — returns to second. Coroutine second resumes AFTER `resume first` → print('B '). Second finishes. Program ends. Output: X A Y B."
+      "explanation": "Execution trace: main calls `resume first`. Coroutine first: print('X '), resume second. Coroutine second (first resume, starts at beginning): print('A '), resume first. Coroutine first resumes AFTER `resume second` → print('Y '). First finishes — returns to second. Coroutine second resumes AFTER `resume first` → print('B '). Second finishes. Program ends. Output: X A Y B.",
+      "question_text": "Consider the following program code in a hypothetical programming language that supports **coroutines**:\n\n```\nmain() {\n   resume first\n}\n\ncoroutine first {\n   print(\"X \")\n   resume second\n   print(\"Y \")\n}\n\ncoroutine second() {\n   print(\"A \")\n   resume first\n   print(\"B \")\n}\n```\n\nAssume execution starts with `main`. Provide the **output** of the program. If an error occurs, write `Error`. *(Note: there is a single space at the end of each print output.)*",
+      "options": null
     },
     {
       "question": 24,
       "marks": 2,
       "topic": "C++ ADT Representation Hiding",
-      "answer": ["The existence of friend functions and friend classes.", "The fact that all class data members must appear in header files."],
-      "explanation": "(1) Friend functions and classes are granted access to private members of a class — they can directly inspect and modify the private (hidden) representation. This clearly detracts from representation hiding. (2) C++ requires class definitions (including private member declarations) to appear in header files. Since header files are distributed with libraries, clients CAN see the private data member names and types (even though they cannot access them directly). This partially reveals the representation. (3) Stand-alone functions not in a class don't affect encapsulation of a specific class's data. (4) C++ does NOT require class AND member function definitions in the same file — definitions are typically split between headers and implementation files."
+      "answer": [
+        "The existence of friend functions and friend classes.",
+        "The fact that all class data members must appear in header files."
+      ],
+      "explanation": "(1) Friend functions and classes are granted access to private members of a class — they can directly inspect and modify the private (hidden) representation. This clearly detracts from representation hiding. (2) C++ requires class definitions (including private member declarations) to appear in header files. Since header files are distributed with libraries, clients CAN see the private data member names and types (even though they cannot access them directly). This partially reveals the representation. (3) Stand-alone functions not in a class don't affect encapsulation of a specific class's data. (4) C++ does NOT require class AND member function definitions in the same file — definitions are typically split between headers and implementation files.",
+      "question_text": "Abstract data types (ADTs) aim to hide the representations of ADT objects from clients. Select **only** the correct C++ features that **detract from the effectiveness of ADT representation hiding**. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "The existence of friend functions and friend classes.",
+        "The fact that C++ supports stand-alone functions that are not part of a class.",
+        "The fact that C++ requires that classes and member function definitions must appear in the same file.",
+        "The fact that all class data members must appear in header files."
+      ]
     },
     {
       "question": 25,
       "marks": 1,
       "topic": "ADTs in Ruby",
       "answer": "The interface of a Ruby ADT is very reliable.",
-      "explanation": "Wait — actually Ruby's interface is NOT very reliable because Ruby classes are dynamic: methods can be added or redefined at runtime, making the interface unpredictable. Let me reconsider. The options: (A) Instance/class variable names more readable in Ruby than Java — In Ruby, instance variables use @, class variables use @@, which are less readable than Java's plain names. (B) Multiple constructors implicitly called — Ruby has ONE constructor method (initialize), not multiple — FALSE. (C) Impossible to implement multiple constructors — FALSE, you can use default parameters or factory methods. (D) Interface is very reliable — actually FALSE because Ruby classes can be modified at runtime. So among these, the most defensible answer is... Actually, option D would be the least false? No. Let me re-examine: Ruby's @, @@ variable naming is LESS readable, not more. Ruby does NOT support multiple named constructors (B is false). You CAN implement multiple constructors via optional parameters (C is false). The interface reliability... Ruby uses method_missing and can reopen classes, making interfaces unreliable. The answer should be (D) is the least wrong, OR... Actually I think the correct answer is that Ruby's interface IS somewhat reliable because all data is private by default (only accessible through methods). 'The interface of a Ruby ADT is very reliable' - this could be correct because in Ruby, ALL instance data is private (only accessible through explicit getters/setters), so clients can only interact through the defined method interface, which IS reliable from an encapsulation standpoint. Final answer: The interface of a Ruby ADT is very reliable."
+      "explanation": "Wait — actually Ruby's interface is NOT very reliable because Ruby classes are dynamic: methods can be added or redefined at runtime, making the interface unpredictable. Let me reconsider. The options: (A) Instance/class variable names more readable in Ruby than Java — In Ruby, instance variables use @, class variables use @@, which are less readable than Java's plain names. (B) Multiple constructors implicitly called — Ruby has ONE constructor method (initialize), not multiple — FALSE. (C) Impossible to implement multiple constructors — FALSE, you can use default parameters or factory methods. (D) Interface is very reliable — actually FALSE because Ruby classes can be modified at runtime. So among these, the most defensible answer is... Actually, option D would be the least false? No. Let me re-examine: Ruby's @, @@ variable naming is LESS readable, not more. Ruby does NOT support multiple named constructors (B is false). You CAN implement multiple constructors via optional parameters (C is false). The interface reliability... Ruby uses method_missing and can reopen classes, making interfaces unreliable. The answer should be (D) is the least wrong, OR... Actually I think the correct answer is that Ruby's interface IS somewhat reliable because all data is private by default (only accessible through methods). 'The interface of a Ruby ADT is very reliable' - this could be correct because in Ruby, ALL instance data is private (only accessible through explicit getters/setters), so clients can only interact through the defined method interface, which IS reliable from an encapsulation standpoint. Final answer: The interface of a Ruby ADT is very reliable.",
+      "question_text": "Consider the following statements about **ADTs in Ruby**, and select the most correct.",
+      "options": [
+        "Instance and class variable names are more readable in Ruby than they are in Java.",
+        "Ruby supports multiple constructors, each of which can be implicitly called when new is used with the appropriate class name and parameters.",
+        "It is impossible to implement the functionality of multiple constructors in Ruby.",
+        "The interface of a Ruby ADT is very reliable."
+      ]
     },
     {
       "question": 26,
       "marks": 1,
       "topic": "Subclasses and Subtypes",
       "answer": "In the hypothetical programming language, subclasses are not subtypes.",
-      "explanation": "A subclass is a subtype of its parent if subclass objects can be used anywhere a parent object is expected — i.e., the subclass honours all the same public interface as the parent. If a subclass can CHANGE inherited public methods to private or protected, then a subclass object can no longer fulfil all the promises of the parent class (some public methods disappear from the external view). This violates the Liskov Substitution Principle — subclass objects cannot substitute for parent objects. Therefore, the subclass is NOT a subtype of the parent. Dynamic binding is still possible (it's about method lookup, not type relationships), so it is NOT made impossible."
+      "explanation": "A subclass is a subtype of its parent if subclass objects can be used anywhere a parent object is expected — i.e., the subclass honours all the same public interface as the parent. If a subclass can CHANGE inherited public methods to private or protected, then a subclass object can no longer fulfil all the promises of the parent class (some public methods disappear from the external view). This violates the Liskov Substitution Principle — subclass objects cannot substitute for parent objects. Therefore, the subclass is NOT a subtype of the parent. Dynamic binding is still possible (it's about method lookup, not type relationships), so it is NOT made impossible.",
+      "question_text": "Imagine a hypothetical programming language in which a subclass can inherit a public method from a parent class and **change its access control to private or protected**. Select the most correct statement.",
+      "options": [
+        "In the hypothetical programming language, dynamic binding is less efficient.",
+        "In the hypothetical programming language, dynamic binding is impossible.",
+        "In the hypothetical programming language, subclasses are subtypes.",
+        "In the hypothetical programming language, subclasses are not subtypes."
+      ]
     },
     {
       "question": 27,
       "marks": 2,
       "topic": "Smalltalk vs Java Orthogonality",
-      "answer": ["The difference in approach to the exclusivity of objects in Smalltalk and Java.", "The difference in approach to dynamic and static binding in Smalltalk and Java."],
-      "explanation": "(1) In Smalltalk, EVERYTHING is an object (pure uniformity) — one consistent construct handles all types. Java has both objects AND primitive types (int, float, bool) — two separate type systems. Smalltalk's unified approach is more orthogonal (one construct, applied universally). (2) In Smalltalk, ALL message binding is dynamic. In Java, binding can be static OR dynamic depending on context — two mechanisms. Smalltalk uses one mechanism consistently → more orthogonal. (3) Subclasses/subtypes: both Smalltalk and Java ensure subclasses are subtypes (neither allows removing parent methods) — no significant orthogonality difference. (4) Object deallocation: both use garbage collection — no significant orthogonality difference here."
+      "answer": [
+        "The difference in approach to the exclusivity of objects in Smalltalk and Java.",
+        "The difference in approach to dynamic and static binding in Smalltalk and Java."
+      ],
+      "explanation": "(1) In Smalltalk, EVERYTHING is an object (pure uniformity) — one consistent construct handles all types. Java has both objects AND primitive types (int, float, bool) — two separate type systems. Smalltalk's unified approach is more orthogonal (one construct, applied universally). (2) In Smalltalk, ALL message binding is dynamic. In Java, binding can be static OR dynamic depending on context — two mechanisms. Smalltalk uses one mechanism consistently → more orthogonal. (3) Subclasses/subtypes: both Smalltalk and Java ensure subclasses are subtypes (neither allows removing parent methods) — no significant orthogonality difference. (4) Object deallocation: both use garbage collection — no significant orthogonality difference here.",
+      "question_text": "Select **only** the approaches that make **Smalltalk more orthogonal than Java**. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "The difference in approach to the exclusivity of objects in Smalltalk and Java.",
+        "The difference in approach to dynamic and static binding in Smalltalk and Java.",
+        "The difference in approach to subclasses and subtypes in Smalltalk and Java.",
+        "The difference in approach to object deallocation in Smalltalk and Java."
+      ]
     },
     {
       "question": 28,
       "marks": 1,
       "topic": "OOP in C++ vs C#",
       "answer": "C++ provides a more readable approach to dynamic message binding than C# does.",
-      "explanation": "In C++, virtual methods are marked `virtual` at the declaration — any method NOT marked virtual is statically bound. The programmer explicitly opts in to dynamic binding. In C#, to dynamically bind, the parent method must be marked `virtual` AND the overriding method marked `override` (and the overriding method must explicitly use the `new` keyword when hiding). This double-declaration requirement in C# is more verbose and potentially confusing. C++'s single `virtual` keyword is simpler and more readable for indicating dynamic binding. C++ supports multiple inheritance (BETTER than C# in this regard, not worse). C++ nested classes work similarly to C# for basic cases."
+      "explanation": "In C++, virtual methods are marked `virtual` at the declaration — any method NOT marked virtual is statically bound. The programmer explicitly opts in to dynamic binding. In C#, to dynamically bind, the parent method must be marked `virtual` AND the overriding method marked `override` (and the overriding method must explicitly use the `new` keyword when hiding). This double-declaration requirement in C# is more verbose and potentially confusing. C++'s single `virtual` keyword is simpler and more readable for indicating dynamic binding. C++ supports multiple inheritance (BETTER than C# in this regard, not worse). C++ nested classes work similarly to C# for basic cases.",
+      "question_text": "Consider the following statements about **object-oriented programming in C++ and C#**, and select the most correct.",
+      "options": [
+        "C++ provides worse support for multiple inheritance than C# does.",
+        "C++ provides less writability in terms of nested classes than C# does.",
+        "C++ uses a more orthogonal approach to object-oriented programming than C# does.",
+        "C++ provides a more readable approach to dynamic message binding than C# does."
+      ]
     }
   ]
 }

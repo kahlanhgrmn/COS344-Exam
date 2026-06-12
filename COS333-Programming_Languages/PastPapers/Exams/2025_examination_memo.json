@@ -4,224 +4,438 @@
   "date": "17 June 2025",
   "duration": "3 hours",
   "total_marks": 40,
-  "source_chapters": ["Chapter 1", "Chapter 2", "Chapter 5", "Chapter 6", "Chapter 7", "Chapter 8", "Chapter 9", "Chapter 12", "Chapter 15", "Chapter 16"],
+  "source_chapters": [
+    "Chapter 1",
+    "Chapter 2",
+    "Chapter 5",
+    "Chapter 6",
+    "Chapter 7",
+    "Chapter 8",
+    "Chapter 9",
+    "Chapter 12",
+    "Chapter 15",
+    "Chapter 16"
+  ],
   "questions": [
     {
       "question": 1,
       "marks": 1,
       "topic": "Cost of Programming Languages (Modern Context)",
       "answer": "Cost of reliability",
-      "explanation": "In modern computing, hardware is cheap and fast, compilers are free and optimised, and language implementation systems are widely available at no cost. The dominant cost is now reliability: unreliable software causes financial losses, security breaches, regulatory penalties, and reputational damage. Critical systems (banking, healthcare, infrastructure) must be correct. Poor reliability leads to expensive emergency patches and maintenance. Therefore, the cost of reliability is the most important factor in a modern context."
+      "explanation": "In modern computing, hardware is cheap and fast, compilers are free and optimised, and language implementation systems are widely available at no cost. The dominant cost is now reliability: unreliable software causes financial losses, security breaches, regulatory penalties, and reputational damage. Critical systems (banking, healthcare, infrastructure) must be correct. Poor reliability leads to expensive emergency patches and maintenance. Therefore, the cost of reliability is the most important factor in a modern context.",
+      "question_text": "Consider the following types of cost that can be associated with a programming language, and select the one that is **most relevant to consider in a modern computing context**.",
+      "options": [
+        "Cost of compiling programs",
+        "Cost of executing programs",
+        "Cost of reliability",
+        "Cost of the language implementation system"
+      ]
     },
     {
       "question": 2,
       "marks": 1,
       "topic": "Portability",
       "answer": "Java",
-      "explanation": "Java compiles source code to platform-independent bytecode that runs on any machine with a JVM (Java Virtual Machine) installed. This 'write once, run anywhere' model gives Java the highest portability of the options. Fortran I compiles to machine-specific code for the IBM 704 — essentially zero portability. PL/I is compiled to platform-specific binaries. Swift is primarily for Apple platforms. Java's bytecode/JVM approach is specifically designed for cross-platform portability."
+      "explanation": "Java compiles source code to platform-independent bytecode that runs on any machine with a JVM (Java Virtual Machine) installed. This 'write once, run anywhere' model gives Java the highest portability of the options. Fortran I compiles to machine-specific code for the IBM 704 — essentially zero portability. PL/I is compiled to platform-specific binaries. Swift is primarily for Apple platforms. Java's bytecode/JVM approach is specifically designed for cross-platform portability.",
+      "question_text": "Consider the following programming languages, and select the one that has the **highest level of portability**.",
+      "options": [
+        "Fortran I",
+        "PL/I",
+        "Swift",
+        "Java"
+      ]
     },
     {
       "question": 3,
       "marks": 1,
       "topic": "Readability",
       "answer": "Ada",
-      "explanation": "Ada was designed by the US Department of Defense with readability and maintainability as explicit primary goals — it was meant for long-lived, safety-critical systems where code must be read and maintained by many people over decades. Ada has verbose, self-documenting syntax (explicit type declarations, named parameter passing, strong typing). C++ is a complex hybrid language with many syntactic shortcuts that reduce readability. BASIC was designed for simplicity but not for large-scale readable programs. C# is modern and readable but was designed after readability was well-understood — Ada is the most explicitly readability-focused design."
+      "explanation": "Ada was designed by the US Department of Defense with readability and maintainability as explicit primary goals — it was meant for long-lived, safety-critical systems where code must be read and maintained by many people over decades. Ada has verbose, self-documenting syntax (explicit type declarations, named parameter passing, strong typing). C++ is a complex hybrid language with many syntactic shortcuts that reduce readability. BASIC was designed for simplicity but not for large-scale readable programs. C# is modern and readable but was designed after readability was well-understood — Ada is the most explicitly readability-focused design.",
+      "question_text": "Consider the following programming languages, and select the one that had the **highest overall readability**.",
+      "options": [
+        "C++",
+        "BASIC",
+        "Ada",
+        "C#"
+      ]
     },
     {
       "question": 4,
       "marks": 1,
       "topic": "Well-Definedness",
       "answer": "ALGOL 68",
-      "explanation": "ALGOL 68 was designed with extreme rigour using a formal two-level van Wijngaarden grammar to precisely and completely define the language. Every construct was formally specified with no ambiguity or undefined behaviour. Fortran I had many implementation-dependent behaviours. C is infamous for extensive undefined behaviour (buffer overflows, pointer misuse, etc.). C++ inherits all of C's undefined behaviours and adds more. ALGOL 68 is the standout example of a language designed with well-definedness as a central concern."
+      "explanation": "ALGOL 68 was designed with extreme rigour using a formal two-level van Wijngaarden grammar to precisely and completely define the language. Every construct was formally specified with no ambiguity or undefined behaviour. Fortran I had many implementation-dependent behaviours. C is infamous for extensive undefined behaviour (buffer overflows, pointer misuse, etc.). C++ inherits all of C's undefined behaviours and adds more. ALGOL 68 is the standout example of a language designed with well-definedness as a central concern.",
+      "question_text": "Consider the following programming languages, and select the one that **focused the most on the well-definedness** of the original language design.",
+      "options": [
+        "Fortran I",
+        "ALGOL 68",
+        "C",
+        "C++"
+      ]
     },
     {
       "question": 5,
       "marks": 5,
       "topic": "Scheme — getZerosDoublePositives",
       "answer": "(define (getZerosDoublePositives lst)\n  (cond\n    ((null? lst) '())\n    ((negative? (car lst))\n     (getZerosDoublePositives (cdr lst)))\n    ((zero? (car lst))\n     (cons (car lst) (getZerosDoublePositives (cdr lst))))\n    (else\n     (cons (* 2 (car lst)) (getZerosDoublePositives (cdr lst))))\n  )\n)",
-      "explanation": "Strategy: Recurse through the list. Base case: empty list → return empty list. For each element: (1) If negative (`negative?`) → skip (don't include), recurse on tail. (2) If zero (`zero?`) → include unchanged, recurse on tail. (3) Otherwise (positive) → double it (`* 2`) and include, recurse on tail. Example trace for `(-1 4 0 -3 12)`: -1 is negative → skip; 4 is positive → 8; 0 is zero → 0; -3 is negative → skip; 12 is positive → 24. Result: (8 0 24). The `cond` checks in order, so negative is checked before zero before positive."
+      "explanation": "Strategy: Recurse through the list. Base case: empty list → return empty list. For each element: (1) If negative (`negative?`) → skip (don't include), recurse on tail. (2) If zero (`zero?`) → include unchanged, recurse on tail. (3) Otherwise (positive) → double it (`* 2`) and include, recurse on tail. Example trace for `(-1 4 0 -3 12)`: -1 is negative → skip; 4 is positive → 8; 0 is zero → 0; -3 is negative → skip; 12 is positive → 24. Result: (8 0 24). The `cond` checks in order, so negative is checked before zero before positive.",
+      "question_text": "Write a Scheme function named `getZerosDoublePositives`, which is applied to one parameter: a simple numeric list `lst`. The function should yield (not print) a list containing the values in `lst`, in their original order, where **zero values remain unchanged**, **positive values are doubled**, and **negative values are omitted**.\n\n*Examples:*\n```scheme\n(getZerosDoublePositives '())\n; => ()\n\n(getZerosDoublePositives '(-5))\n; => ()   (negative values are omitted)\n\n(getZerosDoublePositives '(-1 4 0 -3 12))\n; => (8 0 24)   (-1 and -3 omitted; 4→8, 12→24; 0 unchanged)\n```\n\n**Allowed built-in functions:**\n- **Function construction:** `lambda`, `define`\n- **Binding:** `let` (complex forms like `let*` and named `let` are **not** allowed)\n- **Arithmetic:** `+`, `-`, `*`, `/`, `abs`, `sqrt`, `remainder`, `modulo`, `min`, `max`\n- **Boolean values:** `#t`, `#f`\n- **Equality predicates:** `=`, `>`, `<`, `>=`, `<=`, `even?`, `odd?`, `zero?`, `negative?`, `eqv?`, `eq?`\n- **Logical predicates:** `and`, `or`, `not`\n- **List predicates:** `list?`, `null?`\n- **Conditionals:** `if`, `cond`, `else`\n- **Quoting:** `quote`, `'`\n- **List manipulation:** `list`, `car`, `cdr`, `cons`\n- **I/O:** `display`, `printf`, `newline`, `read`",
+      "options": null
     },
     {
       "question": 6,
       "marks": 5,
       "topic": "Prolog — getNegativesNegatePositives",
       "answer": "getNegativesNegatePositives([], []).\ngetNegativesNegatePositives([H|T], L2) :-\n  H =:= 0,\n  getNegativesNegatePositives(T, L2).\ngetNegativesNegatePositives([H|T], [N|L2]) :-\n  H > 0,\n  N is -H,\n  getNegativesNegatePositives(T, L2).\ngetNegativesNegatePositives([H|T], [H|L2]) :-\n  H < 0,\n  getNegativesNegatePositives(T, L2).",
-      "explanation": "Four clauses: (1) Base case: empty list → empty result. (2) If H is zero: skip it (don't include in L2), recurse on tail. (3) If H is positive (H > 0): negate it (N is -H) and prepend N to L2, recurse. (4) If H is negative (H < 0): keep it unchanged, prepend H to L2, recurse. The `is` operator performs arithmetic. Example: `getNegativesNegatePositives([1, 0, -2, 0], X)` → 1 positive → -1; 0 → skip; -2 negative → -2; 0 → skip. X=[-1,-2]."
+      "explanation": "Four clauses: (1) Base case: empty list → empty result. (2) If H is zero: skip it (don't include in L2), recurse on tail. (3) If H is positive (H > 0): negate it (N is -H) and prepend N to L2, recurse. (4) If H is negative (H < 0): keep it unchanged, prepend H to L2, recurse. The `is` operator performs arithmetic. Example: `getNegativesNegatePositives([1, 0, -2, 0], X)` → 1 positive → -1; 0 → skip; -2 negative → -2; 0 → skip. X=[-1,-2].",
+      "question_text": "Write a Prolog proposition called `getNegativesNegatePositives(L1, L2)`, where L1 and L2 are both simple numeric lists. The proposition succeeds if L2 contains the values in L1 in their original order, where **negative values remain unchanged**, **positive values are negated**, and **zero values are omitted**.\n\n*Examples:*\n```prolog\n?- getNegativesNegatePositives([0], X).\n% X = []   (zero values are omitted)\n\n?- getNegativesNegatePositives([1, 0, -2, 0], X).\n% X = [-1, -2]   (1 negated to -1; -2 unchanged; zeros omitted)\n```\n\n**Requirements:**\n- You may define additional helper propositions.\n- Only use constants, variables, list manipulation, arithmetic, relational expressions, the `is` operator, cuts, and the built-in `not` proposition. Do **not** use if-then, if-then-else, the semicolon (`;`) or pipe (`|`) operator outside of a list, or complex system predicates (including built-in `member`, `append`, `reverse`).",
+      "options": null
     },
     {
       "question": 7,
       "marks": 1,
       "topic": "Special Words",
       "answer": "Keyword",
-      "explanation": "In the program, `switch` is used on line `var switch` as a variable name AND as a construct `switch (input) { ... }`. For this to be legal in the same program, the language must allow `switch` to be used as an identifier in non-switch-statement contexts. This is the definition of a KEYWORD: a word that is only special in specific syntactic contexts and CAN be redefined as a variable name elsewhere. A RESERVED WORD cannot be used as an identifier at all — if `switch` were reserved, line `var switch = ...` would cause a compile error."
+      "explanation": "In the program, `switch` is used on line `var switch` as a variable name AND as a construct `switch (input) { ... }`. For this to be legal in the same program, the language must allow `switch` to be used as an identifier in non-switch-statement contexts. This is the definition of a KEYWORD: a word that is only special in specific syntactic contexts and CAN be redefined as a variable name elsewhere. A RESERVED WORD cannot be used as an identifier at all — if `switch` were reserved, line `var switch = ...` would cause a compile error.",
+      "question_text": "Consider the following program code in a hypothetical programming language:\n\n```\nmain() {\n   var switch\n   write(\"Do you wish to continue?\")\n   read(switch)\n\n   while(switch) {\n      var input\n      write(\"Which action would you like to perform?\")\n      read(input)\n      switch (input) {\n         case 1: call action1()\n                 break\n         case 2: call action2()\n                 break\n      }\n      write(\"Do you wish to continue?\")\n      read(switch)\n   }\n}\n```\n\nIdentify and fill in the **kind of special word** that `switch` is in this program.",
+      "options": null
     },
     {
       "question": 8,
       "marks": 1,
       "topic": "Global Variables — PHP vs Python vs C",
       "answer": "PHP's approach to accessing and modifying global variables is less readable than both Python and C.",
-      "explanation": "In PHP, EVERY function that accesses or modifies a global variable must declare it with `global $varName;` — even just to read it. In Python, you can READ a global variable freely; you only need `global varName` to MODIFY it. In C, global variables are accessible directly without any declaration inside functions — complete transparency. PHP's requirement to explicitly declare globals in every function for every access adds noise to the code and clutters readability. C's transparent globals and Python's read-transparent globals are more readable than PHP's always-required declarations."
+      "explanation": "In PHP, EVERY function that accesses or modifies a global variable must declare it with `global $varName;` — even just to read it. In Python, you can READ a global variable freely; you only need `global varName` to MODIFY it. In C, global variables are accessible directly without any declaration inside functions — complete transparency. PHP's requirement to explicitly declare globals in every function for every access adds noise to the code and clutters readability. C's transparent globals and Python's read-transparent globals are more readable than PHP's always-required declarations.",
+      "question_text": "Consider the following statements about **accessing and modifying global variables in PHP, Python, and C**, and select the most correct.",
+      "options": [
+        "PHP's approach to accessing and modifying global variables is less writable than both Python and C.",
+        "PHP's approach to accessing and modifying global variables is less reliable than both Python and C.",
+        "PHP's approach to accessing and modifying global variables is less readable than both Python and C.",
+        "PHP's approach to accessing and modifying global variables has a lower cost of execution than both Python and C."
+      ]
     },
     {
       "question": 9,
       "marks": 1,
       "topic": "Elemental Array Operations in Fortran",
       "answer": "Elemental array operations make sense in the programming domain for which Fortran was designed.",
-      "explanation": "Fortran was designed for scientific and engineering computation, where array and matrix operations are fundamental. Scientists and engineers routinely add two matrices, scale a vector by a scalar, or apply a function to every element of an array. Elemental operations (operating on entire arrays) directly match the mathematical operations of the domain. Including them was a natural fit for the scientific computing domain — not primarily about orthogonality, implementation method, or unambiguity, but about domain relevance."
+      "explanation": "Fortran was designed for scientific and engineering computation, where array and matrix operations are fundamental. Scientists and engineers routinely add two matrices, scale a vector by a scalar, or apply a function to every element of an array. Elemental operations (operating on entire arrays) directly match the mathematical operations of the domain. Including them was a natural fit for the scientific computing domain — not primarily about orthogonality, implementation method, or unambiguity, but about domain relevance.",
+      "question_text": "Fortran supports **elemental array operations**, which are not supported in most other high-level languages. Select the reason that describes a **strong justification** for their inclusion in Fortran.",
+      "options": [
+        "Elemental array operations improve the orthogonality of Fortran.",
+        "Elemental array operations make sense because their purpose is unambiguous.",
+        "Elemental array operations make sense for the implementation method that Fortran uses.",
+        "Elemental array operations make sense in the programming domain for which Fortran was designed."
+      ]
     },
     {
       "question": 10,
       "marks": 1,
       "topic": "List Comprehensions in Python",
       "answer": "List comprehensions improve the writability of list operations in Python.",
-      "explanation": "Python list comprehensions like `[x*2 for x in myList if x > 0]` allow the programmer to express list creation, filtering, and transformation in a single concise line. Without list comprehensions, the equivalent requires writing a for loop, an if statement, and an append call — multiple lines of code. This conciseness makes writing list operations significantly faster and shorter, which is a writability improvement. Readability is debatable (comprehensions can be cryptic when complex). Reliability is not significantly affected. Training cost is not directly related."
+      "explanation": "Python list comprehensions like `[x*2 for x in myList if x > 0]` allow the programmer to express list creation, filtering, and transformation in a single concise line. Without list comprehensions, the equivalent requires writing a for loop, an if statement, and an append call — multiple lines of code. This conciseness makes writing list operations significantly faster and shorter, which is a writability improvement. Readability is debatable (comprehensions can be cryptic when complex). Reliability is not significantly affected. Training cost is not directly related.",
+      "question_text": "Consider the following statements about **list comprehensions in Python**, and select the most correct.",
+      "options": [
+        "List comprehensions improve the readability of list operations in Python.",
+        "List comprehensions improve the writability of list operations in Python.",
+        "List comprehensions improve the reliability of list operations in Python.",
+        "List comprehensions improve the cost of training programmers in Python."
+      ]
     },
     {
       "question": 11,
       "marks": 1,
       "topic": "Operator Precedence and Associativity in APL",
       "answer": "Operator precedence and associativity in APL is highly orthogonal.",
-      "explanation": "APL has NO operator precedence hierarchy — all operators have equal precedence and associate from right to left. This is a single, uniform rule applied consistently to ALL operators, regardless of which operator it is. One rule, no exceptions, no special cases. This uniformity is the essence of orthogonality: a small set of principles (one precedence rule, one associativity rule) applied to everything. While this can produce counterintuitive results compared to mathematical conventions, it is undeniably a highly orthogonal design."
+      "explanation": "APL has NO operator precedence hierarchy — all operators have equal precedence and associate from right to left. This is a single, uniform rule applied consistently to ALL operators, regardless of which operator it is. One rule, no exceptions, no special cases. This uniformity is the essence of orthogonality: a small set of principles (one precedence rule, one associativity rule) applied to everything. While this can produce counterintuitive results compared to mathematical conventions, it is undeniably a highly orthogonal design.",
+      "question_text": "Consider the following statements about **operator precedence and associativity in APL**, and select the most correct.",
+      "options": [
+        "Operator precedence and associativity in APL is highly orthogonal.",
+        "Operator precedence and associativity in APL is very complex due to the large number of operators.",
+        "Operator precedence and associativity in APL introduces a high cost of execution.",
+        "Operator precedence and associativity in APL is unreliable."
+      ]
     },
     {
       "question": 12,
       "marks": 1,
       "topic": "Operators in Ruby",
       "answer": "Operators in Ruby have a high cost of execution.",
-      "explanation": "In Ruby, arithmetic and other operators are implemented as METHODS — `a + b` is actually the method call `a.+(b)`. Every operator use involves a method dispatch: looking up the method in the object's class hierarchy, checking access, and calling the method. This is significantly more expensive than a direct hardware arithmetic instruction. Ruby is known for being slower than compiled languages partly because of this method-dispatch overhead on every operation. Ruby operators ARE orthogonal (they're consistent methods), ARE writable, and ARE reliable within the dynamic type system."
+      "explanation": "In Ruby, arithmetic and other operators are implemented as METHODS — `a + b` is actually the method call `a.+(b)`. Every operator use involves a method dispatch: looking up the method in the object's class hierarchy, checking access, and calling the method. This is significantly more expensive than a direct hardware arithmetic instruction. Ruby is known for being slower than compiled languages partly because of this method-dispatch overhead on every operation. Ruby operators ARE orthogonal (they're consistent methods), ARE writable, and ARE reliable within the dynamic type system.",
+      "question_text": "Consider the following statements about **operators in Ruby**, and select the most correct.",
+      "options": [
+        "Operators in Ruby are implemented in a way that is not very orthogonal.",
+        "Operators in Ruby are not very writable.",
+        "Operators in Ruby have a high cost of execution.",
+        "Operators in Ruby are very reliable."
+      ]
     },
     {
       "question": 13,
       "marks": 1,
       "topic": "Mixed Mode Arithmetic — F# vs C++",
       "answer": "Mixed mode arithmetic expressions in F# are more reliable than in C++.",
-      "explanation": "F# (a functional language) does NOT allow implicit mixed-mode arithmetic — you cannot add an int and a float without an explicit type conversion. Every type mismatch must be explicitly resolved by the programmer. C++ allows implicit numeric coercions (int → float, etc.) which silently change types without programmer knowledge. F#'s strict approach means type errors in arithmetic are caught at COMPILE TIME — you can never accidentally mix types. This makes F# arithmetic much more reliable than C++'s implicit coercion approach, which can produce subtle, hard-to-find bugs from unexpected type conversions."
+      "explanation": "F# (a functional language) does NOT allow implicit mixed-mode arithmetic — you cannot add an int and a float without an explicit type conversion. Every type mismatch must be explicitly resolved by the programmer. C++ allows implicit numeric coercions (int → float, etc.) which silently change types without programmer knowledge. F#'s strict approach means type errors in arithmetic are caught at COMPILE TIME — you can never accidentally mix types. This makes F# arithmetic much more reliable than C++'s implicit coercion approach, which can produce subtle, hard-to-find bugs from unexpected type conversions.",
+      "question_text": "Consider the following statements about **mixed mode arithmetic expressions in F# and C++**, and select the most correct.",
+      "options": [
+        "Mixed mode arithmetic expressions in F# are less readable than in C++.",
+        "Mixed mode arithmetic expressions in F# are more writable than in C++.",
+        "Mixed mode arithmetic expressions in F# have a higher execution cost than in C++.",
+        "Mixed mode arithmetic expressions in F# are more reliable than in C++."
+      ]
     },
     {
       "question": 14,
       "marks": 1,
       "topic": "Short-Circuit Evaluation",
-      "answer": "If the `or` operator is short-circuit evaluated a side effect will **not** occur, which causes a problem.",
-      "explanation": "The while condition: `(total <= 100) or ((input = read()) != EOF)`. The second operand contains a side effect: `read()` assigns a value to `input`. The program depends on `read()` being called each iteration to get the next number. If `or` IS short-circuit evaluated: when `total <= 100` is TRUE, the second operand is SKIPPED → `read()` is NOT called → `input` is never updated → the program loops forever reading no data (the side effect does NOT occur → problem). If `or` is NOT short-circuit evaluated: both operands always evaluated → `read()` always called → program works correctly."
+      "answer": "If the or operator is short-circuit evaluated a side effect will **not** occur, which causes a problem.",
+      "explanation": "The while condition: `(total <= 100) or ((input = read()) != EOF)`. The second operand contains a side effect: `read()` assigns a value to `input`. The program depends on `read()` being called each iteration to get the next number. If `or` IS short-circuit evaluated: when `total <= 100` is TRUE, the second operand is SKIPPED → `read()` is NOT called → `input` is never updated → the program loops forever reading no data (the side effect does NOT occur → problem). If `or` is NOT short-circuit evaluated: both operands always evaluated → `read()` always called → program works correctly.",
+      "question_text": "Consider the following program code in a hypothetical programming language:\n\n```\nmain() {\n   int input\n   int total = 0\n\n   while ((total <= 100) or ((input = read()) != EOF)) {\n      total = total + input\n   }\n   write(total)\n}\n```\n\nThe program reads a file of numbers, adding values to a total until either the total exceeds 100 or the end of file is reached. Assume C-like syntax, assignment is an expression, `or` is a logical or, and `EOF` indicates end of file. Select the statement that most correctly describes a **problem** with this program.",
+      "options": [
+        "If the or operator is short-circuit evaluated a side effect will occur, which causes a problem.",
+        "If the or operator is short-circuit evaluated a side effect will **not** occur, which causes a problem.",
+        "If the or operator is **not** short-circuit evaluated a side effect will occur, which causes a problem.",
+        "If the or operator is **not** short-circuit evaluated a side effect will not occur, which causes a problem."
+      ]
     },
     {
       "question": 15,
       "marks": 1,
       "topic": "Conditional Targets",
       "answer": "Conditional targets reduce the reliability of assignments.",
-      "explanation": "A conditional target is when the target (left-hand side) of an assignment is a conditional expression, like `(flag ? x : y) = value` in Perl/C++. This makes it harder for a reader (or the programmer) to know which variable is actually being assigned — you must evaluate the condition to know the assignment target. This reduces reliability because it becomes easy to make mistakes about which variable changes. It does NOT reduce writability (it makes certain patterns more concise). It does NOT increase readability — on the contrary, the target is now harder to identify at a glance."
+      "explanation": "A conditional target is when the target (left-hand side) of an assignment is a conditional expression, like `(flag ? x : y) = value` in Perl/C++. This makes it harder for a reader (or the programmer) to know which variable is actually being assigned — you must evaluate the condition to know the assignment target. This reduces reliability because it becomes easy to make mistakes about which variable changes. It does NOT reduce writability (it makes certain patterns more concise). It does NOT increase readability — on the contrary, the target is now harder to identify at a glance.",
+      "question_text": "Consider the following statements about **conditional targets**, and select the most correct.",
+      "options": [
+        "Conditional targets reduce the writability of assignments.",
+        "Conditional targets increase the readability of assignments.",
+        "Conditional targets increase the cost of execution of assignments.",
+        "Conditional targets reduce the reliability of assignments."
+      ]
     },
     {
       "question": 16,
       "marks": 1,
       "topic": "Multiple-Target Multiple-Source Assignments in Ruby",
       "answer": "Multiple-target multiple-source assignments make Ruby more writable.",
-      "explanation": "Ruby allows expressions like `a, b = b, a` (swap without a temporary variable) or `x, y, z = 1, 2, 3` (assign multiple variables at once). These are powerful patterns that save many lines of code. What would require 3 separate assignments (or a temporary variable) in other languages becomes 1 line in Ruby. This is a significant writability improvement — writing common patterns is faster and more concise. Multiple assignment does not inherently improve readability (it can confuse readers unfamiliar with the syntax), does not improve reliability, and does not reduce execution cost."
+      "explanation": "Ruby allows expressions like `a, b = b, a` (swap without a temporary variable) or `x, y, z = 1, 2, 3` (assign multiple variables at once). These are powerful patterns that save many lines of code. What would require 3 separate assignments (or a temporary variable) in other languages becomes 1 line in Ruby. This is a significant writability improvement — writing common patterns is faster and more concise. Multiple assignment does not inherently improve readability (it can confuse readers unfamiliar with the syntax), does not improve reliability, and does not reduce execution cost.",
+      "question_text": "Consider the following statements about **multiple-target multiple-source assignments in Ruby**, and select the most correct.",
+      "options": [
+        "Multiple-target multiple-source assignments make Ruby more writable.",
+        "Multiple-target multiple-source assignments make Ruby more readable.",
+        "Multiple-target multiple-source assignments make Ruby more reliable.",
+        "Multiple-target multiple-source assignments decrease the cost of execution of Ruby."
+      ]
     },
     {
       "question": 17,
       "marks": 1,
       "topic": "Disambiguating Nested Selectors — Python vs Perl",
       "answer": "Python's approach can be less reliable than Perl's approach.",
-      "explanation": "Python uses indentation to define the scope of if/else blocks. If a programmer uses a wrong indentation level (e.g., uses a space where a tab was expected, or indents an else at the wrong level), the code is still syntactically valid Python but has different semantics than intended — the else attaches to the WRONG if. Perl uses explicit braces `{}` to delimit blocks — a misplaced brace produces a compile-time error. Because Python's indentation errors are silent (valid syntax, wrong meaning), Python's approach CAN be less reliable than Perl's explicit brace approach."
+      "explanation": "Python uses indentation to define the scope of if/else blocks. If a programmer uses a wrong indentation level (e.g., uses a space where a tab was expected, or indents an else at the wrong level), the code is still syntactically valid Python but has different semantics than intended — the else attaches to the WRONG if. Perl uses explicit braces `{}` to delimit blocks — a misplaced brace produces a compile-time error. Because Python's indentation errors are silent (valid syntax, wrong meaning), Python's approach CAN be less reliable than Perl's explicit brace approach.",
+      "question_text": "Consider the following statements about the method that **Python and Perl** use to **disambiguate nested selectors**, and select the most correct.",
+      "options": [
+        "Python's approach is less writable than Perl's approach.",
+        "Python's approach is less readable than Perl's approach.",
+        "Python's approach can be less reliable than Perl's approach.",
+        "Python's approach has a higher cost of execution than Perl's approach."
+      ]
     },
     {
       "question": 18,
       "marks": 1,
       "topic": "Multiple-Way Selection — Writability",
       "answer": "Ruby",
-      "explanation": "Ruby's `case/when` expression is the most writable for assigning a value based on `first`: `second = case first when 1 then 'one' when 2 then 'two' else 'other' end`. The entire case expression is a VALUE that can be directly assigned to `second`. C++, JavaScript, and C# use `switch` STATEMENTS — you cannot directly assign a switch statement's result; you need separate assignment inside each case. Ruby's case is an expression (returns a value) rather than a statement, making it directly assignable and much more writable."
+      "explanation": "Ruby's `case/when` expression is the most writable for assigning a value based on `first`: `second = case first when 1 then 'one' when 2 then 'two' else 'other' end`. The entire case expression is a VALUE that can be directly assigned to `second`. C++, JavaScript, and C# use `switch` STATEMENTS — you cannot directly assign a switch statement's result; you need separate assignment inside each case. Ruby's case is an expression (returns a value) rather than a statement, making it directly assignable and much more writable.",
+      "question_text": "Consider a situation where you have two variables `first` and `second`. You wish to assign different values to `second` depending on the value of `first`, using a **multiple-way selection** where the control expression is `first`. Select the programming language that allows you to achieve this in the **most writable** way.",
+      "options": [
+        "C++",
+        "JavaScript",
+        "C#",
+        "Ruby"
+      ]
     },
     {
       "question": 19,
       "marks": 1,
       "topic": "Counter-Controlled Loops in C++",
       "answer": "Counter-controlled loops in C++ are unreliable because it is possible to branch into the loop body.",
-      "explanation": "C (and C++) permits `goto` statements that can jump into the MIDDLE of a loop body, bypassing the loop initialisation and control expressions. This breaks the expected loop semantics and can produce undefined or unpredictable behaviour. This is an explicit reliability concern noted in the textbook. The loop body does NOT always execute a fixed number of times in C++ (loop variables CAN be modified inside the body). Including the loop variable definition in the first expression is a scoping feature, not a reliability guarantee. Modifying iteration count IS possible in C++ (you CAN change variables inside the loop)."
+      "explanation": "C (and C++) permits `goto` statements that can jump into the MIDDLE of a loop body, bypassing the loop initialisation and control expressions. This breaks the expected loop semantics and can produce undefined or unpredictable behaviour. This is an explicit reliability concern noted in the textbook. The loop body does NOT always execute a fixed number of times in C++ (loop variables CAN be modified inside the body). Including the loop variable definition in the first expression is a scoping feature, not a reliability guarantee. Modifying iteration count IS possible in C++ (you CAN change variables inside the loop).",
+      "question_text": "Consider the following statements about **counter-controlled loops in C++**, and select the most correct.",
+      "options": [
+        "Counter-controlled loops in C++ are reliable because the loop body always executes a fixed number of times, which is clear from the three control expressions at the start of the loop.",
+        "Counter-controlled loops in C++ are reliable because it is possible to include the definition of the loop variable in the first control expression at the start of the loop.",
+        "Counter-controlled loops in C++ are unreliable because it is possible to branch into the loop body.",
+        "Counter-controlled loops in C++ are unreliable because it is not possible to modify how many times the loop body executes once execution has entered the loop."
+      ]
     },
     {
       "question": 20,
       "marks": 1,
       "topic": "User-Located Loop Control — Java vs C++",
       "answer": "Java has more writable user-located loop control mechanisms than C++ does.",
-      "explanation": "Java has LABELED break and continue statements — you can label any outer loop and `break labelName;` or `continue labelName;` to exit or continue that specific loop from a deeply nested position. C++ only has UNLABELED break, which exits only the immediately enclosing loop. To exit an outer loop in C++, you need a flag variable, a goto, or restructuring the code — all more verbose. Java's labeled break is more concise and writable for nested loop control. Java does NOT have less reliable loop control than C++."
+      "explanation": "Java has LABELED break and continue statements — you can label any outer loop and `break labelName;` or `continue labelName;` to exit or continue that specific loop from a deeply nested position. C++ only has UNLABELED break, which exits only the immediately enclosing loop. To exit an outer loop in C++, you need a flag variable, a goto, or restructuring the code — all more verbose. Java's labeled break is more concise and writable for nested loop control. Java does NOT have less reliable loop control than C++.",
+      "question_text": "Consider the following statements about **user-located loop control mechanisms in Java and C++**, and select the most correct.",
+      "options": [
+        "Java has more writable user-located loop control mechanisms than C++ does.",
+        "Java has less writable user-located loop control mechanisms than C++ does.",
+        "User-located loop control mechanisms are equally writable in Java and C++.",
+        "Java has less reliable user-located loop control mechanisms than C++ does."
+      ]
     },
     {
       "question": 21,
       "marks": 1,
       "topic": "Ruby — yield",
       "answer": "3 2 1",
-      "explanation": "The `doSomething` subprogram uses `yield num` to pass the current value of `num` to an associated block. The block has one formal parameter and prints it followed by a space. Execution: num=3 → yield 3 → block prints '3 '; num=2 → yield 2 → block prints '2 '; num=1 → yield 1 → block prints '1 '; num=0 → loop exits. Output: 3 2 1 (with a trailing space after each number as specified)."
+      "explanation": "The `doSomething` subprogram uses `yield num` to pass the current value of `num` to an associated block. The block has one formal parameter and prints it followed by a space. Execution: num=3 → yield 3 → block prints '3 '; num=2 → yield 2 → block prints '2 '; num=1 → yield 1 → block prints '1 '; num=0 → loop exits. Output: 3 2 1 (with a trailing space after each number as specified).",
+      "question_text": "Consider the following program code in Ruby:\n\n```ruby\ndef doSomething()\n  num = 3\n  while num > 0\n      yield num\n      num = num - 1\n  end\nend\n```\n\nProvide the **output** if the `doSomething` subprogram is used with a block that has a single formal parameter and prints it followed by a single space. Provide just the numeric output, without any punctuation.",
+      "options": null
     },
     {
       "question": 22,
       "marks": 1,
       "topic": "Default Parameters and Keyword Parameters",
       "answer": "By using keyword parameters.",
-      "explanation": "Keyword parameters allow actual parameters to be matched to formal parameters by NAME rather than by position. This means a call like `myFunc(third=3, first=1)` is valid regardless of the order formal parameters are declared. If a formal parameter has a default value, it can be simply omitted from the call since it will be identified by the names of the others. This allows ANY parameter to be left out regardless of order — unlike positional parameters where only trailing ones can have defaults. Positional parameters require defaults at the END only, not in any position."
+      "explanation": "Keyword parameters allow actual parameters to be matched to formal parameters by NAME rather than by position. This means a call like `myFunc(third=3, first=1)` is valid regardless of the order formal parameters are declared. If a formal parameter has a default value, it can be simply omitted from the call since it will be identified by the names of the others. This allows ANY parameter to be left out regardless of order — unlike positional parameters where only trailing ones can have defaults. Positional parameters require defaults at the END only, not in any position.",
+      "question_text": "Some programming languages allow **default values** to be given to a formal parameter when an actual parameter is left out. Select the option that most correctly describes a mechanism that allows **any** actual parameter to be left out of a subprogram call, regardless of the order in which the formal parameters are listed.",
+      "options": [
+        "By using positional parameters.",
+        "By using keyword parameters.",
+        "It is impossible to allow any actual parameter to be left out of a subprogram call, regardless of the order in which the formal parameters are listed.",
+        "Subprograms always allow any actual parameter to be left out of a subprogram call, regardless of the order in which the formal parameters are listed."
+      ]
     },
     {
       "question": 23,
       "marks": 1,
       "topic": "Variable Number of Parameters in Ruby",
       "answer": "Ruby allows subprograms to have a variable number of parameters of any type because the parameters are stored in an array, and are all dynamically typed.",
-      "explanation": "In Ruby, a formal parameter preceded by `*` receives all extra actual parameters as an Array: `def tester(p1, *p3)` — p3 is an Array of the remaining args. Ruby is DYNAMICALLY typed — variables have no fixed type, so the array can hold objects of any type without restriction. This is different from a statically typed language where an array must have a fixed element type. Ruby's dynamic typing is the key reason any type can be mixed in the variable parameter array. (The chapter notes: 'In Ruby, actual parameters sent as elements of an Array; the array can contain mixed types.')"
+      "explanation": "In Ruby, a formal parameter preceded by `*` receives all extra actual parameters as an Array: `def tester(p1, *p3)` — p3 is an Array of the remaining args. Ruby is DYNAMICALLY typed — variables have no fixed type, so the array can hold objects of any type without restriction. This is different from a statically typed language where an array must have a fixed element type. Ruby's dynamic typing is the key reason any type can be mixed in the variable parameter array. (The chapter notes: 'In Ruby, actual parameters sent as elements of an Array; the array can contain mixed types.')",
+      "question_text": "Consider the following statements about **subprograms in Ruby**, and select the most correct.",
+      "options": [
+        "Ruby does not allow a subprogram to have a variable number of parameters.",
+        "Ruby allows subprograms to have a variable number of parameters, but all the parameters must have the same type because the parameters are stored in an array of a fixed type.",
+        "Ruby allows subprograms to have a variable number of parameters of any type because the parameters are stored in an array of objects.",
+        "Ruby allows subprograms to have a variable number of parameters of any type because the parameters are stored in an array, and are all dynamically typed."
+      ]
     },
     {
       "question": 24,
       "marks": 1,
       "topic": "Overloaded Subprograms in C++",
       "answer": "The fact that C++ performs a large number of coercions.",
-      "explanation": "In C++, overloaded functions are disambiguated by PARAMETER PROFILE only (not return type). The two `doSomething` functions have IDENTICAL parameter profiles `(int val)`. The reason return type cannot be used for disambiguation in C++ is that coercions are so prevalent — an int return could be coerced to float or vice versa, making return-type-based disambiguation unreliable and ambiguous. Because C++ performs many coercions, the compiler cannot safely use return type to choose between overloads. Ada, which has far fewer coercions, CAN use return type to disambiguate. The many coercions in C++ are the root cause of this limitation."
+      "explanation": "In C++, overloaded functions are disambiguated by PARAMETER PROFILE only (not return type). The two `doSomething` functions have IDENTICAL parameter profiles `(int val)`. The reason return type cannot be used for disambiguation in C++ is that coercions are so prevalent — an int return could be coerced to float or vice versa, making return-type-based disambiguation unreliable and ambiguous. Because C++ performs many coercions, the compiler cannot safely use return type to choose between overloads. Ada, which has far fewer coercions, CAN use return type to disambiguate. The many coercions in C++ are the root cause of this limitation.",
+      "question_text": "The following C++ program code is not legal:\n\n```cpp\nint doSomething(int val) {\n   return val + 2;\n}\n\nfloat doSomething(int val) {\n   return val + 1.0;\n}\n```\n\nSelect the option that most correctly describes the **underlying reason** for this being illegal.",
+      "options": [
+        "The fact that C++ does not support overloaded subprograms.",
+        "The fact that variables of different types cannot be added.",
+        "The fact that C++ performs a large number of coercions.",
+        "The fact that C++ performs no coercions."
+      ]
     },
     {
       "question": 25,
       "marks": 1,
       "topic": "Closures in JavaScript",
-      "answer": "The function `function(y) {return (10 + 20) - y;}`",
-      "explanation": "Calling `doSomething(10, 20)` returns an anonymous function (a closure) that captures `a=10` and `b=20` from the enclosing scope. The returned function is: `function(y) {return (a + b) - y;}` with a=10 and b=20 permanently bound. So `thing` is the function `function(y) {return (10 + 20) - y;}`. When `thing(5)` is called later, it returns 30-5=25. `thing` is NOT a reference to `doSomething` itself, and it IS a valid function — `y` is the parameter to be supplied when `thing` is called."
+      "answer": "The function function(y) {return (10 + 20) - y;}",
+      "explanation": "Calling `doSomething(10, 20)` returns an anonymous function (a closure) that captures `a=10` and `b=20` from the enclosing scope. The returned function is: `function(y) {return (a + b) - y;}` with a=10 and b=20 permanently bound. So `thing` is the function `function(y) {return (10 + 20) - y;}`. When `thing(5)` is called later, it returns 30-5=25. `thing` is NOT a reference to `doSomething` itself, and it IS a valid function — `y` is the parameter to be supplied when `thing` is called.",
+      "question_text": "Consider the following JavaScript program code:\n\n```javascript\nfunction doSomething(a, b) {\n   return function(y) {return (a + b) - y;}\n}\n\nvar thing = doSomething(10, 20);\n```\n\nSelect the option that most correctly describes what `thing` is.",
+      "options": [
+        "The function function(y) {return (a + b) - y;}",
+        "The function function(y) {return (10 + 20) - y;}",
+        "A reference to the doSomething function.",
+        "An invalid function, because a value for y cannot be specified."
+      ]
     },
     {
       "question": 26,
       "marks": 1,
       "topic": "Pass-by-Result Parameters",
       "answer": "Pass-by-result parameters can be passed using a physical copy or an access path.",
-      "explanation": "Pass-by-result (out mode) transmits a value FROM the formal parameter BACK TO the actual parameter when the subprogram returns. Two valid implementations: (1) Physical copy — the formal parameter's final value is copied to the actual parameter's memory location on return. This is the standard implementation. (2) Access path — store the address of the actual parameter at call time; on return, write the formal parameter's value through that stored address. Both work correctly for out-mode semantics. An access path does NOT create a functional side effect (changes only happen on return). Neither is strictly 'the only way' — both are valid."
+      "explanation": "Pass-by-result (out mode) transmits a value FROM the formal parameter BACK TO the actual parameter when the subprogram returns. Two valid implementations: (1) Physical copy — the formal parameter's final value is copied to the actual parameter's memory location on return. This is the standard implementation. (2) Access path — store the address of the actual parameter at call time; on return, write the formal parameter's value through that stored address. Both work correctly for out-mode semantics. An access path does NOT create a functional side effect (changes only happen on return). Neither is strictly 'the only way' — both are valid.",
+      "question_text": "Consider the following statements about **pass-by-result parameters**, and select the most correct.",
+      "options": [
+        "Pass-by-result parameters can be passed using a physical copy or an access path.",
+        "Pass-by-result parameters can be passed using only a physical copy because using an access path would create a functional side effect.",
+        "Pass-by-result parameters can be passed using only a physical copy because the formal parameter is deallocated once the function terminates.",
+        "Pass-by-result parameters can be passed using only an access path because a physical copy would take up additional memory and processing time.",
+        "Pass-by-result parameters can be passed using only an access path because a physical copy would cause the calling function to work with an out-of-date copy of the formal parameter."
+      ]
     },
     {
       "question": 27,
       "marks": 1,
       "topic": "Multidimensional Arrays as Parameters — C vs C#",
       "answer": "The approach to passing multidimensional arrays in C is less orthogonal than the approach used in C#.",
-      "explanation": "In C, passing a multidimensional array requires specifying all dimensions EXCEPT the first in the formal parameter: `void fun(int matrix[][10])`. This means you need DIFFERENT formal parameters for arrays of different sizes — a 5-column matrix and a 10-column matrix need different parameter declarations. Two separate mechanisms depending on array size is not orthogonal. In C#, arrays are objects with a `.Length` property — you pass them as plain array references with no size specification. One mechanism works for ALL array sizes → more orthogonal. The C approach is less writable (less flexible) and less orthogonal."
+      "explanation": "In C, passing a multidimensional array requires specifying all dimensions EXCEPT the first in the formal parameter: `void fun(int matrix[][10])`. This means you need DIFFERENT formal parameters for arrays of different sizes — a 5-column matrix and a 10-column matrix need different parameter declarations. Two separate mechanisms depending on array size is not orthogonal. In C#, arrays are objects with a `.Length` property — you pass them as plain array references with no size specification. One mechanism works for ALL array sizes → more orthogonal. The C approach is less writable (less flexible) and less orthogonal.",
+      "question_text": "Consider the following statements about **multidimensional arrays as subprogram parameters in C and C#**, and select the most correct.",
+      "options": [
+        "The approach to passing multidimensional arrays in C is more writable than the approach used in C#.",
+        "The approach to passing multidimensional arrays in C is more readable than the approach used in C#.",
+        "The approach to passing multidimensional arrays in C is more reliable than the approach used in C#.",
+        "The approach to passing multidimensional arrays in C is less orthogonal than the approach used in C#."
+      ]
     },
     {
       "question": 28,
       "marks": 2,
       "topic": "Implicit Name Collision in Multiple Inheritance",
-      "answer": ["Defining a method named `myMethod` in class A."],
-      "explanation": "An IMPLICIT name collision arises when the collision is a consequence of the inheritance structure itself, not because a programmer explicitly defined the same method in multiple places. In diamond inheritance (D inherits B and C, which both inherit from A): if ONLY A defines `myMethod`, then B inherits it from A and C inherits it from A. Now D inherits from both B and C — and gets TWO copies of A's `myMethod` through two paths. Nobody explicitly redefined it — the collision appeared implicitly from the diamond structure. Defining `myMethod` in B, C, or D would be explicit (deliberate) definitions, not implicit collisions."
+      "answer": [
+        "Defining a method named myMethod in class A."
+      ],
+      "explanation": "An IMPLICIT name collision arises when the collision is a consequence of the inheritance structure itself, not because a programmer explicitly defined the same method in multiple places. In diamond inheritance (D inherits B and C, which both inherit from A): if ONLY A defines `myMethod`, then B inherits it from A and C inherits it from A. Now D inherits from both B and C — and gets TWO copies of A's `myMethod` through two paths. Nobody explicitly redefined it — the collision appeared implicitly from the diamond structure. Defining `myMethod` in B, C, or D would be explicit (deliberate) definitions, not implicit collisions.",
+      "question_text": "Consider a hypothetical programming language that supports **multiple inheritance**. Four classes A, B, C, and D are defined. Classes B and C both inherit only from A. Class D inherits from both B and C. An **implicit name collision** is possible. Select **only** the implementation details that together result in an implicit name collision (not explicit). *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "Defining a method named myMethod in class A.",
+        "Defining a method named myMethod in class B.",
+        "Defining a method named myMethod in class C.",
+        "Defining a method named myMethod in class D."
+      ]
     },
     {
       "question": 29,
       "marks": 2,
       "topic": "Implementing Linked List Nodes",
-      "answer": ["A `struct` in C++", "A `class` in C++"],
-      "explanation": "A linked list node needs data field(s) and a self-referential pointer to the next node of the same type. (1) C++ `struct`: structs in C++ are almost identical to classes (only default access differs); they CAN have pointer members of the same struct type: `struct Node { int data; Node* next; };` — valid for linked list nodes. (2) C++ `class`: can have pointer members of the same class type — standard approach for linked lists. (3) C# `struct`: the slides explicitly state C# structs have 'No members referencing the struct itself' — you CANNOT have a `Node* next` field in a C# struct. (4) C++ `union`: shares memory among all members — having both data and next pointer would overlay them, destroying the data when next is accessed."
+      "answer": [
+        "A struct in C++",
+        "A class in C++"
+      ],
+      "explanation": "A linked list node needs data field(s) and a self-referential pointer to the next node of the same type. (1) C++ `struct`: structs in C++ are almost identical to classes (only default access differs); they CAN have pointer members of the same struct type: `struct Node { int data; Node* next; };` — valid for linked list nodes. (2) C++ `class`: can have pointer members of the same class type — standard approach for linked lists. (3) C# `struct`: the slides explicitly state C# structs have 'No members referencing the struct itself' — you CANNOT have a `Node* next` field in a C# struct. (4) C++ `union`: shares memory among all members — having both data and next pointer would overlay them, destroying the data when next is accessed.",
+      "question_text": "You wish to implement a linked list and its nodes. Select **only** the programming language constructs that can be used to implement the **linked list nodes**. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "A struct in C#",
+        "A struct in C++",
+        "A class in C++",
+        "A union in C++"
+      ]
     },
     {
       "question": 30,
       "marks": 1,
       "topic": "Ruby",
       "answer": "Ruby classes have very unreliable message interfaces.",
-      "explanation": "In Ruby, class definitions are EXECUTABLE — you can reopen any class at any time and add, remove, or redefine methods. This means the set of methods an object responds to can change during program execution. A method that exists at one point may not exist later (or vice versa). This makes it difficult to guarantee which messages an object will respond to, making the message interface unreliable. Ruby does NOT have efficient primitive types (everything is an object). Ruby does NOT support explicit heap deallocation (uses GC). Ruby uses ONLY dynamic message binding — the programmer cannot choose static binding."
+      "explanation": "In Ruby, class definitions are EXECUTABLE — you can reopen any class at any time and add, remove, or redefine methods. This means the set of methods an object responds to can change during program execution. A method that exists at one point may not exist later (or vice versa). This makes it difficult to guarantee which messages an object will respond to, making the message interface unreliable. Ruby does NOT have efficient primitive types (everything is an object). Ruby does NOT support explicit heap deallocation (uses GC). Ruby uses ONLY dynamic message binding — the programmer cannot choose static binding.",
+      "question_text": "Consider the following statements about **Ruby**, and select the most correct.",
+      "options": [
+        "Ruby has highly efficient primitive types.",
+        "Ruby has support for a programmer to explicitly allocate and deallocate heap memory for objects.",
+        "Ruby allows the programmer to choose between dynamic and static message binding.",
+        "Ruby classes have very unreliable message interfaces."
+      ]
     },
     {
       "question": 31,
       "marks": 1,
       "topic": "Java vs C++ OOP",
       "answer": "Java supports some of the benefits of multiple inheritance, while preventing name collisions.",
-      "explanation": "Java does not support multiple class inheritance, but it supports implementing MULTIPLE INTERFACES. Interfaces provide benefits of multiple inheritance: a class can take on multiple types, and clients can treat objects as any of those types. Before Java 8, interfaces contained only method DECLARATIONS and named constants — no state (instance variables). This means there is no competing state from multiple 'parents', which is the main source of name collisions in multiple inheritance. Java thus gets many benefits of multiple inheritance while avoiding name collision problems. Java uses objects MORE exclusively than C++ (not less). Java does NOT exclusively use dynamic binding (final/private/static methods use static binding)."
+      "explanation": "Java does not support multiple class inheritance, but it supports implementing MULTIPLE INTERFACES. Interfaces provide benefits of multiple inheritance: a class can take on multiple types, and clients can treat objects as any of those types. Before Java 8, interfaces contained only method DECLARATIONS and named constants — no state (instance variables). This means there is no competing state from multiple 'parents', which is the main source of name collisions in multiple inheritance. Java thus gets many benefits of multiple inheritance while avoiding name collision problems. Java uses objects MORE exclusively than C++ (not less). Java does NOT exclusively use dynamic binding (final/private/static methods use static binding).",
+      "question_text": "Consider the following statements about **Java and C++**, and select the most correct.",
+      "options": [
+        "Java uses objects less exclusively than C++.",
+        "Java supports some of the benefits of multiple inheritance, while preventing name collisions.",
+        "Java supports some of the benefits of multiple inheritance, but does not prevent name collisions.",
+        "Java exclusively supports dynamic message binding, while C++ allows the programmer to choose between dynamic and static message binding."
+      ]
     }
   ]
 }

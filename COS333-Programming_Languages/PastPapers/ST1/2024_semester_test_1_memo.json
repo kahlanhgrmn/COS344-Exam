@@ -4,84 +4,163 @@
   "date": "10 April 2024",
   "duration": "1.5 hours",
   "total_marks": 35,
-  "source_chapters": ["Chapter 1 (all parts)", "Chapter 2 (all parts)", "Chapter 15 (Parts 1 & 2)"],
+  "source_chapters": [
+    "Chapter 1 (all parts)",
+    "Chapter 2 (all parts)",
+    "Chapter 15 (Parts 1 & 2)"
+  ],
   "questions": [
     {
       "question": 1,
       "marks": 1,
       "topic": "Reasons for Studying Programming Languages",
       "answer": "Increased ability to learn new languages",
-      "explanation": "The developer was trained in-house to use only C and now must switch to C# — a completely new language. The most relevant reason is 'Increased ability to learn new languages': understanding general language concepts reduces the time and effort required to pick up a new language. Reasons like 'choosing appropriate languages' don't apply because this developer does not manage projects and cannot choose which language is used."
+      "explanation": "The developer was trained in-house to use only C and now must switch to C# — a completely new language. The most relevant reason is 'Increased ability to learn new languages': understanding general language concepts reduces the time and effort required to pick up a new language. Reasons like 'choosing appropriate languages' don't apply because this developer does not manage projects and cannot choose which language is used.",
+      "question_text": "Imagine that a senior developer has worked at a company for many years, but does not manage projects. The developer was originally trained by the company to use C, and has only ever used C. A decision is made to use C# on the next project.\n\nIdentify the **most important reason for studying concepts of programming languages** that is applicable to this developer.",
+      "options": null
     },
     {
       "question": 2,
       "marks": 1,
       "topic": "Orthogonality",
       "answer": "Programming language B is more orthogonal than A, primarily because more combinations of constructs are legal in B.",
-      "explanation": "Orthogonality means a small set of primitive constructs that can be combined freely, with every combination being legal. Language B has a single array construct (single-dimensional arrays) that can hold both primitive values AND other single-dimensional arrays — so arrays-of-arrays is a legal combination. Language A needs a second, separate construct for 2D arrays, meaning combining two 1D arrays is NOT a legal combination. B achieves the same result with fewer constructs and more legal combinations, making it more orthogonal. Note: fewer constructs alone does not guarantee orthogonality — what matters is that combinations are legal."
+      "explanation": "Orthogonality means a small set of primitive constructs that can be combined freely, with every combination being legal. Language B has a single array construct (single-dimensional arrays) that can hold both primitive values AND other single-dimensional arrays — so arrays-of-arrays is a legal combination. Language A needs a second, separate construct for 2D arrays, meaning combining two 1D arrays is NOT a legal combination. B achieves the same result with fewer constructs and more legal combinations, making it more orthogonal. Note: fewer constructs alone does not guarantee orthogonality — what matters is that combinations are legal.",
+      "question_text": "Assume two hypothetical programming languages, A and B, both supporting primitive numeric values. Language A supports single-dimensional arrays and two-dimensional arrays as two separate data types. Language B supports only single-dimensional arrays, which can store primitive numeric values as well as other single-dimensional arrays. Select the most correct statement.",
+      "options": [
+        "Programming language A is more orthogonal than B, primarily because A allows two-dimensional arrays to be represented while B does not.",
+        "Programming language A is more orthogonal than B, primarily because more combinations of constructs are legal in A.",
+        "Programming language B is more orthogonal than A, primarily because more combinations of constructs are legal in B.",
+        "Programming language B is more orthogonal than A, primarily because B has fewer constructs than A."
+      ]
     },
     {
       "question": 3,
       "marks": 1,
       "topic": "Data Types and Readability",
       "answer": "This language has reduced readability because a Boolean value needs to be represented in a less natural way.",
-      "explanation": "A language without a Boolean type can still represent true/false using integers (0 and 1) or similar — so Boolean values CANNOT be said to be impossible to represent. However, using an integer to mean 'true' or 'false' is unnatural and harder to read than a dedicated Boolean keyword. This reduces readability (not writability), because the reader has to interpret the numeric value as a logical meaning. Writability is less impacted because the programmer can still express the logic — it is just less clear."
+      "explanation": "A language without a Boolean type can still represent true/false using integers (0 and 1) or similar — so Boolean values CANNOT be said to be impossible to represent. However, using an integer to mean 'true' or 'false' is unnatural and harder to read than a dedicated Boolean keyword. This reduces readability (not writability), because the reader has to interpret the numeric value as a logical meaning. Writability is less impacted because the programmer can still express the logic — it is just less clear.",
+      "question_text": "Consider a hypothetical programming language that does **not** have a separate Boolean data type. Select the most correct statement.",
+      "options": [
+        "This language has reduced readability because a Boolean value cannot be represented.",
+        "This language has reduced readability because a Boolean value needs to be represented in a less natural way.",
+        "This language has reduced writability because a Boolean value cannot be represented.",
+        "This language has reduced writability because a Boolean value needs to be represented in a less natural way."
+      ]
     },
     {
       "question": 4,
       "marks": 1,
       "topic": "OOP and Readability",
       "answer": "Imperative languages that support OOP can be considered more readable than those that do not.",
-      "explanation": "OOP provides data abstraction through classes and encapsulation, allowing complex behavior to be grouped under meaningful names. This gives programs a clearer, more organised structure, making them easier to read and understand. OOP also increases writability (via abstraction), but the question asks which statement is most correct — improved organisation and meaning through classes, methods, and access modifiers contributes most directly to readability."
+      "explanation": "OOP provides data abstraction through classes and encapsulation, allowing complex behavior to be grouped under meaningful names. This gives programs a clearer, more organised structure, making them easier to read and understand. OOP also increases writability (via abstraction), but the question asks which statement is most correct — improved organisation and meaning through classes, methods, and access modifiers contributes most directly to readability.",
+      "question_text": "Compare imperative programming languages that **support** object-oriented programming with those that **do not**. Select the most correct statement.",
+      "options": [
+        "Imperative languages that support OOP can be considered less readable than those that do not.",
+        "Imperative languages that support OOP can be considered more readable than those that do not.",
+        "Imperative languages that support OOP can be considered less writable than those that do not.",
+        "Imperative languages that support OOP can be considered exactly as writable as those that do not."
+      ]
     },
     {
       "question": 5,
       "marks": 1,
       "topic": "Type Checking and Cost",
       "answer": "Good support for type checking will negatively impact the execution cost of a programming language.",
-      "explanation": "Better type checking — especially runtime checking — adds overhead at execution time. The classic example (from the slides) is Java, which checks every array index access at runtime to ensure it is within bounds. This improves reliability but increases the cost of executing the program. Type checking does NOT hurt readability (it helps it), does NOT hurt reliability (it improves it), and does NOT increase maintenance cost (it reduces it by catching errors early)."
+      "explanation": "Better type checking — especially runtime checking — adds overhead at execution time. The classic example (from the slides) is Java, which checks every array index access at runtime to ensure it is within bounds. This improves reliability but increases the cost of executing the program. Type checking does NOT hurt readability (it helps it), does NOT hurt reliability (it improves it), and does NOT increase maintenance cost (it reduces it by catching errors early).",
+      "question_text": "Many modern languages have good support for type checking, while some older languages did not. Generally, better type checking is considered beneficial. Consider the following statements about **potential disadvantages** of better type checking, and select the most correct.",
+      "options": [
+        "Good support for type checking will negatively impact the readability of a programming language.",
+        "Good support for type checking will negatively impact the reliability of a programming language.",
+        "Good support for type checking will negatively impact the cost of maintenance of a programming language.",
+        "Good support for type checking will negatively impact the execution cost of a programming language."
+      ]
     },
     {
       "question": 6,
       "marks": 1,
       "topic": "Cost of Programming Languages (Modern Context)",
       "answer": "Cost of reliability",
-      "explanation": "In the modern era, hardware is cheap and fast, so execution costs and compilation costs are relatively trivial. Free, high-quality compilers/interpreters are widely available. However, the cost of unreliable software — crashes, security breaches, financial errors, regulatory penalties — is enormous, especially as software runs critical infrastructure. Poor reliability leads to expensive maintenance, emergency patches, and reputational damage. Therefore, reliability is the most important cost factor in a modern context."
+      "explanation": "In the modern era, hardware is cheap and fast, so execution costs and compilation costs are relatively trivial. Free, high-quality compilers/interpreters are widely available. However, the cost of unreliable software — crashes, security breaches, financial errors, regulatory penalties — is enormous, especially as software runs critical infrastructure. Poor reliability leads to expensive maintenance, emergency patches, and reputational damage. Therefore, reliability is the most important cost factor in a modern context.",
+      "question_text": "Consider the following contributing factors to the cost of a programming language, and select the **most important one in a modern context**.",
+      "options": [
+        "Cost of training programmers to use the language",
+        "Cost of reliability",
+        "Cost of compiling programs",
+        "Cost of executing programs"
+      ]
     },
     {
       "question": 7,
       "marks": 1,
       "topic": "Well-Definedness",
       "answer": "Systems programming",
-      "explanation": "Well-definedness refers to how completely and precisely a language's official specification defines its behaviour. In systems programming (operating systems, device drivers, embedded firmware), code runs close to the hardware and often depends on exact, deterministic language behaviour. Undefined behaviour in systems languages like C is a primary source of critical security vulnerabilities (e.g., buffer overflows, use-after-free bugs). A well-defined language removes these ambiguities, directly improving the safety and correctness of systems code."
+      "explanation": "Well-definedness refers to how completely and precisely a language's official specification defines its behaviour. In systems programming (operating systems, device drivers, embedded firmware), code runs close to the hardware and often depends on exact, deterministic language behaviour. Undefined behaviour in systems languages like C is a primary source of critical security vulnerabilities (e.g., buffer overflows, use-after-free bugs). A well-defined language removes these ambiguities, directly improving the safety and correctness of systems code.",
+      "question_text": "An additional evaluation criterion not heavily focused on in this course is **well-definedness**. Consider the following programming domains, and select the one that **benefits the most** from improved well-definedness.",
+      "options": [
+        "Business applications",
+        "Artificial intelligence",
+        "Systems programming",
+        "Web software"
+      ]
     },
     {
       "question": 8,
       "marks": 1,
       "topic": "Influences on Language Design",
       "answer": "Computer architecture",
-      "explanation": "The earliest scientific languages — especially Fortran — were designed directly around the hardware available at the time (the IBM 704). Machine efficiency was the primary concern: programs had to run fast on the available hardware. The von Neumann architecture (data and programs stored in memory, piped to the CPU) directly shaped imperative language design. Programming methodologies and OOP came much later; they were not relevant to the earliest languages."
+      "explanation": "The earliest scientific languages — especially Fortran — were designed directly around the hardware available at the time (the IBM 704). Machine efficiency was the primary concern: programs had to run fast on the available hardware. The von Neumann architecture (data and programs stored in memory, piped to the CPU) directly shaped imperative language design. Programming methodologies and OOP came much later; they were not relevant to the earliest languages.",
+      "question_text": "Various factors can influence programming language design. Select the influence that had the **greatest impact** on the design of the earliest programming languages for scientific applications.",
+      "options": [
+        "Computer architecture",
+        "Programmer efficiency becoming more important than machine efficiency",
+        "The move from process-oriented programming to data-oriented programming",
+        "The move to object-oriented programming"
+      ]
     },
     {
       "question": 9,
       "marks": 2,
       "topic": "Portability and Implementation Methods",
-      "answer": ["Pure interpretation", "Hybrid implementation systems"],
-      "explanation": "Compilation translates source code into machine code specific to a hardware platform — the resulting binary is NOT portable. Pure interpretation runs the original source code using an interpreter program; the interpreter itself can be ported to any platform, so the source program runs anywhere. Hybrid systems (like Java) compile to a platform-independent intermediate form (bytecode) that runs on any machine with the virtual machine installed — also highly portable. Both pure interpretation and hybrid systems are therefore well suited to portability."
+      "answer": [
+        "Pure interpretation",
+        "Hybrid implementation systems"
+      ],
+      "explanation": "Compilation translates source code into machine code specific to a hardware platform — the resulting binary is NOT portable. Pure interpretation runs the original source code using an interpreter program; the interpreter itself can be ported to any platform, so the source program runs anywhere. Hybrid systems (like Java) compile to a platform-independent intermediate form (bytecode) that runs on any machine with the virtual machine installed — also highly portable. Both pure interpretation and hybrid systems are therefore well suited to portability.",
+      "question_text": "Consider programming languages in which **portability** is very important, and select **only** the implementation methods that are well suited for these types of languages. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "Compilation",
+        "Pure interpretation",
+        "Hybrid implementation systems",
+        "No current implementation system is well suited for portability"
+      ]
     },
     {
       "question": 10,
       "marks": 1,
       "topic": "Programming Environments",
       "answer": "The NetBeans programming environment is less time consuming for most programmers to use than the UNIX programming environment.",
-      "explanation": "NetBeans is a fully integrated IDE (Integrated Development Environment) that combines an editor, compiler, debugger, GUI builder, and other tools in a single visual interface. UNIX requires programmers to use separate command-line tools (text editor, make, gdb, etc.) and manage the workflow manually. For most programmers, the all-in-one NetBeans environment is less time consuming than assembling and switching between individual UNIX tools. NetBeans is MORE integrated and MORE visual than UNIX, not less."
+      "explanation": "NetBeans is a fully integrated IDE (Integrated Development Environment) that combines an editor, compiler, debugger, GUI builder, and other tools in a single visual interface. UNIX requires programmers to use separate command-line tools (text editor, make, gdb, etc.) and manage the workflow manually. For most programmers, the all-in-one NetBeans environment is less time consuming than assembling and switching between individual UNIX tools. NetBeans is MORE integrated and MORE visual than UNIX, not less.",
+      "question_text": "Consider the following statements about the **NetBeans and UNIX** programming environments, and select the most correct.",
+      "options": [
+        "The NetBeans programming environment is less integrated than the UNIX programming environment.",
+        "The NetBeans programming environment is less user friendly for most programmers than the UNIX programming environment.",
+        "The NetBeans programming environment is less time consuming for most programmers to use than the UNIX programming environment.",
+        "The NetBeans programming environment is less visual than the UNIX programming environment."
+      ]
     },
     {
       "question": 11,
       "marks": 1,
       "topic": "Plankalkül vs Fortran I",
       "answer": "Plankalkül had better support for data structures than Fortran I.",
-      "explanation": "Plankalkül (designed by Konrad Zuse) supported arrays, matrices, and composite data structures — sophisticated for its time. Fortran I had minimal data structure support: no explicit type declarations (type was inferred from the first letter of the variable name — I through N for integers, others for floating point), no user-defined structures, and only basic array handling. Plankalkül was never widely used (certainly less so than Fortran I), and while it was expressive, its complex table-based notation was not particularly writable or readable."
+      "explanation": "Plankalkül (designed by Konrad Zuse) supported arrays, matrices, and composite data structures — sophisticated for its time. Fortran I had minimal data structure support: no explicit type declarations (type was inferred from the first letter of the variable name — I through N for integers, others for floating point), no user-defined structures, and only basic array handling. Plankalkül was never widely used (certainly less so than Fortran I), and while it was expressive, its complex table-based notation was not particularly writable or readable.",
+      "question_text": "Compare **Plankalkül and Fortran I**. Select the most correct statement.",
+      "options": [
+        "Plankalkül was more writable than Fortran I.",
+        "Plankalkül was less readable than Fortran I.",
+        "Plankalkül had better support for data structures than Fortran I.",
+        "Plankalkül was more widely used than Fortran I."
+      ]
     },
     {
       "question": 12,
@@ -91,7 +170,14 @@
         "Some pseudocode languages were far less writable than high-level programming languages.",
         "The computers that all pseudocode languages were designed to run on did not have hardware support for floating point calculations."
       ],
-      "explanation": "Pseudocodes (late 1940s/early 1950s) were used on computers that lacked hardware floating point and array indexing, so these had to be handled in software by an interpreter — making pseudocodes slow. When the IBM 704 arrived with hardware floating point, there was no more need to hide the cost of software FP interpretation, leading to the idea of compiled languages (Fortran). Pseudocodes were also much less writable than real high-level languages, making Fortran and COBOL far more attractive. The claim that 'no pseudocode languages had any support for indexing arrays' is FALSE — pseudocodes provided array indexing in software. The option about 'expanded into machine code' describes a property of some pseudocodes but does not explain why high-level languages replaced them."
+      "explanation": "Pseudocodes (late 1940s/early 1950s) were used on computers that lacked hardware floating point and array indexing, so these had to be handled in software by an interpreter — making pseudocodes slow. When the IBM 704 arrived with hardware floating point, there was no more need to hide the cost of software FP interpretation, leading to the idea of compiled languages (Fortran). Pseudocodes were also much less writable than real high-level languages, making Fortran and COBOL far more attractive. The claim that 'no pseudocode languages had any support for indexing arrays' is FALSE — pseudocodes provided array indexing in software. The option about 'expanded into machine code' describes a property of some pseudocodes but does not explain why high-level languages replaced them.",
+      "question_text": "Pseudocode languages were quickly replaced by high-level languages like Fortran and COBOL. Select **only** the factors that contributed to this replacement. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "Some pseudocode languages were far less writable than high-level programming languages.",
+        "Some pseudocode language programs were expanded into machine code.",
+        "The computers that all pseudocode languages were designed to run on did not have hardware support for floating point calculations.",
+        "No pseudocode languages had any support for indexing arrays."
+      ]
     },
     {
       "question": 13,
@@ -103,7 +189,14 @@
         "Fortran 90 added support for recursion.",
         "Fortran 90 added support for dynamic arrays."
       ],
-      "explanation": "Earlier Fortran versions prioritised machine efficiency above all else: all types and storage were fixed before runtime (no dynamic allocation), and recursion was forbidden (both require runtime stack management). Fortran 90 broke these constraints by adding recursion (requires dynamic stack) and dynamic arrays (runtime allocation) — directly contradicting the machine efficiency focus. Relaxing the fixed code format (a legacy of punch-card column rules) improved programmer readability/writability. The CASE statement gave programmers a more natural multi-way selector. All four features represent a shift in priority toward programmer convenience over raw machine efficiency."
+      "explanation": "Earlier Fortran versions prioritised machine efficiency above all else: all types and storage were fixed before runtime (no dynamic allocation), and recursion was forbidden (both require runtime stack management). Fortran 90 broke these constraints by adding recursion (requires dynamic stack) and dynamic arrays (runtime allocation) — directly contradicting the machine efficiency focus. Relaxing the fixed code format (a legacy of punch-card column rules) improved programmer readability/writability. The CASE statement gave programmers a more natural multi-way selector. All four features represent a shift in priority toward programmer convenience over raw machine efficiency.",
+      "question_text": "Fortran 90 was the first version of Fortran to move away from the most important programming language design concern focused on by earlier versions. Select **only** the statements that contributed to this change of focus in Fortran 90. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "Fortran 90 relaxed the fixed code format requirements of earlier versions.",
+        "Fortran 90 added support for a CASE statement.",
+        "Fortran 90 added support for recursion.",
+        "Fortran 90 added support for dynamic arrays."
+      ]
     },
     {
       "question": 14,
@@ -113,70 +206,130 @@
         "LISP supports symbolic values.",
         "LISP supports the representation and processing of lists."
       ],
-      "explanation": "LISP was designed specifically for AI research because AI needed: (1) symbolic computation rather than numeric — LISP's atoms are symbols representing abstract concepts, and (2) list processing rather than array processing — AI programs represent knowledge as linked lists of symbols. These two features directly correspond to the options. 'LISP does not support variables' is about functional programming purity, not specifically AI usefulness. 'LISP is based on lambda calculus' is about its mathematical foundation, which influenced its design but is not the primary reason it is useful for AI applications."
+      "explanation": "LISP was designed specifically for AI research because AI needed: (1) symbolic computation rather than numeric — LISP's atoms are symbols representing abstract concepts, and (2) list processing rather than array processing — AI programs represent knowledge as linked lists of symbols. These two features directly correspond to the options. 'LISP does not support variables' is about functional programming purity, not specifically AI usefulness. 'LISP is based on lambda calculus' is about its mathematical foundation, which influenced its design but is not the primary reason it is useful for AI applications.",
+      "question_text": "LISP was originally designed for artificial intelligence programming. Select **only** the factors that most directly contribute to the usefulness of LISP in this domain. *(Incorrectly selected options will be penalised.)*",
+      "options": [
+        "LISP supports symbolic values.",
+        "LISP does not support variables.",
+        "LISP is based on lambda calculus.",
+        "LISP supports the representation and processing of lists."
+      ]
     },
     {
       "question": 15,
       "marks": 1,
       "topic": "ALGOL 60 Contributions",
       "answer": "ALGOL 60 was very well suited to describing and communicating algorithms.",
-      "explanation": "ALGOL 60 was the standard notation for publishing algorithms in academic papers and textbooks for over 20 years. Its clean, mathematical syntax made it ideal for expressing algorithms clearly. It was NOT well-suited for I/O (it had none), it was machine-independent (not platform-specific), and while it was eventually translatable to machine code, that is not its defining contribution. BNF — formally defined syntax — was a contribution, but 'describing and communicating algorithms' is the most widely recognised impact."
+      "explanation": "ALGOL 60 was the standard notation for publishing algorithms in academic papers and textbooks for over 20 years. Its clean, mathematical syntax made it ideal for expressing algorithms clearly. It was NOT well-suited for I/O (it had none), it was machine-independent (not platform-specific), and while it was eventually translatable to machine code, that is not its defining contribution. BNF — formally defined syntax — was a contribution, but 'describing and communicating algorithms' is the most widely recognised impact.",
+      "question_text": "ALGOL 60 made several contributions to the field of programming languages. Select the statement that most correctly describes a contribution made by ALGOL 60.",
+      "options": [
+        "ALGOL 60 had well-defined I/O operations.",
+        "ALGOL 60 demonstrated that a programming language could be designed well for a specific hardware platform.",
+        "ALGOL 60 was very well suited to describing and communicating algorithms.",
+        "ALGOL 60 was translatable to machine code."
+      ]
     },
     {
       "question": 16,
       "marks": 1,
       "topic": "ALGOL 68 vs PL/I",
       "answer": "ALGOL 68 was more orthogonal than PL/I.",
-      "explanation": "PL/I took the approach of combining as many constructs as possible from different languages into one — it included many specific data structures explicitly, resulting in a large, complex language. ALGOL 68 instead used orthogonality: a small set of primitive constructs that could be freely combined to create any data structure needed. This allowed ALGOL 68 to support general-purpose data structures without explicitly including each one. Orthogonality — not more constructs — is the key difference and ALGOL 68's superior approach."
+      "explanation": "PL/I took the approach of combining as many constructs as possible from different languages into one — it included many specific data structures explicitly, resulting in a large, complex language. ALGOL 68 instead used orthogonality: a small set of primitive constructs that could be freely combined to create any data structure needed. This allowed ALGOL 68 to support general-purpose data structures without explicitly including each one. Orthogonality — not more constructs — is the key difference and ALGOL 68's superior approach.",
+      "question_text": "Both PL/I and ALGOL 68 aimed to support a variety of general-purpose data structures, but ALGOL 68 used a better approach. Select the factor that most contributed to ALGOL 68's superiority.",
+      "options": [
+        "ALGOL 68 combined many more data structure-related constructs than PL/I.",
+        "ALGOL 68 was more orthogonal than PL/I.",
+        "ALGOL 68 had data structures with a lower execution cost than those provided by PL/I.",
+        "ALGOL 68 supported data abstraction, while PL/I did not."
+      ]
     },
     {
       "question": 17,
       "marks": 1,
       "topic": "Pascal vs C",
       "answer": "Pascal is more reliable than C.",
-      "explanation": "Pascal was designed by Wirth for teaching structured programming with an emphasis on clarity and correctness. It has strong type checking, no pointer arithmetic, and clean control structures. C, by contrast, has weak type checking, pointer arithmetic (which allows memory corruption), implicit type coercions, and many operations with undefined behaviour. These features make C powerful and writable, but significantly reduce reliability. Pascal sacrifices some writability/flexibility to gain reliability."
+      "explanation": "Pascal was designed by Wirth for teaching structured programming with an emphasis on clarity and correctness. It has strong type checking, no pointer arithmetic, and clean control structures. C, by contrast, has weak type checking, pointer arithmetic (which allows memory corruption), implicit type coercions, and many operations with undefined behaviour. These features make C powerful and writable, but significantly reduce reliability. Pascal sacrifices some writability/flexibility to gain reliability.",
+      "question_text": "Consider the following statements about **Pascal and C**, and select the most correct.",
+      "options": [
+        "Pascal is more readable than C.",
+        "Pascal is more writable than C.",
+        "Pascal is more reliable than C.",
+        "Pascal has a lower cost of writing programs than C."
+      ]
     },
     {
       "question": 18,
       "marks": 1,
       "topic": "Java vs C++",
       "answer": "Java uses the concepts of object-oriented programming more consistently than C++.",
-      "explanation": "Java was designed from scratch as a purely object-oriented language: everything (except primitives) is an object, there are no global functions, and OOP concepts like encapsulation and inheritance are central to the language. C++ grafted OOP features onto the existing C language, so it supports procedural, OOP, and generic styles simultaneously — making OOP use optional and inconsistent. Java is also MORE portable (via JVM) and MORE reliable than C++, not less."
+      "explanation": "Java was designed from scratch as a purely object-oriented language: everything (except primitives) is an object, there are no global functions, and OOP concepts like encapsulation and inheritance are central to the language. C++ grafted OOP features onto the existing C language, so it supports procedural, OOP, and generic styles simultaneously — making OOP use optional and inconsistent. Java is also MORE portable (via JVM) and MORE reliable than C++, not less.",
+      "question_text": "Consider the following statements about **Java and C++**, and select the most correct.",
+      "options": [
+        "Java is less reliable than C++.",
+        "Java is less readable than C++.",
+        "Java uses the concepts of object-oriented programming more consistently than C++.",
+        "Java is less portable than C++."
+      ]
     },
     {
       "question": 19,
       "marks": 1,
       "topic": "Scheme — Parameter Mutation",
       "answer": "It is impossible to achieve this in Scheme.",
-      "explanation": "Scheme is a pure functional programming language. Functions cannot produce side effects — they cannot modify parameters in the calling environment, global state, or any variable outside themselves. Parameters in Scheme are bound, not variable: they behave like constants within the function. A `let` only creates local name bindings inside the function. A `define` inside a function creates or rebinds a global name, but this still cannot change what `aValue` refers to at the call site. Arithmetic on `aValue` produces a new value but does not modify `aValue`."
+      "explanation": "Scheme is a pure functional programming language. Functions cannot produce side effects — they cannot modify parameters in the calling environment, global state, or any variable outside themselves. Parameters in Scheme are bound, not variable: they behave like constants within the function. A `let` only creates local name bindings inside the function. A `define` inside a function creates or rebinds a global name, but this still cannot change what `aValue` refers to at the call site. Arithmetic on `aValue` produces a new value but does not modify `aValue`.",
+      "question_text": "Imagine you apply a function to a parameter in Scheme:\n\n```scheme\n(doSomething aValue)\n```\n\nYou want the `doSomething` function to **change the value of `aValue`**. Select the most correct statement.",
+      "options": [
+        "You can achieve this by using a let within the definition of doSomething.",
+        "You can achieve this by using a define within the definition of doSomething.",
+        "You can achieve this by performing an arithmetic operation on aValue within doSomething.",
+        "It is impossible to achieve this in Scheme."
+      ]
     },
     {
       "question": 20,
       "marks": 1,
       "topic": "Scheme — Functions vs Operators",
       "answer": "The addition operation is always implemented as a function in Scheme.",
-      "explanation": "In Scheme, there are NO operators — everything is a function. The `+` symbol is the name of a predefined function that takes numeric parameters and returns their sum. It is called using the same prefix notation as any other function: `(+ 5 2)` yields 7. This is consistent across all Scheme implementations — there is no case where `+` behaves as an operator. It is also not a predicate (predicates return Boolean values)."
+      "explanation": "In Scheme, there are NO operators — everything is a function. The `+` symbol is the name of a predefined function that takes numeric parameters and returns their sum. It is called using the same prefix notation as any other function: `(+ 5 2)` yields 7. This is consistent across all Scheme implementations — there is no case where `+` behaves as an operator. It is also not a predicate (predicates return Boolean values).",
+      "question_text": "Consider the following statements about the **addition operation in Scheme**, and select the most correct.",
+      "options": [
+        "The addition operation is always implemented as an operator in Scheme.",
+        "The addition operation is always implemented as a function in Scheme.",
+        "The addition operation is implemented as either an operator or a function in Scheme, depending on the interpreter or compiler being used.",
+        "The addition operation is implemented as a predicate in Scheme."
+      ]
     },
     {
       "question": 21,
       "marks": 1,
       "topic": "Scheme — eval and Quoted Lists",
-      "answer": "You can achieve this by applying the `eval` function to the list parameter within the definition of `doSomething`.",
-      "explanation": "The quote (`'`) prevents evaluation: `'(* 3 4)` is a list of three atoms — the symbol `*`, the number 3, and the number 4. It is NOT automatically evaluated when passed. To perform the multiplication described in the list, you must explicitly call `(eval listParameter)` inside `doSomething`. The `eval` function treats its argument as a Scheme expression and evaluates it, returning 12. Providing the list name in parentheses would try to call it as a function (incorrect). The multiplication is NOT performed automatically."
+      "answer": "You can achieve this by applying the eval function to the list parameter within the definition of doSomething.",
+      "explanation": "The quote (`'`) prevents evaluation: `'(* 3 4)` is a list of three atoms — the symbol `*`, the number 3, and the number 4. It is NOT automatically evaluated when passed. To perform the multiplication described in the list, you must explicitly call `(eval listParameter)` inside `doSomething`. The `eval` function treats its argument as a Scheme expression and evaluates it, returning 12. Providing the list name in parentheses would try to call it as a function (incorrect). The multiplication is NOT performed automatically.",
+      "question_text": "Imagine you apply a function to a list parameter in Scheme:\n\n```scheme\n(doSomething '(* 3 4))\n```\n\nYou wish to **perform the multiplication** described in the list parameter. Select the most correct statement.",
+      "options": [
+        "The multiplication is automatically performed before the list is passed to doSomething.",
+        "You can achieve this by providing the name of the list parameter in parentheses within the definition of doSomething.",
+        "You can achieve this by applying the eval function to the list parameter within the definition of doSomething.",
+        "It is impossible to achieve this in Scheme."
+      ]
     },
     {
       "question": 22,
       "marks": 5,
       "topic": "Scheme — Arithmetic Function (coneVolume)",
       "answer": "(define (coneVolume radius height)\n  (let\n    ((third (/ 1 3))\n     (pi (/ 22 7)))\n    (if (or (negative? radius) (negative? height))\n      0\n      (* third pi (* radius radius) height)\n    )\n  )\n)",
-      "explanation": "Key points: (1) Use `let` (not `define`) to bind `third` to `(/ 1 3)` and `pi` to `(/ 22 7)` — these are local name bindings within the function body. (2) Use `negative?` to test whether either parameter is negative, combined with `or` since either being negative means the result should be 0. (3) The volume formula `(1/3) * pi * r^2 * h` is written as `(* third pi (* radius radius) height)` — everything is a function in Scheme, including multiplication. (4) The `if` returns the value of whichever branch evaluates: 0 if negative, otherwise the volume."
+      "explanation": "Key points: (1) Use `let` (not `define`) to bind `third` to `(/ 1 3)` and `pi` to `(/ 22 7)` — these are local name bindings within the function body. (2) Use `negative?` to test whether either parameter is negative, combined with `or` since either being negative means the result should be 0. (3) The volume formula `(1/3) * pi * r^2 * h` is written as `(* third pi (* radius radius) height)` — everything is a function in Scheme, including multiplication. (4) The `if` returns the value of whichever branch evaluates: 0 if negative, otherwise the volume.",
+      "question_text": "Write a Scheme function named `coneVolume`, which receives two numeric parameters: the **radius** of the circular base and the **height** of the cone. The function should yield (not print) the volume of the cone:\n\n```\nvolume = (1/3) * pi * r^2 * h\n```\n\nThe function should yield `0` if either the radius or height is negative. Use a `let` (not `define`) to bind `1/3` to the name `third` and `22/7` to the name `pi`.\n\n*Example:* `(coneVolume 2.8 1.7)` should yield approximately `13.962666666666665`.\n\n**Allowed built-in functions:**\n- **Function construction:** `lambda`, `define`\n- **Binding:** `let`\n- **Arithmetic:** `+`, `-`, `*`, `/`, `abs`, `sqrt`, `remainder`, `modulo`, `min`, `max`\n- **Boolean values:** `#t`, `#f`\n- **Equality predicates:** `=`, `>`, `<`, `>=`, `<=`, `even?`, `odd?`, `zero?`, `negative?`, `eqv?`, `eq?`\n- **Logical predicates:** `and`, `or`, `not`\n- **List predicates:** `list?`, `null?`\n- **Conditionals:** `if`, `cond`, `else`\n- **Quoting:** `quote`, `'`\n- **List manipulation:** `list`, `car`, `cdr`, `cons`\n- **I/O:** `display`, `printf`, `newline`, `read`",
+      "options": null
     },
     {
       "question": 23,
       "marks": 5,
       "topic": "Scheme — List Processing Function (duplicateNonMatchingValues)",
       "answer": "(define (duplicateNonMatchingValues lis atm)\n  (cond\n    ((null? lis) '())\n    ((eqv? (car lis) atm)\n     (cons (car lis) (duplicateNonMatchingValues (cdr lis) atm)))\n    (else\n     (cons (car lis) (cons (car lis) (duplicateNonMatchingValues (cdr lis) atm))))\n  )\n)",
-      "explanation": "Strategy: Recurse through the list element by element. Base case: empty list → return empty list. If the current element (car) MATCHES atm → include it once and recurse on the rest (cdr). If the current element does NOT match atm → include it TWICE using two nested `cons` calls, then recurse on the rest. Example trace for `(duplicateNonMatchingValues '(A D A) 'A)`: A matches → (cons A ...), D does not → (cons D (cons D ...)), A matches → (cons A '()) = (A). Building back up: (A D D A). The `eqv?` function is used for atom comparison (reliable for symbols and numbers)."
+      "explanation": "Strategy: Recurse through the list element by element. Base case: empty list → return empty list. If the current element (car) MATCHES atm → include it once and recurse on the rest (cdr). If the current element does NOT match atm → include it TWICE using two nested `cons` calls, then recurse on the rest. Example trace for `(duplicateNonMatchingValues '(A D A) 'A)`: A matches → (cons A ...), D does not → (cons D (cons D ...)), A matches → (cons A '()) = (A). Building back up: (A D D A). The `eqv?` function is used for atom comparison (reliable for symbols and numbers).",
+      "question_text": "Write a Scheme function named `duplicateNonMatchingValues`, which receives two parameters: a **simple list of atoms** and an **atom**. The function should yield (not print) a list containing all values from the parameter list, in their original order, with all values that **do not match** the second parameter **duplicated**.\n\n*Examples:*\n```scheme\n(duplicateNonMatchingValues '() 'A)\n; => ()\n\n(duplicateNonMatchingValues '(A D A C B) 'A)\n; => (A D D A C C B B)\n```\n\n**Allowed built-in functions:** *(same as Question 22)*",
+      "options": null
     }
   ]
 }
