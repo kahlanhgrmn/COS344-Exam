@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COS333 Cheatsheet — Programming Languages</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  /* ── CHAPTER SECTIONS (collapsible) ── */
+  .ch-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .ch-header {
+    padding: 1rem 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    transition: background .15s;
+    user-select: none;
+  }
+  .ch-header:hover { background: var(--surface2); }
+  .ch-header-left { display: flex; align-items: center; gap: .9rem; }
+  .ch-num {
+    font-family: var(--mono);
+    font-size: .72rem;
+    font-weight: 700;
+    background: var(--navy);
+    color: #c8d0e0;
+    border-radius: 4px;
+    padding: .25em .65em;
+    white-space: nowrap;
+    letter-spacing: .04em;
+  }
+  .ch-title { font-weight: 700; font-size: .97rem; color: var(--navy); }
+  .ch-marks {
+    font-family: var(--mono);
+    font-size: .72rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .ch-chevron { font-size: .85rem; color: var(--muted); flex-shrink: 0; transition: transform .2s; }
+  .ch-block.open .ch-chevron { transform: rotate(90deg); }
+  .ch-body {
+    display: none;
+    padding: 1.4rem;
+    border-top: 1px solid var(--border);
+  }
+  .ch-body.open { display: block; }
+
+  /* ── EXAM BADGE ── */
+  .exam-badge {
+    font-family: var(--mono);
+    font-size: .62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    background: var(--danger-bg);
+    color: var(--danger);
+    border: 1px solid #fca5a5;
+    border-radius: 4px;
+    padding: .2em .6em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .important-badge {
+    font-family: var(--mono);
+    font-size: .62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    background: var(--warn-bg);
+    color: var(--warn);
+    border: 1px solid #fcd34d;
+    border-radius: 4px;
+    padding: .2em .6em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ── FILTER TABS ── */
+  .filter-tabs {
+    display: flex; flex-wrap: wrap; gap: .4rem;
+    margin: 1rem 0 1.5rem;
+  }
+  .filter-tab {
+    font-family: var(--mono); font-size: .73rem; font-weight: 600;
+    padding: .3em .75em; border-radius: 4px;
+    border: 1.5px solid var(--border); background: var(--surface);
+    cursor: pointer; transition: all .15s; color: var(--muted);
+  }
+  .filter-tab:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* ── BINDING EXAMPLE ── */
+  .binding-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .75rem;
+    margin: 1rem 0;
+  }
+  .binding-card {
+    border-radius: var(--radius);
+    padding: .9rem 1rem;
+    border: 1px solid;
+  }
+  .binding-card.shallow { background: var(--danger-bg);  border-color: #fca5a5; }
+  .binding-card.deep    { background: var(--accent2-bg); border-color: #6ee7be; }
+  .binding-card.adhoc   { background: var(--warn-bg);    border-color: #fcd34d; }
+  .binding-card h4 { margin: 0 0 .35rem; font-size: .82rem; }
+  .binding-card.shallow h4 { color: var(--danger); }
+  .binding-card.deep    h4 { color: var(--accent2); }
+  .binding-card.adhoc   h4 { color: var(--warn); }
+  .binding-card p { margin: 0; font-size: .82rem; color: var(--navy2); }
+
+  @media (max-width: 600px) {
+    .binding-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── QUICK REV TABLE ── */
+  .qrev-guaranteed {
+    font-family: var(--mono);
+    font-size: .68rem;
+    font-weight: 700;
+    background: var(--danger-bg);
+    color: var(--danger);
+    border-radius: 3px;
+    padding: .1em .5em;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+
+  /* ── EXPAND ALL ── */
+  .expand-controls {
+    display: flex; gap: .5rem; margin-bottom: 1rem;
+  }
+  .expand-btn {
+    font-family: var(--mono); font-size: .73rem; font-weight: 600;
+    padding: .3em .8em; border-radius: 4px;
+    border: 1.5px solid var(--border); background: var(--surface);
+    cursor: pointer; transition: all .15s; color: var(--muted);
+  }
+  .expand-btn:hover { border-color: var(--navy); color: var(--navy); }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">COS333 <span>// Cheatsheet</span></div>
+    <div class="topnav-links">
+      <a href="../index.html">Home</a>
+      <a href="PracticeQuestions/scheme_practice_questions.html">Scheme</a>
+      <a href="PracticeQuestions/prolog_practice_questions.html">Prolog</a>
+      <a href="PracticeQuestions/scheme_prolog_guide.html">Guide</a>
+      <a href="COS333_mcq_bank.html">MCQ Bank</a>
+      <a href="cheatsheet.html" class="active">Cheatsheet</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">University of Pretoria · COS333</div>
+    <h1>Exam <em>Cheatsheet</em></h1>
+    <p class="hero-sub">All chapters condensed — verified against lecture slides. Expand any chapter, filter by topic, look for the red exam flags.</p>
+    <div class="hero-pills">
+      <span class="hero-pill"><strong>Ch9</strong> ~6 marks</span>
+      <span class="hero-pill"><strong>Ch12</strong> ~5 marks</span>
+      <span class="hero-pill"><strong>Ch1</strong> ~4 marks</span>
+      <span class="hero-pill"><strong>Ch5</strong> ~4 marks</span>
+      <span class="hero-pill"><strong>Ch6</strong> ~3 marks</span>
+      <span class="hero-pill"><strong>Ch15</strong> ~3 marks</span>
+      <span class="hero-pill"><strong>Ch16</strong> ~2 marks</span>
+      <span class="hero-pill"><strong>Ch7</strong> ~2 marks</span>
+      <span class="hero-pill"><strong>Ch8</strong> ~1 mark</span>
+      <span class="hero-pill"><strong>Ch2</strong> ~1 mark</span>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- FILTER TABS -->
+  <div class="filter-tabs" id="chapterTabs">
+    <button class="filter-tab active" data-filter="all">All</button>
+    <button class="filter-tab" data-filter="ch9">Ch9 — Subprograms</button>
+    <button class="filter-tab" data-filter="ch12">Ch12 — OOP</button>
+    <button class="filter-tab" data-filter="ch1">Ch1 — Intro</button>
+    <button class="filter-tab" data-filter="ch5">Ch5 — Scopes</button>
+    <button class="filter-tab" data-filter="ch6">Ch6 — Data Types</button>
+    <button class="filter-tab" data-filter="ch15">Ch15 — Functional</button>
+    <button class="filter-tab" data-filter="ch16">Ch16 — Logic</button>
+    <button class="filter-tab" data-filter="ch7">Ch7 — Expressions</button>
+    <button class="filter-tab" data-filter="ch8">Ch8 — Control</button>
+    <button class="filter-tab" data-filter="ch2">Ch2 — History</button>
+  </div>
+
+  <!-- EXPAND/COLLAPSE CONTROLS -->
+  <div class="expand-controls">
+    <button class="expand-btn" id="expandAll">Expand All</button>
+    <button class="expand-btn" id="collapseAll">Collapse All</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CH9 — SUBPROGRAMS
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="ch-block open" data-chapter="ch9">
+    <div class="ch-header" onclick="toggleChapter(this)">
+      <div class="ch-header-left">
+        <span class="ch-num">Ch9</span>
+        <span class="ch-title">Subprograms</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="ch-marks">~6 marks</span>
+        <span class="ch-chevron">▶</span>
+      </div>
+    </div>
+    <div class="ch-body open">
+
+      <h3>Key Terminology</h3>
+      <ul>
+        <li><strong>Subprogram definition</strong>: defines the interface (name, parameters, return type) and the body</li>
+        <li><strong>Subprogram call</strong>: an explicit execution request</li>
+        <li><strong>Formal parameter</strong>: dummy variable listed in the subprogram header</li>
+        <li><strong>Actual parameter</strong>: value or address used in the call</li>
+        <li><strong>Positional parameters</strong>: matched by order</li>
+        <li><strong>Keyword parameters</strong>: matched by name — order-independent (Ruby, Python, Ada)</li>
+        <li><strong>Default parameters</strong>: preset value if no actual supplied (C++, Python, Ruby, Ada, PHP)</li>
+        <li><strong>Parameter profile (signature)</strong>: number, order, and types of parameters</li>
+        <li><strong>Protocol</strong>: parameter profile plus return type</li>
+        <li><strong>Subprogram declaration (prototype)</strong>: provides protocol but no body</li>
+        <li><strong>Procedure</strong>: no return value; produces results by modifying parameters or non-local variables</li>
+        <li><strong>Function</strong>: returns a value; modelled on mathematical functions — ideally no side effects</li>
+      </ul>
+
+      <h3>Local Variables</h3>
+      <ul>
+        <li>Most contemporary languages: locals are <strong>stack-dynamic</strong> (allocated at block entry, released at exit → supports recursion)</li>
+        <li>C/C++: locals are stack-dynamic by default; can be declared <code>static</code> (history-sensitive, allocated once)</li>
+      </ul>
+
+      <h3>Parameter Passing Methods</h3>
+      <table>
+        <thead><tr><th>Method</th><th>Mode</th><th>How</th><th>Caller affected?</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Pass-by-value</strong></td><td>In</td><td>Copy actual → formal</td><td>No</td></tr>
+          <tr><td><strong>Pass-by-result</strong></td><td>Out</td><td>Copy formal → actual on return</td><td>Yes (on return)</td></tr>
+          <tr><td><strong>Pass-by-value-result</strong></td><td>In-Out</td><td>Copy in, copy back on return</td><td>Yes (on return)</td></tr>
+          <tr><td><strong>Pass-by-reference</strong></td><td>In-Out</td><td>Access path (alias)</td><td>Yes (immediately)</td></tr>
+          <tr><td><strong>Pass-by-name</strong></td><td>In-Out</td><td>Textual substitution</td><td>Yes (deferred binding)</td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li><strong>Pass-by-value</strong> disadvantage: extra storage, expensive for large objects</li>
+        <li><strong>Pass-by-reference</strong> disadvantage: unwanted side effects, aliasing (<code>fun(total, total)</code> → both alias same variable)</li>
+        <li><strong>Pass-by-name</strong> example: <code>foo(val, arr[val])</code> — after <code>a = 1</code>, <code>b</code> becomes <code>arr[1]</code>, not <code>arr[0]</code></li>
+      </ul>
+      <h4>Language Examples</h4>
+      <ul>
+        <li><strong>C/C++</strong>: pass-by-value (default), pass-by-reference (pointers in C; pointers or references in C++)</li>
+        <li><strong>Java</strong>: all passed by value — objects seem passed by reference, but object <em>references</em> are passed by value</li>
+        <li><strong>C#</strong>: pass-by-value (default), pass-by-reference (precede with <code>ref</code>)</li>
+        <li><strong>Python/Ruby</strong>: pass-by-assignment — works like pass-by-reference except for immutable objects (behaves like pass-by-value)</li>
+      </ul>
+
+      <div class="callout callout-exam" style="margin-top:1.2rem;">
+        <div class="callout-label">Exam Important</div>
+        <p><strong>Referencing Environment for Passed Subprograms</strong> — three possible bindings when a subprogram is passed as a parameter.</p>
+      </div>
+
+      <pre><code>fun sub1() {
+   var x = 1
+   fun sub2() { print x }
+   fun sub3() { var x = 3; call sub4(sub2) }
+   fun sub4(subx) { var x = 4; call subx() }
+   call sub3()
+}</code></pre>
+
+      <div class="binding-grid">
+        <div class="binding-card shallow">
+          <h4>Shallow Binding → 4</h4>
+          <p>Uses environment of the call that <em>enacts</em> the passed subprogram (sub4). Natural for <strong>dynamic-scoped</strong> languages.</p>
+        </div>
+        <div class="binding-card deep">
+          <h4>Deep Binding → 1</h4>
+          <p>Uses environment of the <em>definition</em> of the passed subprogram (sub1). Natural for <strong>static-scoped</strong> languages.</p>
+        </div>
+        <div class="binding-card adhoc">
+          <h4>Ad-hoc Binding → 3</h4>
+          <p>Uses environment of the call that <em>passed</em> the subprogram (sub3).</p>
+        </div>
+      </div>
+
+      <h3>Sections 9.6 &amp; 9.7 — Overloaded and Generic Subprograms <span class="important-badge">Very Important</span></h3>
+      <ul>
+        <li><strong>Overloaded subprogram</strong>: same name, different protocol in same referencing environment — resolved at compile time by parameter profile</li>
+        <li><strong>Generic subprogram</strong> (parametric polymorphism): one definition works for multiple types via a type parameter</li>
+      </ul>
+
+      <h4>Generic Subprograms — C++ vs Java vs C#</h4>
+      <table>
+        <thead><tr><th>Feature</th><th>C++ Templates</th><th>Java Generics</th><th>C# Generics</th></tr></thead>
+        <tbody>
+          <tr><td>Mechanism</td><td>Compile-time code expansion</td><td>Type erasure (single Object version)</td><td>Reification — type info kept at runtime</td></tr>
+          <tr><td>When versions created</td><td>Compile time</td><td>Once at runtime (Object version)</td><td>Runtime for primitives; Object version for objects</td></tr>
+          <tr><td>Primitive types</td><td>Yes</td><td>No (use wrapper classes)</td><td>Yes</td></tr>
+          <tr><td>Wildcards</td><td>No (SFINAE/concepts)</td><td>Yes (<code>? extends T</code>)</td><td>No</td></tr>
+          <tr><td>Type constraints</td><td>Via concepts/SFINAE</td><td><code>extends</code> keyword</td><td><code>where</code> clause</td></tr>
+          <tr><td>Separate class per type</td><td>Yes (code bloat possible)</td><td>No</td><td>No (but primitives get their own)</td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li>Java: compiler inserts casts automatically — type misuses caught at compile time</li>
+        <li>C# generic methods: if primitive type → new version at runtime; if object → Object version reused</li>
+      </ul>
+
+      <h3>Closures (§9.12) <span class="important-badge">Very Important</span></h3>
+      <div class="callout callout-info">
+        <div class="callout-label">Definition</div>
+        <p>A <strong>closure</strong> is a subprogram plus the referencing environment of its <em>definition</em>. Variables captured must have <strong>unlimited extent</strong> (lifetime = full program execution).</p>
+      </div>
+      <pre><code>function makeAdder(x) {
+    return function(y) { return y + x; }
+}
+var add10 = makeAdder(10);  // captures x = 10
+var add5  = makeAdder(5);   // captures x = 5
+add10(20);  // → 30
+add5(20);   // → 25</code></pre>
+      <p>Each call to <code>makeAdder</code> creates a <strong>new closure</strong> with its own captured <code>x</code>.</p>
+
+      <h3>Coroutines (§9.13) <span class="exam-badge">Exam Important</span></h3>
+      <ul>
+        <li>A <strong>coroutine</strong> is a subprogram with <em>multiple entry points</em>, controlling its own entry points</li>
+        <li>Also called <strong>symmetric control</strong> — caller and called exist on a more equal basis</li>
+        <li>A coroutine call is called a <strong>resume</strong></li>
+        <li>First resume → starts from the beginning; subsequent resumes → continue after the last executed statement</li>
+        <li>Produce <strong>quasi-concurrent</strong> (interleaved, not overlapping) execution</li>
+        <li>Introduced in SIMULA 67; supported in Lua</li>
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CH12 — OOP
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="ch-block" data-chapter="ch12">
+    <div class="ch-header" onclick="toggleChapter(this)">
+      <div class="ch-header-left">
+        <span class="ch-num">Ch12</span>
+        <span class="ch-title">Object-Oriented Programming</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="ch-marks">~5 marks</span>
+        <span class="ch-chevron">▶</span>
+      </div>
+    </div>
+    <div class="ch-body">
+
+      <div class="callout callout-info">
+        <div class="callout-label">Must Support</div>
+        <p>Any OOP language must support: (1) abstract data types (classes), (2) inheritance, (3) polymorphism via dynamic binding.</p>
+      </div>
+
+      <h3>Core Terminology <span class="exam-badge">Very Important</span></h3>
+      <table>
+        <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Class</strong></td><td>A template/blueprint (an ADT in OOP context)</td></tr>
+          <tr><td><strong>Object / Instance</strong></td><td>A runtime entity created from a class</td></tr>
+          <tr><td><strong>Method</strong></td><td>A subprogram defining operations on objects</td></tr>
+          <tr><td><strong>Message</strong></td><td>A call to a method (e.g. <code>obj.meth()</code>)</td></tr>
+          <tr><td><strong>Message protocol / interface</strong></td><td>The entire collection of an object's methods</td></tr>
+          <tr><td><strong>Class variable</strong></td><td>One per class (shared)</td></tr>
+          <tr><td><strong>Instance variable</strong></td><td>One per object</td></tr>
+          <tr><td><strong>Dynamic binding / dispatch</strong></td><td>Correct overriding method selected at runtime based on actual object type</td></tr>
+          <tr><td><strong>Abstract method</strong></td><td>Declared but not implemented — subclasses must override (C++: pure virtual <code>= 0</code>)</td></tr>
+          <tr><td><strong>Abstract class</strong></td><td>Contains ≥1 abstract method — cannot be instantiated</td></tr>
+          <tr><td><strong>Method overriding</strong></td><td>Subclass redefines inherited method with same signature</td></tr>
+          <tr><td><strong>Open recursion</strong></td><td><code>this</code>/<code>self</code> allows a method to call overridden versions in subclasses</td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li><strong>Overriding vs overloading</strong>: overriding = same signature in subclass; overloading = same name, different signature in same class</li>
+        <li><strong>is-a relationship</strong>: inheritance (a Dog is-a Animal)</li>
+        <li><strong>has-a relationship</strong>: composition (a Car has-a Engine)</li>
+      </ul>
+
+      <h3>Inheritance</h3>
+      <ul>
+        <li><strong>Single inheritance</strong>: one direct parent (Java, C#, Smalltalk)</li>
+        <li><strong>Multiple inheritance</strong>: more than one direct parent (C++)</li>
+        <li><strong>Diamond problem</strong>: two parents share a common ancestor → name collision ambiguity; C++ uses scope resolution (<code>Drawing::display()</code>)</li>
+        <li>A derived class is a <strong>subtype</strong> of parent if it only adds members and overrides compatibly — not a subtype if it removes or restricts inherited members</li>
+      </ul>
+
+      <h3>Access Control</h3>
+      <table>
+        <thead><tr><th>Modifier</th><th>Visible to</th></tr></thead>
+        <tbody>
+          <tr><td><code>public</code></td><td>All (class, subclasses, clients)</td></tr>
+          <tr><td><code>protected</code></td><td>Class + subclasses (not clients)</td></tr>
+          <tr><td><code>private</code></td><td>Class only</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Language Specifics</h3>
+      <div class="lq-block">
+        <div class="lq-header" onclick="toggleLQ(this)">
+          <div><div class="lq-title">C++ Specifics</div></div>
+          <span class="lq-chevron">▶</span>
+        </div>
+        <div class="lq-body">
+          <ul>
+            <li>Methods are <strong>statically bound by default</strong> (faster); for dynamic binding declare as <code>virtual</code></li>
+            <li><strong>Pure virtual function</strong> (<code>virtual void draw() = 0</code>): class becomes abstract</li>
+            <li><strong>Public derivation</strong>: inherited public/protected stay public/protected → subclass is a subtype</li>
+            <li><strong>Private derivation</strong>: inherited public/protected become private → subclass is NOT a subtype</li>
+            <li>Objects on stack: assignment <strong>truncates</strong> (object slicing), binding is not dynamic</li>
+            <li>Dynamic binding only through <strong>pointers or references</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="lq-block">
+        <div class="lq-header" onclick="toggleLQ(this)">
+          <div><div class="lq-title">Java Specifics</div></div>
+          <span class="lq-chevron">▶</span>
+        </div>
+        <div class="lq-body">
+          <ul>
+            <li>All data are objects except primitive types (wrapper classes exist); all objects heap-dynamic, garbage collected</li>
+            <li>Only <strong>single inheritance</strong></li>
+            <li><strong>Interface</strong>: like abstract class — only method declarations and named constants; a class can implement multiple interfaces</li>
+            <li>All messages dynamically bound EXCEPT: <code>final</code>, <code>private</code>, or <code>static</code> methods</li>
+          </ul>
+        </div>
+      </div>
+      <div class="lq-block">
+        <div class="lq-header" onclick="toggleLQ(this)">
+          <div><div class="lq-title">C# Specifics</div></div>
+          <span class="lq-chevron">▶</span>
+        </div>
+        <div class="lq-body">
+          <ul>
+            <li>Supports both classes and structs; <code>struct</code>: stack-dynamic, no inheritance</li>
+            <li>Base class method marked <code>virtual</code>; overriding method marked <code>override</code>; abstract methods marked <code>abstract</code></li>
+            <li>No multiple inheritance; uses interfaces like Java</li>
+          </ul>
+        </div>
+      </div>
+      <div class="lq-block">
+        <div class="lq-header" onclick="toggleLQ(this)">
+          <div><div class="lq-title">Smalltalk (Pure OOP) &amp; Ruby</div></div>
+          <span class="lq-chevron">▶</span>
+        </div>
+        <div class="lq-body">
+          <h4>Smalltalk</h4>
+          <ul>
+            <li>Everything is an object — no primitive types; all objects heap-dynamic; all binding of messages dynamic</li>
+            <li>No multiple inheritance; all subclasses are subtypes; typeless reference variables</li>
+          </ul>
+          <h4>Ruby</h4>
+          <ul>
+            <li>Everything is an object; class definitions are <strong>executable</strong> — can add members at runtime</li>
+            <li>All data is <strong>private</strong>; method access checked at runtime</li>
+            <li>No true multiple inheritance; subclasses are not necessarily subtypes</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CH1 — INTRODUCTION
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="ch-block" data-chapter="ch1">
+    <div class="ch-header" onclick="toggleChapter(this)">
+      <div class="ch-header-left">
+        <span class="ch-num">Ch1</span>
+        <span class="ch-title">Introduction — Language Evaluation</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="ch-marks">~4 marks</span>
+        <span class="ch-chevron">▶</span>
+      </div>
+    </div>
+    <div class="ch-body">
+
+      <h3>Language Evaluation Criteria</h3>
+      <table>
+        <thead><tr><th>Criterion</th><th>Description</th><th>Key factors</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Readability</strong></td><td>Ease of reading and understanding</td><td>Simplicity, orthogonality, data types, syntax</td></tr>
+          <tr><td><strong>Writability</strong></td><td>Ease of creating programs</td><td>Simplicity, orthogonality, abstraction, expressivity</td></tr>
+          <tr><td><strong>Reliability</strong></td><td>Performs to specification under all conditions</td><td>Type checking, exception handling, aliasing, readability/writability</td></tr>
+          <tr><td><strong>Cost</strong></td><td>Total cost of using the language</td><td>Training, writing, compiling, executing, maintaining, reliability</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Other criteria</strong>: portability, generality, well-definedness</p>
+
+      <h3>Orthogonality <span class="exam-badge">Will Be Tested</span></h3>
+      <div class="callout callout-exam">
+        <div class="callout-label">Key Definition</div>
+        <p>A <strong>relatively small set of primitive constructs</strong> that can be combined in a small number of ways, <strong>and every possible combination is legal</strong>. An orthogonal feature is <strong>context-independent</strong> — no exceptions to how it can be combined.</p>
+      </div>
+      <ul>
+        <li>Lack of orthogonality = exceptions and special cases</li>
+        <li>Example of orthogonality: a single <code>+</code> operator for int and float addition</li>
+        <li>Example of non-orthogonality in C: a function cannot return an array</li>
+        <li><strong>Too much orthogonality</strong> can hurt readability (ALGOL 68) — unrestricted combinations may be nonsensical</li>
+      </ul>
+
+      <h3>Language Design Trade-offs</h3>
+      <ul>
+        <li><strong>Reliability vs cost of execution</strong>: Java checks array index bounds (more reliable, but slower)</li>
+        <li><strong>Readability vs writability</strong>: APL has many powerful operators → compact but unreadable</li>
+        <li><strong>Writability vs reliability</strong>: C++ pointers are powerful but reduce reliability</li>
+      </ul>
+
+      <h3>Reasons for Studying PLs</h3>
+      <ol>
+        <li>Increased ability to express ideas</li>
+        <li>Better background for choosing appropriate languages</li>
+        <li>Increased ability to learn new languages</li>
+        <li>Better understanding of implementation</li>
+        <li>Better use of languages already known</li>
+        <li>Overall advancement of computing</li>
+      </ol>
+
+      <h3>Language Categories</h3>
+      <table>
+        <thead><tr><th>Category</th><th>Description</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Imperative</strong></td><td>Variables, assignment, iteration</td><td>C, Java, C++, Python</td></tr>
+          <tr><td><strong>Functional</strong></td><td>Applying functions to parameters</td><td>Scheme, LISP, ML, F#</td></tr>
+          <tr><td><strong>Logic</strong></td><td>Rule-based, no specified order</td><td>Prolog</td></tr>
+          <tr><td><strong>Markup/hybrid</strong></td><td>Markup extended with programming</td><td>JSTL, XSLT</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Implementation Methods</h3>
+      <table>
+        <thead><tr><th>Method</th><th>Description</th><th>Use</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Compilation</strong></td><td>Translate to machine code</td><td>Large commercial apps; fast execution</td></tr>
+          <tr><td><strong>Pure interpretation</strong></td><td>Execute directly via interpreter</td><td>Scripting; easy debugging; 10–100× slower</td></tr>
+          <tr><td><strong>Hybrid</strong></td><td>Translate to intermediate bytecode, then interpret</td><td>Java (JVM), Perl</td></tr>
+          <tr><td><strong>JIT</strong></td><td>Hybrid variant; subprograms compiled to machine code on first call; kept for reuse</td><td>Java JIT, .NET</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Influences on Language Design</h3>
+      <ul>
+        <li><strong>Von Neumann architecture</strong>: data and programs in memory separate from CPU → basis for imperative languages (variables = memory cells, assignment = piping)</li>
+        <li><strong>Programming methodologies</strong>: structured programming (1960s) → data abstraction (1970s) → OOP (1980s)</li>
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CH5 — NAMES, BINDINGS, AND SCOPES
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="ch-block" data-chapter="ch5">
+    <div class="ch-header" onclick="toggleChapter(this)">
+      <div class="ch-header-left">
+        <span class="ch-num">Ch5</span>
+        <span class="ch-title">Names, Bindings, and Scopes</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="ch-marks">~4 marks</span>
+        <span class="ch-chevron">▶</span>
+      </div>
+    </div>
+    <div class="ch-body">
+
+      <h3>Names</h3>
+      <ul>
+        <li><strong>Reserved word</strong>: cannot be used as a programmer-defined name (<code>int</code> in C++ — always means a type)</li>
+        <li><strong>Keyword</strong>: has special meaning only in certain contexts (Fortran: <code>Real VarName</code> → Real is a keyword; <code>Real = 3.4</code> → Real is a variable)</li>
+      </ul>
+
+      <h3>Variable Attributes (6)</h3>
+      <div class="callout callout-info">
+        <div class="callout-label">The 6 Attributes</div>
+        <p><strong>Name, Address, Value, Type, Lifetime, Scope</strong></p>
+      </div>
+      <ul>
+        <li><strong>Alias</strong>: two or more names for the same memory location — created via pointers, references, unions — bad for readability</li>
+      </ul>
+
+      <h3>Binding Times</h3>
+      <table>
+        <thead><tr><th>Time</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Language design time</strong></td><td>Meaning of <code>*</code> = multiplication</td></tr>
+          <tr><td><strong>Language implementation time</strong></td><td>Range of <code>int</code></td></tr>
+          <tr><td><strong>Compile time</strong></td><td>Type of a variable in C/Java</td></tr>
+          <tr><td><strong>Load time</strong></td><td>Address of a <code>static</code> C variable</td></tr>
+          <tr><td><strong>Runtime</strong></td><td>Value of a variable; address of a stack-dynamic variable</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Type Binding</h3>
+      <ul>
+        <li><strong>Explicit declaration</strong>: <code>int myVar;</code> (C++)</li>
+        <li><strong>Implicit declaration</strong>: type inferred from first use or naming convention (Perl, Ruby, PHP) — advantage: writability; disadvantage: typos not caught</li>
+        <li><strong>Type inferencing</strong>: compiler determines type from context (<code>var value = 12</code> in C# → int)</li>
+        <li><strong>Static type binding</strong>: bound at compile time (C, Java, C++)</li>
+        <li><strong>Dynamic type binding</strong>: bound when value assigned at runtime (Python, JavaScript, Ruby, PHP) — more flexible; type errors only caught at runtime, slower</li>
+      </ul>
+
+      <h3>Storage Bindings and Lifetimes</h3>
+      <table>
+        <thead><tr><th>Category</th><th>Allocation</th><th>Deallocation</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Static</strong></td><td>Before execution begins</td><td>End of program</td><td>C <code>static</code> variables</td></tr>
+          <tr><td><strong>Stack-dynamic</strong></td><td>At block/subprogram entry</td><td>At block/subprogram exit</td><td>Normal local variables</td></tr>
+          <tr><td><strong>Explicit heap-dynamic</strong></td><td>Explicit <code>new</code>/<code>malloc</code></td><td>Explicit <code>delete</code>/<code>free</code></td><td>C++ dynamic variables</td></tr>
+          <tr><td><strong>Implicit heap-dynamic</strong></td><td>By assignment</td><td>Garbage collected</td><td>All APL variables; Perl/JS strings and arrays</td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li>Static advantage: efficient direct addressing, history-sensitive subprograms; disadvantage: no recursion, storage cannot be shared</li>
+        <li>Stack-dynamic advantage: supports recursion, conserves storage</li>
+        <li>Implicit heap-dynamic advantage: maximum flexibility; disadvantage: inefficient, less error detection</li>
+      </ul>
+
+      <h3>Scope</h3>
+      <div class="callout callout-info">
+        <div class="callout-label">Classic Example</div>
+        <pre style="margin:.5rem 0 0;padding:.75rem 1rem;background:var(--code-bg);border-radius:4px;"><code style="color:var(--code-text);font-size:.82rem;">Big: declare X
+  Sub1: declare X; call Sub2
+  Sub2: refer to X
+  call Sub1</code></pre>
+        <p style="margin:.6rem 0 0;">Static: Sub2 sees X in <strong>Big</strong> · Dynamic: Sub2 sees X in <strong>Sub1</strong> (most recent caller)</p>
+      </div>
+      <ul>
+        <li><strong>Static (lexical) scoping</strong>: scope determined by physical structure of source code; search from local → enclosing scopes; variable in closer scope <em>hides</em> same-named variable in outer scope</li>
+        <li>Nested subprograms (nested scopes): Ada, JavaScript, Common LISP, Scheme, Fortran 2003, F#, Python</li>
+        <li>Java/C#: <strong>no variable hiding in blocks</strong> (hiding is an error)</li>
+        <li><strong>Dynamic scoping</strong>: determined by calling sequence at runtime — search back through call chain; advantage: convenience; disadvantages: harder to read, can't statically type check, slower non-local access</li>
+      </ul>
+
+      <h3>Named Constants</h3>
+      <ul>
+        <li><strong>Static (manifest) constant</strong>: value bound at compile time (<code>const int SIZE = 10 + 5</code>)</li>
+        <li><strong>Dynamic constant</strong>: value bound at runtime (<code>const int SIZE; SIZE = a + 1</code>) — only assignable once</li>
+        <li>C# has both: <code>const</code> (compile-time) and <code>readonly</code> (runtime, field only, set in constructor)</li>
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CH6 — DATA TYPES
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="ch-block" data-chapter="ch6">
+    <div class="ch-header" onclick="toggleChapter(this)">
+      <div class="ch-header-left">
+        <span class="ch-num">Ch6</span>
+        <span class="ch-title">Data Types</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="ch-marks">~3 marks</span>
+        <span class="ch-chevron">▶</span>
+      </div>
+    </div>
+    <div class="ch-body">
+
+      <h3>Primitive Data Types</h3>
+      <ul>
+        <li><strong>Integer</strong>: binary representation; multiple sizes (byte, short, int, long in Java)</li>
+        <li><strong>Floating-point</strong>: IEEE 754; approximations of real numbers; float/double precision</li>
+        <li><strong>Decimal</strong>: exact decimal representation (BCD); used in business (COBOL, C# <code>decimal</code>); accurate but wastes memory</li>
+        <li><strong>Boolean</strong>: true/false; advantage is readability</li>
+        <li><strong>Character</strong>: stored as numeric codes; ASCII (8-bit), Unicode UCS-2 (16-bit), UCS-4/UTF-32 (32-bit)</li>
+        <li><strong>Complex</strong>: two floats — real and imaginary parts (C99, Fortran, Python)</li>
+      </ul>
+
+      <h3>Array Types</h3>
+      <table>
+        <thead><tr><th>Category</th><th>Subscript range binding</th><th>Storage binding</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Static</strong></td><td>Static</td><td>Static</td></tr>
+          <tr><td><strong>Fixed stack-dynamic</strong></td><td>Static</td><td>At declaration (stack)</td></tr>
+          <tr><td><strong>Stack-dynamic</strong></td><td>Dynamic (runtime)</td><td>Dynamic (stack), then fixed</td></tr>
+          <tr><td><strong>Fixed heap-dynamic</strong></td><td>Dynamic</td><td>Heap, then fixed (<code>new</code> in C++)</td></tr>
+          <tr><td><strong>Heap-dynamic</strong></td><td>Dynamic, can change</td><td>Heap, can grow/shrink (Python list, JS array)</td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li><strong>Rectangular array</strong>: all rows same length (Fortran, Ada)</li>
+        <li><strong>Jagged array</strong>: rows can differ in length — arrays of arrays (C, C++, Java)</li>
+        <li><strong>Associative array</strong>: unordered key-value pairs indexed by keys (Python dict, Perl hash)</li>
+        <li><strong>Heterogeneous array</strong>: elements of different types (Perl, Python, JS, Ruby)</li>
+        <li>Python array assignment = reference change, not copy</li>
+      </ul>
+
+      <h3>Union Types <span class="exam-badge">Pay Attention</span></h3>
+      <ul>
+        <li>Variable that can store values of <strong>different types</strong> at different times (one value at a time)</li>
+        <li><strong>Free union</strong> (C, C++, Fortran): no type tag — programmer must track current type; <strong>unsafe</strong> — accessing wrong field is legal but produces garbage</li>
+        <li><strong>Discriminated union</strong>: includes a <strong>type tag (discriminant)</strong> — type-safe; supported by Ada, ML, Haskell, F#</li>
+      </ul>
+      <pre><code>union flexType { int intEl; float floatEl; };  // free union — unsafe</code></pre>
+
+      <h3>Pointer and Reference Types</h3>
+      <ul>
+        <li><strong>Dangling pointer</strong>: points to deallocated memory — hazardous (undefined behaviour)</li>
+        <li><strong>Memory leak / lost heap-dynamic variable</strong>: allocated memory no longer accessible</li>
+        <li><code>void*</code> in C++: can point to any type; cannot be dereferenced without casting → affects type checking</li>
+        <li><strong>Reference</strong> (C++, Java, C#): similar to pointer but safer — always bound to an object, implicitly dereferenced, cannot be reseated in Java</li>
+        <li>Java: references only (no raw pointers) — improves reliability; C# has both (unsafe pointers in <code>unsafe</code> blocks)</li>
+      </ul>
+
+      <h3>Type Checking</h3>
+      <ul>
+        <li><strong>Coercion</strong>: implicit type conversion — reduces reliability (hides type mismatches)</li>
+        <li><strong>Strongly typed</strong>: ALL type errors always detected (Ada, Java, C# — stronger than C/C++)</li>
+        <li>C/C++: not strongly typed (unions not type checked; pre-C99 parameter types not checked)</li>
+      </ul>
+
+      <h3>Type Equivalence <span class="exam-badge">Pay Attention</span></h3>
+      <ul>
+        <li><strong>Name type equivalence</strong>: two variables are compatible only if they share the same <em>type name</em> — strict, safe, easy to implement</li>
+        <li><strong>Structure type equivalence</strong>: two variables are compatible if their <em>structures are identical</em> — more flexible, harder to implement, may cause unintended compatibility</li>
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CH15 — FUNCTIONAL PL THEORY
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="ch-block" data-chapter="ch15">
+    <div class="ch-header" onclick="toggleChapter(this)">
+      <div class="ch-header-left">
+        <span class="ch-num">Ch15</span>
+        <span class="ch-title">Functional Programming — Scheme</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="ch-marks">~3 marks</span>
+        <span class="ch-chevron">▶</span>
+      </div>
+    </div>
+    <div class="ch-body">
+
+      <h3>Core Concepts</h3>
+      <ul>
+        <li><strong>Pure functional language</strong>: no variables; all repetition through recursion; no side effects</li>
+        <li><strong>Functional side effect</strong>: a function modifies a parameter or a non-local variable</li>
+        <li><strong>Referential transparency</strong>: any two equivalent expressions can be substituted for one another without changing program behaviour — only possible if there are <strong>no side effects</strong></li>
+      </ul>
+      <div class="callout callout-tip">
+        <div class="callout-label">Referential Transparency Example</div>
+        <p><code>result1 = (fun(a) + b) / (fun(a) – a)</code> — if <code>fun</code> has no side effects, can replace <code>fun(a)</code> with <code>temp</code> → <code>result1 = result2</code></p>
+      </div>
+
+      <h3>Scheme Essentials</h3>
+      <ul>
+        <li>Dialect of LISP; mid-1970s; designed for education; uses <strong>static scoping</strong></li>
+        <li>Everything is a <strong>list</strong>: <code>(operator operand1 operand2 ...)</code> — functions and data have same form</li>
+        <li><strong>First-class functions</strong>: can be passed as parameters, returned, applied to other functions</li>
+        <li>Repetition done entirely through <strong>recursion</strong> (no variables, no loops)</li>
+        <li><code>#t</code> = true, <code>#f</code> = false; <code>()</code> can represent false; any non-null list is true</li>
+      </ul>
+
+      <h3>Scheme Primitive Functions <span class="exam-badge">Exam Essential</span></h3>
+      <table>
+        <thead><tr><th>Function</th><th>Description</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><code>car</code></td><td>First element of list</td><td><code>(car '(a b c))</code> → <code>a</code></td></tr>
+          <tr><td><code>cdr</code></td><td>Tail (all but first)</td><td><code>(cdr '(a b c))</code> → <code>(b c)</code></td></tr>
+          <tr><td><code>cons</code></td><td>Prepend element to list</td><td><code>(cons 'a '(b c))</code> → <code>(a b c)</code></td></tr>
+          <tr><td><code>null?</code></td><td>True if empty list</td><td><code>(null? '())</code> → <code>#t</code></td></tr>
+          <tr><td><code>list?</code></td><td>True if parameter is a list</td><td></td></tr>
+          <tr><td><code>eqv?</code></td><td>Equality for atoms (preferred)</td><td><code>(eqv? 'a 'a)</code> → <code>#t</code></td></tr>
+          <tr><td><code>eq?</code></td><td>Pointer equality — unreliable for lists/floats</td><td></td></tr>
+          <tr><td><code>quote</code> / <code>'</code></td><td>Prevent evaluation</td><td><code>'(a b c)</code> = <code>(quote (a b c))</code></td></tr>
+          <tr><td><code>list</code></td><td>Build a list from parameters</td><td><code>(list 'a 'b 'c)</code> → <code>(a b c)</code></td></tr>
+          <tr><td><code>define</code></td><td>Bind name to value or function</td><td><code>(define (square x) (* x x))</code></td></tr>
+          <tr><td><code>if</code></td><td><code>(if pred then else)</code></td><td></td></tr>
+          <tr><td><code>cond</code></td><td>Multi-way selector</td><td></td></tr>
+          <tr><td><code>let</code></td><td>Local name bindings</td><td><code>(let ((top (+ a b))) (/ top 2))</code></td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li><code>cons</code> second parameter must be a list; <code>(cons 'a 'b)</code> → dotted pair <code>(a . b)</code> (usually unintended)</li>
+        <li><code>cdr</code> of a single-element list → <code>()</code></li>
+        <li><code>eqv?</code> preferred over <code>eq?</code>; <code>eqv?</code> does NOT work for lists</li>
+      </ul>
+
+      <h3>Scheme List Processing Patterns</h3>
+      <pre><code>; member — check if atom is in simple list
+(define (member atm lis)
+   (cond
+      ((null? lis) #f)                    ; base case: empty list
+      ((eqv? atm (car lis)) #t)           ; base case: found
+      (else (member atm (cdr lis)))       ; recursive: check tail
+   ))
+
+; append — concatenate two lists
+(define (append lis1 lis2)
+   (cond
+      ((null? lis1) lis2)                            ; base case
+      (else (cons (car lis1) (append (cdr lis1) lis2))) ; recursive
+   ))</code></pre>
+
+      <h3>Tail Recursion</h3>
+      <ul>
+        <li>A <strong>tail recursive</strong> function has the recursive call as the <strong>last operation</strong></li>
+        <li>Scheme converts tail recursive functions to iteration automatically (required by language definition)</li>
+        <li>Non-tail recursive factorial: <code>(* n (factorial (- n 1)))</code> — multiply is the last op, not the call</li>
+      </ul>
+
+      <h3>Functional Forms (Higher-Order Functions)</h3>
+      <ul>
+        <li><strong>Functional form</strong>: a function that takes functions as parameters or yields a function as result</li>
+        <li><strong>Apply-to-all (mapcar)</strong>: applies a function to every element of a list, building a new list</li>
+      </ul>
+      <pre><code>(define (mapcar fun lis)
+   (cond
+      ((null? lis) ())
+      (else (cons (fun (car lis)) (mapcar fun (cdr lis))))
+   ))
+(mapcar square '(3 4 2))  ; → (9 16 4)</code></pre>
+
+      <h3>Functional vs Imperative</h3>
+      <table>
+        <thead><tr><th>Imperative</th><th>Functional</th></tr></thead>
+        <tbody>
+          <tr><td>Efficient execution</td><td>Inefficient execution</td></tr>
+          <tr><td>Complex syntax and semantics</td><td>Simple syntax and semantics</td></tr>
+          <tr><td>Concurrency is programmer-designed</td><td>Programs can automatically be made concurrent</td></tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CH16 — LOGIC PL THEORY
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="ch-block" data-chapter="ch16">
+    <div class="ch-header" onclick="toggleChapter(this)">
+      <div class="ch-header-left">
+        <span class="ch-num">Ch16</span>
+        <span class="ch-title">Logic Programming — Prolog</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="ch-marks">~2 marks</span>
+        <span class="ch-chevron">▶</span>
+      </div>
+    </div>
+    <div class="ch-body">
+
+      <h3>Core Concepts</h3>
+      <ul>
+        <li>Logic programming is <strong>declarative</strong> — specify the <em>form</em> of the result, not the procedure</li>
+        <li>A program = a set of <strong>facts</strong> and <strong>rules</strong>; execution = proving a <strong>query/goal</strong></li>
+        <li>Based on <strong>first-order predicate calculus</strong> and <strong>resolution</strong></li>
+      </ul>
+
+      <h3>Terminology</h3>
+      <table>
+        <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Functor</strong></td><td>Symbol naming a relationship (e.g. <code>likes</code>, <code>parent</code>)</td></tr>
+          <tr><td><strong>Atom / constant</strong></td><td>Lowercase — represents a specific object (e.g. <code>jon</code>, <code>bob</code>)</td></tr>
+          <tr><td><strong>Variable</strong></td><td>Starts with uppercase (e.g. <code>X</code>, <code>MyVar</code>)</td></tr>
+          <tr><td><strong>Fact statement</strong></td><td>Headless Horn clause — assumed true (e.g. <code>female(shelley).</code>)</td></tr>
+          <tr><td><strong>Rule statement</strong></td><td>Headed Horn clause — <code>consequent :- antecedent</code></td></tr>
+          <tr><td><strong>Goal / query</strong></td><td>Proposition Prolog must prove (e.g. <code>?- parent(X, mike).</code>)</td></tr>
+        </tbody>
+      </table>
+      <p>Commas in rules/queries = logical AND</p>
+
+      <h3>Inferencing</h3>
+      <ul>
+        <li><strong>Unification</strong>: finding variable bindings that make two terms identical; failure → backtrack</li>
+        <li><strong>Top-down / backward chaining</strong> (Prolog): start from the goal, find a path to the facts — efficient when few matching facts</li>
+        <li><strong>Bottom-up / forward chaining</strong>: start from facts, try to reach the goal — better for large sets of facts</li>
+        <li><strong>Depth-first search</strong> (Prolog): prove each subgoal completely before moving to the next</li>
+        <li><strong>Backtracking</strong>: when a subgoal fails, undo the last variable binding and try the next matching clause</li>
+      </ul>
+
+      <h3>Tracing Model (4 events) <span class="exam-badge">Exam Important</span></h3>
+      <table>
+        <thead><tr><th>Event</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Call</strong></td><td>Beginning of attempt to satisfy a goal</td></tr>
+          <tr><td><strong>Exit</strong></td><td>Goal has been satisfied</td></tr>
+          <tr><td><strong>Redo</strong></td><td>Backtracking occurs</td></tr>
+          <tr><td><strong>Fail</strong></td><td>Goal fails</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-info">
+        <div class="callout-label">Trace Example</div>
+        <p><code>?- likes(jake, X), likes(darcie, X).</code><br>
+        Call: <code>likes(jake, _0)</code> → Exit: X=chocolate → Call: <code>likes(darcie, chocolate)</code> → Fail → Redo → Exit: X=apricots → Call: <code>likes(darcie, apricots)</code> → Exit → <strong>X = apricots</strong></p>
+      </div>
+
+      <h3>Prolog Syntax</h3>
+      <pre><code>% Facts
+female(shelley).
+father(bill, jake).
+
+% Rules
+parent(X, Y) :- father(X, Y).
+grandparent(X, Z) :- parent(X, Y), parent(Y, Z).
+
+% Query
+?- parent(X, jake).</code></pre>
+
+      <h3>Prolog Arithmetic</h3>
+      <ul>
+        <li><code>is</code> operator: evaluates RHS expression and binds to LHS variable — all RHS variables must be instantiated; LHS must be uninstantiated</li>
+        <li><code>Sum is Sum + Number.</code> — always <strong>illegal</strong></li>
+        <li>Comparison operators: <code>&lt;</code>, <code>&gt;</code>, <code>=&lt;</code>, <code>&gt;=</code>, <code>=</code> (equality test, not assignment)</li>
+      </ul>
+
+      <h3>Prolog List Processing</h3>
+      <p><code>[Head | Tail]</code> — Head = first element, Tail = rest of list. Anonymous variable <code>_</code> = don't care.</p>
+      <pre><code>% member
+member(Element, [Element | _]).
+member(Element, [_ | Lis]) :- member(Element, Lis).
+
+% append
+append([], Lis, Lis).
+append([Head | Lis_1], Lis_2, [Head | Lis_3]) :-
+    append(Lis_1, Lis_2, Lis_3).
+
+% reverse
+reverse([], []).
+reverse([Head | Tail], List) :-
+    reverse(Tail, Result),
+    append(Result, [Head], List).</code></pre>
+      <ul>
+        <li>Base case statements must appear <strong>before</strong> recursive cases (Prolog matches top to bottom)</li>
+      </ul>
+
+      <h3>Deficiencies of Prolog</h3>
+      <ul>
+        <li><strong>Resolution order control</strong>: programmer must order clauses carefully for efficiency</li>
+        <li><strong>Closed-world assumption</strong>: "false" means Prolog <em>cannot prove</em> it, not that it <em>is</em> false</li>
+        <li><strong>Negation problem</strong>: <code>not(X)</code> succeeds if Prolog cannot prove X — not true logical negation</li>
+        <li><strong>Intrinsic limitations</strong>: some tasks are inherently inefficient (e.g. sorting via permutation checking)</li>
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CH7 — EXPRESSIONS
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="ch-block" data-chapter="ch7">
+    <div class="ch-header" onclick="toggleChapter(this)">
+      <div class="ch-header-left">
+        <span class="ch-num">Ch7</span>
+        <span class="ch-title">Expressions and Assignment</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="ch-marks">~2 marks</span>
+        <span class="ch-chevron">▶</span>
+      </div>
+    </div>
+    <div class="ch-body">
+
+      <h3>Operator Precedence and Associativity</h3>
+      <ul>
+        <li><strong>Precedence</strong>: parentheses → unary → <code>**</code> → <code>*</code>/<code>/</code> → <code>+</code>/<code>-</code></li>
+        <li><strong>Left-to-right associativity</strong>: most operators (<code>a - b - c</code> = <code>(a - b) - c</code>)</li>
+        <li><strong>Right-to-left</strong>: exponentiation (<code>a ** b ** c</code> = <code>a ** (b ** c)</code>), unary prefix operators</li>
+        <li>APL: only one precedence level — all operators right-to-left associative</li>
+        <li>Scheme/LISP: prefix notation eliminates all precedence/associativity issues</li>
+        <li>Ruby: most operators implemented as <strong>methods</strong> — can all be overridden</li>
+      </ul>
+
+      <h3>Side Effects and Referential Transparency</h3>
+      <ul>
+        <li><strong>Functional side effect</strong>: a function modifies a non-local variable or parameter</li>
+        <li>Problem: <code>f(a) + g(a)</code> — if <code>f</code> modifies <code>a</code>, result depends on evaluation order</li>
+        <li>Java: operands evaluated left-to-right</li>
+        <li>Short-circuit evaluation can interact with side effects: <code>(a &gt; b) || (b++ / 3)</code> — <code>b++</code> may not execute</li>
+      </ul>
+
+      <h3>Type Conversions</h3>
+      <ul>
+        <li><strong>Narrowing conversion</strong>: to a type with fewer values (e.g. float → int) — not always safe</li>
+        <li><strong>Widening conversion</strong>: to a type with more values (e.g. int → float) — generally safe</li>
+        <li><strong>Coercion</strong>: implicit widening conversion — reduces reliability</li>
+        <li>C/C++/Fortran/Perl: coerce any numeric type in any direction</li>
+        <li>Java/C#: only widening coercions in mixed-mode assignment (safer)</li>
+        <li>ML/F#: no coercions at all</li>
+      </ul>
+
+      <h3>Short-Circuit Evaluation</h3>
+      <ul>
+        <li><code>&amp;&amp;</code>/<code>||</code> in C/C++/Java: standard short-circuit</li>
+        <li><code>&amp;</code>/<code>|</code> in C/C++: bitwise — NOT short-circuit</li>
+      </ul>
+
+      <h3>Assignment</h3>
+      <ul>
+        <li>C-based, Perl, JavaScript: assignment produces a result (the assigned value) → can be used as expression</li>
+        <li>Common use: <code>while ((ch = getchar()) != EOF) {...}</code></li>
+        <li>Risk: <code>if (x = y)</code> legal (intended <code>if (x == y)</code>)</li>
+        <li>Perl/Ruby/Lua: multiple-target assignment <code>($a, $b) = ($b, $a)</code> → easy swap</li>
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CH8 — CONTROL STRUCTURES
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="ch-block" data-chapter="ch8">
+    <div class="ch-header" onclick="toggleChapter(this)">
+      <div class="ch-header-left">
+        <span class="ch-num">Ch8</span>
+        <span class="ch-title">Control Structures</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="ch-marks">~1 mark</span>
+        <span class="ch-chevron">▶</span>
+      </div>
+    </div>
+    <div class="ch-body">
+
+      <h3>Selection Statements</h3>
+      <ul>
+        <li><strong>Dangling else</strong>: <code>if (a) if (b) s1 else s2</code> — Java/C/C++: else matches nearest preceding unmatched if; Perl: forces braces → no ambiguity; Python: indentation removes ambiguity</li>
+        <li><strong>switch/case</strong> (C/C++/Java): falls through by default → needs <code>break</code></li>
+        <li><strong>C#</strong>: disallows implicit fall-through (each segment must end with <code>break</code> or <code>goto</code>) — increases reliability</li>
+        <li><strong>Selector expressions</strong> (ML, F#, LISP): <code>if</code> is an expression, evaluates to a value</li>
+      </ul>
+
+      <h3>Iterative Statements</h3>
+      <ul>
+        <li><strong>Counter-controlled</strong> (<code>for</code>): loop variable, initial/terminal/stepsize</li>
+        <li><strong>Logically-controlled</strong>: pretest (<code>while</code>) vs posttest (<code>do-while</code>)</li>
+        <li>Python <code>for</code>: <code>for var in object</code> — optional <code>else</code> executes if loop terminates normally (not via <code>break</code>)</li>
+      </ul>
+
+      <h3>Ruby Blocks <span class="important-badge">Understand This</span></h3>
+      <ul>
+        <li>A <strong>block</strong> is code passed to a method — defined with <code>{ }</code> or <code>do...end</code></li>
+        <li>Method uses <code>yield</code> to execute the block and pass values to it</li>
+        <li>Block has formal parameter(s): <code>list.each {|value| puts value}</code></li>
+        <li>Ruby <code>for</code> statements are converted to <code>upto</code> calls</li>
+      </ul>
+
+      <h3>Guarded Commands (Dijkstra) <span class="exam-badge">Pay Special Attention</span></h3>
+      <div class="callout callout-exam">
+        <div class="callout-label">Key Idea</div>
+        <p>Designed to support <strong>formal program verification</strong>. If order of evaluation does not matter, the program should not specify an order. Basis for CSP and Ada concurrency models.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;">
+        <div>
+          <h4>Selection (if...fi)</h4>
+          <pre><code>if Boolean_exp_1 -> statement_1
+[] Boolean_exp_2 -> statement_2
+...
+[] Boolean_exp_n -> statement_n
+fi</code></pre>
+          <ul style="font-size:.85rem;margin-top:.5rem;">
+            <li>Evaluate <strong>all</strong> Boolean expressions</li>
+            <li>If more than one true → choose one <strong>non-deterministically</strong></li>
+            <li>If <strong>none</strong> are true → <strong>runtime error</strong></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Repetition (do...od)</h4>
+          <pre><code>do Boolean_exp_1 -> statement_1
+[] Boolean_exp_2 -> statement_2
+...
+[] Boolean_exp_n -> statement_n
+od</code></pre>
+          <ul style="font-size:.85rem;margin-top:.5rem;">
+            <li>Evaluate all guards each iteration</li>
+            <li>If more than one true → choose one, <strong>repeat</strong></li>
+            <li>If none are true → <strong>exit loop</strong></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CH2 — PL HISTORY
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="ch-block" data-chapter="ch2">
+    <div class="ch-header" onclick="toggleChapter(this)">
+      <div class="ch-header-left">
+        <span class="ch-num">Ch2</span>
+        <span class="ch-title">PL History</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:.7rem;">
+        <span class="ch-marks">~1 mark</span>
+        <span class="ch-chevron">▶</span>
+      </div>
+    </div>
+    <div class="ch-body">
+
+      <div class="callout callout-info">
+        <div class="callout-label">What to Know</div>
+        <p>For each language: <strong>environment → how it affected design → main contribution</strong></p>
+      </div>
+
+      <table>
+        <thead><tr><th>Language</th><th>Environment / Context</th><th>Main Contribution</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Fortran I</strong></td><td>Scientific; IBM 704; machine efficiency paramount; no programming methodology</td><td>First compiled HLL; showed compilation was viable; very fast code</td></tr>
+          <tr><td><strong>LISP</strong></td><td>AI research at MIT; symbolic computation; list processing</td><td>First functional language; dynamic typing; garbage collection; recursion</td></tr>
+          <tr><td><strong>ALGOL 60</strong></td><td>Academic; need for machine-independent universal language</td><td>Block structure; recursive subprograms; stack-dynamic arrays; first formally defined syntax (BNF); basis for all subsequent imperative languages</td></tr>
+          <tr><td><strong>COBOL</strong></td><td>Business data processing; non-technical users; English-like design goal</td><td>Hierarchical data structures (records); long names; English-like readability; still most-used business language</td></tr>
+          <tr><td><strong>BASIC</strong></td><td>Timesharing for non-science students; easy to use</td><td>First widely-used timesharing language</td></tr>
+          <tr><td><strong>PL/I</strong></td><td>IBM trying to unify scientific (Fortran) and business (COBOL) users</td><td>First unit-level concurrency; first exception handling; first pointer data type</td></tr>
+          <tr><td><strong>APL</strong></td><td>IBM; hardware description; dynamic typing and storage</td><td>Highly expressive; very large number of operators; programs very difficult to read</td></tr>
+          <tr><td><strong>SIMULA 67</strong></td><td>System simulation in Norway; modelling real-world entities</td><td>First data abstraction with classes and objects; introduced coroutines</td></tr>
+          <tr><td><strong>ALGOL 68</strong></td><td>Based on orthogonality; extension of ALGOL 60</td><td>User-defined data structures; reference types; flex arrays — influenced Pascal, C, Ada</td></tr>
+          <tr><td><strong>Pascal</strong></td><td>Teaching structured programming; Wirth</td><td>Simple, clean educational design; strong typing</td></tr>
+          <tr><td><strong>C</strong></td><td>Systems programming at Bell Labs; Unix OS</td><td>Efficient low-level access + high-level constructs; portability through Unix</td></tr>
+          <tr><td><strong>Prolog</strong></td><td>AI; automated theorem proving; natural language processing</td><td>First logic programming language; declarative semantics</td></tr>
+          <tr><td><strong>Ada</strong></td><td>US DoD; embedded systems; standardizing 450+ languages; reliability-critical</td><td>Packages (data abstraction); elaborate exception handling; generic program units; concurrency</td></tr>
+          <tr><td><strong>Smalltalk</strong></td><td>Xerox PARC; GUI systems; non-programmer users</td><td>First full OOP language (data abstraction + inheritance + dynamic binding); pioneered GUI design</td></tr>
+          <tr><td><strong>C++</strong></td><td>Bell Labs; extending C with OOP; large-scale systems</td><td>OOP on top of C; templates; exception handling; widely adopted; backward-compatible with C</td></tr>
+          <tr><td><strong>Java</strong></td><td>Sun; embedded devices; C/C++ unreliable for this; web applets</td><td>JVM bytecode portability; garbage collection; removed unsafe C++ features; security model</td></tr>
+          <tr><td><strong>C#</strong></td><td>Microsoft .NET platform; component-based development</td><td>IL + JIT for all .NET languages interoperability; combines C++/Java/Delphi features; added delegates, properties</td></tr>
+          <tr><td><strong>Python</strong></td><td>Scripting; CGI; system administration; data science</td><td>OO interpreted scripting; garbage collection; large library; dynamic typing with type checking</td></tr>
+          <tr><td><strong>Ruby</strong></td><td>Replacement for Perl/Python; pure OOP</td><td>Everything is an object; operators as methods; classes/objects modifiable at runtime</td></tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       QUICK REVISION TABLE
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="section-head">
+    <h2>Quick Revision — Guaranteed or Strongly Flagged</h2>
+    <span class="section-badge">Priority</span>
+  </div>
+
+  <table>
+    <thead><tr><th>Topic</th><th>Chapter</th><th>Evidence</th></tr></thead>
+    <tbody>
+      <tr><td><span class="qrev-guaranteed">Guaranteed</span> <strong>Orthogonality</strong></td><td>Ch1</td><td>Lecturer said "will definitely be tested"</td></tr>
+      <tr><td><span class="qrev-guaranteed">Guaranteed</span> <strong>Closures / MakeAdder output tracing</strong></td><td>Ch9</td><td>"Very important", must provide output</td></tr>
+      <tr><td><span class="qrev-guaranteed">Guaranteed</span> <strong>Coroutines output tracing</strong></td><td>Ch9</td><td>Must provide output of pseudocode; "easy, will probably come up"</td></tr>
+      <tr><td><span class="qrev-guaranteed">Guaranteed</span> <strong>Shallow/deep/ad-hoc binding</strong></td><td>Ch9</td><td>Slides say "important for examination purposes" (×3)</td></tr>
+      <tr><td><strong>Parameter passing methods</strong></td><td>Ch9</td><td>"Important"</td></tr>
+      <tr><td><strong>Sections 9.6 and 9.7 (generics)</strong></td><td>Ch9</td><td>Explicitly flagged "very important"</td></tr>
+      <tr><td><strong>Generic subprograms C++ vs Java vs C#</strong></td><td>Ch9</td><td>Slides say "most important part... important for the exam"</td></tr>
+      <tr><td><strong>OOP terminology</strong></td><td>Ch12</td><td>"Very important"</td></tr>
+      <tr><td><strong>Guarded commands</strong></td><td>Ch8</td><td>Slide note: "Pay attention... probably a question in test/exam"</td></tr>
+      <tr><td><strong>Ruby blocks</strong></td><td>Ch8</td><td>"Make sure you understand"</td></tr>
+      <tr><td><strong>Referential transparency / side effects</strong></td><td>Ch7 + Ch15</td><td>Mentioned across two chapters</td></tr>
+      <tr><td><strong>Discriminated unions</strong></td><td>Ch6</td><td>"Pay attention"</td></tr>
+      <tr><td><strong>Name vs structure type equivalence</strong></td><td>Ch6</td><td>Highlighted in scope</td></tr>
+      <tr><td><strong>Prolog backward chaining + depth-first</strong></td><td>Ch16</td><td>Core mechanism of the whole chapter</td></tr>
+      <tr><td><strong>Prolog tracing model (Call/Exit/Redo/Fail)</strong></td><td>Ch16</td><td>With example in slides</td></tr>
+      <tr><td><strong>Prolog deficiencies</strong></td><td>Ch16</td><td>Whole chapter is examinable</td></tr>
+      <tr><td><strong>Scheme list functions (car/cdr/cons/null?)</strong></td><td>Ch15</td><td>Needed for both MCQ and implementation question</td></tr>
+    </tbody>
+  </table>
+
+  <div class="page-nav">
+    <a href="../index.html">
+      <span class="nav-label">← Back</span>
+      <span class="nav-title">Study Hub Home</span>
+    </a>
+    <a class="nav-next" href="COS333_mcq_bank.html">
+      <span class="nav-label">Next →</span>
+      <span class="nav-title">MCQ Bank</span>
+    </a>
+  </div>
+
+</div><!-- end page-wrap -->
+
+<footer>
+  <div class="footer-inner">
+    <span>COS333 Programming Languages — Exam Cheatsheet</span>
+    <span>Sebesta, <em>Concepts of Programming Languages</em></span>
+  </div>
+</footer>
+
+<script>
+  function toggleChapter(header) {
+    const block = header.closest('.ch-block');
+    const body  = block.querySelector('.ch-body');
+    block.classList.toggle('open');
+    body.classList.toggle('open');
+  }
+
+  function toggleLQ(header) {
+    const block = header.closest('.lq-block');
+    const body  = block.querySelector('.lq-body');
+    header.classList.toggle('open');
+    body.classList.toggle('open');
+  }
+
+  // Filter tabs
+  document.getElementById('chapterTabs').addEventListener('click', function(e) {
+    const tab = e.target.closest('.filter-tab');
+    if (!tab) return;
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const filter = tab.dataset.filter;
+    document.querySelectorAll('.ch-block').forEach(block => {
+      block.style.display = (filter === 'all' || block.dataset.chapter === filter) ? '' : 'none';
+    });
+  });
+
+  // Expand / Collapse All
+  document.getElementById('expandAll').addEventListener('click', function() {
+    document.querySelectorAll('.ch-block').forEach(block => {
+      if (block.style.display === 'none') return;
+      block.classList.add('open');
+      block.querySelector('.ch-body').classList.add('open');
+    });
+  });
+  document.getElementById('collapseAll').addEventListener('click', function() {
+    document.querySelectorAll('.ch-block').forEach(block => {
+      block.classList.remove('open');
+      block.querySelector('.ch-body').classList.remove('open');
+    });
+  });
+</script>
+
+</body>
+</html>
