@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COS333 – Scope-Targeted Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f8f9fb;--surface:#fff;--surface2:#f0f2f5;
+  --border:#e0e4ea;--border2:#c8cdd6;
+  --navy:#1a2035;--navy2:#2c3654;
+  --text:#1e2535;--muted:#6b7590;
+  --accent:#2563eb;--accent-bg:#eff4ff;
+  --green:#0ea47a;--green-bg:#edfaf5;
+  --warn:#d97706;--warn-bg:#fffbeb;
+  --danger:#dc2626;--danger-bg:#fef2f2;
+  --radius:8px;
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Inter',system-ui,sans-serif;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
+  --shadow-md:0 4px 12px rgba(0,0,0,.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.7}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:var(--mono);font-size:.83em;background:var(--surface2);padding:.1em .35em;border-radius:3px;border:1px solid var(--border)}
+pre{font-family:var(--mono);font-size:.8rem;background:#1a2035;color:#a8d8a8;padding:.75rem 1rem;border-radius:6px;overflow-x:auto;margin:.5rem 0;white-space:pre;line-height:1.5}
+
+/* NAV */
+nav.topnav{background:var(--navy);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.topnav-inner{max-width:1100px;margin:0 auto;padding:.85rem 1.5rem;display:flex;align-items:center;gap:2rem}
+.topnav-logo{font-family:var(--mono);font-size:.88rem;font-weight:600;color:#fff;white-space:nowrap}
+.topnav-logo span{color:#8892a8;font-weight:400}
+.topnav-links{display:flex;gap:1.5rem}
+.topnav-links a{color:#8892a8;font-size:.85rem;font-weight:500;transition:color .15s;padding:.2rem 0;border-bottom:2px solid transparent}
+.topnav-links a:hover{color:#fff;text-decoration:none}
+.topnav-links a.active{color:#fff;border-bottom-color:var(--green)}
+
+/* LAYOUT */
+.page-wrap{max-width:980px;margin:0 auto;padding:0 1.5rem 5rem}
+
+/* HERO */
+.page-hero{padding:2.5rem 0 1.2rem}
+.breadcrumb{font-size:.78rem;color:var(--muted);margin-bottom:.4rem;font-family:var(--mono)}
+.breadcrumb a{color:var(--muted)}
+.page-hero h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:700;letter-spacing:-.02em;color:var(--navy);line-height:1.2}
+.page-hero p{color:var(--muted);font-size:.93rem;margin-top:.4rem}
+
+/* STATS */
+.stats-strip{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.stat-chip{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.45rem .85rem;font-size:.78rem;font-family:var(--mono);color:var(--muted)}
+.stat-chip strong{color:var(--navy);font-size:.95rem;display:block}
+
+/* CONTROLS */
+.control-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.5rem;box-shadow:var(--shadow);display:flex;flex-wrap:wrap;gap:.75rem;align-items:center}
+.ctrl-label{font-size:.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-family:var(--mono);display:block;margin-bottom:.2rem}
+.ctrl-select{padding:.4em .75em;border-radius:5px;border:1.5px solid var(--border);background:var(--surface);font-size:.84rem;font-family:var(--sans);color:var(--navy);cursor:pointer;min-width:220px}
+.ctrl-select:focus{outline:none;border-color:var(--accent)}
+.btn{padding:.42em .95em;border-radius:5px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;font-size:.82rem;font-weight:600;font-family:var(--sans);color:var(--navy);transition:all .15s}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn-danger{background:var(--danger-bg);border-color:var(--danger);color:var(--danger)}
+.btn-danger:hover{background:var(--danger);color:#fff}
+.score-box{background:var(--navy);color:#fff;border-radius:var(--radius);padding:.6rem 1.1rem;display:flex;align-items:center;gap:.5rem;font-size:.83rem;margin-left:auto}
+.score-num{font-family:var(--mono);font-size:1.3rem;font-weight:700;color:var(--green)}
+.progress-wrap{width:100%;height:5px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-top:.6rem}
+.progress-fill{height:100%;background:var(--green);border-radius:99px;transition:width .35s}
+.progress-text{font-size:.71rem;color:var(--muted);font-family:var(--mono);margin-top:.3rem}
+
+/* CHAPTER SECTION */
+.chapter-section{margin-bottom:2.5rem}
+.ch-header{display:flex;align-items:center;gap:.8rem;padding:.75rem 1.1rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);border-left:4px solid currentColor;box-shadow:var(--shadow);margin-bottom:.9rem;cursor:pointer;user-select:none;transition:background .15s}
+.ch-header:hover{background:var(--surface2)}
+.ch-badge{font-family:var(--mono);font-size:.7rem;font-weight:700;padding:.22em .65em;border-radius:99px;letter-spacing:.04em;white-space:nowrap}
+.ch-title{font-size:.97rem;font-weight:600;color:var(--navy)}
+.ch-meta{font-size:.74rem;color:var(--muted);font-family:var(--mono);margin-left:auto;white-space:nowrap}
+.ch-chevron{color:var(--muted);font-size:.8rem;transition:transform .2s;margin-left:.4rem;font-family:var(--mono)}
+.ch-body.collapsed{display:none}
+
+/* SCOPE BOX */
+.scope-box{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:1.1rem;padding:.9rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+@media(max-width:720px){.scope-box{grid-template-columns:1fr}}
+.scope-col{padding:.6rem .75rem;border-radius:6px}
+.scope-col-in{background:var(--green-bg);border:1px solid var(--green)}
+.scope-col-out{background:var(--danger-bg);border:1px solid var(--danger)}
+.scope-col-focus{background:var(--warn-bg);border:1px solid var(--warn)}
+.scope-col-label{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;font-family:var(--mono);margin-bottom:.4rem}
+.scope-col-in .scope-col-label{color:var(--green)}
+.scope-col-out .scope-col-label{color:var(--danger)}
+.scope-col-focus .scope-col-label{color:var(--warn)}
+.scope-col ul{padding-left:1.1rem;font-size:.8rem;line-height:1.65;color:var(--text)}
+.scope-col ul li{margin-bottom:.1rem}
+
+/* MCQ CARD */
+.mcq-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;margin-bottom:.7rem;box-shadow:var(--shadow);transition:box-shadow .15s}
+.mcq-card:hover{box-shadow:var(--shadow-md)}
+.mcq-meta{display:flex;align-items:center;gap:.5rem;margin-bottom:.45rem;flex-wrap:wrap}
+.mcq-num{font-family:var(--mono);font-size:.67rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.topic-tag{font-family:var(--mono);font-size:.64rem;padding:.13em .5em;border-radius:99px;background:var(--accent-bg);color:var(--accent);border:1px solid #bfdbfe}
+.scope-tag{font-family:var(--mono);font-size:.63rem;padding:.12em .5em;border-radius:99px;background:var(--warn-bg);color:var(--warn);border:1px solid #fde68a;font-weight:600}
+.mcq-q{font-size:.91rem;font-weight:500;color:var(--navy);margin-bottom:.7rem;line-height:1.6}
+.mcq-opts{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.mcq-opt{display:flex;align-items:flex-start;gap:.7rem;padding:.6rem .85rem;border-radius:6px;border:1.5px solid var(--border);cursor:pointer;font-size:.87rem;line-height:1.5;transition:all .15s}
+.mcq-opt:hover:not(.locked){background:var(--accent-bg);border-color:var(--accent)}
+.mcq-opt.locked{cursor:default}
+.mcq-opt.correct{background:var(--green-bg);border-color:var(--green);color:var(--navy)}
+.mcq-opt.wrong{background:var(--danger-bg);border-color:var(--danger)}
+.opt-letter{font-family:var(--mono);font-size:.73rem;font-weight:700;min-width:1rem;color:var(--muted);padding-top:.06em;flex-shrink:0}
+.mcq-opt.correct .opt-letter{color:var(--green)}
+.mcq-opt.wrong .opt-letter{color:var(--danger)}
+.mcq-feedback{margin-top:.65rem;padding:.55rem .85rem;border-radius:6px;font-size:.82rem;line-height:1.55;display:none}
+.mcq-feedback.show{display:block}
+.fb-correct{background:var(--green-bg);border:1px solid var(--green);color:#065f46}
+.fb-wrong{background:var(--danger-bg);border:1px solid var(--danger);color:#991b1b}
+
+/* PLACEHOLDER */
+.placeholder-msg{padding:1.5rem;text-align:center;color:var(--muted);font-size:.88rem;font-family:var(--mono);background:var(--surface2);border-radius:var(--radius);border:1px dashed var(--border2)}
+
+/* SCROLL TOP */
+#scroll-top{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:#fff;border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:1rem;opacity:0;transition:opacity .2s;box-shadow:var(--shadow-md);z-index:99}
+#scroll-top.visible{opacity:1}
+
+/* FOOTER */
+footer{background:var(--navy);color:#8892a8;padding:1.5rem;margin-top:3rem}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:.78rem;font-family:var(--mono)}
+
+/* JUMP NAV */
+.jump-nav{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.jump-btn{padding:.3em .7em;border-radius:99px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;font-size:.73rem;font-weight:600;font-family:var(--mono);color:var(--muted);transition:all .15s;text-decoration:none}
+.jump-btn:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">COS333 <span>// Scope Study Guide</span></div>
+    <div class="topnav-links">
+      <a href="COS333_mcq_bank.html">Full MCQ Bank</a>
+      <a href="#" class="active">Scope Guide</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="breadcrumb"><a href="../index.html">Home</a> › COS333 › Scope Study Guide</div>
+    <h1>Scope-Targeted Study Guide</h1>
+    <p>124 new MCQs mapped exactly to the exam scope. Each chapter shows what IS and IS NOT examinable, plus the key focus areas.</p>
+  </div>
+
+  <div class="stats-strip" id="stats-strip"></div>
+
+  <div class="control-panel">
+    <div>
+      <span class="ctrl-label">Jump to Chapter</span>
+      <select class="ctrl-select" id="ch-filter" onchange="applyFilter()">
+        <option value="all">All Chapters</option>
+        <option value="ch01">Chapter 1 – Preliminaries</option>
+        <option value="ch02">Chapter 2 – Language History</option>
+        <option value="ch05">Chapter 5 – Names, Bindings &amp; Scope</option>
+        <option value="ch06">Chapter 6 – Data Types</option>
+        <option value="ch07">Chapter 7 – Expressions</option>
+        <option value="ch08">Chapter 8 – Control Structures</option>
+        <option value="ch09">Chapter 9 – Subprograms</option>
+        <option value="ch12">Chapter 12 – OOP Support</option>
+        <option value="ch15">Chapter 15 – Functional (Scheme)</option>
+        <option value="ch16">Chapter 16 – Logic (Prolog)</option>
+      </select>
+    </div>
+    <button class="btn btn-danger" onclick="resetAll()">↺ Reset All</button>
+    <button class="btn" onclick="revealAll()">👁 Show All Answers</button>
+    <div class="score-box">Score&nbsp;<span class="score-num" id="score-num">0/0</span></div>
+  </div>
+
+  <div class="progress-wrap"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="progress-text" id="prog-text">0 of 0 answered</div>
+  <br>
+
+  <div class="jump-nav" id="jump-nav"></div>
+
+  <div id="chapters-wrap"></div>
+</div>
+
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<footer>
+  <div class="footer-inner">
+    <span>COS333 – Programming Languages · Exam Scope Study Guide</span>
+    <a href="COS333_mcq_bank.html">← Full MCQ Bank</a>
+  </div>
+</footer>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────────────────────────────────────
+const CHAPTERS = [
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CHAPTER 1
+// ══════════════════════════════════════════════════════════════════════════════
+{
+  id:"ch01", chapter:"Chapter 1", title:"Preliminaries",
+  color:"#7c3aed", bg:"#f5f3ff",
+  scopeIn:[
+    "All chapter content except specifically excluded sections",
+    "All six reasons for studying PLs — expect scenario-based questions",
+    "Language evaluation criteria (readability, writability, reliability, cost) applied to real AND hypothetical language features",
+    "Implementation methods — compilation vs interpretation (general trade-offs)",
+    "Language design constraints and trade-offs",
+    "Von Neumann architecture and its influence on imperative languages",
+    "Programming language categories (imperative, functional, logic, OOP)"
+  ],
+  scopeOut:[
+    "Figure 1.2 discussion",
+    "Section 1.7.4",
+    "Section 1.8",
+    "Detailed step-by-step compilation process",
+    "Detailed hybrid implementation steps"
+  ],
+  scopeFocus:[
+    "ORTHOGONALITY — will definitely be tested",
+    "Scenario-based reasons: given a role (manager, junior dev, lecturer…) choose the MOST applicable reason",
+    "Applying evaluation criteria to a described (possibly hypothetical) language feature",
+    "Trade-offs between evaluation criteria (e.g. writability ↑ often means reliability ↓)"
+  ],
+  questions:[
+    {
+      q:`A manager at a software company must decide whether to use Python or C++ for a new data-analytics project. Which reason for studying programming language concepts is <strong>most applicable</strong> to this manager?`,
+      opts:[`Better understanding of the significance of implementation`,`Improved background for choosing appropriate languages`,`Increased ability to learn new languages`,`Better use of languages that are already known`],
+      ans:1,
+      exp:`A manager's role involves selecting languages for projects. "Improved background for choosing appropriate languages" directly addresses this — the manager needs to understand trade-offs between Python and C++ to make an informed decision. The other options relate more to active programming tasks.`,
+      tag:`scenarios`
+    },
+    {
+      q:`A junior programmer knows only Python and must now write a performance-critical C++ module. Which reason for studying PL concepts is <strong>most relevant</strong> to this junior programmer?`,
+      opts:[`Overall advancement of computing`,`Improved background for choosing appropriate languages`,`Better understanding of the significance of implementation`,`Increased ability to express ideas in programs`],
+      ans:2,
+      exp:`Writing performance-critical code requires understanding WHY languages work the way they do — memory layout, pointers, compilation. "Better understanding of the significance of implementation" is the most relevant reason here, as it explains efficiency trade-offs the programmer must now navigate.`,
+      tag:`scenarios`
+    },
+    {
+      q:`A hypothetical language X allows struct fields to be any type (int, float, bool, function) but restricts array subscripts to <em>integer only</em> — float subscripts are illegal. This restriction on arrays most directly reduces which evaluation criterion?`,
+      opts:[`Readability`,`Reliability`,`Orthogonality`,`Portability`],
+      ans:2,
+      exp:`Orthogonality means a small set of constructs can be combined in any way without restrictions. Allowing floats in structs but not as array subscripts is exactly the kind of context-dependent restriction that <em>reduces</em> orthogonality — the same primitive (float) behaves differently depending on where it appears.`,
+      tag:`orthogonality`
+    },
+    {
+      q:`A language allows functions to be used anywhere a value can be used: stored in arrays, held in struct fields, passed as parameters, and returned from other functions. Which evaluation criterion is most directly maximised?`,
+      opts:[`Reliability`,`Readability`,`Orthogonality`,`Writability`],
+      ans:2,
+      exp:`Orthogonality is maximised when a small set of primitive constructs can be freely combined in any context. Treating functions as first-class values that can appear wherever any other value appears is a classic example of high orthogonality — no context restrictions on how the function type can be used.`,
+      tag:`orthogonality`
+    },
+    {
+      q:`A language designer says: <em>"Our language is extremely orthogonal, yet it is notoriously difficult to write correct programs in."</em> ALGOL 68 was described this way. Which concept best explains this paradox?`,
+      opts:[`Orthogonality guarantees that all programs are free of semantic errors`,`High orthogonality means all combinations are <em>syntactically legal</em> even if semantically nonsensical — there are no built-in safeguards`,`Writability and orthogonality are always inversely proportional`,`Orthogonality only applies to the type system, not to control structures`],
+      ans:1,
+      exp:`Orthogonality is about <em>legal combinations</em>, not <em>meaningful</em> ones. In a highly orthogonal language, the programmer can combine constructs in ways that are syntactically valid but logically bizarre. This freedom comes without the safety nets that more restricted languages provide, making it easy to write legal-but-wrong programs.`,
+      tag:`orthogonality`
+    },
+    {
+      q:`Language A requires that every <code>if</code> statement have a matching <code>else</code> clause. Language B makes the <code>else</code> optional. Which statement about <strong>readability</strong> is most accurate?`,
+      opts:[`Language A has better readability — a reader always sees both branches explicitly stated`,`Language B has better readability — less code means more readable`,`Neither language affects readability`,`Language B is more readable because it is more writable`],
+      ans:0,
+      exp:`When both branches are always present, a reader can immediately see what happens in both the true and false cases without hunting for a missing else. This improves readability. Language B may be more <em>writable</em> (less to type) but readability is reduced when branches are implicitly absent.`,
+      tag:`eval-criteria`
+    },
+    {
+      q:`A language performs type checking <strong>at compile time</strong>. A second language performs it <strong>at runtime</strong>. Which evaluation criterion is most directly improved by compile-time type checking?`,
+      opts:[`Writability`,`Readability`,`Reliability`,`Efficiency`],
+      ans:2,
+      exp:`Compile-time type checking catches type errors <em>before</em> the program runs, preventing a whole class of runtime failures. This directly improves reliability. Writability may be slightly reduced (explicit declarations) and efficiency may improve slightly (no runtime checks), but reliability is the primary and most direct benefit.`,
+      tag:`eval-criteria`
+    },
+    {
+      q:`A language supports operator overloading for <em>all</em> arithmetic operators and allows programmers to redefine <code>+</code>, <code>-</code>, <code>*</code> for any type. Which trade-off is most accurately described?`,
+      opts:[`Writability increases; Reliability tends to decrease`,`Readability increases; Writability decreases`,`Reliability increases; Writability decreases`,`Both Writability and Reliability increase`],
+      ans:0,
+      exp:`Operator overloading improves writability — you can write natural-looking expressions. But it reduces reliability: <code>a + b</code> could mean anything depending on the types of a and b. A reader (and the compiler) cannot be certain what <code>+</code> does without knowing the full context, increasing the chance of subtle errors.`,
+      tag:`eval-criteria`
+    },
+    {
+      q:`What is the <strong>primary advantage</strong> of a purely interpreted language over a compiled language?`,
+      opts:[`Faster execution at runtime`,`Easier debugging and more portable source code`,`Stronger static type checking`,`Lower memory usage during execution`],
+      ans:1,
+      exp:`Purely interpreted languages execute source code directly, so: (1) debugging is easier — errors are reported in terms of source code; (2) the source is platform-independent (portability). The disadvantages are slower execution and potentially less thorough static analysis. Compiled languages win on speed.`,
+      tag:`implementation`
+    },
+    {
+      q:`Which of the following is classified as a <strong>logic programming</strong> language?`,
+      opts:[`Scheme`,`Prolog`,`COBOL`,`ML`],
+      ans:1,
+      exp:`Prolog is the canonical logic programming language. Programs consist of facts and rules; execution is proof-search (backward chaining). Scheme is functional, COBOL is imperative/business-oriented, and ML is a functional/strongly-typed language.`,
+      tag:`categories`
+    },
+    {
+      q:`Which of the following is <strong>NOT</strong> a Von Neumann (imperative) language?`,
+      opts:[`C`,`Java`,`Prolog`,`FORTRAN`],
+      ans:2,
+      exp:`Von Neumann (imperative) languages are modelled on the von Neumann architecture: variables as memory cells, assignment statements, iterative loops. C, Java, and FORTRAN all follow this model. Prolog is a logic (declarative) language — computation is performed by proof-search, not by a sequence of state-changing instructions.`,
+      tag:`categories`
+    },
+    {
+      q:`A hypothetical language has very few primitive constructs but allows them to be combined only in <em>restricted</em> ways (many combinations are illegal). Which criterion is <strong>reduced</strong>?`,
+      opts:[`Readability`,`Writability`,`Orthogonality`,`Portability`],
+      ans:2,
+      exp:`Orthogonality requires that a small set of constructs combine freely in any context without restrictions. When many combinations are illegal, orthogonality is reduced — even though there are few primitives, the many restrictions mean the language cannot be described by a simple, regular set of rules.`,
+      tag:`orthogonality`
+    }
+  ]
+},
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CHAPTER 2
+// ══════════════════════════════════════════════════════════════════════════════
+{
+  id:"ch02", chapter:"Chapter 2", title:"Evolution of the Major Programming Languages",
+  color:"#2563eb", bg:"#eff6ff",
+  scopeIn:[
+    "For each covered language: (1) its development environment, (2) how that environment shaped the language, (3) its main contribution(s)",
+    "Section 2.20 — only the content covered in the slides"
+  ],
+  scopeOut:[
+    "Sections 2.1, 2.2, 2.6.2, 2.9.2",
+    "Specific features introduced in particular version numbers",
+    "Exact dates of language releases",
+    "Specific model names and numbers of computers",
+    "Names of language designers/developers",
+    "Details about design committees"
+  ],
+  scopeFocus:[
+    "Environment → Effect → Contribution pattern for every language",
+    "Be able to say WHY a language has the features it does, tracing back to the development environment",
+    "Know what each language contributed that was new/influential"
+  ],
+  questions:[
+    {
+      q:`FORTRAN was designed for scientific computing in the 1950s, at a time when computers were extremely expensive and scientists needed programs to run as fast as possible. How did this environment <strong>most directly</strong> affect FORTRAN's design?`,
+      opts:[`Strong type checking was prioritised to prevent costly runtime errors`,`Efficiency of generated code was prioritised over safety features such as runtime bounds checking`,`FORTRAN was required to support object-oriented programming to handle complex scientific models`,`BNF notation was adopted to make the language specification portable across machines`],
+      ans:1,
+      exp:`In the 1950s, machine time was far more valuable than programmer time. FORTRAN's designers optimised for execution speed above all else — no runtime array bounds checking, implicit typing (I-N rule) rather than verbose declarations, and tight control over generated machine code. Safety was sacrificed for speed.`,
+      tag:`fortran`
+    },
+    {
+      q:`COBOL was designed specifically for business data processing. Which environment factor <strong>most directly</strong> influenced COBOL's verbose, English-like syntax and long, descriptive identifier names?`,
+      opts:[`Business computers of the era were very slow and needed verbose code for efficiency`,`Programs needed to be readable and auditable by non-programmer managers and auditors`,`Business data processing required more complex algorithms than scientific computing`,`The US Navy needed compact, memory-efficient programs for shipboard computers`],
+      ans:1,
+      exp:`COBOL's designers believed that business programs would be read by managers, auditors, and executives — not just programmers. English-like syntax ("ADD SALARY TO TOTAL-PAY") was deliberately chosen so that non-programmers could read and verify the logic. This environment requirement shaped COBOL's verbosity.`,
+      tag:`cobol`
+    },
+    {
+      q:`What was the <strong>primary environment factor</strong> that led to the development of ALGOL 60?`,
+      opts:[`Need for a language for AI and symbolic reasoning research`,`Need for a common, portable algorithmic language for scientific computing and academic use`,`Need to support batch-processing jobs for large corporate data centres`,`Transistor computers requiring a structured replacement for assembly language`],
+      ans:1,
+      exp:`ALGOL 60 arose from a joint European-American effort to create a universal algorithmic language for describing algorithms in scientific literature and for implementation on any computer. The goal was portability and a clean, mathematical description of algorithms — driven by the academic computing community.`,
+      tag:`algol`
+    },
+    {
+      q:`Which contribution of ALGOL 60 has had the <strong>most lasting impact</strong> on programming language design?`,
+      opts:[`Dynamic type binding for all variables`,`Block structure with lexical scoping, the concept of a call stack, and BNF notation for formal syntax description`,`First language to support object-oriented programming through class definitions`,`First language to support recursion via explicit recursion keywords`],
+      ans:1,
+      exp:`ALGOL 60 introduced block structure (begin…end with local variable scope), the idea of a runtime stack for procedure calls, and the use of BNF (Backus-Naur Form) as the formal grammar for the language specification. These concepts are foundational to virtually every language designed since.`,
+      tag:`algol`
+    },
+    {
+      q:`Pascal was designed by Niklaus Wirth with which <strong>primary purpose</strong> in mind?`,
+      opts:[`Supporting large-scale government software with strict reliability requirements`,`Teaching structured programming concepts in university courses — a small, clean, pedagogical language`,`AI research requiring powerful list-processing capabilities`,`Systems programming to replace assembly language for operating system development`],
+      ans:1,
+      exp:`Pascal was explicitly designed as a teaching language. Wirth wanted a small, clean language that embodied structured-programming principles (no goto, structured control flow, strong typing) so that students could learn good programming habits. Its environment was the academic classroom, not production systems.`,
+      tag:`pascal`
+    },
+    {
+      q:`Ada was designed under contract from the US Department of Defense in the late 1970s. Which environment factor <strong>most directly</strong> led to Ada's strong typing, exception handling, and support for concurrency?`,
+      opts:[`Computer hardware of the era was unreliable, requiring software to compensate`,`Large-scale, long-lived, mission-critical embedded software required reliability, maintainability, and built-in concurrency support`,`Ada needed to run on personal computers with very limited memory`,`The DoD needed a language specifically for AI research and expert systems`],
+      ans:1,
+      exp:`The DoD was spending enormous sums maintaining thousands of incompatible languages across defence projects. Ada was commissioned for embedded, real-time, safety-critical systems (missiles, aircraft, ships). The environment demanded: strong typing to catch errors at compile time, exception handling for runtime faults, and tasks for concurrency in embedded systems.`,
+      tag:`ada`
+    },
+    {
+      q:`SIMULA 67, designed in Norway for simulation purposes, introduced which concept that is now used in virtually every modern programming language?`,
+      opts:[`First language to support tail-recursive procedures`,`Objects and classes — the foundational concepts of object-oriented programming`,`First language with automatic garbage collection for heap memory`,`First language with pattern matching and algebraic data types`],
+      ans:1,
+      exp:`SIMULA 67 introduced the class concept: a template for objects that bundle data (instance variables) and behaviour (methods) together. Objects are instances of classes. This was the first time these OOP concepts appeared in a programming language — directly inspiring Smalltalk and all subsequent OOP languages.`,
+      tag:`simula`
+    },
+    {
+      q:`Smalltalk, developed at Xerox PARC, was designed around which single unifying concept?`,
+      opts:[`Type safety — all programs should be statically verified for correctness`,`Everything is an object, and all computation occurs through message passing between objects`,`Functional programming — all programs are composed of pure functions`,`Portability — programs should compile to bytecode to run on any virtual machine`],
+      ans:1,
+      exp:`Smalltalk is a pure OOP language: integers, booleans, classes themselves — everything is an object. All operations are modelled as sending a message to an object. Even control flow (conditionals, loops) is implemented through message sending. This purity makes it philosophically consistent but also approximately 10× slower than C++.`,
+      tag:`smalltalk`
+    },
+    {
+      q:`Java was developed by Sun Microsystems in the mid-1990s. Which environment factor <strong>most directly</strong> led to Java's design as a portable, bytecode-compiled language with a virtual machine?`,
+      opts:[`Large-scale business data processing requiring efficient batch jobs`,`The rise of the internet and the need for programs to run correctly on any hardware and operating system`,`Scientific computing demanding high-performance numerical libraries`,`US government requirements for reliable, certified embedded systems`],
+      ans:1,
+      exp:`Java was born in the era of explosive internet growth. The web needed programs (applets) that could be downloaded and executed safely on any device — Windows, Mac, Unix. Java's "write once, run anywhere" JVM model solved this: bytecode is platform-independent; the JVM handles platform-specific execution. Security (sandbox) was also driven by the hostile internet environment.`,
+      tag:`java`
+    },
+    {
+      q:`C was developed at Bell Labs primarily as a systems programming language for Unix. How did this environment <strong>most directly</strong> affect C's design?`,
+      opts:[`C was designed to be safe and prevent common memory errors like buffer overflows`,`C was designed to be close to the hardware, efficient, and with few restrictions — programmer freedom over safety`,`C was designed to be easy to learn for beginners with minimal syntax`,`C was designed for maximum portability across mainframe computers of the era`],
+      ans:1,
+      exp:`Unix was being written in C as a replacement for assembly language. The goal was: (1) low-level access (pointers, bit manipulation), (2) efficiency comparable to assembly, (3) programmer trust — C trusts the programmer and imposes minimal checks. This is why C has no bounds checking, allows pointer arithmetic, and has undefined behaviour — speed and hardware access trumped safety.`,
+      tag:`c`
+    },
+    {
+      q:`Python was designed by Guido van Rossum with which <strong>primary design philosophy</strong>?`,
+      opts:[`Maximum runtime performance through static compilation`,`Readability and simplicity — code should be easy to write and read, even by beginners`,`Safety and correctness through strong static type checking`,`Compatibility and interoperability with existing UNIX command-line tools`],
+      ans:1,
+      exp:`Python's design is guided by "The Zen of Python": readability counts, simple is better than complex, explicit is better than implicit. Indentation enforces visual structure. Clean, English-like syntax means Python code often reads like pseudocode. This environment (scripting, teaching, rapid prototyping) shaped every design decision.`,
+      tag:`python`
+    },
+    {
+      q:`Which language was the <strong>first</strong> to introduce the concept of a <em>block</em> — a section of code with its own local variables and well-defined scope boundaries — enabling recursive procedures?`,
+      opts:[`FORTRAN`,`LISP`,`ALGOL 60`,`COBOL`],
+      ans:2,
+      exp:`ALGOL 60 introduced the block (begin…end) with lexical scoping: variables declared inside a block are local to it and hidden from the outside. This, combined with the concept of a runtime call stack, made true recursive procedures possible. FORTRAN had no blocks; LISP had lambda but not block-structured scoping in the ALGOL sense.`,
+      tag:`algol`
+    }
+  ]
+},
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CHAPTER 5
+// ══════════════════════════════════════════════════════════════════════════════
+{
+  id:"ch05", chapter:"Chapter 5", title:"Names, Bindings, and Scopes",
+  color:"#d97706", bg:"#fffbeb",
+  scopeIn:[
+    "The whole chapter is examinable",
+    "Variable attributes: name, address (l-value), type, value (r-value), lifetime, scope",
+    "Binding times (language design, compile time, load time, runtime)",
+    "Static vs dynamic type binding",
+    "Variable categories: static, stack-dynamic, explicit heap-dynamic, implicit heap-dynamic",
+    "Static vs dynamic scoping — be able to trace through code examples",
+    "Referencing environment of a statement",
+    "Strong typing and type checking",
+    "Named constants"
+  ],
+  scopeOut:[
+    "Nothing specifically excluded — the whole chapter is examinable"
+  ],
+  scopeFocus:[
+    "Referencing environments — what variables are visible at a given point",
+    "Be able to determine the value of a variable under BOTH static and dynamic scoping",
+    "Understand aliasing and why it is harmful",
+    "Strong typing definition — which languages qualify and why"
+  ],
+  questions:[
+    {
+      q:`In a <strong>static-scoped</strong> language, function <code>inner()</code> is defined inside <code>outer()</code>, which is at module level. The <strong>referencing environment</strong> of <code>inner()</code> includes:`,
+      opts:[`Only variables declared within inner() itself`,`Variables in inner(), variables in outer(), and global/module-level variables`,`Variables in inner() and all global variables only (outer()'s locals are not visible)`,`All variables declared anywhere in the entire program`],
+      ans:1,
+      exp:`Static (lexical) scoping makes variables visible based on the syntactic nesting in the source code. inner() can see its own locals, all of outer()'s locals (since inner is textually inside outer), and anything at module/global level. The scope chain is built from the source code structure, not from the call sequence.`,
+      tag:`scoping`
+    },
+    {
+      q:`In a <strong>dynamic-scoped</strong> language, function f3 calls f2 which calls f1. f1 references variable <code>x</code>, which is not declared in f1. Which <code>x</code> does f1 use?`,
+      opts:[`The x from where f1 was defined in the source code`,`The most recently declared x on the current call stack (f2's x if f2 has one, otherwise f3's x, etc.)`,`Only the global x, since dynamic scope always falls back to global`,`The x from f2's scope only, because f2 called f1`],
+      ans:1,
+      exp:`Dynamic scoping resolves variable references at runtime by searching the call stack from the most recent activation to the oldest. If f2 has an x, f1 uses that. If not, f3's x is used, and so on up to global. This means f1's behaviour changes depending on <em>who called it</em> — the same call can produce different results depending on the call chain.`,
+      tag:`scoping`
+    },
+    {
+      q:`In the assignment statement <code>a = b + 1</code>, what are the <strong>l-value</strong> and <strong>r-value</strong> of variable <code>a</code>?`,
+      opts:[`l-value = 1,  r-value = the memory address of a`,`l-value = memory address of a (where the result will be stored),  r-value = the computed result of b+1`,`l-value = current value stored in a,  r-value = the memory address of a`,`l-value = memory address of b,  r-value = value stored in b`],
+      ans:1,
+      exp:`The l-value of a variable is its <em>address</em> (location in memory) — the "left side" of an assignment, i.e. where the result will be stored. The r-value is the <em>value</em> — the "right side," the data that will be placed at that address. For <code>a = b+1</code>, a's l-value (address) receives the r-value (result of b+1).`,
+      tag:`binding`
+    },
+    {
+      q:`Which of the following is an example of <strong>implicit heap-dynamic</strong> binding?`,
+      opts:[`<code>int* p = new int(5);</code> in C++ (explicit allocation)`,`<code>a = [1,2,3]</code> followed by <code>a = 'hello'</code> in Python`,`<code>int x;</code> declared locally in a C function`,`<code>static int count = 0;</code> in a C function`],
+      ans:1,
+      exp:`Implicit heap-dynamic variables are bound to heap storage and type <em>implicitly</em> as a result of an assignment statement. In Python, <code>a = [1,2,3]</code> allocates a list on the heap and binds a to it with type list. <code>a = 'hello'</code> re-binds a to a new heap-allocated string. No explicit <code>new</code> or type declaration is needed — hence implicit.`,
+      tag:`binding`
+    },
+    {
+      q:`C++ is <strong>not</strong> considered a strongly typed language. Which feature most directly prevents C++ from being strongly typed?`,
+      opts:[`C++ uses static (compile-time) type checking`,`C++ union types and explicit type casts (<code>reinterpret_cast</code>, C-style casts) allow the type system to be bypassed`,`C++ allows type declarations to be omitted for local variables`,`C++ does not perform array index bounds checking at runtime`],
+      ans:1,
+      exp:`Strong typing means <em>all</em> type errors are detected. C++ fails this because: (1) <code>union</code> types allow you to read memory as any type; (2) explicit casts like <code>(int*)ptr</code> or <code>reinterpret_cast</code> override the type system. These features mean type errors can be introduced that neither the compiler nor runtime will catch.`,
+      tag:`types`
+    },
+    {
+      q:`A <code>static</code> local variable in C (e.g. <code>static int count = 0;</code> inside a function) has what <strong>lifetime</strong>?`,
+      opts:[`Only during each individual call to the function it is declared in`,`The entire program execution — from program start to program end`,`Until the variable is reassigned to a new value`,`Only during the first call to the function; after that it is deallocated`],
+      ans:1,
+      exp:`A static local variable in C is allocated at program load time (like a global) but its scope is limited to the function. It retains its value between calls because it is never deallocated during program execution. This is its lifetime advantage over ordinary local variables (which are created and destroyed each call).`,
+      tag:`lifetime`
+    },
+    {
+      q:`What is the <strong>primary advantage</strong> of static scoping over dynamic scoping?`,
+      opts:[`Programs are easier to write under dynamic scoping`,`Under static scoping, a programmer can determine all variable bindings by reading the source code without executing the program`,`Dynamic scoping is necessary for closures to work`,`Static scoping allows unrelated functions to share variables`],
+      ans:1,
+      exp:`With static scoping, a variable reference's meaning is determined solely by the program text (lexical structure). You can read the source and know exactly which variable x refers to at any given point. Dynamic scoping requires knowing the <em>call sequence at runtime</em> to determine bindings — this makes programs much harder to understand and reason about.`,
+      tag:`scoping`
+    },
+    {
+      q:`Two different names that refer to the <strong>same memory location</strong> at the same time are called <strong>aliases</strong>. Which language feature <em>most commonly</em> creates aliases?`,
+      opts:[`Strong type checking`,`Pass-by-reference parameter passing`,`Static scoping`,`Type inference`],
+      ans:1,
+      exp:`When a subprogram receives a parameter by reference, both the formal parameter name and the actual parameter name refer to the same memory location simultaneously — they are aliases. This is the most common aliasing mechanism. Aliasing is harmful because modifying one name unexpectedly changes the other, making programs harder to understand and verify.`,
+      tag:`aliasing`
+    },
+    {
+      q:`A language with <strong>type inference</strong> (like Kotlin's <code>val x = 42</code>) does not require explicit type annotations. What kind of type binding does this represent?`,
+      opts:[`Dynamic type binding — type is determined at runtime`,`Static type binding with implicit declaration — the compiler infers the type at compile time`,`Explicit static type binding — the programmer specifies the type`,`Implicit heap-dynamic binding — type changes freely at runtime`],
+      ans:1,
+      exp:`Type inference is still <em>static</em> type binding — the type is determined at compile time. The difference is that the programmer does not write the type explicitly; the compiler deduces it from the initialising expression. In <code>val x = 42</code>, the compiler infers <code>x : Int</code> at compile time. This is not dynamic binding.`,
+      tag:`types`
+    },
+    {
+      q:`In a <strong>dynamic-scoped</strong> language, a function that references a nonlocal variable could see different values for that variable depending on <em>who calls it</em>. What is the <strong>primary disadvantage</strong> of this?`,
+      opts:[`Programs run significantly slower than under static scoping`,`Program behaviour depends on the runtime call sequence, making it impossible to understand a function in isolation by reading its source`,`Dynamic scoping prevents the use of recursion`,`Type checking cannot be performed at compile time`],
+      ans:1,
+      exp:`The textbook's main criticism of dynamic scoping is that it makes programs very hard to read and understand. A function's behaviour is no longer self-contained — it depends on who called it and what variable values are on the call stack. You cannot understand function f without knowing all the ways it might be invoked.`,
+      tag:`scoping`
+    }
+  ]
+},
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CHAPTER 6
+// ══════════════════════════════════════════════════════════════════════════════
+{
+  id:"ch06", chapter:"Chapter 6", title:"Data Types",
+  color:"#059669", bg:"#ecfdf5",
+  scopeIn:[
+    "Primitive data types (numeric, Boolean, character)",
+    "Character string types",
+    "Enumeration types and subrange types",
+    "Array types — all four categories (static, fixed stack-dynamic, stack-dynamic, heap-dynamic)",
+    "Associative arrays",
+    "Record (struct) types",
+    "Tuple types",
+    "Union types — free unions vs discriminated unions",
+    "Set types, pointer types, reference types",
+    "Name type equivalence vs structure type equivalence (Section 6.15 — slides content only)"
+  ],
+  scopeOut:[
+    "Sections 6.3.5, 6.5.9, 6.6.2, 6.7.4, 6.10.5, 6.11.7 (all implementation/compiler construction sections)",
+    "Sections 6.4, 6.5.4, 6.12, 6.16",
+    "Section 6.15 beyond what is in the slides"
+  ],
+  scopeFocus:[
+    "Discriminated unions — know the graphical example from the slides; understand how the tag field provides type safety",
+    "Name type equivalence vs structure type equivalence — know the difference and which languages use which",
+    "Array categories — be able to classify an array declaration into its correct category"
+  ],
+  questions:[
+    {
+      q:`A <strong>discriminated union</strong> in Ada stores both a value <em>and</em> a tag field indicating which type is currently stored. If a variable is declared as a discriminated union of <code>integer | float | boolean</code> and the current tag is <code>integer</code>, what happens when the program attempts to access it as a <code>float</code>?`,
+      opts:[`The float bit pattern is returned with no error (same as a C free union)`,`A runtime error is raised because the tag field does not match the requested type`,`The stored integer is automatically coerced to a float`,`The mismatch is detected at compile time and the program is rejected`],
+      ans:1,
+      exp:`The "discriminated" part means the union carries its own type tag. At runtime, accessing the union as a type that does not match the current tag causes a runtime error (constraint error in Ada). This is the key safety advantage over C's free union, where reading the wrong type silently returns garbage bit patterns.`,
+      tag:`unions`
+    },
+    {
+      q:`A <strong>free union</strong> in C allows a variable to hold values of different types at different times with no tag. What type-safety problem does this create?`,
+      opts:[`Free unions prevent implicit type coercions`,`The programmer can read the union as any type regardless of what was most recently stored, potentially misinterpreting the bit pattern`,`Free unions require an explicit type declaration on every access`,`Free unions cause automatic memory leaks when the stored type changes`],
+      ans:1,
+      exp:`C's <code>union</code> overlays all member types in the same memory. If you store a <code>float</code> and then read it as an <code>int</code>, C simply reinterprets the bytes — silently returning a meaningless value. There is no tag to tell you what is currently stored. This is why free unions are considered a reliability hazard.`,
+      tag:`unions`
+    },
+    {
+      q:`Under <strong>structure type equivalence</strong>, two record/struct types are type-compatible if:`,
+      opts:[`They have the same type name, declared in the same scope`,`They have the same number, types, and order of their member fields — regardless of the type names`,`They are declared in the same module or compilation unit`,`One type is a declared subtype of the other`],
+      ans:1,
+      exp:`Structure equivalence looks at the <em>shape</em> of the type: two types are equivalent if their fields match in number, type, and order. The names of the types and fields are irrelevant. C and C++ use a restricted form of structure equivalence for struct compatibility (though exact rules vary).`,
+      tag:`type-equiv`
+    },
+    {
+      q:`Ada uses <strong>name type equivalence</strong>. Given:<br><code>type Celsius is new Float;</code><br><code>type Fahrenheit is new Float;</code><br>A function expects a <code>Celsius</code> parameter. Can you pass a <code>Fahrenheit</code> value directly?`,
+      opts:[`Yes — both are Float underneath, so they are compatible`,`No — Ada's name equivalence treats Celsius and Fahrenheit as distinct types; passing Fahrenheit is a compile-time error`,`Yes — after an implicit widening conversion`,`It depends on the compiler's name equivalence implementation`],
+      ans:1,
+      exp:`Under name equivalence, two variables are type-compatible only if they have <em>the same type name</em> or one was derived from the other in a compatible way. <code>Celsius</code> and <code>Fahrenheit</code> are declared as new distinct types — they are not the same named type. Ada will reject passing a <code>Fahrenheit</code> where <code>Celsius</code> is expected, even though both wrap Float.`,
+      tag:`type-equiv`
+    },
+    {
+      q:`Python lists (<code>[1, 'hello', True]</code>) differ from C arrays in which <strong>major</strong> way?`,
+      opts:[`Python lists cannot be nested inside other lists`,`Python lists are heterogeneous (can hold values of different types) and dynamically resizable at runtime`,`Python lists require a fixed size to be declared at creation time`,`Python lists cannot be passed as arguments to functions`],
+      ans:1,
+      exp:`C arrays are homogeneous (all elements must be the same type) and fixed-size (size set at declaration). Python lists are heterogeneous (a single list can hold ints, strings, objects, etc.) and dynamic (you can append, remove, or replace elements freely). Python lists are closest to the "heap-dynamic" array category.`,
+      tag:`arrays`
+    },
+    {
+      q:`A record type (like a C <code>struct</code>) bundles fields of different types under a single name. What is the <strong>primary advantage</strong> over using separate independent variables?`,
+      opts:[`Records execute faster than separate variables because of memory locality`,`Records group logically related data together, improving readability and allowing the group to be passed as a single unit to subprograms`,`Records allow a larger amount of total memory to be used`,`Records automatically enable dynamic memory allocation for all contained fields`],
+      ans:1,
+      exp:`The point of a record (struct) is logical grouping. Instead of passing <code>name</code>, <code>age</code>, <code>salary</code> as three separate parameters, you pass one <code>Employee</code> record. This makes code more readable (data is named as a unit), more writable (one parameter instead of many), and safer (the fields travel together).`,
+      tag:`records`
+    },
+    {
+      q:`Given the C declaration <code>union { int i; float f; }</code>, both <code>i</code> and <code>f</code> share the same block of memory. What is the size of this union?`,
+      opts:[`sizeof(int) + sizeof(float) — both fields have separate storage`,`max(sizeof(int), sizeof(float)) — the union is large enough for the biggest member`,`min(sizeof(int), sizeof(float)) — the union uses only the smallest needed`,`Always 1 byte, since only one field is stored at a time`],
+      ans:1,
+      exp:`A union allocates <em>one</em> block of memory large enough to hold its largest member. All fields share this same block (overlapping). The size is the size of the largest member (plus any alignment padding). This is fundamentally different from a struct, which allocates separate storage for every field.`,
+      tag:`unions`
+    },
+    {
+      q:`A language with a <strong>built-in string type</strong> (like Python's <code>str</code>) has which advantage over C's null-terminated character arrays?`,
+      opts:[`Built-in string types always use less memory than character arrays`,`Built-in string types provide operations (concatenation, length, search, slicing) as primitives, improving writability and avoiding common buffer-overflow errors`,`Built-in string types always use static memory binding`,`Built-in string types completely prevent all type errors involving strings`],
+      ans:1,
+      exp:`In C, string operations require manual pointer manipulation and careful null-terminator management — a major source of buffer overflows. A built-in string type encapsulates the length, provides safe high-level operations, and prevents the programmer from writing past the end of the string. This improves both writability and reliability.`,
+      tag:`strings`
+    },
+    {
+      q:`In Java, arrays are <strong>objects</strong> allocated on the heap. What is the consequence when an array is passed to a method?`,
+      opts:[`Java creates a full copy of the array for each method call (pass-by-value of the array contents)`,`Java passes the reference to the array; the method works on the same array object and can modify its contents`,`Java arrays cannot be modified inside called methods`,`Java automatically converts arrays to ArrayList before passing them`],
+      ans:1,
+      exp:`In Java, "pass-by-value of the reference" means the method receives a copy of the reference (pointer) to the same array object on the heap. The method can therefore read and modify elements of the original array. This is different from C where arrays decay to pointers — in Java it is explicit and always the case for all object types including arrays.`,
+      tag:`arrays`
+    },
+    {
+      q:`A language enforces <strong>array subscript range checking</strong> at runtime (e.g. Java, Ada). Which evaluation criterion is most directly improved?`,
+      opts:[`Writability — range checking makes loops easier to write`,`Efficiency — bounds checks reduce unnecessary memory accesses`,`Reliability — out-of-bounds accesses are caught immediately rather than silently corrupting memory`,`Portability — bounds checking ensures arrays behave identically on all platforms`],
+      ans:2,
+      exp:`Runtime bounds checking catches out-of-bounds array accesses as soon as they occur rather than letting them silently corrupt memory (as C does). This directly improves reliability by turning undefined behaviour into a detectable error. The cost is a small efficiency penalty on each array access.`,
+      tag:`arrays`
+    }
+  ]
+},
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CHAPTER 7
+// ══════════════════════════════════════════════════════════════════════════════
+{
+  id:"ch07", chapter:"Chapter 7", title:"Expressions and Assignment Statements",
+  color:"#dc2626", bg:"#fef2f2",
+  scopeIn:[
+    "The whole chapter is examinable",
+    "Operator precedence and associativity",
+    "Functional side effects — what they are, why they are harmful",
+    "Referential transparency — definition and relationship to functional programming",
+    "Short-circuit evaluation of Boolean expressions",
+    "Coercions in expressions (narrowing vs widening conversions)",
+    "Assignment statements — simple, compound, multiple targets",
+    "Conditional expressions (ternary operator)"
+  ],
+  scopeOut:[
+    "Nothing specifically excluded — the whole chapter is examinable",
+    "Note: side effects and referential transparency are also covered in Chapter 15 slides"
+  ],
+  scopeFocus:[
+    "Functional side effects and referential transparency (examined heavily in context of functional vs imperative programming)",
+    "Short-circuit evaluation — know why it is necessary and give examples",
+    "Be able to identify when an expression has a side effect"
+  ],
+  questions:[
+    {
+      q:`A function <code>read_value()</code> reads the next integer from a file. It is used in <code>a = read_value() + read_value()</code>. Is <code>read_value()</code> <strong>referentially transparent</strong>?`,
+      opts:[`Yes — it always reads from the same file object so results are consistent`,`No — calling it twice returns different values (two different reads from the file), so the same call can yield different results`,`Yes — it has no output parameters and modifies no global variables`,`No — all I/O operations are automatically impure regardless of behaviour`],
+      ans:1,
+      exp:`Referential transparency means: a function called with the same arguments <em>always returns the same result</em> and has <em>no observable side effects</em>. <code>read_value()</code> fails both criteria — calling it again moves the file position (side effect), and the next call returns a different value. Replacing <code>read_value()</code> with its result in the expression would change program behaviour.`,
+      tag:`ref-transparency`
+    },
+    {
+      q:`Consider: <code>int x = 5; int y = f(x) + x;</code>. After the call, <code>x</code> is now <code>10</code>. What kind of problem has occurred?`,
+      opts:[`A parameter passing error — x was passed by reference accidentally`,`A functional side effect — f modified a non-local variable (x) as a by-product of its computation`,`A narrowing type conversion occurred during the addition`,`A short-circuit evaluation error changed the value of x`],
+      ans:1,
+      exp:`A <strong>functional side effect</strong> occurs when a subprogram modifies a nonlocal variable (or a parameter passed by reference) as a side-effect of its work. Here, f changed x — a variable it did not receive as a parameter. This makes the value of the expression <code>f(x) + x</code> order-dependent and unpredictable.`,
+      tag:`side-effects`
+    },
+    {
+      q:`In C, consider <code>(x &gt; 0) &amp;&amp; (y = x++)</code>. If <code>x = 0</code>, does the assignment <code>y = x++</code> execute?`,
+      opts:[`Yes — C always evaluates both operands of &amp;&amp;`,`No — C uses short-circuit evaluation; when the left operand is false the right operand is never evaluated`,`Yes, but the assignment is rolled back because the overall condition is false`,`No, but x is still incremented by x++ before the short-circuit check`],
+      ans:1,
+      exp:`C, C++, Java, and most modern languages use short-circuit evaluation for <code>&amp;&amp;</code> and <code>||</code>. When <code>x &gt; 0</code> is false, the entire <code>&amp;&amp;</code> expression is already false — the right operand is skipped entirely. This means <code>y = x++</code> is NOT executed and x is NOT incremented. This is crucial for writing correct code.`,
+      tag:`short-circuit`
+    },
+    {
+      q:`Which expression pattern <strong>requires</strong> short-circuit evaluation to be safe?`,
+      opts:[`<code>a + b * c</code>`,`<code>(ptr != null) &amp;&amp; (ptr-&gt;value &gt; 0)</code>`,`<code>a == b == c</code>`,`<code>a &gt; b ? a : b</code>`],
+      ans:1,
+      exp:`If <code>ptr</code> is null and short-circuit evaluation is <em>not</em> used, <code>ptr-&gt;value</code> will dereference a null pointer — undefined behaviour (crash). Short-circuit evaluation guarantees that if <code>ptr != null</code> is false, the right operand is never evaluated. This pattern is extremely common in C/C++/Java for safe null-pointer checks.`,
+      tag:`short-circuit`
+    },
+    {
+      q:`In C, the expression <code>a = b = 5</code> uses which <strong>associativity</strong> for the assignment operator?`,
+      opts:[`Left-to-right — b is assigned first, then a`,`Right-to-left — 5 is assigned to b, then b's value (5) is assigned to a`,`Both directions simultaneously — both assignments happen in one step`,`C does not allow chained assignment expressions`],
+      ans:1,
+      exp:`Assignment is right-associative in C. <code>a = b = 5</code> is parsed as <code>a = (b = 5)</code>. First, <code>b = 5</code> evaluates (b gets 5, expression value is 5), then <code>a = 5</code> (a gets 5). The right-to-left parsing means the rightmost assignment executes first, with the value propagating left.`,
+      tag:`assignment`
+    },
+    {
+      q:`Ada requires <strong>explicit type conversion</strong> for mixed-mode arithmetic — you cannot add an integer and a float directly without a cast. Which evaluation criterion is most directly improved?`,
+      opts:[`Writability — explicit casts make code shorter`,`Reliability — type mismatches are caught at compile time, preventing silent precision loss`,`Efficiency — avoiding implicit coercions speeds up execution`,`Portability — explicit conversions ensure identical behaviour on all platforms`],
+      ans:1,
+      exp:`Silent implicit coercions (like C's integer-to-float in mixed expressions) can cause unexpected precision loss or behaviour. Ada forces the programmer to explicitly state <code>Float(x)</code>, making the conversion visible and intentional. This catches mistakes at compile time — improving reliability. The cost is reduced writability.`,
+      tag:`coercions`
+    },
+    {
+      q:`Which feature of <strong>pure functional</strong> languages directly prevents functional side effects?`,
+      opts:[`Use of closures to capture variable state`,`The absence of assignment statements — pure functions can only compute and return a value; they cannot modify any external state`,`Dynamic scoping that prevents nonlocal variable access`,`Automatic garbage collection that manages all state changes`],
+      ans:1,
+      exp:`In a pure functional language (like Haskell), there are no assignment statements and no mutable variables. A function receives inputs and returns an output — it cannot modify any external state. This guarantees referential transparency: calling the same function with the same arguments always returns the same result.`,
+      tag:`side-effects`
+    },
+    {
+      q:`The C expression <code>a++ + ++a</code> has undefined behaviour. What is the root cause?`,
+      opts:[`Increment operators cannot appear on both sides of an arithmetic operator`,`The order of evaluation of side effects (the two increments) relative to the addition is unspecified by the C standard`,`<code>a++</code> and <code>++a</code> have different types when combined`,`C does not allow two increment operators in a single expression`],
+      ans:1,
+      exp:`The C standard does not specify whether <code>a++</code>'s side effect (incrementing a) happens before or after <code>++a</code>'s side effect, and does not specify the order relative to the addition. This means different compilers can produce different results. Modifying the same variable twice between two sequence points is undefined behaviour in C.`,
+      tag:`side-effects`
+    },
+    {
+      q:`Python defines assignment as a <strong>statement</strong> (not an expression — you cannot write <code>if x = 5:</code>). What is the <strong>primary benefit</strong> of this design?`,
+      opts:[`Assignment statements execute faster than assignment expressions`,`Prevents the common bug of accidentally writing <code>=</code> (assignment) when <code>==</code> (comparison) was intended inside a conditional`,`Improves the efficiency of the generated bytecode`,`Allows multiple assignments per line`],
+      ans:1,
+      exp:`In C/C++, <code>if (x = 5)</code> is legal — x is assigned 5 and the condition is always true. This is a notorious source of bugs. By making assignment a statement (not an expression), Python prevents it from appearing inside conditions. The programmer is forced to use <code>==</code> for comparisons, eliminating this class of error.`,
+      tag:`assignment`
+    },
+    {
+      q:`A language property where a function called with the same arguments <em>always returns the same value</em> and has <em>no observable side effects</em> is called:`,
+      opts:[`Type safety`,`Referential transparency`,`Orthogonality`,`Strong typing`],
+      ans:1,
+      exp:`Referential transparency means you can replace a function call with its result value anywhere in the program without changing the program's behaviour. This is the key property of pure functional programming. It enables equational reasoning, memoisation, and easy parallelisation. Side effects break referential transparency.`,
+      tag:`ref-transparency`
+    }
+  ]
+},
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CHAPTER 8 — STUB (questions added in Part 2)
+// ══════════════════════════════════════════════════════════════════════════════
+{
+  id:"ch08", chapter:"Chapter 8", title:"Statement-Level Control Structures",
+  color:"#7c3aed", bg:"#f5f3ff",
+  scopeIn:[
+    "Selection statements (if-else, switch/case) in various languages",
+    "Counter-controlled loops",
+    "Logically controlled loops (while, do-while)",
+    "User-defined iteration (for-each, iterators)",
+    "Unconditional branching (goto debate)",
+    "Ruby blocks — syntax, yield, closures as iterators (Section 8.3.4)",
+    "Guarded commands — Dijkstra's if-fi and do-od (Section 8.5)"
+  ],
+  scopeOut:[
+    "Section 8.2.2.3",
+    "Section 8.3.1.4",
+    "Last paragraph and example of Section 8.3.2.2 (pretest logical loops in functional languages)"
+  ],
+  scopeFocus:[
+    "Ruby blocks and yield — how blocks work, how they differ from traditional loops",
+    "Guarded commands (Section 8.5) — non-determinism in if-fi, termination of do-od, why they support formal verification"
+  ],
+  questions:[
+    {
+      q:`In Ruby, a method can include a <code>yield</code> statement. When <code>yield</code> is executed inside a method, what happens?`,
+      opts:[`The method terminates and returns its value to the caller`,`Execution transfers to the block attached to the method call; when the block finishes, execution returns to after the yield`,`A new thread is created to execute the block concurrently`,`The block is stored as a lambda object for later execution`],
+      ans:1,
+      exp:`yield suspends the method and hands control to the attached block. The block runs, optionally using a value passed by yield, then returns its result back to the method at the yield point. This mechanism makes Ruby's iterator methods (each, times, map) possible — the method defines the iteration pattern and yield invokes the caller-supplied logic.`,
+      tag:`ruby-blocks`
+    },
+    {
+      q:`Consider the Ruby code: <code>[1, 2, 3].each do |x| puts x end</code>. How does this differ from a traditional C-style for loop?`,
+      opts:[`It uses the iterator method each, passing each element to the block through the block parameter x — the iteration logic is inside the method, not the caller`,`It only works for arrays of integers`,`It cannot modify the elements because blocks are immutable`,`It is purely syntactic sugar — there is no difference in how it executes`],
+      ans:0,
+      exp:`Ruby's each is a method defined on Array. The caller supplies a block (the do…end) that specifies what to do with each element. Ruby separates the iteration mechanism (inside each) from the per-element action (inside the block). This is more flexible and more OOP-oriented than a for loop, where the programmer controls both the iteration and the action.`,
+      tag:`ruby-blocks`
+    },
+    {
+      q:`In Dijkstra's guarded <code>if-fi</code> command, multiple guards may evaluate to <code>true</code> simultaneously. What happens in this case?`,
+      opts:[`The first true-guarded command is always selected (like a traditional if-else chain)`,`An error is raised because at most one guard should be true`,`Any one of the true-guarded commands may be selected non-deterministically`,`All true-guarded commands execute in sequence`],
+      ans:2,
+      exp:`The non-determinism is intentional. Dijkstra's design does not commit to which true-guarded command executes — the implementation may choose any. This supports formal program correctness proofs: if a program is correct for every possible choice, it is correct in all environments. Determinism (first-match) would be an implementation detail that correctness proofs should not depend on.`,
+      tag:`guarded-commands`
+    },
+    {
+      q:`In Dijkstra's guarded <strong>loop</strong> (<code>do G1 -&gt; C1 [] G2 -&gt; C2 od</code>), what <strong>terminates</strong> the loop?`,
+      opts:[`When a selected command executes without modifying any variable`,`When ALL guards evaluate to false — no guard is true`,`When a break or exit statement is encountered inside a command`,`After a fixed number of iterations determined at loop entry`],
+      ans:1,
+      exp:`The guarded loop continues selecting and executing guarded commands as long as at least one guard is true. When every guard evaluates to false, no command can be selected, and the loop terminates. This is the only termination condition — there is no break or counter. Proving the loop terminates requires showing that some measure decreases and eventually makes all guards false.`,
+      tag:`guarded-commands`
+    },
+    {
+      q:`What is the <strong>primary advantage</strong> of Dijkstra's guarded commands for <strong>program verification</strong>?`,
+      opts:[`Guarded commands generate more efficient machine code than traditional loops`,`Non-determinism makes programs shorter and easier to write`,`Guards directly express preconditions; programs written with guarded commands are easier to prove correct using formal methods`,`Guarded commands prevent infinite loops by construction`],
+      ans:2,
+      exp:`Dijkstra designed guarded commands specifically to support formal program correctness. Each guard is a logical condition (invariant/precondition) that determines whether its associated command may execute. This structure maps directly onto predicate-logic proofs of correctness (Hoare logic, weakest preconditions). Traditional loops have less direct correspondence with formal specifications.`,
+      tag:`guarded-commands`
+    },
+    {
+      q:`Ruby's <code>5.times { |i| puts i }</code> uses an integer method with a block. This is an example of:`,
+      opts:[`A guarded command used as a counter-controlled loop`,`A closure (block) passed to an iterator method — the iteration logic is inside times, the per-step action is the block`,`A coroutine that yields control back and forth`,`Lazy evaluation applied to an integer range`],
+      ans:1,
+      exp:`In Ruby, even integers are objects. The times method sends itself to the integer 5 and calls the attached block with each value 0..4. The block is a closure — it can capture variables from the surrounding scope. This is the Ruby idiom for iteration: use iterator methods (each, times, map, select) and supply the per-element action as a block.`,
+      tag:`ruby-blocks`
+    },
+    {
+      q:`Consider the C loop: <code>for (int i = 0; i &lt; 10; i++) { if (i == 5) i = 0; }</code>. What problem does modifying the loop counter create?`,
+      opts:[`A compile-time error — most C compilers forbid counter modification`,`An infinite loop — resetting i to 0 when it reaches 5 means it never reaches 10`,`The loop runs exactly 10 times regardless of the modification`,`The loop terminates after 5 iterations because i is reset once`],
+      ans:1,
+      exp:`When i reaches 5, it is reset to 0, so i never reaches 10 — the loop is infinite. This is why many languages (Pascal, Java for-each, Python for) make the counter read-only or provide iteration constructs that do not expose a mutable counter. Modifying the loop counter is a known reliability hazard.`,
+      tag:`loops`
+    },
+    {
+      q:`A <code>do-while</code> (posttest) loop is semantically equivalent to which construct?`,
+      opts:[`A while loop where the body is never executed (loop body is skipped if the condition is initially false)`,`A while loop preceded by one unconditional execution of the loop body`,`A for loop with a fixed, known iteration count`,`A guarded loop where the guard is checked after each iteration before the next`],
+      ans:1,
+      exp:`do { body } while(cond) guarantees the body executes at least once before the condition is checked. This is equivalent to: execute body once unconditionally, then enter a while(cond) { body } loop. The only semantic difference from a pretest while loop is this guaranteed first execution.`,
+      tag:`loops`
+    },
+    {
+      q:`Java's for-each loop (<code>for (String s : myList)</code>) improves which evaluation criteria compared to an index-based <code>for (int i=0; i &lt; myList.size(); i++)</code> loop?`,
+      opts:[`Execution speed — for-each is faster because the JVM optimises it`,`Readability and reliability — intent is clearer and there are no off-by-one index errors`,`Writability is reduced because you must declare the element type`,`It allows modification of the list during iteration`],
+      ans:1,
+      exp:`The for-each loop communicates intent directly: "do this for each element." The programmer does not manage an index, so there are no off-by-one errors, no risk of using the wrong array with the index, and the code reads more like the English description of the algorithm. Readability and reliability improve; writability improves too (less to write).`,
+      tag:`loops`
+    },
+    {
+      q:`Which statement most accurately describes the 1960s–70s debate over <code>goto</code> statements?`,
+      opts:[`goto was removed from all modern programming languages after the debate`,`goto improves readability when used for error handling — the debate reached this consensus`,`Unrestricted use of goto makes control flow impossible to follow and programs nearly impossible to verify — structured alternatives (if/while/for) serve all legitimate uses`,`goto is completely harmless; the debate was unnecessary`],
+      ans:2,
+      exp:`Dijkstra's 1968 letter "Go To Statement Considered Harmful" argued that goto creates arbitrary, unpredictable control-flow graphs ("spaghetti code") that make programs hard to read, understand, and prove correct. The structured programming movement showed that selection and iteration constructs cover all control flow needs. Most modern languages either remove goto or strongly discourage it.`,
+      tag:`goto`
+    }
+  ]
+},
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CHAPTER 9 — STUB (questions added in Part 2)
+// ══════════════════════════════════════════════════════════════════════════════
+{
+  id:"ch09", chapter:"Chapter 9", title:"Subprograms",
+  color:"#0ea5e9", bg:"#f0f9ff",
+  scopeIn:[
+    "Subprogram terminology: parameter profile, protocol, formal/actual parameters",
+    "All parameter passing methods: by value, by result, by value-result, by reference, by name",
+    "Sections 9.6 and 9.7 — very important",
+    "Generic subprograms in C++ (templates), Java (generics with type erasure), and C# (9.10.1–9.10.3)",
+    "Closures in JavaScript — Section 9.12; must be able to trace MakeAdder-style output",
+    "Coroutines — Section 9.13; must be able to give output of pseudocode examples",
+    "Referencing environments; deep vs shallow binding for passed subprograms"
+  ],
+  scopeOut:[
+    "Section 9.5.3",
+    "Section 9.10.4"
+  ],
+  scopeFocus:[
+    "Parameter passing is the MOST important topic in this chapter",
+    "Closures (JavaScript) — trace through MakeAdder and similar examples; explain unlimited extent",
+    "Coroutines — trace output from pseudocode step by step",
+    "Generic subprograms: know the key difference between C++ templates, Java type-erasure generics, and C# JIT-time generics"
+  ],
+  questions:[
+    {
+      q:`Consider the following JavaScript code:<pre>function makeAdder(x) {
+  return function(y) { return x + y; }
+}
+var add5  = makeAdder(5);
+var add10 = makeAdder(10);
+console.log(add5(3));
+console.log(add10(3));</pre>What is the complete output?`,
+      opts:[`8<br>13`,`15<br>30`,`3<br>3`,`8<br>8`],
+      ans:0,
+      exp:`makeAdder(5) returns a closure that captures x=5. add5(3) calls that closure with y=3, returning 5+3=8. makeAdder(10) returns a separate closure capturing x=10. add10(3) returns 10+3=13. Each call to makeAdder creates an independent closure with its own captured x.`,
+      tag:`closures`
+    },
+    {
+      q:`In the MakeAdder example, when <code>makeAdder(5)</code> returns, the local variable <code>x=5</code> would normally be deallocated. Why does <code>add5(3)</code> still work correctly?`,
+      opts:[`JavaScript copies the value of x into the returned function's bytecode at compile time`,`The closure captures x and keeps it alive on the heap (unlimited extent) for as long as the closure exists`,`JavaScript automatically re-runs makeAdder(5) each time add5 is called`,`x is promoted to global scope when the closure is created`],
+      ans:1,
+      exp:`A closure captures its free variables (here x) by reference into a heap-allocated environment record. The garbage collector keeps this record alive as long as the closure (add5) is reachable. This is called unlimited extent — the variable outlives the scope that created it. Stack allocation would be insufficient; heap allocation is required.`,
+      tag:`closures`
+    },
+    {
+      q:`Consider this JavaScript closure:<pre>function counter() {
+  var count = 0;
+  return {
+    inc: function() { count++; },
+    get: function() { return count; }
+  };
+}
+var c = counter();
+c.inc(); c.inc(); c.inc();
+console.log(c.get());</pre>What is printed?`,
+      opts:[`0`,`1`,`3`,`undefined`],
+      ans:2,
+      exp:`counter() creates a single count=0 in a closure environment shared by both inc and get. Each c.inc() increments the same count. After three increments, count is 3. c.get() returns that shared count. This is the classic closure pattern for encapsulating private state — count is inaccessible except through the returned methods.`,
+      tag:`closures`
+    },
+    {
+      q:`Consider this coroutine pseudocode:<pre>coroutine A:
+  print "A1"; resume B
+  print "A2"; resume B
+  print "A3"
+coroutine B:
+  print "B1"; resume A
+  print "B2"; resume A</pre>Starting with <code>resume A</code>. What is the complete output (one value per line)?`,
+      opts:[`A1 B1 A2 B2 A3`,`A1 A2 A3 B1 B2`,`B1 A1 B2 A2 A3`,`A1 B1 B2 A2 A3`],
+      ans:0,
+      exp:`Trace: resume A → A prints "A1", resumes B → B prints "B1", resumes A → A continues from after first resume, prints "A2", resumes B → B continues from after first resume, prints "B2", resumes A → A continues from after second resume, prints "A3", A ends. Output: A1, B1, A2, B2, A3.`,
+      tag:`coroutines`
+    },
+    {
+      q:`A coroutine differs from a normal subprogram (function) in which key way?`,
+      opts:[`A coroutine cannot accept parameters`,`A coroutine has multiple entry points and can be resumed from where it last paused`,`A coroutine runs concurrently on a separate CPU core`,`A coroutine cannot return values`],
+      ans:1,
+      exp:`A normal subprogram has ONE entry point (the beginning) and runs to completion each call. A coroutine can be resumed multiple times. After the first resume it starts at the beginning; subsequent resumes continue from after the last yield/resume. Coroutines interleave execution quasi-concurrently (no true parallelism) — they are symmetrically cooperative.`,
+      tag:`coroutines`
+    },
+    {
+      q:`C++ templates (<code>template &lt;class T&gt; T max(T a, T b)</code>) vs Java generics (<code>&lt;T&gt; T max(T a, T b)</code>). What is the key difference in how they are instantiated?`,
+      opts:[`Both create a new version for each type at compile time`,`C++ creates a new type-specific version at compile time for each type used; Java uses type erasure — ONE Object-based version exists at runtime`,`Both use a single Object-based version at runtime`,`Java creates versions at load time; C++ creates them at link time`],
+      ans:1,
+      exp:`C++ templates are expanded at compile time — a separate function is generated for each type T used (int, double, etc.), giving full type-specific optimisation. Java generics use type erasure: the compiler replaces T with Object (or the bound) and inserts casts. A single method body exists at runtime. C++ trades compile time/binary size for performance; Java trades optimisation for code size.`,
+      tag:`generics`
+    },
+    {
+      q:`C# generics differ from both C++ templates and Java generics. What is C#'s approach?`,
+      opts:[`C# uses compile-time expansion like C++ templates`,`C# preserves generic type information at runtime; the JIT compiler creates type-specific versions at runtime — reference types share one version, value types get separate specialisations`,`C# uses type erasure like Java`,`C# generics are purely syntactic sugar with no runtime mechanism`],
+      ans:1,
+      exp:`C# generics are reified — type parameters are preserved at runtime (unlike Java's erasure). The .NET JIT creates specialised versions for each value type (int, double) for performance, and shares one version for all reference types. This gives C# the type-safety benefit of Java generics AND the value-type performance benefit of C++ templates.`,
+      tag:`generics`
+    },
+    {
+      q:`In a <strong>static-scoped</strong> language, function <code>f</code> is defined at the top level and references variable <code>x</code>. It is called from inside function <code>g</code>, which has its own local variable also named <code>x</code>. Which <code>x</code> does <code>f</code> use?`,
+      opts:[`g's local x — because g called f`,`The global x from the scope where f was defined`,`A new x is created for each call to f`,`The most recently declared x on the call stack`],
+      ans:1,
+      exp:`Static (lexical) scoping resolves variable references based on the program text — where the function is defined, not where it is called. f is defined at the top level, so it sees the global x. g's local x is invisible to f regardless of the call sequence. This is the fundamental difference from dynamic scoping.`,
+      tag:`scoping`
+    },
+    {
+      q:`What distinguishes a <strong>procedure</strong> from a <strong>function</strong> in languages that make this distinction?`,
+      opts:[`A procedure is compiled; a function is interpreted`,`A function returns a value that is the result of its computation; a procedure does not return a value — it produces results only through side effects or output parameters`,`A procedure can have parameters; a function cannot`,`A function is recursive; a procedure is not`],
+      ans:1,
+      exp:`In Ada, Pascal, and the textbook's terminology: a function computes and returns a value (used in expressions); a procedure performs an action (used as a statement). Procedures may have in-out parameters but do not have a return value as part of their protocol. This distinction maps onto the mathematical concept of a function vs a command.`,
+      tag:`terminology`
+    },
+    {
+      q:`What is the difference between <strong>generic</strong> and <strong>overloaded</strong> subprograms?`,
+      opts:[`Generic subprograms can only work with numeric types; overloaded ones work with any type`,`Overloaded subprograms have different bodies for each type they handle; a generic subprogram has ONE body that is parameterised by type and works for any valid type`,`Generic subprograms are compiled; overloaded ones are resolved at runtime`,`They are synonyms — there is no difference`],
+      ans:1,
+      exp:`Overloading (ad-hoc polymorphism): the programmer writes separate function bodies for int, float, string, etc. The compiler picks the right one based on argument types. Generic subprograms (parametric polymorphism): ONE body is written using a type parameter T; the same code works for any type. Generics eliminate the need to copy-and-paste implementations for every type.`,
+      tag:`generics`
+    },
+    {
+      q:`With <strong>shallow binding</strong> for a subprogram passed as a parameter, whose referencing environment is used when that subprogram executes?`,
+      opts:[`The environment where the subprogram was defined`,`The environment where the subprogram was passed as a parameter`,`The environment of the subprogram that is currently executing the call`,`The global environment only`],
+      ans:2,
+      exp:`Shallow binding: the referencing environment of the passed subprogram is determined by the subprogram that calls it — the active environment at the time of the call. This is natural for dynamically scoped languages. Deep binding (used in static-scoped languages) captures the environment at the time the subprogram was defined (its closure), regardless of who calls it later.`,
+      tag:`binding`
+    },
+    {
+      q:`In Python, a nested function that assigns to a name from its enclosing scope — <em>without</em> using the <code>nonlocal</code> keyword — creates which result?`,
+      opts:[`The outer variable is modified in place`,`A new local variable is created in the nested function, shadowing the outer variable`,`A runtime NameError is raised`,`The variable is promoted to global scope`],
+      ans:1,
+      exp:`Python's assignment rule: if a name appears on the left of an assignment anywhere in a function, Python treats it as a local variable throughout that function. Without <code>nonlocal</code>, the nested function creates its own local binding for that name, leaving the outer variable unchanged. The outer variable is shadowed, not modified.`,
+      tag:`scoping`
+    },
+    {
+      q:`C++ function pointer declared as <code>int (*fp)(int, int)</code>. What does this declare?`,
+      opts:[`A pointer to an integer array of size 2`,`A pointer to a function that takes two int parameters and returns int`,`A function named fp that takes an int pointer and returns int`,`A pair of integers`],
+      ans:1,
+      exp:`Reading from inside out: fp is a pointer (*fp), to a function taking (int, int) and returning int. The parentheses around *fp are required to bind the * to fp rather than to the return type. Function pointers allow storing and passing functions as first-class values in C, enabling callbacks and strategy patterns.`,
+      tag:`terminology`
+    },
+    {
+      q:`In C#, a generic method constraint <code>T Max&lt;T&gt;(T a, T b) where T : IComparable</code> — what does the constraint enforce?`,
+      opts:[`T must be a reference type (not a value type)`,`T must implement the IComparable interface, guaranteeing that comparison operations are available on values of type T`,`T must be a primitive numeric type`,`T must be a subclass of Object`],
+      ans:1,
+      exp:`The constraint <code>where T : IComparable</code> restricts T to types that implement IComparable (which provides the CompareTo method). Without this constraint, the compiler cannot assume T supports comparison — calling a.CompareTo(b) would be a compile error. Constraints let generic methods use type-specific operations safely.`,
+      tag:`generics`
+    },
+    {
+      q:`A coroutine's <em>first</em> resume starts execution from the beginning. What does a <em>subsequent</em> resume do?`,
+      opts:[`Restarts the coroutine from the beginning (same as the first resume)`,`Continues execution from after the last yield or resume statement in the coroutine body`,`Creates a new instance of the coroutine`,`Raises an error because a coroutine can only be resumed once`],
+      ans:1,
+      exp:`A coroutine maintains its execution state between resumes — its local variables, program counter, and stack frame are preserved. A subsequent resume picks up from exactly where it left off (after the last resume/yield). This is the key property that distinguishes coroutines from ordinary functions and enables cooperative multitasking patterns.`,
+      tag:`coroutines`
+    }
+  ]
+},
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CHAPTER 12 — STUB (questions added in Part 2)
+// ══════════════════════════════════════════════════════════════════════════════
+{
+  id:"ch12", chapter:"Chapter 12", title:"Support for Object-Oriented Programming",
+  color:"#ec4899", bg:"#fdf2f8",
+  scopeIn:[
+    "All material in Chapter 12 EXCEPT Sections 12.5 and 12.6",
+    "Core OOP features: abstract data types (classes), inheritance, polymorphism with dynamic binding",
+    "C++ OOP: virtual methods, abstract classes (pure virtual), access control, multiple inheritance",
+    "Java OOP: interfaces vs abstract classes, access modifiers, single inheritance + interfaces",
+    "Smalltalk: pure OOP, message passing, dynamic binding, performance implications",
+    "Ruby: pure OOP, duck typing, mixins"
+  ],
+  scopeOut:[
+    "Section 12.5",
+    "Section 12.6"
+  ],
+  scopeFocus:[
+    "This chapter is VERY important — comprehensive coverage expected",
+    "virtual vs non-virtual methods in C++ — trace which method is called",
+    "Java interface vs abstract class — key differences",
+    "Duck typing in Ruby",
+    "Dynamic binding vs static binding with concrete examples"
+  ],
+  questions:[
+    {
+      q:`Java's <code>interface</code> keyword solves the multiple-inheritance problem that causes ambiguity in C++. Why does an interface prevent this ambiguity?`,
+      opts:[`Interfaces allow code reuse through implementation inheritance just like C++ base classes`,`Pre-Java 8 interfaces only specify method signatures with no implementations — there is no inherited code to be ambiguous about`,`Java interfaces are automatically converted to abstract classes by the compiler`,`Java interfaces make all inherited methods static, eliminating any dispatch ambiguity`],
+      ans:1,
+      exp:`The diamond problem in C++ arises because two base classes can both inherit an implementation of the same method from a common ancestor. Java (pre-Java 8) interfaces contain only method signatures — no method bodies. A class implementing two interfaces that declare the same method must provide its own implementation, so there is no ambiguity about which inherited code to use.`,
+      tag:`java-oop`
+    },
+    {
+      q:`In Java, an <code>abstract class</code> differs from an <code>interface</code> (pre-Java 8) in which key way?`,
+      opts:[`Abstract classes cannot be inherited; interfaces can be implemented by any class`,`Abstract classes can have instance variables and concrete (implemented) methods; pre-Java 8 interfaces can have neither`,`Abstract classes require all their methods to be overridden by subclasses`,`Abstract classes can be directly instantiated; interfaces cannot`],
+      ans:1,
+      exp:`An abstract class can mix abstract methods (to be overridden) with concrete implemented methods, and can declare instance variables. A pre-Java 8 interface is a pure contract — only method signatures (implicitly abstract) and constants. Choose abstract class when you want to share implementation code; choose interface when you only want to specify a contract.`,
+      tag:`java-oop`
+    },
+    {
+      q:`Consider C++ code:<pre>Shape* s = new Circle();
+s-&gt;draw();</pre>If <code>draw()</code> is declared <code>virtual</code> in Shape, which <code>draw()</code> is called?`,
+      opts:[`Shape::draw() — because s is declared as Shape*`,`Circle::draw() — the vtable lookup at runtime finds Circle's overriding version`,`Both draw() functions are called in base-then-derived order`,`A compile-time error: virtual dispatch requires a reference, not a pointer`],
+      ans:1,
+      exp:`Virtual methods use dynamic binding: the vtable pointer stored in the object determines which method is called. s points to a Circle object at runtime, so the vtable belongs to Circle. draw() resolves to Circle::draw() regardless of the declared type of the pointer. This is the core mechanism of runtime polymorphism in C++.`,
+      tag:`cpp-oop`
+    },
+    {
+      q:`Same C++ code, but now <code>draw()</code> is <strong>not</strong> declared virtual:<pre>Shape* s = new Circle();
+s-&gt;draw();</pre>Which draw() is called?`,
+      opts:[`Circle::draw() — the actual runtime object is a Circle`,`Shape::draw() — non-virtual methods use static binding; the declared type of the pointer (Shape*) determines the call`,`Both are called`,`A runtime error is thrown because the actual type does not match the pointer type`],
+      ans:1,
+      exp:`Non-virtual methods use static (compile-time) binding. The compiler sees s declared as Shape* and resolves draw() to Shape::draw() at compile time — the actual runtime type of the pointed-to object is irrelevant. Only virtual methods trigger a vtable lookup at runtime. This is a classic C++ pitfall: forgetting virtual means polymorphism does not work.`,
+      tag:`cpp-oop`
+    },
+    {
+      q:`In C++, when should a class's <strong>destructor</strong> be declared <code>virtual</code>?`,
+      opts:[`Never — destructors should not be virtual as it wastes vtable space`,`Whenever the class is used polymorphically — deleting a derived-class object through a base-class pointer requires a virtual destructor to call the correct destructor`,`Only when the class has no data members`,`When the class has more than two levels of inheritance`],
+      ans:1,
+      exp:`If you delete a derived object through a base-class pointer and the base destructor is NOT virtual, only the base destructor is called — the derived destructor is skipped (undefined behaviour). This causes resource leaks if the derived class owns resources. Making the base destructor virtual ensures the correct chain of destructors is called.`,
+      tag:`cpp-oop`
+    },
+    {
+      q:`Ruby uses <strong>duck typing</strong> for polymorphism. What does this mean?`,
+      opts:[`Ruby requires explicit inheritance relationships for polymorphism to work`,`Any object that responds to the correct message (method name) can be used polymorphically — the declared type is irrelevant`,`Ruby only supports polymorphism through interfaces`,`Ruby performs compile-time type checking to ensure polymorphic calls are safe`],
+      ans:1,
+      exp:`"If it walks like a duck and quacks like a duck, it's a duck." Ruby checks at runtime whether an object responds to a method call (via respond_to?). If it does, the call succeeds regardless of the object's class hierarchy. No interface declaration or inheritance is needed — any object with the right method works. This is the most flexible form of polymorphism.`,
+      tag:`ruby-oop`
+    },
+    {
+      q:`Java's <code>protected</code> access modifier gives access to:`,
+      opts:[`Only the class itself (same as private)`,`The class itself, all its subclasses in any package, and all other classes in the same package`,`Only classes in the same package (subclasses in other packages are excluded)`,`All classes everywhere (same as public)`],
+      ans:1,
+      exp:`Java's protected means: accessible within the same class, within any subclass (even in different packages), and within any class in the same package (even if not a subclass). This is broader than package-private (no modifier) which excludes subclasses in other packages, but narrower than public which allows access from anywhere.`,
+      tag:`java-oop`
+    },
+    {
+      q:`C++ static methods vs virtual methods — which statement is correct?`,
+      opts:[`Static methods participate in dynamic dispatch through the class hierarchy`,`Static methods are bound at compile time and have no implicit this pointer — they cannot be virtual or overridden polymorphically`,`Static methods execute faster than virtual methods because they use dynamic dispatch`,`Static methods can only be called on an instance, not on the class name`],
+      ans:1,
+      exp:`Static methods belong to the class, not to any object instance. They have no this pointer and cannot access instance variables. The compiler resolves static method calls at compile time (static binding). They cannot be virtual because virtual dispatch requires a per-object vtable pointer — and static methods have no object.`,
+      tag:`cpp-oop`
+    },
+    {
+      q:`Java's <code>final</code> keyword applied to a <strong>class</strong> means:`,
+      opts:[`The class cannot declare instance variables (all fields become compile-time constants)`,`The class cannot be subclassed — no further inheritance is possible`,`The class cannot instantiate objects (it becomes effectively abstract)`,`All methods in the class are automatically made static`],
+      ans:1,
+      exp:`A final class in Java is a closed class — it sits at the bottom of the inheritance hierarchy and cannot be extended. String in Java is final, for example. This is useful when the designer wants to guarantee that the class's contract cannot be broken by subclasses. Individual methods can also be declared final to prevent overriding.`,
+      tag:`java-oop`
+    },
+    {
+      q:`Class hierarchy: <code>Animal → Dog → GoldenRetriever</code>. Which IS-A statements are correct?`,
+      opts:[`GoldenRetriever IS-A Animal; Dog IS-A GoldenRetriever; Animal IS-A Dog`,`GoldenRetriever IS-A Dog; Dog IS-A Animal; GoldenRetriever IS-A Animal (by transitivity)`,`Animal IS-A Dog; Dog IS-A GoldenRetriever`,`Only direct parent-child IS-A relationships hold; GoldenRetriever IS-A Animal does not hold`],
+      ans:1,
+      exp:`Inheritance creates an IS-A hierarchy. GoldenRetriever IS-A Dog (direct); Dog IS-A Animal (direct). By transitivity of inheritance, GoldenRetriever IS-A Animal also holds. This transitivity is what makes polymorphism so powerful — a GoldenRetriever object can be used anywhere an Animal is expected. The reverse (Animal IS-A Dog) does not hold.`,
+      tag:`oop-concepts`
+    },
+    {
+      q:`A class with at least one pure virtual function (<code>virtual void draw() = 0;</code>) in C++ is called an <strong>abstract class</strong>. What does this prevent?`,
+      opts:[`The class being used as a base class`,`Direct instantiation of the abstract class — only concrete derived classes can be instantiated`,`Derived classes from overriding the pure virtual function`,`The use of pointers and references to the abstract class type`],
+      ans:1,
+      exp:`An abstract class defines an interface contract — it says "all my subclasses MUST implement draw()." Because draw() has no implementation in the base class, creating an instance directly would leave it with an undefined method. C++ prevents this: you cannot say <code>Shape s;</code> if Shape has a pure virtual function. Pointers and references to Shape are still allowed.`,
+      tag:`cpp-oop`
+    },
+    {
+      q:`In Smalltalk, ALL method binding is dynamic (no static methods). What is the <strong>primary performance implication</strong>?`,
+      opts:[`Smalltalk is faster than C++ because dynamic binding eliminates compile-time overhead`,`Smalltalk is approximately 10× slower than C++ because all operations go through dynamic message dispatch and all objects are heap-allocated`,`Smalltalk has the same performance as Java`,`Smalltalk is only slower when processing numeric data`],
+      ans:1,
+      exp:`Smalltalk's purity comes at a cost. Every operation — even integer addition — sends a message to an object and triggers a runtime method lookup. Every object lives on the heap (no stack-allocated primitives). C++ uses direct hardware instructions for primitives and optional static binding for speed. Sebesta cites approximately 10× slower as the typical comparison.`,
+      tag:`smalltalk`
+    },
+    {
+      q:`What is the <strong>main design advantage</strong> of using abstract classes (or interfaces) to define OOP contracts?`,
+      opts:[`They allow subclasses to inherit default implementations without override`,`They define a guaranteed contract that all subclasses must satisfy, enabling polymorphism — any object of any subtype can substitute for the abstract type`,`They prevent memory leaks in derived classes by managing destructors`,`They force subclasses to execute faster through specialised dispatch`],
+      ans:1,
+      exp:`The Liskov Substitution Principle: wherever a base type is expected, any subtype can be used. Abstract classes/interfaces make this explicit — a class that implements the interface is guaranteed to provide all the required methods. Client code can be written against the abstract type and work with any implementing class, enabling the "open/closed" principle.`,
+      tag:`oop-concepts`
+    },
+    {
+      q:`C++ supports two kinds of derivation: <strong>public</strong> and <strong>private</strong>. What is the key difference?`,
+      opts:[`Private derivation makes all members of the derived class private to other classes`,`Public derivation preserves the base class interface (IS-A / subtype relationship); private derivation makes all inherited public/protected members private in the derived class, breaking the IS-A relationship`,`Private derivation prevents the derived class from inheriting private members of the base`,`Public and private derivation are identical; the keyword only affects documentation`],
+      ans:1,
+      exp:`Public derivation: the derived class IS-A base class — its public interface includes the base's public interface; polymorphism works. Private derivation: the derived class is implemented IN-TERMS-OF the base class — the base's public members become private in the derived class; clients of the derived class cannot access them; polymorphism does not apply.`,
+      tag:`cpp-oop`
+    },
+    {
+      q:`Diamond inheritance in C++ (<code>D</code> inherits from <code>B</code> and <code>C</code>, both of which inherit from <code>A</code>) causes which problem?`,
+      opts:[`The compiler cannot generate code for class D`,`D has two copies of A's members by default — calls to A's methods are ambiguous`,`Class A cannot have any virtual methods`,`D automatically uses A's methods directly, bypassing B and C`],
+      ans:1,
+      exp:`Without virtual inheritance, D inherits A through both B and C — giving D two separate copies of A's data and methods. Calling <code>d.methodFromA()</code> is ambiguous (which copy?). C++ resolves this either with the scope resolution operator (<code>B::method()</code>) or by using virtual inheritance, which ensures only one shared copy of A exists in D.`,
+      tag:`cpp-oop`
+    }
+  ]
+},
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CHAPTER 15 — STUB (questions added in Part 2)
+// ══════════════════════════════════════════════════════════════════════════════
+{
+  id:"ch15", chapter:"Chapter 15", title:"Functional Programming — Scheme",
+  color:"#10b981", bg:"#ecfdf5",
+  scopeIn:[
+    "All material up to and including Section 15.5.11 (Scheme list processing examples)",
+    "Characteristics of functional programming (no variables, no loops, no side effects)",
+    "Scheme fundamentals: S-expressions, prefix notation, car, cdr, cons, list, quote",
+    "Scheme conditionals: cond, if",
+    "Scheme definitions: define",
+    "Scheme equality: eq?, eqv?, equal?, null?",
+    "Scheme list processing functions: member, equalsimp, equal, append — analyse AND write",
+    "tail recursion and why it matters in Scheme",
+    "Higher-order functions: mapcar/map, apply",
+    "Material from slides covering sections 7.2.2, 8.2.2.4, 6.9, 5.5.2"
+  ],
+  scopeOut:[
+    "Common Lisp, ML, Haskell, F#",
+    "Functional programming support in imperative languages",
+    "Sections 15.2 and 15.4",
+    "Lambda expressions — Section 15.5.4 (not examinable)",
+    "There will be ONE Scheme implementation question involving list processing"
+  ],
+  scopeFocus:[
+    "Be able to WRITE simple Scheme functions (member, length, reverse, append-style)",
+    "Trace car/cdr/cons/list expressions step by step",
+    "Know the member, equalsimp, equal, and append functions from class",
+    "Use DrRacket interpreter for the exam implementation question"
+  ],
+  questions:[
+    {
+      q:`Evaluate: <code>(car (cdr '(a b c d)))</code>`,
+      opts:[`a`,`b`,`(b c d)`,`(a b)`],
+      ans:1,
+      exp:`Step 1: cdr of (a b c d) returns (b c d) — the tail after the first element. Step 2: car of (b c d) returns b — the first element of that list. Reading car and cdr from inside out: inner cdr peels off a, leaving (b c d); outer car takes the first element b.`,
+      tag:`car-cdr`
+    },
+    {
+      q:`Evaluate: <code>(cdr (cdr '(a b c)))</code>`,
+      opts:[`(b c)`,`b`,`(c)`,`c`],
+      ans:2,
+      exp:`First cdr: (cdr '(a b c)) → (b c). Second cdr: (cdr '(b c)) → (c). The result is the list (c) — a one-element list containing c. Note: (c) is NOT the same as c; it is a list whose only element is the atom c.`,
+      tag:`car-cdr`
+    },
+    {
+      q:`Evaluate: <code>(cons '(a b) '(c d))</code>`,
+      opts:[`(a b c d)`,`((a b) c d)`,`(a b (c d))`,`((a b) (c d))`],
+      ans:1,
+      exp:`cons builds a new list by prepending its first argument as the new first element of its second argument. Here the first argument is the LIST (a b), and it is prepended to (c d). The result is ((a b) c d) — a 3-element list whose first element is (a b), second is c, third is d. cons does NOT flatten lists.`,
+      tag:`cons`
+    },
+    {
+      q:`Evaluate: <code>(list 'a 'b 'c)</code>`,
+      opts:[`a`,`(a b c)`,`((a) (b) (c))`,`(list a b c)`],
+      ans:1,
+      exp:`list builds a proper list from its arguments. (list 'a 'b 'c) creates a list with three elements: the atoms a, b, and c. The result is (a b c). This is different from cons: (cons 'a '(b c)) also gives (a b c), but list takes any number of arguments and creates a flat list from them all.`,
+      tag:`list`
+    },
+    {
+      q:`<code>(equal? '(a (b)) '(a (b)))</code> — what does this return?`,
+      opts:[`#f — they are different list objects in memory`,`#t — equal? performs deep structural comparison`,`Error — nested lists cannot be compared`,`#t only if they happen to be the same object in memory`],
+      ans:1,
+      exp:`equal? performs a deep, structural comparison. It recursively compares car and cdr until it reaches atoms, using eq? at the atom level. (a (b)) and (a (b)) have the same structure: first element is atom a, second element is a list containing atom b. equal? returns #t even for different objects in memory with identical structure.`,
+      tag:`equality`
+    },
+    {
+      q:`Which Scheme definition correctly implements <code>my-length</code> that returns the number of elements in a list?`,
+      opts:[
+        `(define (my-length L) (if (null? L) 0 (+ 1 (my-length (cdr L)))))`,
+        `(define (my-length L) (if (null? L) 1 (my-length (cdr L))))`,
+        `(define (my-length L) (+ 1 (my-length (cdr L))))`,
+        `(define (my-length L) (if (car L) 0 (+ 1 (my-length (cdr L)))))`
+      ],
+      ans:0,
+      exp:`The base case: an empty list has 0 elements (null? L) → 0. The recursive case: the length of a non-empty list is 1 (for the head) plus the length of the tail. Option B returns 1 for empty list (wrong). Option C has no base case (infinite recursion). Option D uses car as a condition which is wrong.`,
+      tag:`write-scheme`
+    },
+    {
+      q:`<code>(apply + '(1 2 3))</code> evaluates to:`,
+      opts:[`The unevaluated list (+ 1 2 3)`,`6`,`(1 2 3)`,`A list object containing the + procedure`],
+      ans:1,
+      exp:`apply calls its first argument (the function +) with the elements of its second argument (the list '(1 2 3)) as separate arguments. This is equivalent to (+ 1 2 3) = 6. apply is useful when you have arguments collected in a list and need to pass them to a function that expects separate arguments.`,
+      tag:`higher-order`
+    },
+    {
+      q:`<code>(map (lambda (x) (* x x)) '(1 2 3 4))</code> returns:`,
+      opts:[`(1 2 3 4)`,`(1 4 9 16)`,`(2 4 6 8)`,`30`],
+      ans:1,
+      exp:`map applies the function to every element of the list and returns a new list of results. Squaring each element: 1→1, 2→4, 3→9, 4→16. Result: (1 4 9 16). Note: in Scheme the function is called mapcar; in Racket/modern Scheme it is map. Either name may appear in exam questions.`,
+      tag:`higher-order`
+    },
+    {
+      q:`Using the standard <code>member</code> function from class:<pre>(define (member atm lis)
+  (cond ((null? lis) #f)
+        ((eq? atm (car lis)) #t)
+        (else (member atm (cdr lis)))))</pre>What does <code>(member 'b '(a b c))</code> return?`,
+      opts:[`#f`,`#t`,`(b c)`,`b`],
+      ans:1,
+      exp:`Trace: (null? '(a b c)) → #f. (eq? 'b 'a) → #f. Recursive call: (member 'b '(b c)). (null? '(b c)) → #f. (eq? 'b 'b) → #t → return #t. The function returns #t when the atom is found, #f when the list is exhausted.`,
+      tag:`trace-scheme`
+    },
+    {
+      q:`<code>(append '() '(a b))</code> returns:`,
+      opts:[`()`,`(a b)`,`(() a b)`,`Error — cannot append to an empty list`],
+      ans:1,
+      exp:`The base case of append is: (append '() lis) → lis. Appending an empty list to any list just returns that list unchanged. This matches the standard definition: (define (append lis1 lis2) (if (null? lis1) lis2 (cons (car lis1) (append (cdr lis1) lis2)))).`,
+      tag:`trace-scheme`
+    },
+    {
+      q:`Tail recursion matters in Scheme because:`,
+      opts:[`Tail-recursive functions are always shorter to write`,`The Scheme standard requires tail calls to be optimised (TCO) — a tail-recursive function uses O(1) stack space instead of growing the stack with each call`,`Tail recursion is the only type of recursion Scheme supports`,`Tail-recursive functions run faster on all hardware`],
+      ans:1,
+      exp:`Without TCO, a recursive call to process a 10,000-element list would create 10,000 pending stack frames, causing a stack overflow. Scheme mandates proper tail-call optimisation: a tail call (the last action in a function) reuses the current stack frame. A tail-recursive function runs in constant stack space, equivalent to a loop.`,
+      tag:`tail-recursion`
+    },
+    {
+      q:`<code>(null? '())</code> evaluates to:`,
+      opts:[`#f`,`#t`,`()`,`Error`],
+      ans:1,
+      exp:`null? returns #t if its argument is the empty list '(), and #f otherwise. '() is the empty list — the base case for all list-processing recursions. Always check (null? lis) as the first case in a recursive list function to handle the empty list before trying to take car or cdr.`,
+      tag:`car-cdr`
+    },
+    {
+      q:`Scheme's <code>cond</code> expression is the functional equivalent of which imperative construct?`,
+      opts:[`A while loop`,`A multi-way if-else-if chain (switch/case equivalent)`,`A for loop`,`A procedure call`],
+      ans:1,
+      exp:`cond evaluates each clause's test in order; when a true test is found, it evaluates and returns the corresponding expression. This is equivalent to if…else if…else if…else in imperative languages. The (else …) clause catches all remaining cases. cond is preferred over nested ifs for readability when there are more than two cases.`,
+      tag:`scheme-basics`
+    },
+    {
+      q:`<code>(define (second L) (car (cdr L)))</code>. What does <code>(second '(x y z))</code> return?`,
+      opts:[`x`,`y`,`z`,`(y z)`],
+      ans:1,
+      exp:`(cdr '(x y z)) → (y z). (car '(y z)) → y. second returns the second element of a list: peel off the first element with cdr, then take the head of the rest with car. This is also expressible as (cadr L) using the combined car-of-cdr shorthand.`,
+      tag:`car-cdr`
+    },
+    {
+      q:`The <code>equalsimp</code> function compares two atoms using <code>eq?</code>, while <code>equal?</code> can compare nested lists. What is the key difference between <code>eq?</code> and <code>equal?</code>?`,
+      opts:[`eq? and equal? are identical for all Scheme values`,`eq? tests object identity (are these the same object in memory?); equal? tests structural equivalence recursively (do they have the same structure and content?)`,`eq? can compare nested lists; equal? only compares atoms`,`eq? is faster but only works with equal? for nested comparisons`],
+      ans:1,
+      exp:`eq? is an identity test — it checks if two objects are the exact same pointer in memory. For atoms (symbols) this works because Scheme interns symbols. But (eq? '(a b) '(a b)) may be #f — two separately created lists with identical content. equal? traverses the structure recursively and returns #t if the shapes and atoms match, regardless of memory identity.`,
+      tag:`equality`
+    }
+  ]
+},
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CHAPTER 16 — STUB (questions added in Part 2)
+// ══════════════════════════════════════════════════════════════════════════════
+{
+  id:"ch16", chapter:"Chapter 16", title:"Logic Programming — Prolog",
+  color:"#6366f1", bg:"#eef2ff",
+  scopeIn:[
+    "All material in Chapter 16 is examinable",
+    "Logic programming principles: declarative, non-procedural, Horn clauses",
+    "Prolog structure: facts, rules, queries",
+    "Prolog syntax: constants vs variables, terms, structures",
+    "Unification and resolution",
+    "Backward chaining and depth-first search",
+    "Prolog list processing: [H|T] notation, member, append, reverse propositions",
+    "Trace model: CALL, EXIT, REDO, FAIL",
+    "Arithmetic with is/2",
+    "Negation as failure",
+    "Closed-world assumption"
+  ],
+  scopeOut:[
+    "Nothing specifically excluded — all of Chapter 16 is examinable",
+    "There will be ONE Prolog implementation question involving list processing",
+    "You may only use language features from the textbook and practical specifications"
+  ],
+  scopeFocus:[
+    "Be able to WRITE Prolog predicates for list operations (member, append, reverse, length)",
+    "Trace backtracking through a query step by step",
+    "Understand unification — what makes two terms unifiable",
+    "Know the append predicate can be used bidirectionally (splitting as well as joining)",
+    "Use SWI-Prolog for the exam implementation question"
+  ],
+  questions:[
+    {
+      q:`Which Prolog clause correctly implements the <strong>recursive case</strong> for <code>my_length</code> (counting list elements)?`,
+      opts:[
+        `my_length([_|T], N) :- my_length(T, N1), N is N1 + 1.`,
+        `my_length([_|T], N) :- my_length(T, N).`,
+        `my_length([H|T], N) :- N is H + 1.`,
+        `my_length([_|T], N) :- N is N + 1, my_length(T, N).`
+      ],
+      ans:0,
+      exp:`The full predicate needs a base case (my_length([], 0)) and the recursive case shown in option A: strip the head with [_|T], recursively count T to get N1, then N = N1 + 1. Option B never increments. Option C adds the head value (not 1). Option D tries to use N on both sides of is, which fails because N is uninstantiated.`,
+      tag:`write-prolog`
+    },
+    {
+      q:`Given these Prolog facts:<pre>likes(mary, food).
+likes(mary, wine).
+likes(john, wine).
+likes(john, mary).</pre>What is the <strong>first</strong> result of <code>?- likes(mary, X), likes(john, X).</code>?`,
+      opts:[`X = food`,`X = wine`,`X = mary`,`false`],
+      ans:1,
+      exp:`Prolog tries likes(mary, X) first: X=food. Then tries likes(john, food) — fails (no such fact). Backtracks: X=wine. Then tries likes(john, wine) — succeeds! First solution: X = wine. Prolog depth-first search tries candidates in order and backtracks on failure.`,
+      tag:`trace-prolog`
+    },
+    {
+      q:`In Prolog, the unification operator <code>=</code> (e.g. <code>X = 5</code>) means:`,
+      opts:[`X is arithmetically assigned the value 5`,`X and 5 are made identical through unification — if X is uninstantiated it becomes 5; if both are instantiated they must already be identical`,`X is compared to 5 and a boolean true/false is returned`,`X must equal 5 or the entire program fails`],
+      ans:1,
+      exp:`Unification is the fundamental Prolog operation. X = 5 succeeds if X can be made identical to 5 — if X is unbound, X becomes 5. If X is already bound to 5, it succeeds. If X is bound to something else (e.g. 3), it fails. Unification is NOT arithmetic assignment (that is done by is/2).`,
+      tag:`unification`
+    },
+    {
+      q:`Given facts <code>parent(tom, bob).</code> and <code>parent(bob, ann).</code>, and rules:<pre>ancestor(X, Y) :- parent(X, Y).
+ancestor(X, Y) :- parent(X, Z), ancestor(Z, Y).</pre>Does <code>?- ancestor(tom, ann).</code> succeed?`,
+      opts:[`false — tom is not a direct parent of ann`,`true — via tom→bob→ann using the recursive rule`,`ann — the result variable is returned`,`Error — the recursive rule creates infinite recursion`],
+      ans:1,
+      exp:`Prolog tries the first rule: ancestor(tom, ann) :- parent(tom, ann) — fails (no fact). Tries second rule: parent(tom, Z) → Z=bob. Now tries ancestor(bob, ann): first rule parent(bob, ann) → succeeds! So ancestor(tom, ann) is true via the chain tom→bob→ann.`,
+      tag:`trace-prolog`
+    },
+    {
+      q:`The Prolog list <code>[a, b, c]</code> written using the head-tail notation is <code>[a | [b | [c | []]]]</code>. What does this reveal about Prolog list representation?`,
+      opts:[`Lists have a special 4-element internal structure`,`Prolog lists are linked structures built from cons cells — each cell is a Head|Tail pair; the empty list [] terminates the chain`,`The notation [a | [b | [c | []]]] is invalid Prolog`,`This notation creates a list containing the empty list as the fourth element`],
+      ans:1,
+      exp:`Prolog lists are syntactic sugar for nested structures. [a,b,c] is [a|[b|[c|[]]]] which is .(a, .(b, .(c, []))) internally — each level is a functor with a head and a tail. Understanding this nested structure is essential for writing recursive list predicates that pattern-match on [H|T].`,
+      tag:`lists`
+    },
+    {
+      q:`Given:<pre>last([X], X).
+last([_|T], X) :- last(T, X).</pre>What does <code>?- last([a, b, c], X).</code> return?`,
+      opts:[`X = a`,`X = b`,`X = c`,`false`],
+      ans:2,
+      exp:`Trace: last([a,b,c], X) — not a single-element list, matches second clause with T=[b,c]. Recurse: last([b,c], X) — not single-element, T=[c]. Recurse: last([c], X) — matches first clause, X=c. The base case matches a one-element list and unifies X with that element.`,
+      tag:`trace-prolog`
+    },
+    {
+      q:`Prolog's <code>not(Goal)</code> succeeds when Goal <em>fails</em>. What is this operation called and what is its limitation?`,
+      opts:[`True logical negation — equivalent to the logical NOT operator`,`Negation as failure — succeeds when Goal cannot be proven; does NOT mean Goal is logically false (the closed-world assumption applies)`,`Cut-based negation — relies on the cut operator to prevent backtracking`,`Closed-world negation — always returns true for goals not in the database`],
+      ans:1,
+      exp:`not(Goal) in Prolog means: if Prolog cannot find a proof for Goal, then not(Goal) succeeds. This is NOT the same as logical NOT. Prolog cannot prove fred is NOT a man — it can only fail to prove fred IS a man. This limitation follows from the closed-world assumption: anything Prolog cannot prove is assumed false.`,
+      tag:`negation`
+    },
+    {
+      q:`Given the cut-based max predicate:<pre>max(X, Y, X) :- X >= Y, !.
+max(_, Y, Y).</pre>What does <code>?- max(3, 5, Z).</code> return?`,
+      opts:[`Z = 3`,`Z = 5`,`Both Z = 3 and Z = 5 on backtracking`,`Error`],
+      ans:1,
+      exp:`Prolog tries first clause: max(3, 5, 3) :- 3 >= 5, ! — 3 >= 5 fails, so this clause fails entirely (the cut is not reached). Second clause: max(_, 5, 5) — matches with Z=5. Result: Z = 5. The cut in the first clause prevents backtracking to the second clause only when the first clause SUCCEEDS — here the first clause fails before reaching the cut.`,
+      tag:`trace-prolog`
+    },
+    {
+      q:`Using the standard append predicate:<pre>append([], Lis, Lis).
+append([H|T], Lis2, [H|Lis3]) :- append(T, Lis2, Lis3).</pre>What does <code>?- append([a,b], [c,d], X).</code> return?`,
+      opts:[`X = [a, b, c, d]`,`X = [c, d, a, b]`,`X = [[a,b],[c,d]]`,`false`],
+      ans:0,
+      exp:`Trace: append([a,b],[c,d], X). Second clause: H=a, T=[b], X=[a|Lis3]. Recurse: append([b],[c,d],Lis3). H=b, T=[], Lis3=[b|Lis4]. Recurse: append([],[c,d],Lis4) → base case, Lis4=[c,d]. Unwind: Lis3=[b,c,d], X=[a,b,c,d].`,
+      tag:`trace-prolog`
+    },
+    {
+      q:`The same append predicate can split a list. What does <code>?- append(X, Y, [1,2,3]).</code> generate through backtracking?`,
+      opts:[`Only one solution: X=[1,2,3], Y=[]`,`Four solutions: X=[], Y=[1,2,3]; then X=[1], Y=[2,3]; then X=[1,2], Y=[3]; then X=[1,2,3], Y=[]`,`An error because X and Y are uninstantiated`,`X=[1,2,3], Y=[1,2,3] (both get the full list)`],
+      ans:1,
+      exp:`Because append is a relation (not a directional function), Prolog can use it to find all ways to split [1,2,3] into two sublists. Each backtrack gives a different split point. This bidirectionality is a key strength of logic programming — one predicate works for both joining AND splitting.`,
+      tag:`lists`
+    },
+    {
+      q:`<code>N is 2 + 3</code> succeeds and N becomes 5. But <code>5 is X + 3</code> fails. Why?`,
+      opts:[`is/2 can only be used once per query`,`is/2 arithmetically evaluates its right-hand side — the RHS must be fully instantiated; X is unbound so evaluation fails`,`Addition is not supported on the right side of is`,`is/2 can only bind to variables, not check equality`],
+      ans:1,
+      exp:`is/2 evaluates the arithmetic expression on the right and unifies the result with the left side. The right side must be a fully ground arithmetic expression. X is an uninstantiated variable, so X + 3 cannot be evaluated — Prolog raises an instantiation error. For arithmetic goals with unknowns, use constraint logic programming (clp(fd)) instead.`,
+      tag:`arithmetic`
+    },
+    {
+      q:`In Prolog's trace model, what does the <strong>FAIL</strong> event indicate?`,
+      opts:[`A syntax error was found in the program`,`The current goal cannot be satisfied — Prolog will backtrack to the most recent choice point and try the next alternative`,`The entire Prolog session is terminated`,`A runtime exception such as division by zero`],
+      ans:1,
+      exp:`The four Prolog trace events are CALL (entering a goal), EXIT (goal succeeded), REDO (backtracking into a goal), and FAIL (goal failed — no more alternatives). FAIL triggers backtracking: Prolog undoes bindings made since the last choice point and tries the next clause. Tracing these events helps understand how Prolog explores the search space.`,
+      tag:`trace-prolog`
+    },
+    {
+      q:`Using the standard member predicate:<pre>member(X, [X|_]).
+member(X, [_|T]) :- member(X, T).</pre>What are ALL the solutions to <code>?- member(X, [a, b, c]).</code> via backtracking?`,
+      opts:[`X = a only`,`X = a; then X = b; then X = c`,`[a, b, c] as a single answer`,`true`],
+      ans:1,
+      exp:`First clause matches: X=a (first element). Backtrack (REDO): second clause with T=[b,c], recurse. First clause matches: X=b. Backtrack again: second clause, T=[c]. First clause: X=c. Backtrack: second clause, T=[]. First clause fails (empty list). Second clause fails. No more solutions. All three elements are found in order.`,
+      tag:`trace-prolog`
+    },
+    {
+      q:`A Prolog rule <code>p :- q, r, s.</code> is a Horn clause. This means:`,
+      opts:[`p OR q OR r OR s must be true`,`If q AND r AND s are all provable, then p is provable`,`p is true if q OR r OR s is true`,`p, q, r, and s must all be proven in parallel`],
+      ans:1,
+      exp:`A Horn clause has at most one positive literal in the head. p :- q, r, s means: p is true if q is true AND r is true AND s is true. Prolog proves the body goals left to right, conjunctively. If all three succeed (with consistent bindings), p succeeds. The comma is logical AND; there is no OR in the body (that would require a separate clause).`,
+      tag:`prolog-theory`
+    },
+    {
+      q:`Using the reverse predicate:<pre>reverse([], []).
+reverse([H|T], R) :- reverse(T, RT), append(RT, [H], R).</pre>What does <code>?- reverse([a, b, c], X).</code> return?`,
+      opts:[`X = [a, b, c]`,`X = [c, b, a]`,`X = [c, a, b]`,`false`],
+      ans:1,
+      exp:`Trace: reverse([a,b,c], X). H=a, T=[b,c]. Recurse: reverse([b,c], RT1). H=b, T=[c]. Recurse: reverse([c], RT2). H=c, T=[]. Recurse: reverse([], []) → RT3=[]. append([], [c], RT2) → RT2=[c]. append([c], [b], RT1) → RT1=[c,b]. append([c,b], [a], X) → X=[c,b,a].`,
+      tag:`trace-prolog`
+    }
+  ]
+}
+
+]; // end CHAPTERS
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────────────────
+const state = {
+  answers:  {},   // "ch01:3" -> selected option index (0-3)
+  collapsed:{},   // "ch01" -> true/false
+  filter:   "all"
+};
+
+function key(chId, qi){ return chId + ":" + qi; }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SCORE / PROGRESS
+// ─────────────────────────────────────────────────────────────────────────────
+function calcScore(){
+  let correct=0, answered=0, total=0;
+  const chs = visibleChapters();
+  chs.forEach(ch => {
+    ch.questions.forEach((q,i) => {
+      total++;
+      const k = key(ch.id,i);
+      if(state.answers[k] !== undefined){
+        answered++;
+        if(state.answers[k] === q.ans) correct++;
+      }
+    });
+  });
+  return {correct, answered, total};
+}
+
+function updateScore(){
+  const s = calcScore();
+  const el = document.getElementById("score-num");
+  if(el) el.textContent = s.correct + "/" + s.total;
+  const pf = document.getElementById("prog-fill");
+  const pt = document.getElementById("prog-text");
+  if(pf) pf.style.width = (s.total ? (s.answered/s.total*100).toFixed(1) : 0) + "%";
+  if(pt) pt.textContent = s.answered + " of " + s.total + " answered  ·  " + s.correct + " correct";
+}
+
+function updateStats(){
+  const total = CHAPTERS.reduce((n,c)=>n+c.questions.length,0);
+  const chs = CHAPTERS.filter(c=>c.questions.length>0).length;
+  const strip = document.getElementById("stats-strip");
+  if(!strip) return;
+  strip.innerHTML = [
+    {label:"Chapters with questions", val: chs},
+    {label:"Total new MCQs", val: total},
+    {label:"Scope-targeted", val: "100%"},
+    {label:"Chapters in exam", val: 10}
+  ].map(s=>`<div class="stat-chip"><strong>${s.val}</strong>${s.label}</div>`).join("");
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FILTER
+// ─────────────────────────────────────────────────────────────────────────────
+function visibleChapters(){
+  if(state.filter === "all") return CHAPTERS;
+  return CHAPTERS.filter(c => c.id === state.filter);
+}
+
+function applyFilter(){
+  state.filter = document.getElementById("ch-filter").value;
+  render();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RENDER
+// ─────────────────────────────────────────────────────────────────────────────
+function render(){
+  const wrap = document.getElementById("chapters-wrap");
+  if(!wrap) return;
+  wrap.innerHTML = visibleChapters().map(ch => renderChapter(ch)).join("");
+  updateScore();
+  buildJumpNav();
+}
+
+function renderChapter(ch){
+  const isCollapsed = state.collapsed[ch.id] === true;
+  const total = ch.questions.length;
+  const answered = ch.questions.filter((_,i)=> state.answers[key(ch.id,i)] !== undefined).length;
+
+  const scopeHtml = `
+    <div class="scope-box">
+      <div class="scope-col scope-col-in">
+        <div class="scope-col-label">✓ Examinable</div>
+        <ul>${ch.scopeIn.map(s=>`<li>${s}</li>`).join("")}</ul>
+      </div>
+      <div class="scope-col scope-col-out">
+        <div class="scope-col-label">✗ NOT Examinable</div>
+        <ul>${ch.scopeOut.map(s=>`<li>${s}</li>`).join("")}</ul>
+      </div>
+      <div class="scope-col scope-col-focus">
+        <div class="scope-col-label">⚡ Key Focus</div>
+        <ul>${ch.scopeFocus.map(s=>`<li>${s}</li>`).join("")}</ul>
+      </div>
+    </div>`;
+
+  const questionsHtml = total === 0
+    ? `<div class="placeholder-msg">Questions for this chapter will be added in the next update. Scope notes above are complete.</div>`
+    : ch.questions.map((q,i)=>renderQuestion(q,i,ch)).join("");
+
+  return `
+    <section class="chapter-section" id="${ch.id}">
+      <div class="ch-header" style="color:${ch.color};border-left-color:${ch.color}"
+           onclick="toggleChapter('${ch.id}')">
+        <span class="ch-badge" style="background:${ch.bg};color:${ch.color}">${ch.chapter}</span>
+        <span class="ch-title">${ch.title}</span>
+        <span class="ch-meta">${total>0 ? answered+"/"+total+" answered" : "scope notes only"}</span>
+        <span class="ch-chevron">${isCollapsed ? "▶" : "▼"}</span>
+      </div>
+      <div class="ch-body${isCollapsed ? " collapsed" : ""}">
+        ${scopeHtml}
+        ${questionsHtml}
+      </div>
+    </section>`;
+}
+
+function renderQuestion(q, i, ch){
+  const k = key(ch.id, i);
+  const sel = state.answers[k];
+  const answered = sel !== undefined;
+
+  const opts = q.opts.map((opt,oi)=>{
+    let cls = "mcq-opt";
+    if(answered){
+      cls += " locked";
+      if(oi === q.ans) cls += " correct";
+      else if(oi === sel) cls += " wrong";
+    }
+    return `<li class="${cls}" onclick="pick('${k}',${oi},${q.ans})">
+      <span class="opt-letter">${String.fromCharCode(65+oi)}</span>
+      <span>${opt}</span>
+    </li>`;
+  }).join("");
+
+  const fb = answered ? `
+    <div class="mcq-feedback show ${sel===q.ans?"fb-correct":"fb-wrong"}">
+      <strong>${sel===q.ans?"✓ Correct!":"✗ Incorrect."}</strong> ${q.exp}
+    </div>` : "";
+
+  return `
+    <div class="mcq-card" id="${k}">
+      <div class="mcq-meta">
+        <span class="mcq-num">Q${i+1}</span>
+        ${q.tag ? `<span class="topic-tag">${q.tag}</span>` : ""}
+        <span class="scope-tag">SCOPE</span>
+      </div>
+      <div class="mcq-q">${q.q}</div>
+      <ul class="mcq-opts">${opts}</ul>
+      ${fb}
+    </div>`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INTERACTION
+// ─────────────────────────────────────────────────────────────────────────────
+function pick(k, optIdx, correctIdx){
+  if(state.answers[k] !== undefined) return; // already answered
+  state.answers[k] = optIdx;
+
+  const card = document.getElementById(k);
+  if(!card) return;
+
+  // Lock and colour all options
+  card.querySelectorAll(".mcq-opt").forEach((li, oi)=>{
+    li.classList.add("locked");
+    if(oi === correctIdx) li.classList.add("correct");
+    else if(oi === optIdx) li.classList.add("wrong");
+  });
+
+  // Show feedback
+  const fb = card.querySelector(".mcq-feedback");
+  if(fb) fb.classList.add("show");
+
+  updateScore();
+}
+
+function toggleChapter(chId){
+  state.collapsed[chId] = !state.collapsed[chId];
+  render();
+}
+
+function resetAll(){
+  state.answers = {};
+  render();
+}
+
+function revealAll(){
+  visibleChapters().forEach(ch=>{
+    ch.questions.forEach((q,i)=>{
+      const k = key(ch.id,i);
+      if(state.answers[k] === undefined) state.answers[k] = q.ans;
+    });
+  });
+  render();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// JUMP NAV
+// ─────────────────────────────────────────────────────────────────────────────
+function buildJumpNav(){
+  const nav = document.getElementById("jump-nav");
+  if(!nav) return;
+  nav.innerHTML = visibleChapters().map(ch=>
+    `<a class="jump-btn" href="#${ch.id}" style="border-color:${ch.color};color:${ch.color}"
+        onmouseover="this.style.background='${ch.color}';this.style.color='#fff'"
+        onmouseout="this.style.background='';this.style.color='${ch.color}'">${ch.chapter}</a>`
+  ).join("");
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SCROLL TOP
+// ─────────────────────────────────────────────────────────────────────────────
+window.addEventListener("scroll",()=>{
+  const btn = document.getElementById("scroll-top");
+  if(btn) btn.classList.toggle("visible", window.scrollY > 400);
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────────────────
+updateStats();
+render();
+</script>
+</body>
+</html>
