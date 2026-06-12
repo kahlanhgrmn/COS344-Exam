@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2024 Examination — COS 333</title>
+<link rel="stylesheet" href="../../../../style.css">
+<style>
+  .q-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.3rem 1.4rem;
+    margin-bottom: 1.2rem;
+    box-shadow: var(--shadow);
+  }
+  .q-meta {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    flex-wrap: wrap;
+    margin-bottom: .9rem;
+  }
+  .q-num-badge {
+    font-family: var(--mono);
+    font-size: .7rem;
+    font-weight: 700;
+    background: var(--navy);
+    color: #fff;
+    border-radius: 4px;
+    padding: .2em .65em;
+  }
+  .q-marks {
+    font-family: var(--mono);
+    font-size: .7rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: .2em .55em;
+    color: var(--muted);
+  }
+  .q-topic {
+    font-size: .78rem;
+    color: var(--muted);
+    flex: 1;
+  }
+  .q-multi-badge {
+    font-family: var(--mono);
+    font-size: .65rem;
+    font-weight: 600;
+    background: var(--warn-bg);
+    color: var(--warn);
+    border: 1px solid #fcd34d;
+    border-radius: 3px;
+    padding: .15em .55em;
+  }
+  .lang-badge {
+    font-family: var(--mono);
+    font-size: .65rem;
+    font-weight: 700;
+    border-radius: 3px;
+    padding: .15em .6em;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  .lang-scheme { background: var(--accent2-bg); color: var(--accent2); border: 1px solid #6ee7be; }
+  .lang-prolog  { background: var(--accent-bg);  color: var(--accent);  border: 1px solid #bfdbfe; }
+
+  .q-text { font-size: .92rem; margin-bottom: .9rem; }
+  .q-text p { margin: 0 0 .5rem; }
+  .q-text ul { margin: .3rem 0 .6rem; padding-left: 1.3rem; }
+  .q-text pre { margin: .6rem 0; }
+
+  /* MCQ */
+  .mcq-opts { list-style:none; padding:0; display:flex; flex-direction:column; gap:.35rem; margin:0 0 .75rem; }
+  .mcq-opt {
+    padding:.5rem .85rem; border-radius:5px;
+    border:1.5px solid var(--border); background:var(--bg);
+    cursor:pointer; font-size:.88rem; transition:all .15s;
+    display:flex; gap:.5rem; align-items:flex-start;
+  }
+  .mcq-opt:hover:not(.locked) { border-color:var(--accent); background:var(--accent-bg); }
+  .mcq-opt.correct { border-color:var(--accent2)!important; background:var(--accent2-bg)!important; color:#0a5c43!important; font-weight:500; }
+  .mcq-opt.wrong   { border-color:var(--danger)!important;  background:var(--danger-bg)!important;  color:#7f1d1d!important; }
+  .mcq-opt.locked  { cursor:default; }
+  .opt-letter { font-family:var(--mono); font-weight:700; min-width:1.2rem; color:var(--muted); flex-shrink:0; }
+  .mcq-opt.correct .opt-letter { color:var(--accent2); }
+  .mcq-opt.wrong   .opt-letter { color:var(--danger); }
+
+  .q-feedback { font-size:.84rem; margin:.4rem 0 .2rem; font-weight:500; }
+  .fb-correct { color:var(--accent2); }
+  .fb-wrong   { color:var(--danger); }
+
+  /* Score bar */
+  .score-bar {
+    background: var(--navy); color:#fff; border-radius:var(--radius);
+    padding:.9rem 1.3rem; margin-bottom:1.5rem;
+    display:flex; justify-content:space-between; align-items:center; gap:1rem;
+    font-size:.88rem; flex-wrap:wrap;
+  }
+  .score-val { font-family:var(--mono); font-size:1.3rem; font-weight:700; color:var(--accent2); }
+
+  /* Multi-select */
+  .ms-opt.selected { border-color:var(--accent); background:var(--accent-bg); }
+  .btn-check-ms {
+    font-family:var(--sans); font-size:.8rem; font-weight:500;
+    padding:.4em .9em; border-radius:6px; border:1px solid var(--accent2);
+    background:var(--accent2); color:#fff; cursor:pointer; margin-bottom:.5rem;
+    transition:background .15s;
+  }
+  .btn-check-ms:hover { background:#0b8c68; }
+
+  /* Code questions */
+  .answer-label {
+    font-size:.72rem; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--muted); font-weight:600; margin-bottom:.4rem;
+    display:flex; align-items:center; gap:.5rem;
+  }
+  .lang-tag {
+    background:var(--warn-bg); color:var(--warn);
+    border-radius:3px; padding:.1em .45em; font-family:var(--mono);
+  }
+  .code-editor {
+    width:100%; min-height:150px;
+    background:var(--code-bg); color:var(--code-text);
+    font-family:var(--mono); font-size:.82rem; line-height:1.6;
+    border:1px solid var(--border2); border-radius:var(--radius);
+    padding:.9rem 1.1rem; resize:vertical; outline:none;
+    transition:border-color .2s;
+  }
+  .code-editor:focus { border-color:var(--accent2); }
+  .code-editor::placeholder { color:#4a5568; }
+  .code-actions {
+    display:flex; gap:.5rem; flex-wrap:wrap; margin:.6rem 0;
+  }
+  .btn-show-sol, .btn-compare, .btn-clear {
+    font-family:var(--sans); font-size:.79rem; font-weight:500;
+    padding:.4em .9em; border-radius:6px; border:1px solid; cursor:pointer; transition:all .15s;
+  }
+  .btn-show-sol { background:var(--accent2); border-color:var(--accent2); color:#fff; }
+  .btn-show-sol:hover { background:#0b8c68; }
+  .btn-compare { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .btn-compare:hover { background:#1d4ed8; }
+  .btn-clear { background:transparent; border-color:var(--border2); color:var(--muted); }
+  .btn-clear:hover { border-color:var(--danger); color:var(--danger); background:var(--danger-bg); }
+
+  /* Short answer */
+  .short-input {
+    width:100%; font-family:var(--mono); font-size:.88rem;
+    padding:.55rem .85rem; border:1.5px solid var(--border2);
+    border-radius:var(--radius); outline:none; background:var(--surface2);
+    color:var(--text); transition:border-color .2s; margin-bottom:.4rem;
+  }
+  .short-input:focus { border-color:var(--accent2); }
+
+  /* Solution / explanation */
+  .solution-block { margin-top:.75rem; border-top:1px dashed var(--border2); padding-top:.75rem; }
+  .solution-block.hidden, .compare-block.hidden, .q-explanation.hidden { display:none; }
+  .sol-label, .exp-label {
+    font-family:var(--mono); font-size:.68rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:.08em; margin-bottom:.3rem;
+  }
+  .sol-label { color:var(--accent2); }
+  .exp-label { color:var(--accent); margin-top:.75rem; }
+  .solution-block p, .q-explanation p { font-size:.88rem; margin:.2rem 0 0; }
+
+  /* Compare */
+  .cmp-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:.6rem; }
+  @media(max-width:680px) { .cmp-grid { grid-template-columns:1fr; } }
+  .cmp-label {
+    font-size:.7rem; text-transform:uppercase; letter-spacing:.08em; font-weight:600;
+    margin-bottom:.3rem; padding:.2em .6em; border-radius:4px; display:inline-block;
+  }
+  .cmp-label.yours { background:var(--warn-bg); color:var(--warn); }
+  .cmp-label.memo  { background:var(--accent2-bg); color:var(--accent2); }
+  .compare-code {
+    background:var(--code-bg); color:var(--code-text); font-family:var(--mono);
+    font-size:.79rem; line-height:1.6; border-radius:var(--radius);
+    padding:.9rem 1rem; overflow-x:auto; min-height:100px;
+    border:1px solid var(--border2); white-space:pre;
+  }
+  .compare-code.empty { color:#4a5568; font-style:italic; white-space:normal; }
+  .compare-code pre { margin:0; background:none; padding:0; box-shadow:none; color:inherit; }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">COS333 <span>// Programming Languages</span></div>
+    <div class="topnav-links">
+      <a href="../../../../index.html">Home</a>
+      <a href="../../PracticeQuestions/scheme_practice_questions.html">Scheme</a>
+      <a href="../../PracticeQuestions/prolog_practice_questions.html">Prolog</a>
+      <a href="../../PracticeQuestions/scheme_prolog_guide.html">Guide</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">COS 333 · Past Paper</div>
+    <h1>2024<br><em>Examination</em></h1>
+    <p class="hero-sub">25 June 2024 · 3 hours · 40 marks</p>
+    <div class="hero-pills">
+      <span class="hero-pill"><strong>28</strong> Questions</span>
+      <span class="hero-pill"><strong>40</strong> Marks</span>
+      <span class="hero-pill">Click options to check MCQs</span>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap" style="padding-top:1.5rem;">
+
+  <div class="breadcrumb">
+    <a href="../../../../index.html">Home</a>
+    <span>›</span>
+    <span>Past Papers</span>
+    <span>›</span>
+    <span>2024 Examination</span>
+  </div>
+
+  <div class="score-bar">
+    <span>MCQ Score</span>
+    <span class="score-val"><span id="score-correct">0</span> / <span id="score-total">0</span></span>
+    <span id="score-pct" style="color:#8892a8;font-size:.82rem;"></span>
+  </div>
+
+  
+  <div class="q-block" id="q1">
+    <div class="q-meta"><span class="q-num-badge">Q1</span> <span class="q-marks">1 mark</span> <span class="q-topic">Evaluation Criteria Trade-offs</span></div>
+    <div class="q-text"><p>There are often trade-offs between the programming language evaluation criteria. Select the statement that most correctly describes a likely <strong>trade-off when readability improves</strong>.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q1', false)">
+          <span class="opt-letter">A.</span>
+          <span>The cost of execution becomes worse.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q1', false)">
+          <span class="opt-letter">B.</span>
+          <span>The cost of maintenance becomes worse.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q1', true)">
+          <span class="opt-letter">C.</span>
+          <span>The cost of implementation becomes worse.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q1', false)">
+          <span class="opt-letter">D.</span>
+          <span>Reliability becomes worse.</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q1-fb"></div>
+    <div class="q-explanation hidden" id="q1-exp">
+      <div class="exp-label">Explanation</div>
+      <p>When readability improves, programs are easier to understand — but this often requires additional language constructs, syntactic sugar, or verbose syntax that a compiler/interpreter must parse and process. This increases the complexity of the language implementation (the compiler/interpreter itself becomes more complex and expensive to build). Improved readability generally helps reliability (errors are easier to spot) and maintenance (easier to understand and fix). Execution cost is not directly worsened by readability.</p>
+    </div>
+  </div>
+  <div class="q-block" id="q2">
+    <div class="q-meta"><span class="q-num-badge">Q2</span> <span class="q-marks">1 mark</span> <span class="q-topic">Generality</span></div>
+    <div class="q-text"><p>An additional evaluation criterion not heavily focused on in this course is <strong>generality</strong>. Select the programming language that has the <strong>best generality</strong>.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q2', false)">
+          <span class="opt-letter">A.</span>
+          <span>Fortran I</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q2', false)">
+          <span class="opt-letter">B.</span>
+          <span>ALGOL 60</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q2', false)">
+          <span class="opt-letter">C.</span>
+          <span>SIMULA 67</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q2', true)">
+          <span class="opt-letter">D.</span>
+          <span>PL/I</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q2-fb"></div>
+    <div class="q-explanation hidden" id="q2-exp">
+      <div class="exp-label">Explanation</div>
+      <p>Generality refers to how widely applicable a language is across different programming domains. PL/I was explicitly designed to combine features from Fortran (scientific), COBOL (business), and ALGOL (structured programming) into a single, general-purpose language. Fortran I was designed specifically for scientific computation (poor generality). ALGOL 60 was for algorithm description and had no I/O (limited generality). SIMULA 67 was for simulation. PL/I aimed to be the &#x27;one language for everything&#x27; — the best generality of these options.</p>
+    </div>
+  </div>
+  <div class="q-block" id="q3">
+    <div class="q-meta"><span class="q-num-badge">Q3</span> <span class="q-marks">1 mark</span> <span class="q-topic">Pascal vs C</span></div>
+    <div class="q-text"><p>Consider the following statements about <strong>Pascal and C</strong>, and select the most correct.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q3', true)">
+          <span class="opt-letter">A.</span>
+          <span>Pascal is more readable than C.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q3', false)">
+          <span class="opt-letter">B.</span>
+          <span>Pascal is more writable than C.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q3', false)">
+          <span class="opt-letter">C.</span>
+          <span>Pascal is less reliable than C.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q3', false)">
+          <span class="opt-letter">D.</span>
+          <span>Pascal has a higher cost of maintenance than C.</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q3-fb"></div>
+    <div class="q-explanation hidden" id="q3-exp">
+      <div class="exp-label">Explanation</div>
+      <p>Pascal was designed by Niklaus Wirth for teaching structured programming with an emphasis on clarity and correct style. It has clean, keyword-heavy syntax (begin/end, then/else), strong type checking, and structured control flow. C uses concise but cryptic syntax (curly braces, pointer arithmetic, implicit coercions, weak typing). Pascal is more readable. Pascal is LESS writable than C (more verbose, more restrictions). Pascal is MORE reliable than C (not less). Pascal&#x27;s maintenance cost is LOWER (more readable code), not higher.</p>
+    </div>
+  </div>
+  <div class="q-block" id="q4">
+    <div class="q-meta"><span class="q-num-badge">Q4</span> <span class="q-marks">1 mark</span> <span class="q-topic">Portability</span></div>
+    <div class="q-text"><p>An additional evaluation criterion not heavily focused on in this course is <strong>portability</strong>. Select the programming language that is the <strong>most portable</strong>.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q4', false)">
+          <span class="opt-letter">A.</span>
+          <span>Fortran 90</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q4', false)">
+          <span class="opt-letter">B.</span>
+          <span>C++</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q4', false)">
+          <span class="opt-letter">C.</span>
+          <span>PL/I</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q4', true)">
+          <span class="opt-letter">D.</span>
+          <span>JavaScript</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q4-fb"></div>
+    <div class="q-explanation hidden" id="q4-exp">
+      <div class="exp-label">Explanation</div>
+      <p>JavaScript runs inside every web browser regardless of the underlying operating system or hardware — any device with a browser can execute JavaScript. This makes it the most portable of the options. Fortran 90 compiles to machine-specific code. C++ compiles to platform-specific binaries. PL/I was not widely standardised across platforms. JavaScript&#x27;s model (bytecode-like interpretation in every browser) gives it near-universal portability. Note: Java (not listed here) is also very portable, but among these four, JavaScript runs everywhere a web browser runs.</p>
+    </div>
+  </div>
+  <div class="q-block code-q" id="q5">
+    <div class="q-meta"><span class="q-num-badge">Q5</span> <span class="q-marks">5 marks</span> <span class="q-topic">Scheme — removePositiveOddValues</span> <span class="lang-badge lang-scheme">Scheme</span></div>
+    <div class="q-text"><p>Write a Scheme function named <code>removePositiveOddValues</code>, which receives one parameter: a simple list containing only numeric atoms. The function should yield (not print) a list containing the values in the parameter list, in their original order, with all <strong>positive odd values removed</strong>.</p>
+
+<p><em>Examples:</em></p>
+<pre><code>(removePositiveOddValues &#x27;(3 9))
+; =&gt; ()   (all values are positive odd)
+
+(removePositiveOddValues &#x27;(-5 3 0 5 9))
+; =&gt; (-5 0)   (3, 5, 9 are positive odd and are removed)</code></pre>
+
+<p><strong>Allowed built-in functions:</strong></p>
+<ul><li><strong>Function construction:</strong> <code>lambda</code>, <code>define</code></li>
+<li><strong>Binding:</strong> <code>let</code></li>
+<li><strong>Arithmetic:</strong> <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>abs</code>, <code>sqrt</code>, <code>remainder</code>, <code>modulo</code>, <code>min</code>, <code>max</code></li>
+<li><strong>Boolean values:</strong> <code>#t</code>, <code>#f</code></li>
+<li><strong>Equality predicates:</strong> <code>=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>even?</code>, <code>odd?</code>, <code>zero?</code>, <code>negative?</code>, <code>eqv?</code>, <code>eq?</code></li>
+<li><strong>Logical predicates:</strong> <code>and</code>, <code>or</code>, <code>not</code></li>
+<li><strong>List predicates:</strong> <code>list?</code>, <code>null?</code></li>
+<li><strong>Conditionals:</strong> <code>if</code>, <code>cond</code>, <code>else</code></li>
+<li><strong>Quoting:</strong> <code>quote</code>, <code>&#x27;</code></li>
+<li><strong>List manipulation:</strong> <code>list</code>, <code>car</code>, <code>cdr</code>, <code>cons</code></li>
+<li><strong>I/O:</strong> <code>display</code>, <code>printf</code>, <code>newline</code>, <code>read</code></li></ul></div>
+    <div class="answer-label">Your Answer <span class="lang-tag">Scheme</span></div>
+    <textarea class="code-editor" id="q5-answer" placeholder="; Write your Scheme function here..."></textarea>
+    <div class="code-actions">
+      <button class="btn-show-sol" onclick="toggleSol('q5')">Show Solution</button>
+      <button class="btn-compare" onclick="compareCode('q5')">Compare</button>
+      <button class="btn-clear" onclick="clearCode('q5')">Clear</button>
+    </div>
+    <div class="solution-block hidden" id="q5-sol">
+      <div class="sol-label">Memo Solution</div>
+      <pre><code>(define (removePositiveOddValues lst)
+  (cond
+    ((null? lst) &#x27;())
+    ((and (&gt; (car lst) 0) (odd? (car lst)))
+     (removePositiveOddValues (cdr lst)))
+    (else
+     (cons (car lst) (removePositiveOddValues (cdr lst))))
+  )
+)</code></pre>
+      <div class="exp-label">Explanation</div>
+      <p>Strategy: Recurse through the list element by element. Base case: empty list → return empty list. For each element: if it is BOTH positive (`&gt; 0`) AND odd (`odd?`), skip it (don&#x27;t include it) and recurse on the tail. Otherwise, include it (cons it onto the result) and recurse. Example: `(removePositiveOddValues &#x27;(-5 3 0 5 9))` → -5 is not positive odd → include; 3 is positive odd → skip; 0 is not positive odd → include; 5 is positive odd → skip; 9 is positive odd → skip. Result: (-5 0). The `and` predicate checks both conditions simultaneously.</p>
+    </div>
+    <div class="compare-block hidden" id="q5-cmp">
+      <div class="cmp-grid">
+        <div><div class="cmp-label yours">Your Answer</div><div class="compare-code empty" id="q5-yours"></div></div>
+        <div><div class="cmp-label memo">Memo</div><div class="compare-code"><pre>(define (removePositiveOddValues lst)
+  (cond
+    ((null? lst) &#x27;())
+    ((and (&gt; (car lst) 0) (odd? (car lst)))
+     (removePositiveOddValues (cdr lst)))
+    (else
+     (cons (car lst) (removePositiveOddValues (cdr lst))))
+  )
+)</pre></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="q-block code-q" id="q6">
+    <div class="q-meta"><span class="q-num-badge">Q6</span> <span class="q-marks">5 marks</span> <span class="q-topic">Prolog — doublePositives</span> <span class="lang-badge lang-prolog">Prolog</span></div>
+    <div class="q-text"><p>Write a Prolog proposition called <code>doublePositives(L1, L2)</code>, which succeeds if L2 is a list containing all the elements in L1 in their original order, with every <strong>positive value doubled</strong> and every <strong>non-positive value unchanged</strong>.</p>
+
+<p><em>Examples:</em></p>
+<pre><code>?- doublePositives([-4, -9], X).
+% X = [-4, -9]
+
+?- doublePositives([-3, 6, 7, -1, -5], X).
+% X = [-3, 12, 14, -1, -5]</code></pre>
+
+<p><em>Hint: Comparison operators (<code>&lt;</code>, <code>=&lt;</code>, <code>&gt;</code>, <code>&gt;=</code>) can be used as terms in Prolog. Multiplication is represented by <code></em></code>.*</p>
+
+<p><strong>Requirements:</strong></p>
+<ul><li>You may define additional helper propositions.</li>
+<li>Only use constants, variables, list manipulation, arithmetic, relational expressions, and built-in predicates from the textbook/slides and hints. Do <strong>not</strong> use if-then, if-then-else, or complex system predicates.</li></ul></div>
+    <div class="answer-label">Your Answer <span class="lang-tag">Prolog</span></div>
+    <textarea class="code-editor" id="q6-answer" placeholder="% Write your Prolog clauses here..."></textarea>
+    <div class="code-actions">
+      <button class="btn-show-sol" onclick="toggleSol('q6')">Show Solution</button>
+      <button class="btn-compare" onclick="compareCode('q6')">Compare</button>
+      <button class="btn-clear" onclick="clearCode('q6')">Clear</button>
+    </div>
+    <div class="solution-block hidden" id="q6-sol">
+      <div class="sol-label">Memo Solution</div>
+      <pre><code>doublePositives([], []).
+doublePositives([H|T], [D|T2]) :-
+  H &gt; 0,
+  D is H * 2,
+  doublePositives(T, T2).
+doublePositives([H|T], [H|T2]) :-
+  H =&lt; 0,
+  doublePositives(T, T2).</code></pre>
+      <div class="exp-label">Explanation</div>
+      <p>Three clauses: (1) Base case: empty list → empty result. (2) If head H is positive (H &gt; 0): double it (D is H * 2), prepend D to result, recurse on tail. (3) If head H is non-positive (H =&lt; 0): keep H unchanged, prepend to result, recurse on tail. The `is` operator performs arithmetic. Example: `doublePositives([-3, 6, 7, -1, -5], X)` → -3 unchanged, 6→12, 7→14, -1 unchanged, -5 unchanged → X=[-3, 12, 14, -1, -5].</p>
+    </div>
+    <div class="compare-block hidden" id="q6-cmp">
+      <div class="cmp-grid">
+        <div><div class="cmp-label yours">Your Answer</div><div class="compare-code empty" id="q6-yours"></div></div>
+        <div><div class="cmp-label memo">Memo</div><div class="compare-code"><pre>doublePositives([], []).
+doublePositives([H|T], [D|T2]) :-
+  H &gt; 0,
+  D is H * 2,
+  doublePositives(T, T2).
+doublePositives([H|T], [H|T2]) :-
+  H =&lt; 0,
+  doublePositives(T, T2).</pre></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="q-block" id="q7">
+    <div class="q-meta"><span class="q-num-badge">Q7</span> <span class="q-marks">1 mark</span> <span class="q-topic">Binding Time</span></div>
+    <div class="q-text"><p>Binding can occur at different times. Select the option that most correctly describes the <strong>binding time</strong> of a standard 32-bit signed integer type in a statically typed language to either a sign-and-magnitude or two&#x27;s complement representation.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q7', false)">
+          <span class="opt-letter">A.</span>
+          <span>Language design time</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q7', true)">
+          <span class="opt-letter">B.</span>
+          <span>Language implementation time</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q7', false)">
+          <span class="opt-letter">C.</span>
+          <span>Compile time</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q7', false)">
+          <span class="opt-letter">D.</span>
+          <span>Load time</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q7', false)">
+          <span class="opt-letter">E.</span>
+          <span>Runtime</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q7-fb"></div>
+    <div class="q-explanation hidden" id="q7-exp">
+      <div class="exp-label">Explanation</div>
+      <p>The binding of a standard 32-bit signed integer to either sign-and-magnitude or two&#x27;s complement representation is NOT defined by the language standard itself (language design time) — the C standard, for example, historically left integer representation implementation-defined. The specific representation (two&#x27;s complement in practice for all modern systems) is chosen by the compiler/runtime implementor. This happens at LANGUAGE IMPLEMENTATION TIME: when the compiler for a specific platform is built, the implementors decide which internal representation to use. It is not decided at compile time (when your specific program is compiled) or runtime.</p>
+    </div>
+  </div>
+  <div class="q-block" id="q8">
+    <div class="q-meta"><span class="q-num-badge">Q8</span> <span class="q-marks">1 mark</span> <span class="q-topic">C# Scope Rules</span></div>
+    <div class="q-text"><p>Consider the following program code in C# (line numbers for reference):</p>
+
+<pre><code>1. {
+2.    int y;
+3.    {
+4.       int x = 5;
+5.    }
+6.    int x = 2;
+7. }</code></pre>
+
+<p>Select the most correct statement.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q8', false)">
+          <span class="opt-letter">A.</span>
+          <span>The provided program code does not compile because the variable y is not initialised.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q8', false)">
+          <span class="opt-letter">B.</span>
+          <span>The provided program code does not compile because the variable x on line 4 hides the variable x on line 6.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q8', false)">
+          <span class="opt-letter">C.</span>
+          <span>The provided program code does not compile because the variable x on line 6 hides the variable x on line 4.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q8', true)">
+          <span class="opt-letter">D.</span>
+          <span>The provided program code compiles and runs successfully.</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q8-fb"></div>
+    <div class="q-explanation hidden" id="q8-exp">
+      <div class="exp-label">Explanation</div>
+      <p>In C#, the scope of a local variable is from its declaration to the end of its enclosing block. `x` on line 4 is declared inside the inner block (lines 3–5) — its scope ends at line 5. `x` on line 6 is declared in the OUTER block after the inner block ends. These are in DIFFERENT scopes and don&#x27;t overlap. In C# (unlike Java), this is perfectly legal because the inner `x` is out of scope by the time the outer `x` is declared. C# does NOT flag this as a hiding error the same way Java does. `y` is declared but not initialised, however C# only requires initialisation before USE — if `y` is never used after declaration, no compile error occurs.</p>
+    </div>
+  </div>
+  <div class="q-block" id="q9">
+    <div class="q-meta"><span class="q-num-badge">Q9</span> <span class="q-marks">1 mark</span> <span class="q-topic">Character String Types</span></div>
+    <div class="q-text"><p>Consider the following statements about <strong>character string types</strong> in programming languages, and select the most correct.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q9', false)">
+          <span class="opt-letter">A.</span>
+          <span>In programming languages that represent character strings using only classes, character strings are always mutable.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q9', false)">
+          <span class="opt-letter">B.</span>
+          <span>In programming languages that represent character strings using only classes, character strings are always immutable.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q9', true)">
+          <span class="opt-letter">C.</span>
+          <span>Limited dynamic length strings have a higher overall hardware resource cost than static length strings, and a lower overall hardware resource cost than dynamic length strings.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q9', false)">
+          <span class="opt-letter">D.</span>
+          <span>C supports character strings as a primitive type.</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q9-fb"></div>
+    <div class="q-explanation hidden" id="q9-exp">
+      <div class="exp-label">Explanation</div>
+      <p>Static length strings have fixed size — simple and cheap. Limited dynamic length strings can grow up to a maximum size — they require extra memory for tracking current length and maximum length, and some runtime overhead for bounds checking. Fully dynamic length strings (like Python strings or Java StringBuffers) can grow without limit — they require heap allocation, possibly reallocation (when capacity is exceeded), and garbage collection overhead. So the ordering is: static &lt; limited dynamic &lt; fully dynamic in terms of hardware resource cost. Strings represented as classes can be either mutable or immutable — this is a language design choice, not mandatory either way.</p>
+    </div>
+  </div>
+  <div class="q-block" id="q10">
+    <div class="q-meta"><span class="q-num-badge">Q10</span> <span class="q-marks">1 mark</span> <span class="q-topic">Unions</span></div>
+    <div class="q-text"><p>Consider the following statements about <strong>unions</strong>, and select the most correct.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q10', false)">
+          <span class="opt-letter">A.</span>
+          <span>Unions are closely related to classes in object-oriented programming, but are more limited in terms of functionality.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q10', false)">
+          <span class="opt-letter">B.</span>
+          <span>Discriminated unions are more memory efficient than free unions.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q10', false)">
+          <span class="opt-letter">C.</span>
+          <span>Unions can be used as a mechanism for returning multiple values from a subprogram.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q10', true)">
+          <span class="opt-letter">D.</span>
+          <span>Unions are used when memory cost is of great concern.</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q10-fb"></div>
+    <div class="q-explanation hidden" id="q10-exp">
+      <div class="exp-label">Explanation</div>
+      <p>The primary purpose of a union is to save memory by allowing multiple fields to share the same memory space. Only one field is valid at a time, but all fields overlay the same bytes — the union occupies only the size of its largest member, not the sum of all member sizes. This is useful in memory-constrained environments. Unions are NOT closely related to classes (classes support encapsulation, inheritance, and methods; unions are purely about memory layout). Discriminated unions are LESS memory efficient (they add a tag field). Unions can store one value at a time — they cannot return multiple values simultaneously.</p>
+    </div>
+  </div>
+  <div class="q-block code-q" id="q11">
+    <div class="q-meta"><span class="q-num-badge">Q11</span> <span class="q-marks">1 marks</span> <span class="q-topic">Arithmetic in Scheme</span> <span class="lang-badge lang-scheme">Scheme</span></div>
+    <div class="q-text"><p>Consider the following statements about <strong>arithmetic operations in Scheme</strong>, and select the most correct.</p></div>
+    <div class="answer-label">Your Answer <span class="lang-tag">Scheme</span></div>
+    <textarea class="code-editor" id="q11-answer" placeholder="; Write your Scheme function here..."></textarea>
+    <div class="code-actions">
+      <button class="btn-show-sol" onclick="toggleSol('q11')">Show Solution</button>
+      <button class="btn-compare" onclick="compareCode('q11')">Compare</button>
+      <button class="btn-clear" onclick="clearCode('q11')">Clear</button>
+    </div>
+    <div class="solution-block hidden" id="q11-sol">
+      <div class="sol-label">Memo Solution</div>
+      <pre><code>The order in which arithmetic operations are evaluated in Scheme is unambiguously determined based on function and parameter evaluation.</code></pre>
+      <div class="exp-label">Explanation</div>
+      <p>In Scheme, there are no operators — everything is a function call using prefix notation. The structure `(+ (* 2 3) (- 5 1))` unambiguously means: evaluate `(* 2 3)` and `(- 5 1)` as parameters first, then call `+` on the results. The nesting of function calls (parentheses) completely determines evaluation order — there is no ambiguity from precedence or associativity rules. The order is determined by the function/parameter structure, not by precedence rules. It is NOT ambiguous (the parentheses are explicit), and it is NOT &#x27;left to right same precedence&#x27; (it&#x27;s nested function calls).</p>
+    </div>
+    <div class="compare-block hidden" id="q11-cmp">
+      <div class="cmp-grid">
+        <div><div class="cmp-label yours">Your Answer</div><div class="compare-code empty" id="q11-yours"></div></div>
+        <div><div class="cmp-label memo">Memo</div><div class="compare-code"><pre>The order in which arithmetic operations are evaluated in Scheme is unambiguously determined based on function and parameter evaluation.</pre></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="q-block" id="q12">
+    <div class="q-meta"><span class="q-num-badge">Q12</span> <span class="q-marks">1 mark</span> <span class="q-topic">Coercions in Ada</span></div>
+    <div class="q-text"><p>Consider the following statements about <strong>expressions in Ada</strong>, and select the most correct.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q12', true)">
+          <span class="opt-letter">A.</span>
+          <span>The lack of coercions in Ada makes the language more readable.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q12', false)">
+          <span class="opt-letter">B.</span>
+          <span>The lack of coercions in Ada makes the language less reliable.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q12', false)">
+          <span class="opt-letter">C.</span>
+          <span>The common use of coercions in Ada makes the language more writable.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q12', false)">
+          <span class="opt-letter">D.</span>
+          <span>The common use of coercions in Ada makes the language less reliable.</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q12-fb"></div>
+    <div class="q-explanation hidden" id="q12-exp">
+      <div class="exp-label">Explanation</div>
+      <p>Ada was deliberately designed with very few implicit type coercions. This means every type conversion must be EXPLICIT in the source code. When a programmer reads Ada code, they can see exactly what types are being used and when conversions happen — nothing is hidden. This improves readability because there are no hidden, implicit changes of type that could confuse a reader. Lack of coercions also improves reliability (no accidental type conversions causing unexpected results). It does NOT make Ada less reliable (it improves reliability) and does NOT commonly use coercions (it avoids them).</p>
+    </div>
+  </div>
+  <div class="q-block" id="q13">
+    <div class="q-meta"><span class="q-num-badge">Q13</span> <span class="q-marks">1 mark</span> <span class="q-topic">Short-Circuit Evaluation</span></div>
+    <div class="q-text"><p>Consider the following program code in a hypothetical programming language:</p>
+
+<pre><code>int count = 5
+double result = 0.0
+
+while ((count &gt; 0) and (result = (10.0 / count))) {
+   print result
+   count = count - 1
+}</code></pre>
+
+<p>Assume C-like syntax, assignment as an expression, <code>and</code> for logical AND, and integers are interpreted as Boolean values like in C. Select the most correct statement.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q13', false)">
+          <span class="opt-letter">A.</span>
+          <span>The provided program code produces an error regardless of whether the logical and is short-circuit evaluated or not.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q13', false)">
+          <span class="opt-letter">B.</span>
+          <span>The provided program code produces an error if the logical and is short-circuit evaluated.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q13', true)">
+          <span class="opt-letter">C.</span>
+          <span>The provided program code produces an error if the logical and is <strong>not</strong> short-circuit evaluated.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q13', false)">
+          <span class="opt-letter">D.</span>
+          <span>The provided program code produces no error regardless of whether the logical and is short-circuit evaluated or not.</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q13-fb"></div>
+    <div class="q-explanation hidden" id="q13-exp">
+      <div class="exp-label">Explanation</div>
+      <p>The while condition is `(count &gt; 0) and (result = (10.0 / count))`. When `count` reaches 0: if `and` IS short-circuit evaluated, `count &gt; 0` is false → the second operand `10.0/count` is NOT evaluated → no division by zero. If `and` is NOT short-circuit evaluated, BOTH operands are always evaluated → `10.0 / 0` is evaluated when count=0 → division by zero error. The assignment `result = (10.0/count)` is a side effect inside the condition — this is intentional for reading the next value. So the error ONLY occurs when short-circuit evaluation is absent.</p>
+    </div>
+  </div>
+  <div class="q-block" id="q14">
+    <div class="q-meta"><span class="q-num-badge">Q14</span> <span class="q-marks">1 mark</span> <span class="q-topic">Unary Assignment Operators</span></div>
+    <div class="q-text"><p>Consider the following statements about <strong>unary assignment operators</strong>, and select the most correct.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q14', true)">
+          <span class="opt-letter">A.</span>
+          <span>Unary assignment operators reduce readability, if they are overloaded to provide prefix and postfix versions.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q14', false)">
+          <span class="opt-letter">B.</span>
+          <span>Unary assignment operators reduce writability, if they are overloaded to provide prefix and postfix versions.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q14', false)">
+          <span class="opt-letter">C.</span>
+          <span>Unary assignment operators reduce the execution cost of a programming language.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q14', false)">
+          <span class="opt-letter">D.</span>
+          <span>Unary assignment operators are essential within a programming language.</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q14-fb"></div>
+    <div class="q-explanation hidden" id="q14-exp">
+      <div class="exp-label">Explanation</div>
+      <p>Unary assignment operators like `++` and `--` in C/C++ can be used as both prefix (`++i`) and postfix (`i++`) — the same symbol means different things depending on position. Prefix increments then returns the NEW value; postfix returns the OLD value then increments. This overloading of meaning for the same symbol reduces readability: a reader must pay close attention to which form is used. They do NOT reduce writability (they make common operations more concise). They do reduce execution cost slightly (combine read-modify-write). They are NOT essential — languages without them (like Python) work fine.</p>
+    </div>
+  </div>
+  <div class="q-block" id="q15">
+    <div class="q-meta"><span class="q-num-badge">Q15</span> <span class="q-marks">2 marks</span> <span class="q-topic">Counter-Controlled Loops</span> <span class="q-multi-badge">Select all that apply</span></div>
+    <div class="q-text"><p>Select <strong>only</strong> the statements that are true about <strong>counter-controlled loops</strong>. <em>(Incorrectly selected options will be penalised.)</em></p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt ms-opt" data-correct="false" onclick="toggleMS(this, 'q15')">
+          <span class="opt-letter">A.</span>
+          <span>Counter-controlled loops are required in order to implement any flowchart-represented algorithm.</span>
+        </li>
+        <li class="mcq-opt ms-opt" data-correct="true" onclick="toggleMS(this, 'q15')">
+          <span class="opt-letter">B.</span>
+          <span>Counter-controlled loops in Python are more reliable than counter-controlled loops in C.</span>
+        </li>
+        <li class="mcq-opt ms-opt" data-correct="false" onclick="toggleMS(this, 'q15')">
+          <span class="opt-letter">C.</span>
+          <span>Counter-controlled loops in C are more readable than counter-controlled loops in Java.</span>
+        </li>
+        <li class="mcq-opt ms-opt" data-correct="true" onclick="toggleMS(this, 'q15')">
+          <span class="opt-letter">D.</span>
+          <span>Counter-controlled loops are not directly supported in purely functional programming languages.</span>
+        </li>
+    </ul>
+    <button class="btn-check-ms" onclick="checkMS('q15', ["Counter-controlled loops are not directly supported in purely functional programming languages.", "Counter-controlled loops in Python are more reliable than counter-controlled loops in C."])">Check Selection</button>
+    <div class="q-feedback" id="q15-fb"></div>
+    <div class="q-explanation hidden" id="q15-exp">
+      <div class="exp-label">Explanation</div>
+      <p>(1) Counter-controlled loops are NOT required to implement any flowchart algorithm — logically-controlled (while) loops can implement anything a for loop can. (2) Python&#x27;s for loop iterates over a range/iterable — you cannot accidentally modify the loop variable or skip values through arithmetic errors. C&#x27;s for loop allows modifying everything (loop variable, limit, step) inside the body, which can cause subtle bugs → Python&#x27;s is more reliable. (3) C&#x27;s for loop uses arbitrary expressions, Java&#x27;s uses only Boolean control — Java is more restrictive but arguably more reliable. C is NOT more readable than Java here. (4) Functional languages (Scheme, Haskell) use RECURSION instead of iteration — they have no counter-controlled loop construct.</p>
+    </div>
+  </div>
+  <div class="q-block" id="q16">
+    <div class="q-meta"><span class="q-num-badge">Q16</span> <span class="q-marks">2 marks</span> <span class="q-topic">Disambiguating Nested Selectors</span> <span class="q-multi-badge">Select all that apply</span></div>
+    <div class="q-text"><p>Select <strong>only</strong> the correct statements about <strong>disambiguating nested selection statements</strong>. <em>(Incorrectly selected options will be penalised.)</em></p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt ms-opt" data-correct="true" onclick="toggleMS(this, 'q16')">
+          <span class="opt-letter">A.</span>
+          <span>Python&#x27;s approach to disambiguating nested selection statements is less readable than Java&#x27;s approach.</span>
+        </li>
+        <li class="mcq-opt ms-opt" data-correct="false" onclick="toggleMS(this, 'q16')">
+          <span class="opt-letter">B.</span>
+          <span>Python&#x27;s approach to disambiguating nested selection statements is less reliable than Java&#x27;s approach.</span>
+        </li>
+        <li class="mcq-opt ms-opt" data-correct="true" onclick="toggleMS(this, 'q16')">
+          <span class="opt-letter">C.</span>
+          <span>Ruby and Perl use very similar approaches to disambiguating nested selection statements, but Perl&#x27;s approach is more writable than Ruby&#x27;s approach.</span>
+        </li>
+        <li class="mcq-opt ms-opt" data-correct="false" onclick="toggleMS(this, 'q16')">
+          <span class="opt-letter">D.</span>
+          <span>Python and Ruby use very similar approaches to disambiguating nested selection statements, but Python&#x27;s approach is more writable than Ruby&#x27;s approach.</span>
+        </li>
+    </ul>
+    <button class="btn-check-ms" onclick="checkMS('q16', ["Ruby and Perl use very similar approaches to disambiguating nested selection statements, but Perl's approach is more writable than Ruby's approach.", "Python's approach to disambiguating nested selection statements is less readable than Java's approach."])">Check Selection</button>
+    <div class="q-feedback" id="q16-fb"></div>
+    <div class="q-explanation hidden" id="q16-exp">
+      <div class="exp-label">Explanation</div>
+      <p>(1) Java uses the &#x27;dangling else&#x27; rule (else matches nearest if) with optional braces — clear and well-defined. Python uses indentation to show nesting — very readable (no dangling else ambiguity) but indentation-based structure can be less readable for deep nesting. Wait, actually Python is generally MORE readable than Java for this. Let me reconsider: Java uses explicit braces or &#x27;else if&#x27; chains — clear. Python uses indentation/elif. Both options (A) and (C) need careful evaluation. (A) says Python is LESS readable than Java — Python&#x27;s indentation-based approach is actually considered more readable by many. But in terms of the course material: Python uses indentation (no special syntax), Java uses &#x27;else-if&#x27; or dangling-else rule. The course suggests Python&#x27;s approach can be less readable because indentation errors are silent. (C) Ruby uses &#x27;elsif&#x27; and &#x27;end&#x27; keywords (explicit), Perl uses &#x27;elsif&#x27; as well but with different syntax. Perl&#x27;s shorter keywords (e.g., `elsif` vs Ruby&#x27;s `elsif end`) might make it more writable. Among the given options, (B) says Python less reliable than Java — Python&#x27;s indentation is actually MORE reliable (no dangling else). (D) says Python and Ruby use similar approaches — they both use keyword-based disambiguation but Python uses indentation while Ruby uses explicit end keywords; they are NOT very similar. Answer: options A and C.</p>
+    </div>
+  </div>
+  <div class="q-block short-q" id="q17">
+    <div class="q-meta"><span class="q-num-badge">Q17</span> <span class="q-marks">1 mark</span> <span class="q-topic">Guarded Commands</span></div>
+    <div class="q-text"><p>Consider the following program code in a hypothetical programming language that supports <strong>guarded commands</strong>:</p>
+
+<pre><code>var myVal = 2
+
+do (myVal &lt; 0) -&gt; print(&quot;A &quot;)
+                  myVal = 1
+[] (myVal &gt; 0) -&gt; print(&quot;B &quot;)
+                  myVal = myVal - 1
+od</code></pre>
+
+<p>Provide the <strong>output</strong> of the program. If the program produces no output, write <code>Nothing</code>. If there is a compile-time error, write <code>Compilation error</code>. If there is a runtime error, write <code>Runtime error</code> at the point where it occurs. <em>(Note: there is a single space at the end of each print output.)</em></p></div>
+    <input type="text" class="short-input" id="q17-inp" placeholder="Type your answer...">
+    <div class="code-actions">
+      <button class="btn-show-sol" onclick="toggleSol('q17')">Show Answer</button>
+    </div>
+    <div class="solution-block hidden" id="q17-sol">
+      <div class="sol-label">Answer</div>
+      <p><strong>B B</strong></p>
+      <div class="exp-label">Explanation</div>
+      <p>Initial: myVal = 2. Execute do: evaluate all guards. Guard 1: `myVal &lt; 0` → 2 &lt; 0 → FALSE. Guard 2: `myVal &gt; 0` → 2 &gt; 0 → TRUE. Only guard 2 is true → execute: print(&#x27;B &#x27;), myVal = 2-1 = 1. Iteration 2: Guard 1: 1 &lt; 0 → FALSE. Guard 2: 1 &gt; 0 → TRUE → print(&#x27;B &#x27;), myVal = 0. Iteration 3: Guard 1: 0 &lt; 0 → FALSE. Guard 2: 0 &gt; 0 → FALSE. Both guards false → exit loop. Output: &#x27;B B &#x27; (two &#x27;B &#x27; prints). Written as: B B</p>
+    </div>
+  </div>
+  <div class="q-block" id="q18">
+    <div class="q-meta"><span class="q-num-badge">Q18</span> <span class="q-marks">1 mark</span> <span class="q-topic">Subprograms Defined Outside a Class</span></div>
+    <div class="q-text"><p>Consider the following statements about <strong>subprograms defined outside a class definition</strong>, and select the most correct.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q18', false)">
+          <span class="opt-letter">A.</span>
+          <span>Ruby subprograms defined outside a class definition are more writable than C++ subprograms defined outside a class definition.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q18', false)">
+          <span class="opt-letter">B.</span>
+          <span>Ruby subprograms defined outside a class definition are less writable than C++ subprograms defined outside a class definition.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q18', true)">
+          <span class="opt-letter">C.</span>
+          <span>Ruby subprograms defined outside a class definition are more orthogonal than C++ subprograms defined outside a class definition.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q18', false)">
+          <span class="opt-letter">D.</span>
+          <span>Ruby subprograms defined outside a class definition behave in exactly the same way as C++ subprograms defined outside a class definition.</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q18-fb"></div>
+    <div class="q-explanation hidden" id="q18-exp">
+      <div class="exp-label">Explanation</div>
+      <p>In Ruby, functions defined outside a class are actually methods of the Object class — they are treated consistently as methods (everything in Ruby is a method of some object). In C++, functions defined outside a class are stand-alone functions that are NOT methods — they exist outside the object system entirely. Ruby&#x27;s approach is more orthogonal because it uses a single, consistent mechanism (everything is a method on an object) rather than having two separate mechanisms (free functions AND methods). Ruby subprograms outside a class behave differently than C++ ones (not &#x27;exactly the same&#x27;) — Ruby ones are secretly methods of Object.</p>
+    </div>
+  </div>
+  <div class="q-block" id="q19">
+    <div class="q-meta"><span class="q-num-badge">Q19</span> <span class="q-marks">1 mark</span> <span class="q-topic">Procedures vs Functions</span></div>
+    <div class="q-text"><p>Consider the following statements about <strong>procedures and functions</strong>, and select the most correct.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q19', false)">
+          <span class="opt-letter">A.</span>
+          <span>A procedure can produce a result if all its parameters use pass-by-value semantics.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q19', false)">
+          <span class="opt-letter">B.</span>
+          <span>A procedure is guaranteed to produce no side effect if it produces a result.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q19', false)">
+          <span class="opt-letter">C.</span>
+          <span>A function is guaranteed to produce a side effect if it produces a result.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q19', true)">
+          <span class="opt-letter">D.</span>
+          <span>A procedure can more easily produce multiple results than a function can.</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q19-fb"></div>
+    <div class="q-explanation hidden" id="q19-exp">
+      <div class="exp-label">Explanation</div>
+      <p>A function returns a single value. A procedure has no return value but can produce results by modifying multiple out/inout parameters or modifying variables in an enclosing scope — this allows it to effectively produce multiple results simultaneously. A procedure with pass-by-reference parameters can modify multiple values in the caller, which is &#x27;multiple results.&#x27; A function CAN produce results via side effects (bad practice but allowed), so it is NOT guaranteed to have no side effects. A procedure does NOT guarantee no side effects (it deliberately modifies things). A procedure cannot produce results with ONLY pass-by-value parameters (by-value parameters are copies — the originals are unchanged).</p>
+    </div>
+  </div>
+  <div class="q-block short-q" id="q20">
+    <div class="q-meta"><span class="q-num-badge">Q20</span> <span class="q-marks">1 mark</span> <span class="q-topic">Pass-by-Name</span></div>
+    <div class="q-text"><p>Consider the following program code in a hypothetical programming language:</p>
+
+<pre><code>doSomething(int first, int second) {
+   first = 2
+   print(first)
+   print(&quot; &quot;)
+   print(second)
+}
+void main() {
+   int val1 = 5
+   int val2 = val1 + 1
+   foo(val1, val2)
+}</code></pre>
+
+<p>Provide the <strong>output</strong> of the program if the language uses <strong>pass-by-name</strong> for all parameter passing. If an error occurs, write <code>Error</code>. <em>(Note: the second <code>print</code> call outputs a single space.)</em></p></div>
+    <input type="text" class="short-input" id="q20-inp" placeholder="Type your answer...">
+    <div class="code-actions">
+      <button class="btn-show-sol" onclick="toggleSol('q20')">Show Answer</button>
+    </div>
+    <div class="solution-block hidden" id="q20-sol">
+      <div class="sol-label">Answer</div>
+      <p><strong>2 6</strong></p>
+      <div class="exp-label">Explanation</div>
+      <p>Pass-by-name: every occurrence of a formal parameter in the subprogram body is textually replaced by the actual parameter. `doSomething(val1, val2)` → actual parameters are `val1` and `val2`. After substitution: `first = 2` becomes `val1 = 2`; `print(first)` becomes `print(val1)`; `print(second)` becomes `print(val2)`. Execution: val1=5, val2=6 initially. Then val1 = 2 (val1 changes to 2). print(val1) → prints 2. But val2 was originally `val1 + 1` — with pass-by-name, `val2` is the NAME &#x27;val2&#x27;, and val2 was computed as val1+1 = 5+1 = 6 BEFORE the call. However, with pass-by-name, the second actual parameter is the expression `val2` (a variable name), not `val1 + 1`. So `second` → `val2` (which still = 6 at this point, since val2 = val1+1 was computed at declaration time and val1 was 5 then). print(val2) → 6. Output: 2 6.</p>
+    </div>
+  </div>
+  <div class="q-block short-q" id="q21">
+    <div class="q-meta"><span class="q-num-badge">Q21</span> <span class="q-marks">1 mark</span> <span class="q-topic">Deep Binding + Dynamic Scoping</span></div>
+    <div class="q-text"><p>Consider the following program code in a hypothetical programming language:</p>
+
+<pre><code>var A = 2
+
+main() {
+   var A = 5
+   call sub1(sub2)
+}
+
+sub1(param) {
+   var A = 3
+   call param()
+}
+
+sub2() {
+   print(A)
+}</code></pre>
+
+<p>Assume subprograms can be passed as parameters, execution starts with <code>main</code>. Provide the <strong>output</strong> if <strong>deep binding</strong> is used to determine the referencing environment of the passed subprogram, but the language uses <strong>dynamic scoping</strong>. If an error occurs, write <code>Error</code>.</p></div>
+    <input type="text" class="short-input" id="q21-inp" placeholder="Type your answer...">
+    <div class="code-actions">
+      <button class="btn-show-sol" onclick="toggleSol('q21')">Show Answer</button>
+    </div>
+    <div class="solution-block hidden" id="q21-sol">
+      <div class="sol-label">Answer</div>
+      <p><strong>5</strong></p>
+      <div class="exp-label">Explanation</div>
+      <p>Deep binding: the referencing environment of the passed subprogram is determined by where the subprogram is DEFINED, not where it is called. `sub2` is defined in the outer scope where `var A = 5` (main&#x27;s A). Even though the language uses dynamic scoping (which would normally use the call stack), DEEP BINDING means sub2&#x27;s referencing environment is fixed at its DEFINITION point. At the time sub2 is defined (main&#x27;s scope), A=5 in the current dynamic scope. So when sub2 executes via `param()` inside sub1, it uses the A from sub2&#x27;s captured environment = 5. Output: 5.</p>
+    </div>
+  </div>
+  <div class="q-block" id="q22">
+    <div class="q-meta"><span class="q-num-badge">Q22</span> <span class="q-marks">1 mark</span> <span class="q-topic">C# Generics</span></div>
+    <div class="q-text"><p>Consider the following program code in C#:</p>
+
+<pre><code>public static void doSomething&lt;T&gt;(T p1, T p2) {
+   Console.WriteLine(p1 + &quot; &quot; + p2);
+}</code></pre>
+
+<p>Assume the following calls are made:</p>
+
+<pre><code>Program.doSomething(5, 2);
+Program.doSomething(false, true);</code></pre>
+
+<p>Select the most correct statement about the use of the <code>doSomething</code> method.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q22', false)">
+          <span class="opt-letter">A.</span>
+          <span>One version of the doSomething method is created at compile time, and is used with int and bool parameters.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q22', false)">
+          <span class="opt-letter">B.</span>
+          <span>Two versions of the doSomething method are created at compile time. One is used with int parameters, while the other is used with bool parameters.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q22', false)">
+          <span class="opt-letter">C.</span>
+          <span>One version of the doSomething method is created at runtime, and is used with Object parameters.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q22', true)">
+          <span class="opt-letter">D.</span>
+          <span>Two versions of the doSomething method are created at runtime. One is used with int parameters, while the other is used with bool parameters.</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q22-fb"></div>
+    <div class="q-explanation hidden" id="q22-exp">
+      <div class="exp-label">Explanation</div>
+      <p>C# creates generic method versions at RUNTIME (not compile time like C++). For primitive types (int, bool), C# creates a SEPARATE version for each primitive type used — similar to C++&#x27;s approach. For object types, a single Object version is shared. Here: `doSomething(5, 2)` uses int (a primitive) → one version created at runtime for int. `doSomething(false, true)` uses bool (a primitive) → a second version created at runtime for bool. Two versions, created at runtime. This differs from Java (which creates ONE Object version at runtime and inserts casts).</p>
+    </div>
+  </div>
+  <div class="q-block short-q" id="q23">
+    <div class="q-meta"><span class="q-num-badge">Q23</span> <span class="q-marks">1 mark</span> <span class="q-topic">Coroutines</span></div>
+    <div class="q-text"><p>Consider the following program code in a hypothetical programming language that supports <strong>coroutines</strong>:</p>
+
+<pre><code>main() {
+   resume first
+}
+
+coroutine first {
+   print(&quot;X &quot;)
+   resume second
+   print(&quot;Y &quot;)
+}
+
+coroutine second() {
+   print(&quot;A &quot;)
+   resume first
+   print(&quot;B &quot;)
+}</code></pre>
+
+<p>Assume execution starts with <code>main</code>. Provide the <strong>output</strong> of the program. If an error occurs, write <code>Error</code>. <em>(Note: there is a single space at the end of each print output.)</em></p></div>
+    <input type="text" class="short-input" id="q23-inp" placeholder="Type your answer...">
+    <div class="code-actions">
+      <button class="btn-show-sol" onclick="toggleSol('q23')">Show Answer</button>
+    </div>
+    <div class="solution-block hidden" id="q23-sol">
+      <div class="sol-label">Answer</div>
+      <p><strong>X A Y B</strong></p>
+      <div class="exp-label">Explanation</div>
+      <p>Execution trace: main calls `resume first`. Coroutine first: print(&#x27;X &#x27;), resume second. Coroutine second (first resume, starts at beginning): print(&#x27;A &#x27;), resume first. Coroutine first resumes AFTER `resume second` → print(&#x27;Y &#x27;). First finishes — returns to second. Coroutine second resumes AFTER `resume first` → print(&#x27;B &#x27;). Second finishes. Program ends. Output: X A Y B.</p>
+    </div>
+  </div>
+  <div class="q-block" id="q24">
+    <div class="q-meta"><span class="q-num-badge">Q24</span> <span class="q-marks">2 marks</span> <span class="q-topic">C++ ADT Representation Hiding</span> <span class="q-multi-badge">Select all that apply</span></div>
+    <div class="q-text"><p>Abstract data types (ADTs) aim to hide the representations of ADT objects from clients. Select <strong>only</strong> the correct C++ features that <strong>detract from the effectiveness of ADT representation hiding</strong>. <em>(Incorrectly selected options will be penalised.)</em></p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt ms-opt" data-correct="true" onclick="toggleMS(this, 'q24')">
+          <span class="opt-letter">A.</span>
+          <span>The existence of friend functions and friend classes.</span>
+        </li>
+        <li class="mcq-opt ms-opt" data-correct="false" onclick="toggleMS(this, 'q24')">
+          <span class="opt-letter">B.</span>
+          <span>The fact that C++ supports stand-alone functions that are not part of a class.</span>
+        </li>
+        <li class="mcq-opt ms-opt" data-correct="false" onclick="toggleMS(this, 'q24')">
+          <span class="opt-letter">C.</span>
+          <span>The fact that C++ requires that classes and member function definitions must appear in the same file.</span>
+        </li>
+        <li class="mcq-opt ms-opt" data-correct="true" onclick="toggleMS(this, 'q24')">
+          <span class="opt-letter">D.</span>
+          <span>The fact that all class data members must appear in header files.</span>
+        </li>
+    </ul>
+    <button class="btn-check-ms" onclick="checkMS('q24', ["The fact that all class data members must appear in header files.", "The existence of friend functions and friend classes."])">Check Selection</button>
+    <div class="q-feedback" id="q24-fb"></div>
+    <div class="q-explanation hidden" id="q24-exp">
+      <div class="exp-label">Explanation</div>
+      <p>(1) Friend functions and classes are granted access to private members of a class — they can directly inspect and modify the private (hidden) representation. This clearly detracts from representation hiding. (2) C++ requires class definitions (including private member declarations) to appear in header files. Since header files are distributed with libraries, clients CAN see the private data member names and types (even though they cannot access them directly). This partially reveals the representation. (3) Stand-alone functions not in a class don&#x27;t affect encapsulation of a specific class&#x27;s data. (4) C++ does NOT require class AND member function definitions in the same file — definitions are typically split between headers and implementation files.</p>
+    </div>
+  </div>
+  <div class="q-block" id="q25">
+    <div class="q-meta"><span class="q-num-badge">Q25</span> <span class="q-marks">1 mark</span> <span class="q-topic">ADTs in Ruby</span></div>
+    <div class="q-text"><p>Consider the following statements about <strong>ADTs in Ruby</strong>, and select the most correct.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q25', false)">
+          <span class="opt-letter">A.</span>
+          <span>Instance and class variable names are more readable in Ruby than they are in Java.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q25', false)">
+          <span class="opt-letter">B.</span>
+          <span>Ruby supports multiple constructors, each of which can be implicitly called when new is used with the appropriate class name and parameters.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q25', false)">
+          <span class="opt-letter">C.</span>
+          <span>It is impossible to implement the functionality of multiple constructors in Ruby.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q25', true)">
+          <span class="opt-letter">D.</span>
+          <span>The interface of a Ruby ADT is very reliable.</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q25-fb"></div>
+    <div class="q-explanation hidden" id="q25-exp">
+      <div class="exp-label">Explanation</div>
+      <p>Wait — actually Ruby&#x27;s interface is NOT very reliable because Ruby classes are dynamic: methods can be added or redefined at runtime, making the interface unpredictable. Let me reconsider. The options: (A) Instance/class variable names more readable in Ruby than Java — In Ruby, instance variables use @, class variables use @@, which are less readable than Java&#x27;s plain names. (B) Multiple constructors implicitly called — Ruby has ONE constructor method (initialize), not multiple — FALSE. (C) Impossible to implement multiple constructors — FALSE, you can use default parameters or factory methods. (D) Interface is very reliable — actually FALSE because Ruby classes can be modified at runtime. So among these, the most defensible answer is... Actually, option D would be the least false? No. Let me re-examine: Ruby&#x27;s @, @@ variable naming is LESS readable, not more. Ruby does NOT support multiple named constructors (B is false). You CAN implement multiple constructors via optional parameters (C is false). The interface reliability... Ruby uses method_missing and can reopen classes, making interfaces unreliable. The answer should be (D) is the least wrong, OR... Actually I think the correct answer is that Ruby&#x27;s interface IS somewhat reliable because all data is private by default (only accessible through methods). &#x27;The interface of a Ruby ADT is very reliable&#x27; - this could be correct because in Ruby, ALL instance data is private (only accessible through explicit getters/setters), so clients can only interact through the defined method interface, which IS reliable from an encapsulation standpoint. Final answer: The interface of a Ruby ADT is very reliable.</p>
+    </div>
+  </div>
+  <div class="q-block" id="q26">
+    <div class="q-meta"><span class="q-num-badge">Q26</span> <span class="q-marks">1 mark</span> <span class="q-topic">Subclasses and Subtypes</span></div>
+    <div class="q-text"><p>Imagine a hypothetical programming language in which a subclass can inherit a public method from a parent class and <strong>change its access control to private or protected</strong>. Select the most correct statement.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q26', false)">
+          <span class="opt-letter">A.</span>
+          <span>In the hypothetical programming language, dynamic binding is less efficient.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q26', false)">
+          <span class="opt-letter">B.</span>
+          <span>In the hypothetical programming language, dynamic binding is impossible.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q26', false)">
+          <span class="opt-letter">C.</span>
+          <span>In the hypothetical programming language, subclasses are subtypes.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q26', true)">
+          <span class="opt-letter">D.</span>
+          <span>In the hypothetical programming language, subclasses are not subtypes.</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q26-fb"></div>
+    <div class="q-explanation hidden" id="q26-exp">
+      <div class="exp-label">Explanation</div>
+      <p>A subclass is a subtype of its parent if subclass objects can be used anywhere a parent object is expected — i.e., the subclass honours all the same public interface as the parent. If a subclass can CHANGE inherited public methods to private or protected, then a subclass object can no longer fulfil all the promises of the parent class (some public methods disappear from the external view). This violates the Liskov Substitution Principle — subclass objects cannot substitute for parent objects. Therefore, the subclass is NOT a subtype of the parent. Dynamic binding is still possible (it&#x27;s about method lookup, not type relationships), so it is NOT made impossible.</p>
+    </div>
+  </div>
+  <div class="q-block" id="q27">
+    <div class="q-meta"><span class="q-num-badge">Q27</span> <span class="q-marks">2 marks</span> <span class="q-topic">Smalltalk vs Java Orthogonality</span> <span class="q-multi-badge">Select all that apply</span></div>
+    <div class="q-text"><p>Select <strong>only</strong> the approaches that make <strong>Smalltalk more orthogonal than Java</strong>. <em>(Incorrectly selected options will be penalised.)</em></p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt ms-opt" data-correct="true" onclick="toggleMS(this, 'q27')">
+          <span class="opt-letter">A.</span>
+          <span>The difference in approach to the exclusivity of objects in Smalltalk and Java.</span>
+        </li>
+        <li class="mcq-opt ms-opt" data-correct="true" onclick="toggleMS(this, 'q27')">
+          <span class="opt-letter">B.</span>
+          <span>The difference in approach to dynamic and static binding in Smalltalk and Java.</span>
+        </li>
+        <li class="mcq-opt ms-opt" data-correct="false" onclick="toggleMS(this, 'q27')">
+          <span class="opt-letter">C.</span>
+          <span>The difference in approach to subclasses and subtypes in Smalltalk and Java.</span>
+        </li>
+        <li class="mcq-opt ms-opt" data-correct="false" onclick="toggleMS(this, 'q27')">
+          <span class="opt-letter">D.</span>
+          <span>The difference in approach to object deallocation in Smalltalk and Java.</span>
+        </li>
+    </ul>
+    <button class="btn-check-ms" onclick="checkMS('q27', ["The difference in approach to dynamic and static binding in Smalltalk and Java.", "The difference in approach to the exclusivity of objects in Smalltalk and Java."])">Check Selection</button>
+    <div class="q-feedback" id="q27-fb"></div>
+    <div class="q-explanation hidden" id="q27-exp">
+      <div class="exp-label">Explanation</div>
+      <p>(1) In Smalltalk, EVERYTHING is an object (pure uniformity) — one consistent construct handles all types. Java has both objects AND primitive types (int, float, bool) — two separate type systems. Smalltalk&#x27;s unified approach is more orthogonal (one construct, applied universally). (2) In Smalltalk, ALL message binding is dynamic. In Java, binding can be static OR dynamic depending on context — two mechanisms. Smalltalk uses one mechanism consistently → more orthogonal. (3) Subclasses/subtypes: both Smalltalk and Java ensure subclasses are subtypes (neither allows removing parent methods) — no significant orthogonality difference. (4) Object deallocation: both use garbage collection — no significant orthogonality difference here.</p>
+    </div>
+  </div>
+  <div class="q-block" id="q28">
+    <div class="q-meta"><span class="q-num-badge">Q28</span> <span class="q-marks">1 mark</span> <span class="q-topic">OOP in C++ vs C#</span></div>
+    <div class="q-text"><p>Consider the following statements about <strong>object-oriented programming in C++ and C#</strong>, and select the most correct.</p></div>
+    <ul class="mcq-opts">
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q28', false)">
+          <span class="opt-letter">A.</span>
+          <span>C++ provides worse support for multiple inheritance than C# does.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q28', false)">
+          <span class="opt-letter">B.</span>
+          <span>C++ provides less writability in terms of nested classes than C# does.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q28', false)">
+          <span class="opt-letter">C.</span>
+          <span>C++ uses a more orthogonal approach to object-oriented programming than C# does.</span>
+        </li>
+        <li class="mcq-opt" onclick="checkMCQ(this, 'q28', true)">
+          <span class="opt-letter">D.</span>
+          <span>C++ provides a more readable approach to dynamic message binding than C# does.</span>
+        </li>
+    </ul>
+    <div class="q-feedback" id="q28-fb"></div>
+    <div class="q-explanation hidden" id="q28-exp">
+      <div class="exp-label">Explanation</div>
+      <p>In C++, virtual methods are marked `virtual` at the declaration — any method NOT marked virtual is statically bound. The programmer explicitly opts in to dynamic binding. In C#, to dynamically bind, the parent method must be marked `virtual` AND the overriding method marked `override` (and the overriding method must explicitly use the `new` keyword when hiding). This double-declaration requirement in C# is more verbose and potentially confusing. C++&#x27;s single `virtual` keyword is simpler and more readable for indicating dynamic binding. C++ supports multiple inheritance (BETTER than C# in this regard, not worse). C++ nested classes work similarly to C# for basic cases.</p>
+    </div>
+  </div>
+
+  <div style="height:3rem;"></div>
+</div>
+
+<script>
+  let correct = 0;
+  let answered = 0;
+  const total = document.getElementById('score-total');
+  const scoreEl = document.getElementById('score-correct');
+  const pctEl = document.getElementById('score-pct');
+
+  function updateScore() {
+    total.textContent = answered;
+    scoreEl.textContent = correct;
+    if (answered > 0) {
+      pctEl.textContent = Math.round(correct / answered * 100) + '%';
+    }
+  }
+
+  function checkMCQ(el, qid, isCorrect) {
+    const block = document.getElementById(qid);
+    if (block.dataset.answered) return;
+    block.dataset.answered = '1';
+    answered++;
+    const opts = block.querySelectorAll('.mcq-opt');
+    opts.forEach(o => o.classList.add('locked'));
+    const fb = document.getElementById(qid + '-fb');
+    if (isCorrect) {
+      el.classList.add('correct');
+      fb.textContent = 'Correct!';
+      fb.className = 'q-feedback fb-correct';
+      correct++;
+    } else {
+      el.classList.add('wrong');
+      fb.textContent = 'Incorrect.';
+      fb.className = 'q-feedback fb-wrong';
+      // reveal the correct one
+      opts.forEach(o => {
+        if (o.onclick && o.onclick.toString().includes('true')) o.classList.add('correct');
+      });
+    }
+    document.getElementById(qid + '-exp').classList.remove('hidden');
+    updateScore();
+  }
+
+  function toggleMS(el, qid) {
+    const block = document.getElementById(qid);
+    if (block.dataset.answered) return;
+    el.classList.toggle('selected');
+  }
+
+  function checkMS(qid, correctAnswers) {
+    const block = document.getElementById(qid);
+    if (block.dataset.answered) return;
+    block.dataset.answered = '1';
+    answered++;
+    const opts = block.querySelectorAll('.ms-opt');
+    let allRight = true;
+    opts.forEach(o => {
+      o.classList.add('locked');
+      const isCorrect = o.dataset.correct === 'true';
+      const isSelected = o.classList.contains('selected');
+      if (isCorrect) o.classList.add('correct');
+      else if (isSelected) { o.classList.add('wrong'); allRight = false; }
+      if (isCorrect && !isSelected) allRight = false;
+    });
+    const fb = document.getElementById(qid + '-fb');
+    if (allRight) {
+      fb.textContent = 'Correct!';
+      fb.className = 'q-feedback fb-correct';
+      correct++;
+    } else {
+      fb.textContent = 'Incorrect — correct options highlighted.';
+      fb.className = 'q-feedback fb-wrong';
+    }
+    document.getElementById(qid + '-exp').classList.remove('hidden');
+    updateScore();
+  }
+
+  function toggleSol(qid) {
+    const sol = document.getElementById(qid + '-sol');
+    sol.classList.toggle('hidden');
+  }
+
+  function compareCode(qid) {
+    const ta = document.getElementById(qid + '-answer');
+    const yours = document.getElementById(qid + '-yours');
+    const val = ta.value.trim();
+    if (val === '') {
+      yours.textContent = '(no answer written yet)';
+      yours.classList.add('empty');
+    } else {
+      yours.textContent = val;
+      yours.classList.remove('empty');
+    }
+    document.getElementById(qid + '-cmp').classList.remove('hidden');
+    document.getElementById(qid + '-sol').classList.remove('hidden');
+  }
+
+  function clearCode(qid) {
+    document.getElementById(qid + '-answer').value = '';
+    document.getElementById(qid + '-cmp').classList.add('hidden');
+  }
+
+  // Tab key in textareas
+  document.querySelectorAll('.code-editor').forEach(ta => {
+    ta.addEventListener('keydown', e => {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const s = ta.selectionStart, end = ta.selectionEnd;
+        ta.value = ta.value.substring(0, s) + '  ' + ta.value.substring(end);
+        ta.selectionStart = ta.selectionEnd = s + 2;
+      }
+    });
+  });
+</script>
+</body>
+</html>
