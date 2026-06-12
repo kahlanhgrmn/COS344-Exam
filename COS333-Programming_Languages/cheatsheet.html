@@ -136,6 +136,13 @@
     letter-spacing: .04em;
   }
 
+  /* ── PLAIN ENGLISH CALLOUT ── */
+  .callout-plain {
+    background: #f5f3ff;
+    border-color: #7c3aed;
+  }
+  .callout-plain .callout-label { color: #7c3aed; }
+
   /* ── EXPAND ALL ── */
   .expand-controls {
     display: flex; gap: .5rem; margin-bottom: 1rem;
@@ -233,18 +240,36 @@
         <li><strong>Positional parameters</strong>: matched by order</li>
         <li><strong>Keyword parameters</strong>: matched by name — order-independent (Ruby, Python, Ada)</li>
         <li><strong>Default parameters</strong>: preset value if no actual supplied (C++, Python, Ruby, Ada, PHP)</li>
+      </ul>
+      <pre><code># Python — positional, keyword, and default params
+def greet(name, greeting="Hello"):
+    print(greeting, name)
+greet("Alice")                    # positional → Hello Alice
+greet(greeting="Hi", name="Bob")  # keyword → Hi Bob (order irrelevant)</code></pre>
+      <ul>
         <li><strong>Parameter profile (signature)</strong>: number, order, and types of parameters</li>
         <li><strong>Protocol</strong>: parameter profile plus return type</li>
         <li><strong>Subprogram declaration (prototype)</strong>: provides protocol but no body</li>
         <li><strong>Procedure</strong>: no return value; produces results by modifying parameters or non-local variables</li>
         <li><strong>Function</strong>: returns a value; modelled on mathematical functions — ideally no side effects</li>
       </ul>
+      <pre><code>// C: procedure (void) vs function
+void swap(int *a, int *b) { int t=*a; *a=*b; *b=t; }  // procedure: modifies params
+int  square(int x)        { return x * x; }            // function: returns a value</code></pre>
 
       <h3>Local Variables</h3>
       <ul>
         <li>Most contemporary languages: locals are <strong>stack-dynamic</strong> (allocated at block entry, released at exit → supports recursion)</li>
         <li>C/C++: locals are stack-dynamic by default; can be declared <code>static</code> (history-sensitive, allocated once)</li>
       </ul>
+      <pre><code>void counter() {
+    static int n = 0;   // allocated once — NOT reset between calls
+    n++;
+    printf("%d\n", n);
+}
+counter(); // → 1
+counter(); // → 2   (n retained)
+counter(); // → 3</code></pre>
 
       <h3>Parameter Passing Methods</h3>
       <table>
@@ -285,6 +310,10 @@ begin
 end foo;
 -- a was 5, becomes 6 after the call returns
 foo(a);</code></pre>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Pass-by-value-result</div>
+        <p>Take a photo of the argument on the way in (copy-in), do all your work with the photo, then write your edits back onto the original only when you leave (copy-out). Unlike pass-by-reference, the caller sees <em>no changes during the call</em> — only the final result on return.</p>
+      </div>
 
       <p><strong>Pass-by-reference</strong> — alias to actual; changes visible immediately to caller:</p>
       <pre><code>void foo(int &amp;x) { x = 99; }   // x is an alias for a
@@ -298,6 +327,10 @@ foo(a);
 procedure foo(a, b):
     a = 1          // val becomes 1 — now b re-evaluates as arr[1], not arr[0]
     print b        // prints arr[1], NOT arr[0]</code></pre>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Pass-by-name</div>
+        <p>Instead of passing a value, you paste the raw expression into the function as a find-and-replace. Every time the parameter is used, it re-evaluates the original expression from scratch — like a live spreadsheet formula, not a stored result. This is why changing <code>a</code> inside the function can silently change what <code>b</code> gives you.</p>
+      </div>
 
       <h4>Language Examples</h4>
       <ul>
@@ -334,12 +367,34 @@ procedure foo(a, b):
           <p>Uses environment of the call that <em>passed</em> the subprogram (sub3).</p>
         </div>
       </div>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Shallow / Deep / Ad-hoc Binding</div>
+        <p>When a function is passed as a parameter and eventually called, <em>which variables does it see?</em> Think of it as: <strong>Deep</strong> = where it was <em>written</em> (sub1 defined sub2 → sees sub1's x=1). <strong>Shallow</strong> = where it is <em>running right now</em> (sub4 is executing → sees sub4's x=4). <strong>Ad-hoc</strong> = where it was <em>handed off</em> (sub3 passed it → sees sub3's x=3). Static-scoped languages naturally use deep; dynamic-scoped naturally use shallow.</p>
+      </div>
 
       <h3>Sections 9.6 &amp; 9.7 — Overloaded and Generic Subprograms <span class="important-badge">Very Important</span></h3>
       <ul>
         <li><strong>Overloaded subprogram</strong>: same name, different protocol in same referencing environment — resolved at compile time by parameter profile</li>
+      </ul>
+      <pre><code>// C++ overloading — same name, different parameter profile
+int    area(int side);           // square
+int    area(int w, int h);       // rectangle
+double area(double radius);      // circle
+// compiler picks version based on argument types at the call site</code></pre>
+      <ul>
         <li><strong>Generic subprogram</strong> (parametric polymorphism): one definition works for multiple types via a type parameter</li>
       </ul>
+      <pre><code>// C++ template — generates a separate version per type at compile time
+template &lt;typename T&gt;
+T maxVal(T a, T b) { return (a &gt; b) ? a : b; }
+maxVal(3, 5);       // T=int    → int version created at compile time
+maxVal(3.1, 2.7);   // T=double → double version created at compile time
+
+// Java generics — one Object version at runtime (type erasure)
+public &lt;T&gt; T getFirst(ArrayList&lt;T&gt; list) { return list.get(0); }
+
+// C# generics — new version at runtime for each primitive type
+public T GetFirst&lt;T&gt;(List&lt;T&gt; list) { return list[0]; }</code></pre>
 
       <h4>Generic Subprograms — C++ vs Java vs C#</h4>
       <table>
@@ -371,6 +426,10 @@ var add5  = makeAdder(5);   // captures x = 5
 add10(20);  // → 30
 add5(20);   // → 25</code></pre>
       <p>Each call to <code>makeAdder</code> creates a <strong>new closure</strong> with its own captured <code>x</code>.</p>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Closures</div>
+        <p>A closure is a function with a backpack. When an inner function is created, it packs up the variables from the outer scope into its backpack. Even after the outer function finishes and is gone, the inner function still carries those variables with it. Each call to <code>makeAdder</code> gives a <em>separate</em> backpack — that's why <code>add10</code> and <code>add5</code> don't interfere with each other.</p>
+      </div>
 
       <h3>Coroutines (§9.13) <span class="exam-badge">Exam Important</span></h3>
       <ul>
@@ -381,6 +440,20 @@ add5(20);   // → 25</code></pre>
         <li>Produce <strong>quasi-concurrent</strong> (interleaved, not overlapping) execution</li>
         <li>Introduced in SIMULA 67; supported in Lua</li>
       </ul>
+      <pre><code>-- Pseudocode coroutine trace (two coroutines A and B)
+coroutine A:          coroutine B:
+  print "A1"            print "B1"
+  resume B              resume A
+  print "A2"            print "B2"
+  resume B
+
+-- Starting with A:  A1 → (resume B) → B1 → (resume A) → A2 → (resume B) → B2
+-- Output: A1, B1, A2, B2
+-- Each resume picks up exactly where the other left off</code></pre>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Coroutines</div>
+        <p>Two functions that take polite turns. A runs until it says "your turn" (<code>resume B</code>), then freezes in place. B runs until it says "your turn" (<code>resume A</code>), then freezes. Neither function is done — each one picks up <em>exactly where it paused</em>. It looks like they're running at the same time, but they're actually interleaving on a single thread.</p>
+      </div>
 
     </div>
   </div>
@@ -418,12 +491,57 @@ add5(20);   // → 25</code></pre>
           <tr><td><strong>Class variable</strong></td><td>One per class (shared)</td></tr>
           <tr><td><strong>Instance variable</strong></td><td>One per object</td></tr>
           <tr><td><strong>Dynamic binding / dispatch</strong></td><td>Correct overriding method selected at runtime based on actual object type</td></tr>
+        </tbody>
+      </table>
+      <pre><code>// C++ — virtual enables dynamic dispatch
+class Animal { public: virtual void speak() { cout &lt;&lt; "...";  } };
+class Dog    : public Animal { public: void speak() { cout &lt;&lt; "Woof"; } };
+class Cat    : public Animal { public: void speak() { cout &lt;&lt; "Meow"; } };
+
+Animal* a = new Dog();
+a-&gt;speak();   // → "Woof"  (runtime picks Dog::speak)
+a = new Cat();
+a-&gt;speak();   // → "Meow"  (runtime picks Cat::speak)
+// Without virtual: always "..." — statically bound to Animal::speak</code></pre>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Dynamic Dispatch</div>
+        <p>Even if your variable is declared as <code>Animal*</code>, if the real object inside is a <code>Dog</code>, calling <code>speak()</code> gives you Dog's bark — not the generic Animal sound. The program checks the <em>actual type at runtime</em> to pick the right method. In C++ this only happens if you mark the method <code>virtual</code>; Java always does it (except for <code>final</code>/<code>static</code>/<code>private</code> methods).</p>
+      </div>
+      <table>
+        <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+        <tbody>
           <tr><td><strong>Abstract method</strong></td><td>Declared but not implemented — subclasses must override (C++: pure virtual <code>= 0</code>)</td></tr>
           <tr><td><strong>Abstract class</strong></td><td>Contains ≥1 abstract method — cannot be instantiated</td></tr>
           <tr><td><strong>Method overriding</strong></td><td>Subclass redefines inherited method with same signature</td></tr>
+        </tbody>
+      </table>
+      <pre><code>// Overriding vs overloading
+class Base    { void foo(int x)    { } }           // original
+class Derived extends Base {
+    @Override void foo(int x)    { }               // OVERRIDING  — same signature, subclass
+              void foo(String s) { }               // OVERLOADING — same name, different param type
+}</code></pre>
+      <table>
+        <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+        <tbody>
           <tr><td><strong>Open recursion</strong></td><td><code>this</code>/<code>self</code> allows a method to call overridden versions in subclasses</td></tr>
         </tbody>
       </table>
+      <pre><code>// Open recursion — 'this' resolves at runtime, not compile time
+class Shape {
+    void draw()   { System.out.println("Shape"); }
+    void render() { this.draw(); }   // 'this' → dynamic dispatch
+}
+class Circle extends Shape {
+    @Override void draw() { System.out.println("Circle"); }
+}
+new Circle().render();
+// Shape.render() runs, but this.draw() → Circle.draw() → "Circle"
+// Without virtual/open recursion: would always print "Shape"</code></pre>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Open Recursion (<code>this</code>/<code>self</code>)</div>
+        <p><code>this</code> is a sticky note that says "whoever I <em>actually</em> am at runtime — not just the class I was written in". So a base-class method calling <code>this.draw()</code> will always run the most-overridden version in the real object, not the base class version. Without it, <code>render()</code> in <code>Shape</code> would always call <code>Shape.draw()</code> — even on a <code>Circle</code>.</p>
+      </div>
       <ul>
         <li><strong>Overriding vs overloading</strong>: overriding = same signature in subclass; overloading = same name, different signature in same class</li>
         <li><strong>is-a relationship</strong>: inheritance (a Dog is-a Animal)</li>
@@ -435,6 +553,18 @@ add5(20);   // → 25</code></pre>
         <li><strong>Single inheritance</strong>: one direct parent (Java, C#, Smalltalk)</li>
         <li><strong>Multiple inheritance</strong>: more than one direct parent (C++)</li>
         <li><strong>Diamond problem</strong>: two parents share a common ancestor → name collision ambiguity; C++ uses scope resolution (<code>Drawing::display()</code>)</li>
+      </ul>
+      <pre><code>// C++ diamond problem
+class A { public: void show() {} };
+class B : public A {};
+class C : public A {};
+class D : public B, public C {};    // D inherits show() twice — via B and via C
+
+D obj;
+obj.show();          // AMBIGUOUS — compile error
+obj.B::show();       // disambiguate with scope resolution
+obj.C::show();</code></pre>
+      <ul>
         <li>A derived class is a <strong>subtype</strong> of parent if it only adds members and overrides compatibly — not a subtype if it removes or restricts inherited members</li>
       </ul>
 
@@ -460,7 +590,24 @@ add5(20);   // → 25</code></pre>
             <li><strong>Pure virtual function</strong> (<code>virtual void draw() = 0</code>): class becomes abstract</li>
             <li><strong>Public derivation</strong>: inherited public/protected stay public/protected → subclass is a subtype</li>
             <li><strong>Private derivation</strong>: inherited public/protected become private → subclass is NOT a subtype</li>
+          </ul>
+          <pre><code>class Animal { public: void breathe() {} };
+class Dog   : public  Animal {};  // public: Dog IS-A Animal (subtype)
+class Robot : private Animal {};  // private: breathe() hidden → Robot NOT a subtype</code></pre>
+          <ul>
             <li>Objects on stack: assignment <strong>truncates</strong> (object slicing), binding is not dynamic</li>
+          </ul>
+          <pre><code>Dog d;
+Animal a = d;    // object slicing: Dog-specific data LOST, a is just Animal
+a.speak();       // static binding → Animal::speak (even if Dog overrides it)
+
+Animal* p = &amp;d;  // pointer: no slicing
+p-&gt;speak();      // dynamic binding → Dog::speak  (if virtual)</code></pre>
+          <div class="callout callout-plain">
+            <div class="callout-label">Plain English — Object Slicing</div>
+            <p>Copying a <code>Dog</code> into an <code>Animal</code> <em>variable</em> (not a pointer) physically discards everything that makes it a Dog — it gets sliced down to just the Animal parts. The copy has no idea it was ever a Dog. Using a <em>pointer or reference</em> instead avoids this: the pointer just points at the original Dog object, so nothing gets thrown away.</p>
+          </div>
+          <ul>
             <li>Dynamic binding only through <strong>pointers or references</strong></li>
           </ul>
         </div>
@@ -475,6 +622,14 @@ add5(20);   // → 25</code></pre>
             <li>All data are objects except primitive types (wrapper classes exist); all objects heap-dynamic, garbage collected</li>
             <li>Only <strong>single inheritance</strong></li>
             <li><strong>Interface</strong>: like abstract class — only method declarations and named constants; a class can implement multiple interfaces</li>
+          </ul>
+          <pre><code>interface Drawable  { void draw();  }
+interface Printable { void print(); }
+class Report implements Drawable, Printable {   // multiple interfaces
+    public void draw()  { /* ... */ }
+    public void print() { /* ... */ }
+}</code></pre>
+          <ul>
             <li>All messages dynamically bound EXCEPT: <code>final</code>, <code>private</code>, or <code>static</code> methods</li>
           </ul>
         </div>
@@ -552,6 +707,19 @@ add5(20);   // → 25</code></pre>
         <li>Lack of orthogonality = exceptions and special cases</li>
         <li>Example of orthogonality: a single <code>+</code> operator for int and float addition</li>
         <li>Example of non-orthogonality in C: a function cannot return an array</li>
+      </ul>
+      <pre><code>// Non-orthogonal: C can't return an array — special case
+int[] getArr() { ... }   // ILLEGAL in C
+int*  getArr() { ... }   // must use pointer — exception to the rule
+
+// Orthogonal: pointer type combines uniformly with any type — no exceptions
+int**   pp;   // pointer to pointer to int
+float** fp;   // same rule applies to float — fully consistent</code></pre>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Orthogonality</div>
+        <p>A language is orthogonal when its rules have <em>no exceptions</em>. Like: "any type can appear anywhere a type is expected." The moment you add a rule like "…except arrays can't be returned from functions," you've broken orthogonality — there's now a hole in the rule. Fewer exceptions = easier to learn and reason about.</p>
+      </div>
+      <ul>
         <li><strong>Too much orthogonality</strong> can hurt readability (ALGOL 68) — unrestricted combinations may be nonsensical</li>
       </ul>
 
@@ -633,6 +801,12 @@ add5(20);   // → 25</code></pre>
       <ul>
         <li><strong>Alias</strong>: two or more names for the same memory location — created via pointers, references, unions — bad for readability</li>
       </ul>
+      <pre><code>int x = 5;
+int *p1 = &amp;x, *p2 = &amp;x;   // p1 and p2 both point to x — aliases
+*p1 = 99;
+// x == 99, *p2 == 99 — surprising side effect through p2</code></pre>
+      <ul>
+      </ul>
 
       <h3>Binding Times</h3>
       <table>
@@ -653,6 +827,13 @@ add5(20);   // → 25</code></pre>
         <li><strong>Type inferencing</strong>: compiler determines type from context (<code>var value = 12</code> in C# → int)</li>
         <li><strong>Static type binding</strong>: bound at compile time (C, Java, C++)</li>
         <li><strong>Dynamic type binding</strong>: bound when value assigned at runtime (Python, JavaScript, Ruby, PHP) — more flexible; type errors only caught at runtime, slower</li>
+      </ul>
+      <pre><code># Python — same variable changes type at runtime
+x = 5           # x is int
+x = "hello"     # x is now str
+x = [1, 2, 3]   # x is now list
+# Java equivalent: int x = 5; x = "hello"; → COMPILE ERROR</code></pre>
+      <ul>
       </ul>
 
       <h3>Storage Bindings and Lifetimes</h3>
@@ -679,6 +860,10 @@ add5(20);   // → 25</code></pre>
   Sub2: refer to X
   call Sub1</code></pre>
         <p style="margin:.6rem 0 0;">Static: Sub2 sees X in <strong>Big</strong> · Dynamic: Sub2 sees X in <strong>Sub1</strong> (most recent caller)</p>
+      </div>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Static vs Dynamic Scoping</div>
+        <p><strong>Static:</strong> which variable you see is decided by where the code <em>sits on the page</em> — read the source top-to-bottom to find it. <strong>Dynamic:</strong> it's decided by who <em>called you</em> at runtime — look back up the call stack. Almost all modern languages use static scoping because it's predictable; dynamic scoping means you can't know which variable a function will use until it runs.</p>
       </div>
       <ul>
         <li><strong>Static (lexical) scoping</strong>: scope determined by physical structure of source code; search from local → enclosing scopes; variable in closer scope <em>hides</em> same-named variable in outer scope</li>
@@ -748,12 +933,33 @@ add5(20);   // → 25</code></pre>
         <li><strong>Free union</strong> (C, C++, Fortran): no type tag — programmer must track current type; <strong>unsafe</strong> — accessing wrong field is legal but produces garbage</li>
         <li><strong>Discriminated union</strong>: includes a <strong>type tag (discriminant)</strong> — type-safe; supported by Ada, ML, Haskell, F#</li>
       </ul>
-      <pre><code>union flexType { int intEl; float floatEl; };  // free union — unsafe</code></pre>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Discriminated Union</div>
+        <p>A union with a label on it. A free union is a box that can hold either an int or a float — but nothing stops you from putting an int in and pulling a float out (garbage). A discriminated union adds a tag variable that says <em>which type is currently in the box</em>, so the language can stop you from reading the wrong thing.</p>
+      </div>
+      <pre><code>union flexType { int intEl; float floatEl; };
+union flexType u;
+u.intEl = 42;
+float x = u.floatEl;   // garbage — read wrong field; no compiler error</code></pre>
 
       <h3>Pointer and Reference Types</h3>
       <ul>
         <li><strong>Dangling pointer</strong>: points to deallocated memory — hazardous (undefined behaviour)</li>
+      </ul>
+      <pre><code>int* p = new int(5);
+delete p;      // memory freed — p still holds the old address
+*p = 10;       // DANGLING POINTER: undefined behaviour
+p = nullptr;   // good practice: null after delete</code></pre>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Dangling Pointer</div>
+        <p>A pointer to a room that has already been demolished. The address (door number) still exists in your variable, but the room is gone — anything could be there now. Using it is undefined behaviour: it might crash, silently corrupt data, or appear to work by luck. Always set the pointer to <code>nullptr</code> after <code>delete</code>.</p>
+      </div>
+      <ul>
         <li><strong>Memory leak / lost heap-dynamic variable</strong>: allocated memory no longer accessible</li>
+      </ul>
+      <pre><code>int* p = new int(5);
+p = new int(10);   // original int(5) is now unreachable — memory leak</code></pre>
+      <ul>
         <li><code>void*</code> in C++: can point to any type; cannot be dereferenced without casting → affects type checking</li>
         <li><strong>Reference</strong> (C++, Java, C#): similar to pointer but safer — always bound to an object, implicitly dereferenced, cannot be reseated in Java</li>
         <li>Java: references only (no raw pointers) — improves reliability; C# has both (unsafe pointers in <code>unsafe</code> blocks)</li>
@@ -762,6 +968,12 @@ add5(20);   // → 25</code></pre>
       <h3>Type Checking</h3>
       <ul>
         <li><strong>Coercion</strong>: implicit type conversion — reduces reliability (hides type mismatches)</li>
+      </ul>
+      <pre><code>int   i = 5;
+float f = i;         // coercion: int silently widened to float 5.0
+int   x = 3.9;       // C: float → int = 3 (data lost, no warning)
+float r = i + 3.14;  // i coerced to float before addition</code></pre>
+      <ul>
         <li><strong>Strongly typed</strong>: ALL type errors always detected (Ada, Java, C# — stronger than C/C++)</li>
         <li>C/C++: not strongly typed (unions not type checked; pre-C99 parameter types not checked)</li>
       </ul>
@@ -770,6 +982,25 @@ add5(20);   // → 25</code></pre>
       <ul>
         <li><strong>Name type equivalence</strong>: two variables are compatible only if they share the same <em>type name</em> — strict, safe, easy to implement</li>
         <li><strong>Structure type equivalence</strong>: two variables are compatible if their <em>structures are identical</em> — more flexible, harder to implement, may cause unintended compatibility</li>
+      </ul>
+      <pre><code>-- Ada: name type equivalence
+type Celsius    is new Float;
+type Fahrenheit is new Float;
+C : Celsius := 100.0;
+F : Fahrenheit;
+F := C;   -- COMPILE ERROR: different names, even though both are Float</code></pre>
+      <pre><code>// C: structure type equivalence for structs
+struct Point2D { int x; int y; };
+struct Coord   { int x; int y; };   // identical structure
+
+struct Point2D p;
+struct Coord   c;
+p = c;   // legal in C — same structure (would be illegal under name equivalence)</code></pre>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Name vs Structure Type Equivalence</div>
+        <p><strong>Name equivalence:</strong> two variables are only compatible if they share the same type <em>name</em> — like two people needing the same passport number. Ada uses this: <code>Celsius</code> and <code>Fahrenheit</code> are both floats underneath but have different names → incompatible. <strong>Structure equivalence:</strong> compatible if they have the same <em>shape</em> — like two boxes the same size and colour. C uses this for structs: two completely separate struct types with identical fields can be assigned to each other.</p>
+      </div>
+      <ul>
       </ul>
 
     </div>
@@ -797,9 +1028,19 @@ add5(20);   // → 25</code></pre>
         <li><strong>Functional side effect</strong>: a function modifies a parameter or a non-local variable</li>
         <li><strong>Referential transparency</strong>: any two equivalent expressions can be substituted for one another without changing program behaviour — only possible if there are <strong>no side effects</strong></li>
       </ul>
+      <pre><code>int a = 5;
+int modify(int *x) { *x = 10; return 1; }
+int use(int x)     { return x; }
+// modify(&amp;a) + use(a) — result depends on which runs first:
+//   use first  → 1 + 5  = 6
+//   modify first → a = 10, then 1 + 10 = 11</code></pre>
       <div class="callout callout-tip">
         <div class="callout-label">Referential Transparency Example</div>
         <p><code>result1 = (fun(a) + b) / (fun(a) – a)</code> — if <code>fun</code> has no side effects, can replace <code>fun(a)</code> with <code>temp</code> → <code>result1 = result2</code></p>
+      </div>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Referential Transparency</div>
+        <p>A function is referentially transparent if you could swap every call to it with its return value and the program would behave identically. Think of it like a maths function: <code>f(3) = 9</code> always, so replacing <code>f(3)</code> with <code>9</code> everywhere is safe. This is only possible if the function has <em>no side effects</em> — if it secretly modifies something, the same call might give different results at different times.</p>
       </div>
 
       <h3>Scheme Essentials</h3>
@@ -858,6 +1099,20 @@ add5(20);   // → 25</code></pre>
         <li>Scheme converts tail recursive functions to iteration automatically (required by language definition)</li>
         <li>Non-tail recursive factorial: <code>(* n (factorial (- n 1)))</code> — multiply is the last op, not the call</li>
       </ul>
+      <pre><code>; NOT tail recursive — multiply runs AFTER the call returns
+(define (fact n)
+   (if (= n 0) 1
+       (* n (fact (- n 1)))))    ; last op is *, not fact
+
+; Tail recursive — the call IS the last op; Scheme optimises to a loop
+(define (fact-tail n acc)
+   (if (= n 0) acc
+       (fact-tail (- n 1) (* n acc))))
+(fact-tail 5 1)   ; → 120</code></pre>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Tail Recursion</div>
+        <p>A recursive call is tail-recursive if there is <em>nothing left to do after it returns</em>. Non-tail: <code>(* n (fact (- n 1)))</code> — you still need to multiply after the call comes back, so the stack frame must be kept. Tail: <code>(fact-tail (- n 1) (* n acc))</code> — the call IS the last thing, so Scheme throws away the current frame and reuses the stack slot. This means tail-recursive functions never overflow the stack, no matter how deep.</p>
+      </div>
 
       <h3>Functional Forms (Higher-Order Functions)</h3>
       <ul>
@@ -929,6 +1184,14 @@ add5(20);   // → 25</code></pre>
         <li><strong>Depth-first search</strong> (Prolog): prove each subgoal completely before moving to the next</li>
         <li><strong>Backtracking</strong>: when a subgoal fails, undo the last variable binding and try the next matching clause</li>
       </ul>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Backward Chaining</div>
+        <p>Prolog starts with what you want to <em>prove</em> (the goal) and works backwards, looking for facts or rules that could make it true — like a detective who has the conclusion and searches for evidence. Bottom-up (forward chaining) is the opposite: start from all known facts and see what you can deduce from them. Prolog uses top-down because it is efficient when there are few ways to satisfy the goal.</p>
+      </div>
+      <div class="callout callout-plain" style="margin-top:.5rem;">
+        <div class="callout-label">Plain English — Unification</div>
+        <p>Unification is pattern matching with filling-in-the-blanks. Given <code>father(X, jake)</code>, Prolog scans its facts for anything that matches the pattern <code>father(_, jake)</code> and sets X to whatever fills the blank. If no fact matches, unification fails and Prolog backtracks to try a different path.</p>
+      </div>
 
       <h3>Tracing Model (4 events) <span class="exam-badge">Exam Important</span></h3>
       <table>
@@ -992,6 +1255,10 @@ reverse([Head | Tail], List) :-
         <li><strong>Negation problem</strong>: <code>not(X)</code> succeeds if Prolog cannot prove X — not true logical negation</li>
         <li><strong>Intrinsic limitations</strong>: some tasks are inherently inefficient (e.g. sorting via permutation checking)</li>
       </ul>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Closed-World Assumption</div>
+        <p>Prolog assumes that if it cannot prove something, it must be false — not "unknown". If you never told Prolog that <code>likes(alice, jazz)</code> is true, it will say "no" to that query — even if Alice really does like jazz. This is different from real logic where "I can't prove it" and "it's false" are very different things.</p>
+      </div>
 
     </div>
   </div>
@@ -1026,15 +1293,32 @@ reverse([Head | Tail], List) :-
       <ul>
         <li><strong>Functional side effect</strong>: a function modifies a non-local variable or parameter</li>
         <li>Problem: <code>f(a) + g(a)</code> — if <code>f</code> modifies <code>a</code>, result depends on evaluation order</li>
+      </ul>
+      <pre><code>int a = 5;
+int modify(int *x) { *x = 10; return 1; }
+int use(int x)     { return x; }
+// modify(&amp;a) + use(a) is undefined in C:
+//   use first  → 1 + 5  = 6
+//   modify first → a becomes 10, then 1 + 10 = 11</code></pre>
+      <ul>
         <li>Java: operands evaluated left-to-right</li>
         <li>Short-circuit evaluation can interact with side effects: <code>(a &gt; b) || (b++ / 3)</code> — <code>b++</code> may not execute</li>
       </ul>
+      <pre><code>int b = 5;
+if (true || (b++ / 3)) { }   // short-circuit: right side never evaluated
+// b is still 5 — b++ did NOT run</code></pre>
 
       <h3>Type Conversions</h3>
       <ul>
         <li><strong>Narrowing conversion</strong>: to a type with fewer values (e.g. float → int) — not always safe</li>
         <li><strong>Widening conversion</strong>: to a type with more values (e.g. int → float) — generally safe</li>
         <li><strong>Coercion</strong>: implicit widening conversion — reduces reliability</li>
+      </ul>
+      <pre><code>int   i = 5;
+float f = i;        // widening coercion: int → float  (safe)
+int   x = 3.9;      // narrowing: float → int = 3  (data lost, no error in C)
+float r = i + 3.14; // i coerced to float before addition</code></pre>
+      <ul>
         <li>C/C++/Fortran/Perl: coerce any numeric type in any direction</li>
         <li>Java/C#: only widening coercions in mixed-mode assignment (safer)</li>
         <li>ML/F#: no coercions at all</li>
@@ -1045,6 +1329,14 @@ reverse([Head | Tail], List) :-
         <li><code>&amp;&amp;</code>/<code>||</code> in C/C++/Java: standard short-circuit</li>
         <li><code>&amp;</code>/<code>|</code> in C/C++: bitwise — NOT short-circuit</li>
       </ul>
+      <pre><code>// Short-circuit preventing a null pointer crash:
+if (list != null &amp;&amp; list.size() &gt; 0) { ... }
+// If list is null, second condition never evaluated — no NullPointerException
+// With &amp; (non-short-circuit): list.size() still runs → crash</code></pre>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Short-Circuit Evaluation</div>
+        <p>With <code>&amp;&amp;</code>, if the left side is already false, the right side is <em>never run at all</em> — the answer is already determined. With <code>||</code>, if the left side is true, the right side is skipped. This matters when the right side has a side effect (like <code>b++</code> not executing) or when it could crash (like calling a method on a null object).</p>
+      </div>
 
       <h3>Assignment</h3>
       <ul>
@@ -1076,6 +1368,17 @@ reverse([Head | Tail], List) :-
       <h3>Selection Statements</h3>
       <ul>
         <li><strong>Dangling else</strong>: <code>if (a) if (b) s1 else s2</code> — Java/C/C++: else matches nearest preceding unmatched if; Perl: forces braces → no ambiguity; Python: indentation removes ambiguity</li>
+      </ul>
+      <pre><code>// The else binds to the INNER if — not the outer one:
+if (a)
+    if (b) s1;
+    else s2;   // belongs to if(b), NOT if(a)
+
+// Force else to belong to outer if:
+if (a) {
+    if (b) s1;
+} else s2;</code></pre>
+      <ul>
         <li><strong>switch/case</strong> (C/C++/Java): falls through by default → needs <code>break</code></li>
         <li><strong>C#</strong>: disallows implicit fall-through (each segment must end with <code>break</code> or <code>goto</code>) — increases reliability</li>
         <li><strong>Selector expressions</strong> (ML, F#, LISP): <code>if</code> is an expression, evaluates to a value</li>
@@ -1094,6 +1397,23 @@ reverse([Head | Tail], List) :-
         <li>Method uses <code>yield</code> to execute the block and pass values to it</li>
         <li>Block has formal parameter(s): <code>list.each {|value| puts value}</code></li>
         <li>Ruby <code>for</code> statements are converted to <code>upto</code> calls</li>
+      </ul>
+      <pre><code># yield — method hands control to the block passed by the caller
+def repeat(n)
+    n.times { yield }          # run the block n times
+end
+repeat(3) { puts "Hello" }    # → Hello  Hello  Hello
+
+# yield with argument — passes a value into the block
+def double_it(x)
+    yield(x * 2)
+end
+double_it(5) { |n| puts n }   # → 10</code></pre>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Ruby Blocks &amp; yield</div>
+        <p>A block is a chunk of code you hand to a method, wrapped in <code>{ }</code>. The method decides <em>when</em> to run it by calling <code>yield</code>. Think of it like passing a recipe to a chef — the chef follows their own process but executes your recipe at the right moment. The block can receive values from the method via <code>yield(value)</code>, which appear as the block's parameters in <code>|pipes|</code>.</p>
+      </div>
+      <ul>
       </ul>
 
       <h3>Guarded Commands (Dijkstra) <span class="exam-badge">Pay Special Attention</span></h3>
@@ -1115,6 +1435,13 @@ fi</code></pre>
             <li>If more than one true → choose one <strong>non-deterministically</strong></li>
             <li>If <strong>none</strong> are true → <strong>runtime error</strong></li>
           </ul>
+          <pre><code>-- Absolute value example
+if x &gt; 0 -&gt; result := x
+[] x &lt; 0 -&gt; result := -x
+fi
+-- x=3:  first guard only → result=3
+-- x=-2: second guard only → result=2
+-- x=0:  NO guard true → runtime error</code></pre>
         </div>
         <div>
           <h4>Repetition (do...od)</h4>
@@ -1128,7 +1455,15 @@ od</code></pre>
             <li>If more than one true → choose one, <strong>repeat</strong></li>
             <li>If none are true → <strong>exit loop</strong></li>
           </ul>
+          <pre><code>-- Sort x and y so x &lt;= y
+do x &gt; y -&gt; temp:=x; x:=y; y:=temp
+od
+-- x=7,y=3: guard true → swap → x=3,y=7 → guard false → exit</code></pre>
         </div>
+      </div>
+      <div class="callout callout-plain">
+        <div class="callout-label">Plain English — Guarded Commands</div>
+        <p>Each branch has a <em>condition</em> (the guard) and an <em>action</em>. All guards are checked simultaneously — not top-to-bottom like a normal if/else. If several are true, any one might run (non-deterministic). The key idea is: if the programmer truly doesn't care which order things happen, they shouldn't be forced to specify one — and the language can then formally verify correctness more easily. In selection (<code>if...fi</code>), no true guard is a runtime error. In repetition (<code>do...od</code>), no true guard exits the loop.</p>
       </div>
 
     </div>

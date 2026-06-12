@@ -10,9 +10,18 @@
 - **Subprogram call**: an explicit execution request
 - **Formal parameter**: dummy variable listed in the subprogram header
 - **Actual parameter**: value or address used in the call
-- **Positional parameters**: matched by order — safe, but order must be memorised
+- **Positional parameters**: matched by order — `greet("Alice", "Hello")` maps left-to-right
 - **Keyword parameters**: matched by name — order-independent (Ruby, Python, Ada)
 - **Default parameters**: formal parameters with a preset value if no actual is supplied (C++, Python, Ruby, Ada, PHP)
+
+```python
+# Python — positional, keyword, and default params
+def greet(name, greeting="Hello"):   # greeting has a default
+    print(greeting, name)
+greet("Alice")                        # positional → Hello Alice
+greet(greeting="Hi", name="Bob")      # keyword → Hi Bob (order doesn't matter)
+```
+
 - **Parameter profile (signature)**: number, order, and types of parameters
 - **Protocol**: parameter profile plus return type
 - **Subprogram declaration (prototype)**: provides protocol but no body
@@ -21,9 +30,26 @@
 - **Procedure**: no return value; produces results by modifying parameters or non-local variables
 - **Function**: returns a value; modelled on mathematical functions — ideally no side effects
 
+```c
+// C procedure (void) vs function
+void swap(int *a, int *b) { int t = *a; *a = *b; *b = t; }  // procedure: modifies via params
+int  square(int x)        { return x * x; }                  // function: returns a value
+```
+
 ### Local Variables
 - Most contemporary languages: local variables are **stack-dynamic** (allocated at block entry, released at exit → supports recursion)
 - C/C++: locals are stack-dynamic by default; can be declared `static` (history-sensitive, allocated once)
+
+```c
+void counter() {
+    static int n = 0;   // allocated once, NOT reset on re-entry
+    n++;
+    printf("%d\n", n);
+}
+counter(); // → 1
+counter(); // → 2   (n retained between calls)
+counter(); // → 3
+```
 
 ### Parameter Passing Methods
 | Method | Mode | How | Caller affected? |
@@ -112,7 +138,34 @@ fun sub1() {
 
 ### Sections 9.6 and 9.7 — Overloaded and Generic Subprograms
 - **Overloaded subprogram**: same name, different protocol in same referencing environment — resolved at compile time by parameter profile
+
+```cpp
+// C++ overloading — same name, different parameter profile
+int    area(int side);              // square: 1 param
+int    area(int w, int h);          // rectangle: 2 params
+double area(double radius);         // circle: 1 double param
+// compiler picks version based on argument count/types at call site
+```
+
 - **Generic subprogram** (parametric polymorphism): one definition works for multiple types via a type parameter
+
+```cpp
+// C++ template — compiler generates a version per type used
+template <typename T>
+T maxVal(T a, T b) { return (a > b) ? a : b; }
+maxVal(3, 5);       // T = int    — creates int version at compile time
+maxVal(3.1, 2.7);   // T = double — creates double version at compile time
+```
+
+```java
+// Java generics — one Object version at runtime (type erasure)
+public <T> T getFirst(ArrayList<T> list) { return list.get(0); }
+```
+
+```csharp
+// C# generics — new version created at runtime for each primitive type
+public T GetFirst<T>(List<T> list) { return list[0]; }
+```
 
 #### Generic Subprograms — C++ vs Java vs C#
 | Feature | C++ Templates | Java Generics | C# Generics |
@@ -153,6 +206,19 @@ Each call to `makeAdder` creates a **new closure** with its own captured `x`.
 - Coroutines produce **quasi-concurrent** (interleaved, not overlapping) execution
 - Introduced in SIMULA 67; supported in Lua
 
+```
+-- Pseudocode coroutine trace (two coroutines A and B)
+coroutine A:          coroutine B:
+  print "A1"            print "B1"
+  resume B              resume A
+  print "A2"            print "B2"
+  resume B
+
+-- Starting with A:  A1 → (resume B) → B1 → (resume A) → A2 → (resume B) → B2
+-- Output: A1, B1, A2, B2
+-- Each resume picks up exactly where the other left off
+```
+
 ---
 
 ## Ch12 — OOP (~5 marks)
@@ -165,17 +231,55 @@ Each call to `makeAdder` creates a **new closure** with its own captured `x`.
 - **Message protocol / interface**: the entire collection of an object's methods
 - **Subclass / derived class**: inherits from a parent
 - **Superclass / parent class**: the class inherited from
-- **Class variable**: one per class (shared)
-- **Instance variable**: one per object
+- **Class variable**: one per class (shared by all instances)
+- **Instance variable**: one per object (each instance has its own copy)
 - **Encapsulation**: bundling data and methods, hiding internal details
 - **Inheritance**: a subclass acquires members of its parent
 - **Polymorphism**: same interface applies to different types
 - **Dynamic binding / dynamic dispatch**: correct overriding method selected at runtime based on actual object type
+
+```cpp
+// C++ — virtual enables dynamic dispatch
+class Animal { public: virtual void speak() { cout << "..."; } };
+class Dog : public Animal  { public: void speak() { cout << "Woof"; } };
+class Cat : public Animal  { public: void speak() { cout << "Meow"; } };
+
+Animal* a = new Dog();
+a->speak();   // → "Woof"  (runtime picks Dog::speak, not Animal::speak)
+a = new Cat();
+a->speak();   // → "Meow"  (runtime picks Cat::speak)
+// Without virtual: always "..." — statically bound to Animal::speak
+```
+
 - **Abstract method**: declared but not implemented — subclasses must override (C++: pure virtual `= 0`)
 - **Abstract class**: contains at least one abstract method — cannot be instantiated
 - **Method overriding**: subclass redefines an inherited method with the same signature
 - **Overriding** vs **overloading**: overriding = same signature in subclass; overloading = same name, different signature in same class
-- **Open recursion**: `this`/`self` allows a method to call overridden versions in subclasses
+
+```java
+class Base {
+    void foo(int x) { }        // original
+}
+class Derived extends Base {
+    @Override
+    void foo(int x) { }        // OVERRIDING — same signature, in subclass
+    void foo(String s) { }     // OVERLOADING — same name, different param type
+}
+```
+
+- **Open recursion**: `this`/`self` allows a method to call the overridden version in a subclass dynamically
+
+```java
+class Shape {
+    void draw()   { System.out.println("Shape"); }
+    void render() { this.draw(); }   // 'this' resolves at runtime
+}
+class Circle extends Shape {
+    @Override void draw() { System.out.println("Circle"); }
+}
+new Circle().render();   // calls Shape.render(), but this.draw() → Circle.draw() → "Circle"
+// Without open recursion (static binding), render() would always print "Shape"
+```
 
 ### Any OOP Language Must Support
 1. Abstract data types (classes)
@@ -186,6 +290,20 @@ Each call to `makeAdder` creates a **new closure** with its own captured `x`.
 - **Single inheritance**: one direct parent (Java, C#, Smalltalk)
 - **Multiple inheritance**: more than one direct parent (C++)
 - **Diamond problem**: when two parents share a common ancestor → name collision ambiguity
+
+```cpp
+// C++ diamond problem
+class A { public: void show() {} };
+class B : public A {};
+class C : public A {};
+class D : public B, public C {};   // D inherits show() from both B and C via A
+
+D obj;
+obj.show();            // AMBIGUOUS — which show()? compiler error
+obj.B::show();         // disambiguate with scope resolution
+obj.C::show();
+```
+
 - In C++, disambiguate with scope resolution operator (`Drawing::display()`)
 - **is-a relationship**: inheritance (a Dog is-a Animal)
 - **has-a relationship**: composition (a Car has-a Engine)
@@ -204,7 +322,24 @@ Each call to `makeAdder` creates a **new closure** with its own captured `x`.
 - **Pure virtual function** (`virtual void draw() = 0`): defines abstract method → class becomes abstract
 - **Public derivation** (common): inherited public/protected members stay public/protected in subclass → subclass is a subtype
 - **Private derivation**: inherited public/protected become private → subclass is NOT a subtype
+
+```cpp
+class Animal { public: void breathe() {} };
+class Dog : public  Animal {};   // public derivation: Dog IS-A Animal (subtype)
+class Robot : private Animal {}; // private derivation: breathe() becomes private → Robot is NOT a subtype
+```
+
 - If objects on stack (not heap): assignment truncates objects (**object slicing**), binding is not dynamic
+
+```cpp
+Dog d;
+Animal a = d;    // object slicing: Dog-specific data LOST; a is just an Animal
+a.speak();       // static binding → Animal::speak (even if Dog overrides it)
+
+Animal* p = &d;  // pointer: no slicing
+p->speak();      // dynamic binding → Dog::speak  (if virtual)
+```
+
 - Dynamic binding only through **pointers or references**
 
 ### Java Specific
@@ -212,6 +347,16 @@ Each call to `makeAdder` creates a **new closure** with its own captured `x`.
 - All objects heap-dynamic, garbage collected
 - Only **single inheritance**
 - **Interface**: like an abstract class — only method declarations and named constants; a class can implement multiple interfaces → provides some benefits of multiple inheritance
+
+```java
+interface Drawable { void draw(); }
+interface Printable { void print(); }
+class Report implements Drawable, Printable {   // implements multiple interfaces
+    public void draw()  { ... }
+    public void print() { ... }
+}
+```
+
 - All messages dynamically bound EXCEPT: `final`, `private`, or `static` methods (dynamic binding serves no purpose there)
 
 ### C# Specific
@@ -264,6 +409,16 @@ Each call to `makeAdder` creates a **new closure** with its own captured `x`.
 - Example of non-orthogonality in C: a function cannot return an array (restriction on combining return type with array type)
 - **Too much orthogonality** can hurt readability (ALGOL 68) — unrestricted combinations may be nonsensical
 
+```
+// Non-orthogonal: C arrays cannot be returned from functions
+int[] getArr() { ... }   // ILLEGAL in C
+int*  getArr() { ... }   // must use pointer instead — special case / exception
+
+// Orthogonal: pointer types combine uniformly — pointer to any type, pointer to pointer, etc.
+int**   pp;   // pointer to pointer to int — all combinations legal
+float** fp;   // same rule applies to float — no exceptions
+```
+
 ### Language Design Trade-offs
 - **Reliability vs cost of execution**: Java checks array index bounds (more reliable, but slower)
 - **Readability vs writability**: APL has many powerful operators → compact but unreadable
@@ -309,6 +464,13 @@ Each call to `makeAdder` creates a **new closure** with its own captured `x`.
 Name, Address, Value, Type, Lifetime, Scope
 - **Alias**: two or more names for the same memory location — created via pointers, references, unions — bad for readability
 
+```c
+int x = 5;
+int *p1 = &x, *p2 = &x;  // p1 and p2 are aliases — both refer to x's memory
+*p1 = 99;
+// now x == 99 AND *p2 == 99 — surprising side effect
+```
+
 ### Binding and Binding Times
 - **Binding**: an association between an attribute and an entity
 - **Language design time**: meaning of operators (e.g. `*` = multiplication)
@@ -327,6 +489,14 @@ Name, Address, Value, Type, Lifetime, Scope
 - **Static type binding**: bound at compile time (C, Java, C++)
 - **Dynamic type binding**: bound when value assigned at runtime (Python, JavaScript, Ruby, PHP)
   - More flexible; disadvantage: type errors only caught at runtime, slower execution
+
+```python
+# Python — dynamic type binding: same variable changes type at runtime
+x = 5          # x is int
+x = "hello"    # x is now str — type re-bound on assignment
+x = [1, 2, 3]  # x is now list
+# contrast with Java: int x = 5; x = "hello"; // COMPILE ERROR
+```
 
 ### Storage Bindings and Lifetimes
 | Category | Allocation | Deallocation | Example |
@@ -366,8 +536,8 @@ Big: declare X
   Sub2: refer to X
   call Sub1
 ```
-- Static: Sub2 sees `X` in Big
-- Dynamic: Sub2 sees `X` in Sub1 (most recent caller with X)
+- Static: Sub2 sees `X` in Big (determined by where Sub2 is *defined* in source)
+- Dynamic: Sub2 sees `X` in Sub1 (most recent caller on the call stack that declared X)
 
 ### Referencing Environments
 - **Static scoping**: local variables + all variables in enclosing static scopes
@@ -427,6 +597,9 @@ Big: declare X
 - **Free union** (C, C++, Fortran): no type tag — programmer must track current type; **unsafe**
   ```c
   union flexType { int intEl; float floatEl; };
+  union flexType u;
+  u.intEl = 42;
+  float x = u.floatEl;   // garbage — read wrong field; no error from compiler
   ```
   Accessing wrong field is legal but produces garbage
 - **Discriminated union**: includes a **type tag (discriminant)** — type-safe; supported by Ada, ML, Haskell, F#
@@ -435,7 +608,21 @@ Big: declare X
 ### Pointer and Reference Types
 - **Pointer**: stores a memory address; used for dynamic memory management and indirect addressing
 - **Dangling pointer**: points to deallocated memory — hazardous (undefined behaviour)
+
+```cpp
+int* p = new int(5);
+delete p;     // memory freed — p still holds the old address
+*p = 10;      // DANGLING POINTER: undefined behaviour (could corrupt memory or crash)
+p = nullptr;  // good practice: null the pointer after delete
+```
+
 - **Memory leak / lost heap-dynamic variable**: allocated memory no longer accessible — garbage
+
+```cpp
+int* p = new int(5);
+p = new int(10);   // original int(5) is now unreachable — memory leak
+```
+
 - `void*` in C++: can point to any type; cannot be dereferenced without casting → affects type checking
 - **Reference** (C++, Java, C#): similar to pointer but safer — always bound to an object, implicitly dereferenced, cannot be reseated in Java
 - Java: references only (no raw pointers) — improves reliability; C# has both (unsafe pointers in `unsafe` blocks)
@@ -443,6 +630,14 @@ Big: declare X
 ### Type Checking
 - **Type checking**: ensures operands of operators are compatible types
 - **Coercion**: implicit type conversion — reduces reliability (hides type mismatches)
+
+```c
+int   i = 5;
+float f = i;            // coercion: int silently widened to float 5.0
+float r = i + 3.14;     // i coerced to float before addition
+// Danger: int x = 3.9; → x becomes 3 (truncation), no warning in C
+```
+
 - **Strongly typed**: ALL type errors always detected (Ada, Java, C# — stronger than C/C++)
 - C/C++: not strongly typed (unions not type checked; pre-C99 parameter types not checked)
 - Java/C#: more strongly typed than C++ but explicit casts can still cause runtime type errors
@@ -450,6 +645,26 @@ Big: declare X
 ### Type Equivalence
 - **Name type equivalence**: two variables are compatible only if they share the same **type name** — strict, safe, easy to implement
 - **Structure type equivalence**: two variables are compatible if their **structures are identical** — more flexible, harder to implement, may cause unintended compatibility
+
+```ada
+-- Ada uses name type equivalence
+type Celsius    is new Float;
+type Fahrenheit is new Float;
+C : Celsius    := 100.0;
+F : Fahrenheit;
+F := C;         -- COMPILE ERROR: different names, even though both are Float underneath
+```
+
+```c
+// C uses structure type equivalence for structs
+struct Point2D { int x; int y; };
+struct Coord   { int x; int y; };   // identical structure to Point2D
+
+struct Point2D p;
+struct Coord   c;
+p = c;   // legal in C — same structure (structure equivalence)
+         // would be illegal under name equivalence
+```
 
 ---
 
@@ -462,6 +677,17 @@ Big: declare X
 ### Side Effects and Referential Transparency
 - **Functional side effect**: a function modifies a parameter or a non-local variable
 - Problem: `b = a + fun(&a)` — if `fun` changes `a`, result depends on operand evaluation order
+
+```c
+int a = 5;
+int modify(int *x) { *x = 10; return 1; }
+int use(int x)     { return x; }
+// modify(&a) + use(a) could be:
+//   1 + 5 = 6  (if use(a) evaluated first, before a changes)
+//   1 + 10 = 11 (if modify runs first)
+// Result is undefined — order-dependent
+```
+
 - Two solutions: (1) disallow side effects entirely, (2) require fixed operand evaluation order
 - **Referential transparency**: any two equivalent expressions can be substituted for one another without changing program behaviour
   - Only possible if there are **no side effects**
@@ -521,6 +747,19 @@ Big: declare X
 - Scheme converts tail recursive functions to iteration automatically (required by language definition)
 - Non-tail recursive factorial: `(* n (factorial (- n 1)))` — multiply is the last op, not the call
 - Tail recursive version: pass a partial result accumulator as a parameter
+
+```scheme
+; NOT tail recursive — multiply happens AFTER the recursive call returns
+(define (fact n)
+   (if (= n 0) 1
+       (* n (fact (- n 1)))))   ; last op is *, not fact
+
+; Tail recursive — recursive call IS the last operation
+(define (fact-tail n acc)
+   (if (= n 0) acc
+       (fact-tail (- n 1) (* n acc))))   ; last op is the call itself
+(fact-tail 5 1)   ; → 120
+```
 
 ### Functional Forms (Higher-Order Functions)
 - **Functional form**: a function that takes functions as parameters or yields a function as result
@@ -656,6 +895,17 @@ reverse([Head | Tail], List) :-
 ### Operand Evaluation Order
 - Most languages do not specify evaluation order of operands
 - Matters when operands have **side effects**: `f(a) + g(a)` — if `f` modifies `a`, result is order-dependent
+
+```c
+int a = 5;
+int f(int *x) { *x = 10; return 1; }   // side effect: changes a
+int g(int  x) { return x; }             // no side effect
+
+// f(&a) + g(a) is undefined:
+//   evaluate g first → g(5) = 5, then f → result = 1 + 5 = 6
+//   evaluate f first → a becomes 10, then g(10) = 10 → result = 1 + 10 = 11
+```
+
 - Java: operands evaluated left-to-right
 
 ### Side Effects and Referential Transparency
@@ -663,10 +913,24 @@ reverse([Head | Tail], List) :-
 - **Referential transparency**: an expression can be replaced by its value without changing program behaviour — only possible without side effects (see Ch15)
 - Short-circuit evaluation can interact with side effects: `(a > b) || (b++ / 3)` — `b++` may not execute if `a > b`
 
+```c
+int b = 5;
+if (true || (b++ / 3)) { }   // short-circuit: right side never evaluated
+// b is still 5 — b++ did NOT execute
+```
+
 ### Type Conversions
 - **Narrowing conversion**: to a type with fewer values (e.g. float → int) — not always safe
 - **Widening conversion**: to a type with more values (e.g. int → float) — generally safe, may lose accuracy
 - **Coercion**: implicit widening conversion — reduces reliability (can mask typos)
+
+```c
+int   i = 5;
+float f = i;           // implicit coercion: int → float (widening, safe)
+int   x = 3.9;         // implicit coercion: float → int = 3 (narrowing, data lost, no error in C)
+float r = i + 3.14;    // i coerced to float before addition
+```
+
 - C/C++/Fortran/Perl: coerce any numeric type in any direction
 - Java/C#: only widening coercions in mixed-mode assignment (safer)
 - ML/F#: no coercions at all
@@ -680,6 +944,13 @@ reverse([Head | Tail], List) :-
 ### Short-Circuit Evaluation
 - `&&`/`||` in C/C++/Java: standard short-circuit
 - `&`/`|` in C/C++: bitwise — NOT short-circuit
+
+```java
+// Short-circuit prevents null pointer error:
+if (list != null && list.size() > 0) { ... }
+// If list is null, second condition never evaluated — no NullPointerException
+// With & (non-short-circuit): list.size() still runs → crash
+```
 
 ### Assignment
 - C-based, Perl, JavaScript: assignment produces a result (the assigned value) → can be used as expression
@@ -721,9 +992,21 @@ For each language know: **environment → how it affected design → main contri
 
 ### Selection Statements
 - **Dangling else**: `if (a) if (b) s1 else s2` — which if gets the else?
-  - Java/C/C++: else matches nearest preceding unmatched if
-  - Perl: forces compound statements (braces required) → no ambiguity
-  - Python: indentation removes ambiguity
+
+```c
+// The else matches the NEAREST unmatched if — so this binds to inner if:
+if (a)
+    if (b) s1;
+    else s2;    // else belongs to inner if(b), NOT outer if(a)
+// To attach else to outer if:
+if (a) {
+    if (b) s1;
+} else s2;      // braces force the intended grouping
+```
+
+- Java/C/C++: else matches nearest preceding unmatched if
+- Perl: forces compound statements (braces required) → no ambiguity
+- Python: indentation removes ambiguity
 - **switch/case** (C/C++/Java): falls through by default → needs `break`
 - **C#**: disallows implicit fall-through (each segment must end with `break` or `goto`) — increases reliability
 - **Selector expressions** (ML, F#, LISP): `if` is an expression, evaluates to a value
@@ -736,6 +1019,20 @@ For each language know: **environment → how it affected design → main contri
   - Method uses `yield` to execute the block and pass values to it
   - Block has formal parameter(s): `list.each {|value| puts value}`
   - Ruby `for` statements are converted to `upto` calls
+
+```ruby
+# yield — method executes the block passed by the caller
+def repeat(n)
+    n.times { yield }         # yield: run the block each iteration
+end
+repeat(3) { puts "Hello" }   # → Hello  Hello  Hello
+
+# yield with argument — passes a value into the block
+def double_it(x)
+    yield(x * 2)              # passes x*2 into the block
+end
+double_it(5) { |n| puts n }  # → 10
+```
 
 ### Guarded Commands (Dijkstra) — PAY SPECIAL ATTENTION
 Designed to support **formal program verification** (correctness proofs)
@@ -753,6 +1050,16 @@ fi
 - If **more than one** is true → choose one **non-deterministically**
 - If **none** are true → **runtime error**
 
+```
+-- Concrete example: absolute value (non-deterministic when x=0 is avoided)
+if x > 0 -> result := x
+[] x < 0 -> result := -x
+fi
+-- If x=3:  only first guard true → result = 3
+-- If x=-2: only second guard true → result = 2
+-- If x=0:  NEITHER guard is true → runtime error
+```
+
 **Repetition (do...od):**
 ```
 do Boolean_exp_1 -> statement_1
@@ -764,6 +1071,14 @@ od
 - Evaluate all guards each iteration
 - If more than one true → choose one non-deterministically, **repeat**
 - If none are true → **exit loop**
+
+```
+-- Concrete example: sort two variables so x <= y
+do x > y -> temp := x; x := y; y := temp
+od
+-- If x=7, y=3: guard true → swap → x=3, y=7 → guard false → exit
+-- Loop always terminates because each swap reduces disorder
+```
 
 - Supports: verification is relatively simple if only guarded commands used
 - Basis for CSP and Ada concurrency models
